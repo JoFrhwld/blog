@@ -8,18 +8,31 @@
 		<div id="container">
 			<div id = "mainContent">
 				<h1>{{page.title}}</h1>
+				{% include header %}
+
 				<b>{{ page.date | date: "%B %d, %Y"}}</b>
 				<div class = "box">
 					{{ content }}
 				</div>
 				<ul id="pagenav">
-					<li><a href = "{{site.baseurl}}" display=block>&larr;Home</a></li>
-					<li><a href = "{{page.categories.first | prepend: "/" | prepend: site.baseurl | append: ".html"}}">
-					{% if page.display-category != null} %}
-						{{page.display-category | capitalize | prepend: "More " | append: "s"}}
-					{% else %}
-						{{page.categories.first | capitalize | prepend: "More " | append: "s"}}
-					{% endif %}</a>
+					{% for post in site.posts %}
+						{% if forloop.length > 1 %}
+							{% assign post_and_date = post.date | prepend: post.title %} 
+							{% assign this_post_and_date = page.date | prepend: page.title %}
+							{% if this_post_and_date == post_and_date %}
+								{% if forloop.first %}
+									<li><a href = {{post.previous.url}}> &#8592;{{post.previous.title}}</a> </li>
+								{% elsif forloop.last %}
+									<li><a href = {{post.next.url}}> {{post.next.title}}&#8594;</a> </li>
+								{% else %}
+									<li><a href = {{post.previous.url}}> &#8592;{{post.previous.title}}</a> </li>
+									<li><a href = {{post.next.url}}> {{post.next.title}}&#8594;</a> </li>								
+								{% endif %}
+
+							{% endif %}
+						{% endif %}
+					{% endfor %}
+
 				</ul>
 				{% if page.comments %}
 					{% include comments %}

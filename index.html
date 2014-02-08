@@ -5,9 +5,9 @@ title: The Blog
 
 {% include header %}
 
-<div style="float:left;">
+<div style = "float:left; width:100%">
 {% for post in site.posts%}
-	<div class = "box">
+	<div class = "box" style = "margin-bottom:5%">
   <h2><a href="{{ post.url }}"><span>{{ post.title }}<span></a></h2>
         <p>
          <i>-{{ post.date | date: "%B %-d, %Y" }}</i>
@@ -15,6 +15,7 @@ title: The Blog
         <p>
           {{ post.content }}
         </p>
+        {% if post.author.size > 0 %}
         <p>
           <i>by        
         {% if post.author.size > 1 %}
@@ -41,8 +42,24 @@ title: The Blog
         {% endif %}
         </i>
         </p>
+        {% endif %}
+        <p>
+			<script type="text/javascript">
+				    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+			    var disqus_shortname = 'jofrhwld-academic'; // required: replace example with your forum shortname
+
+			    /* * * DON'T EDIT BELOW THIS LINE * * */
+			    (function () {
+			        var s = document.createElement('script'); s.async = true;
+			        s.type = 'text/javascript';
+			        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+			        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+			    }());
+			</script>
+       	</p>
 	</div>
 
 {% endfor %}
 </div>
+
 

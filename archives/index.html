@@ -6,43 +6,13 @@ title: Archives
 {% include header %}
 
 <div style="float:left;">
-{% for post in site.posts%}
-	<div class = "box">
-  <h2><a href="{{ post.url }}"><span>{{ post.title }}<span></a></h2>
-        <p>
-         <i>-{{ post.date | date: "%B %-d, %Y" }}</i>
-        </p>
-        <p>
-          {{ post.content }}
-        </p>
-        <p>
-          <i>by        
-        {% if post.author.size > 1 %}
-          {% for author in post.author %}
-            {% if author.url != null %}
-              <a href = "{{author.url}}">{{author.name}}</a>
-            {% else %}
-              {{author.name}}
-            {% endif %}
-            {% if forloop.rindex > 2 %}
-              {{ ", "}}
-            {% elsif forloop.rindex == 2 %}
-              {{" and "}}
-              {% endif %}             
-          {% endfor %}
-        {% else %}
-        	{% for author in post.author %}
-	            {% if author.url != null %}
-    	          <a href = "{{author.url}}">{{author.name}}</a>
-        	    {% else %}
-            	  {{author.name}}
-            	{% endif %}
-            {% endfor %}
-        {% endif %}
-        </i>
-        </p>
-	</div>
+{% for post in site.posts %}
+
+  {% assign years = years | prepend: post.date.year}
 
 {% endfor %}
+
+{{years}}
+
 </div>
 

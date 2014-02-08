@@ -1,0 +1,15 @@
+<div class="header">
+	<ul id="header">
+		<li><a href = "http://jofrhwld.github.io">Home</a></li>
+		<li 
+			{% if page.title == "The Blog"%}
+				id = "curr"
+			{% endif %}
+			><a href = {{site.baseurl}}>The Blog</a>
+		<li
+			{% if page.title == "Archives" %}
+				id = "curr"
+			{% endif %}
+			><a href = {{ "/archives/" | prepend: site.baseurl}}> Archives</a> </li>
+	</ul>
+</div>

@@ -154,6 +154,7 @@ table.diss th, table.diss td {
 #header li#curr {
 	float: left;
 	margin: 0px 10px;
+	font-weight:bold;
 	color: #4292C6;
 }
 

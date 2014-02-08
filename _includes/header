@@ -5,7 +5,7 @@
 			{% if page.title == "The Blog"%}
 				id = "curr"
 			{% endif %}
-			><a href = {{site.baseurl}}>The Blog</a>
+			><a href = {{"/" | prepend: site.baseurl}}>The Blog</a></li>
 		<li
 			{% if page.title == "Archives" %}
 				id = "curr"

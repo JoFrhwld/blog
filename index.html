@@ -8,7 +8,7 @@ title: The Blog
 <div style = "float:left; width:100%">
 {% for post in site.posts%}
 	<div class = "box" style = "margin-bottom:5%">
-  <h2><a href="{{site.baseurl}}/{{ post.url }}"><span>{{ post.title }}<span></a></h2>
+  <h2><a href="{{site.baseurl}}{{ post.url }}"><span>{{ post.title }}<span></a></h2>
         <p>
          <i>-{{ post.date | date: "%B %-d, %Y" }}</i>
         </p>

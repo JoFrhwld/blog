@@ -44,6 +44,8 @@ title: The Blog
         </p>
         {% endif %}
         <p>
+        	<a href = "{{ post.url | prepend: site.baseurl | append: '#disqus_thread'}}">Comments</a>
+        </p>
 			<script type="text/javascript">
 				    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
 			    var disqus_shortname = 'jofrhwld-academic'; // required: replace example with your forum shortname
@@ -56,7 +58,6 @@ title: The Blog
 			        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
 			    }());
 			</script>
-       	</p>
 	</div>
 
 {% endfor %}

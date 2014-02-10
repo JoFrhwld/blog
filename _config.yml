@@ -1,2 +1,5 @@
-baseurl: "http://jofrhwld.github.io/blog"
+name: JoFrhwld's Github Blog
+description: A Github blog
+url: http://jofrhwld.github.io/blog
+baseurl: http://jofrhwld.github.io/blog
 permalink: none

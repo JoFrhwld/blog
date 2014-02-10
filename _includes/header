@@ -11,5 +11,6 @@
 				id = "curr"
 			{% endif %}
 			><a href = {{ "/archives/" | prepend: site.baseurl}}> Archives</a> </li>
+		<li><a href = {{"/feed.articles.xml" | prepend: site.baseurl }}>Subscribe (RSS)</a></li>
 	</ul>
 </div>

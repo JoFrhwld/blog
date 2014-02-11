@@ -1,6 +1,5 @@
 body {
 	font: 100% "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Arial Narrow", "Arial", "Lucida Grande", sans-serif; 
-	background: #ebeb2b2;
 	margin: 0;
 	padding: 0;
 	text-align: center; 
@@ -78,6 +77,9 @@ rcode{
 	border-width: 3px;
 	border-color: black;
 	border-style: solid;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+
 }
 
 .imgbox{
@@ -198,3 +200,12 @@ ul#updates {
 	list-style: none;	
 }
 
+pre{
+	margin: 2%;
+	padding: 1%;
+	background: #f2f2f2;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border-style:solid;
+	border-width:1px;
+}

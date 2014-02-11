@@ -15,27 +15,28 @@ title: Archives
     <h2 id="{{ this_year }}-ref">{{this_year}}</h2>
     <div class = "box">
     <h3 id="{{ this_year }}-{{ this_month }}-ref">{{ this_month }}</h3>
-    <ul>
+    <ol>
     {% endif %}
 
-    <li><a href="{{site.baseurl}}{{ post.url }}">{{ post.title }}</a></li>
+    
+    <li value = {{post.date | date: "%-d"}}><a href="{{site.baseurl}}{{ post.url }}">{{ post.title }}</a></li>
 
     {% if forloop.last %}
-    </ul>
+    </ol>
     </div>
     {% else %}
         {% if this_year != next_year %}
-        </ul>
+        </ol>
         </div>
         <h2 id="{{ next_year }}-ref">{{next_year}}</h2>
         <div class = "box">
         <h3 id="{{ next_year }}-{{ next_month }}-ref">{{ next_month }}</h3>
-        <ul>
+        <ol>
         {% else %}    
             {% if this_month != next_month %}
-            </ul>
+            </ol>
             <h3 id="{{ this_year }}-{{ next_month }}-ref">{{ next_month }}</h3>
-            <ul>
+            <ol>
             {% endif %}
         {% endif %}
     {% endif %}

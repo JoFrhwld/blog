@@ -6,7 +6,7 @@ title: The Blog
 {% include header %}
 
 <div style = "float:left; width:100%">
-{% for post in site.posts%}
+{% for post in site.posts limit: 10 %}
 	<div class = "box" style = "margin-bottom:5%">
   <h2><a href="{{site.baseurl}}{{ post.url }}"><span>{{ post.title }}<span></a></h2>
         <p>
@@ -46,21 +46,23 @@ title: The Blog
         <p>
         	<a href = "{{ post.url | prepend: site.baseurl | append: '#disqus_thread'}}">Comments</a>
         </p>
-			<script type="text/javascript">
-				    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-			    var disqus_shortname = 'jofrhwld-academic'; // required: replace example with your forum shortname
 
-			    /* * * DON'T EDIT BELOW THIS LINE * * */
-			    (function () {
-			        var s = document.createElement('script'); s.async = true;
-			        s.type = 'text/javascript';
-			        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-			        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-			    }());
-			</script>
 	</div>
 
 {% endfor %}
+{% include footer %}
+      <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+          var disqus_shortname = 'jofrhwld-academic'; // required: replace example with your forum shortname
+
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function () {
+              var s = document.createElement('script'); s.async = true;
+              s.type = 'text/javascript';
+              s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+              (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+          }());
+      </script>
 </div>
 
 

@@ -1,0 +1,9 @@
+<div class = "header">
+	<ul id = "header">
+		<li
+			{% if page.title == "Archives" %}
+				id = "curr"
+			{% endif %}
+			><a href = {{ "/archives/" | prepend: site.baseurl}}> Archives</a> </li>
+	</ul>
+</div>

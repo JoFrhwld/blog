@@ -1,11 +1,6 @@
 <!DOCTYPE html>
  <html>
-	<head>
-		<title>{{ page.title }}</title>
-		<link rel="stylesheet" href="{{site.baseurl}}/assets/mystyle.css">
-		<meta charset="utf-8">
-
-	</head>
+ 	{% include head %}
 	<body class="oneColElsCtr">
 		<div id="container">
 			<div id = "mainContent">
@@ -15,6 +10,38 @@
 				<b>{{ page.date | date: "%B %d, %Y"}}</b>
 				<div class = "box">
 					{{ content }}
+				    <p>
+				    <i>
+				    posted
+					{% if page.author.size > 0 %}
+				          by        
+				        {% if page.author.size > 1 %}
+				          {% for author in page.author %}
+				            {% if author.url != null %}
+				              <a href = "{{author.url}}">{{author.name}}</a>
+				            {% else %}
+				              {{author.name}}
+				            {% endif %}
+				            {% if forloop.rindex > 2 %}
+				              {{ ", "}}
+				            {% elsif forloop.rindex == 2 %}
+				              {{" and "}}
+				              {% endif %}             
+				          {% endfor %}
+				        {% else %}
+				        	{% for author in page.author %}
+					            {% if author.url != null %}
+				    	          <a href = "{{author.url}}">{{author.name}}</a>
+				        	    {% else %}
+				            	  {{author.name}}
+				            	{% endif %}
+				            {% endfor %}
+				        {% endif %}
+			        {% endif %}
+			        at {{page.date | date: "%I:%M %p"}} (more or less).
+			      	</i>
+			       	</p>
+
 				</div>
 				<ul id="pagenav">
 					{% for post in site.posts %}

@@ -2,7 +2,7 @@
 layout: post
 title: dplyr is pretty good.
 comments: true
-date: 2014-2-11 10:00:00 
+date: 2014-2-11 15:20:00 
 author: [{name: "Joe", url: "jofrhwld.github.io"}]
 ---
 

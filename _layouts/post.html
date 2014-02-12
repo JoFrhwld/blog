@@ -68,7 +68,10 @@
 				{% endif %}
 
 			</div>
+			{% include footer %}
 		</div>
 	</body>
-	{% include analytics %}
+	{% if site.analytics %}
+		{% include analytics %}
+	{% endif %}
  </html>

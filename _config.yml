@@ -5,3 +5,4 @@ baseurl: http://jofrhwld.github.io/blog
 permalink: date
 exclude: [rmd_drafts]
 timezone: Europe/London
+analytics: true

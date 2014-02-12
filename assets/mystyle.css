@@ -70,7 +70,6 @@ rcode{
 
 
 .box { 
-	margin: 5px; 
 	color: #000; 
 	background: #E6E6E6; 
 	padding: 10px; 
@@ -79,7 +78,7 @@ rcode{
 	border-style: solid;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
-
+	width:100%;
 }
 
 .imgbox{
@@ -147,11 +146,34 @@ table.diss th, table.diss td {
 	margin: 5px 0px;
 	padding: 5px 0px;
 	list-style: none;
+
 }
+
+#footer {
+	width: 100%;
+	float: left;
+	list-style: none;
+	text-align: center;
+	margin: 5px; 
+	padding: 1%;
+	background: #f2f2f2;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border-style:solid;
+	border-width:1px;
+	list-style: none;
+
+}
+
+#footer p{
+	margin: 1px;
+}
+
 
 #header li {
 	float: left;
-	margin: 0px 10px; }
+	margin: 0px 10px; 
+}
 
 #header li#curr {
 	float: left;

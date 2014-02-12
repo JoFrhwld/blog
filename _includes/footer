@@ -1,9 +1,6 @@
-<div class = "header">
-	<ul id = "header">
-		<li
-			{% if page.title == "Archives" %}
-				id = "curr"
-			{% endif %}
-			><a href = {{ "/archives/" | prepend: site.baseurl}}> Archives</a> </li>
-	</ul>
+<div id = "footer">
+	<p>A footer seems necessary, so the page doesn't end in oblivion.</p>
+		{% if page.title != "Archives" %}
+			<p><a href = {{ "/archives/" | prepend: site.baseurl}}>More Posts</a> </p>
+		{% endif %}
 </div>

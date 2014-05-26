@@ -1,7 +1,7 @@
 name: JoFrhwld's Github Blog
 description: A Github blog
-url: http://jofrhwld.github.io/blog
-baseurl: http://jofrhwld.github.io/blog
+url: //jofrhwld.github.io/blog
+baseurl: //jofrhwld.github.io/blog
 permalink: date
 exclude: [rmd_drafts]
 timezone: Europe/London

@@ -198,9 +198,9 @@ mod &lt;- stan(model_code = model_code, data = data_list, chains = 3, iter = 100
 ## Iteration: 800 / 1000 [ 80%]  (Sampling)
 ## Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Iteration: 1000 / 1000 [100%]  (Sampling)
-## #  Elapsed Time: 0.776025 seconds (Warm-up)
-## #                0.782122 seconds (Sampling)
-## #                1.55815 seconds (Total)
+## #  Elapsed Time: 0.769823 seconds (Warm-up)
+## #                0.504972 seconds (Sampling)
+## #                1.2748 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'model_code' NOW (CHAIN 2).
@@ -217,9 +217,9 @@ mod &lt;- stan(model_code = model_code, data = data_list, chains = 3, iter = 100
 ## Iteration: 800 / 1000 [ 80%]  (Sampling)
 ## Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Iteration: 1000 / 1000 [100%]  (Sampling)
-## #  Elapsed Time: 0.826267 seconds (Warm-up)
-## #                0.590261 seconds (Sampling)
-## #                1.41653 seconds (Total)
+## #  Elapsed Time: 0.846645 seconds (Warm-up)
+## #                0.643498 seconds (Sampling)
+## #                1.49014 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'model_code' NOW (CHAIN 3).
@@ -236,9 +236,9 @@ mod &lt;- stan(model_code = model_code, data = data_list, chains = 3, iter = 100
 ## Iteration: 800 / 1000 [ 80%]  (Sampling)
 ## Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Iteration: 1000 / 1000 [100%]  (Sampling)
-## #  Elapsed Time: 0.778322 seconds (Warm-up)
-## #                0.692874 seconds (Sampling)
-## #                1.4712 seconds (Total)
+## #  Elapsed Time: 0.80376 seconds (Warm-up)
+## #                0.775415 seconds (Sampling)
+## #                1.57917 seconds (Total)
 </code></pre>
 
 rstan has a nice summary function for its models, which includes the Rubin-Gelman Convergence diagnostic. It looks like this model is well converged, with all parameters having an Rhat very close to 1.
@@ -253,24 +253,19 @@ rstan has a nice summary function for its models, which includes the Rubin-Gelma
 <pre><code>## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
 </code></pre>
 
-
-
-<pre><code>## Warning: position_stack requires constant width: output may be incorrect
-</code></pre>
-
-<img src="/figs/2014-7-29-nonlinear_stanunnamed-chunk-7.svg" title="center" alt="center" style="display: block; margin: auto;" />
+<img src="blog/figs/2014-7-29-nonlinear_stanunnamed-chunk-7.svg" title="center" alt="center" style="display: block; margin: auto;" />
 
 I also think rstan's `traceplot()` has an attractive color palette. These two traceplots show the posterior samples of `sigma`. The first one includes the burn-in, and the second one excludes it.
 
 
 <pre><code class="prettyprint ">traceplot(mod, &quot;sigma&quot;)</code></pre>
 
-<img src="/figs/2014-7-29-nonlinear_stanunnamed-chunk-8.svg" title="center" alt="center" style="display: block; margin: auto;" />
+<img src="blog/figs/2014-7-29-nonlinear_stanunnamed-chunk-8.svg" title="center" alt="center" style="display: block; margin: auto;" />
 
 
 <pre><code class="prettyprint ">traceplot(mod, &quot;sigma&quot;, inc_warmup = F)</code></pre>
 
-<img src="/figs/2014-7-29-nonlinear_stanunnamed-chunk-9.svg" title="center" alt="center" style="display: block; margin: auto;" />
+<img src="blog/figs/2014-7-29-nonlinear_stanunnamed-chunk-9.svg" title="center" alt="center" style="display: block; margin: auto;" />
 
 This is a function that I wrote to extract summaries of specific parameters from the model.
 I wrote it while I was writing my dissertation, so I can't actually parse it right now, but
@@ -320,7 +315,7 @@ So first, here's a plot of the `time_delta` variable, with 95% credible interval
     xlab(&quot;Duration (msec)&quot;)+
     scale_y_reverse(&quot;time delta&quot;)</code></pre>
 
-<img src="/figs/2014-7-29-nonlinear_stanunnamed-chunk-11.svg" title="center" alt="center" style="display: block; margin: auto;" />
+<img src="blog/figs/2014-7-29-nonlinear_stanunnamed-chunk-11.svg" title="center" alt="center" style="display: block; margin: auto;" />
 
 Already, this is pretty cool. I made a fuss in my dissertation about how important the rate of change can be important for understanding language change. At the time, I was stuck with the smoothers I understood, which meant pre-specifying how wobbly the &delta; curve could be. Using this method, it could be arbitrarilly wobbly, but still fairly smooth. 
 
@@ -335,7 +330,7 @@ Next, here's `time_mu`, which is the expected normalized F1 at different duratio
     xlab(&quot;Duration (msec)&quot;)+
     scale_y_reverse(&quot;time mu&quot;)</code></pre>
 
-<img src="/figs/2014-7-29-nonlinear_stanunnamed-chunk-12.svg" title="center" alt="center" style="display: block; margin: auto;" />
+<img src="blog/figs/2014-7-29-nonlinear_stanunnamed-chunk-12.svg" title="center" alt="center" style="display: block; margin: auto;" />
 
 Pretty good, huh? Here's a direct comparison of the smooth from Stan, and a loess smooth.
 
@@ -350,7 +345,7 @@ Pretty good, huh? Here's a direct comparison of the smooth from Stan, and a loes
     xlab(&quot;Duration (msec)&quot;)+
     scale_y_reverse(&quot;time mu&quot;)</code></pre>
 
-<img src="/figs/2014-7-29-nonlinear_stanunnamed-chunk-13.svg" title="center" alt="center" style="display: block; margin: auto;" />
+<img src="blog/figs/2014-7-29-nonlinear_stanunnamed-chunk-13.svg" title="center" alt="center" style="display: block; margin: auto;" />
 
 So, the Stan model has broader itervals than the loess smooth, but that makes a lot of sense, since there is uncertainty in the estimate of each &delta;, and that uncertainty will accumulate across the cumulative sum of all &delta;s. The uncertainty isn't necessarilly greater towards the end of the range of the predictor. It's just that way here because there isn't that much data in the longer durations. In other models I've fit like this, the uncertainty flares out at the beginning and the end of the predictor's range in the normal way.
 
@@ -365,7 +360,7 @@ ggplot(word_effects, aes(word, mean)) +
     geom_pointrange(aes(ymin = `2.5%`, ymax = `97.5%`))+
     coord_flip()</code></pre>
 
-<img src="/figs/2014-7-29-nonlinear_stanunnamed-chunk-14.svg" title="center" alt="center" style="display: block; margin: auto;" />
+<img src="blog/figs/2014-7-29-nonlinear_stanunnamed-chunk-14.svg" title="center" alt="center" style="display: block; margin: auto;" />
 
 None of their 95% credible intervals exclude 0.
 

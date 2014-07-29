@@ -2,7 +2,7 @@
 layout: post
 title: "Non-linear modeling in stan"
 comments: true
-date: 2014-7-29 15:32:00 
+date: 2014-7-29 15:45:00 
 author: [{name: "Joe", url: "jofrhwld.github.io"}]
 ---
 
@@ -198,9 +198,9 @@ mod &lt;- stan(model_code = model_code, data = data_list, chains = 3, iter = 100
 ## Iteration: 800 / 1000 [ 80%]  (Sampling)
 ## Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Iteration: 1000 / 1000 [100%]  (Sampling)
-## #  Elapsed Time: 0.733313 seconds (Warm-up)
-## #                0.498205 seconds (Sampling)
-## #                1.23152 seconds (Total)
+## #  Elapsed Time: 1.1518 seconds (Warm-up)
+## #                0.777117 seconds (Sampling)
+## #                1.92892 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'model_code' NOW (CHAIN 2).
@@ -217,9 +217,9 @@ mod &lt;- stan(model_code = model_code, data = data_list, chains = 3, iter = 100
 ## Iteration: 800 / 1000 [ 80%]  (Sampling)
 ## Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Iteration: 1000 / 1000 [100%]  (Sampling)
-## #  Elapsed Time: 0.816917 seconds (Warm-up)
-## #                0.561065 seconds (Sampling)
-## #                1.37798 seconds (Total)
+## #  Elapsed Time: 0.916265 seconds (Warm-up)
+## #                0.68692 seconds (Sampling)
+## #                1.60318 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'model_code' NOW (CHAIN 3).
@@ -236,9 +236,9 @@ mod &lt;- stan(model_code = model_code, data = data_list, chains = 3, iter = 100
 ## Iteration: 800 / 1000 [ 80%]  (Sampling)
 ## Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Iteration: 1000 / 1000 [100%]  (Sampling)
-## #  Elapsed Time: 0.739962 seconds (Warm-up)
-## #                0.597434 seconds (Sampling)
-## #                1.3374 seconds (Total)
+## #  Elapsed Time: 0.926489 seconds (Warm-up)
+## #                0.771759 seconds (Sampling)
+## #                1.69825 seconds (Total)
 </code></pre>
 
 rstan has a nice summary function for its models, which includes the Rubin-Gelman Convergence diagnostic. It looks like this model is well converged, with all parameters having an Rhat very close to 1.
@@ -251,6 +251,11 @@ rstan has a nice summary function for its models, which includes the Rubin-Gelma
 
 
 <pre><code>## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+</code></pre>
+
+
+
+<pre><code>## Warning: position_stack requires constant width: output may be incorrect
 </code></pre>
 
 <img src="/blog/figs/2014-7-29-nonlinear_stanunnamed-chunk-7.svg" title="center" alt="center" style="display: block; margin: auto;" />

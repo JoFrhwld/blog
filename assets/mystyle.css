@@ -149,25 +149,13 @@ table.diss th, table.diss td {
 
 }
 
-#footer {
-	width: 100%;
-	float: left;
-	list-style: none;
-	text-align: center;
-	margin: 5px; 
-	padding: 1%;
-	background: #f2f2f2;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	border-style:solid;
-	border-width:1px;
-	list-style: none;
-
+.footer{
+  text-align: center;
+	margin-bottom: 10px;
+	font-size: 500%;
+	font-color: #08306B;
 }
 
-#footer p{
-	margin: 1px;
-}
 
 
 #header li {
@@ -231,4 +219,14 @@ pre{
 	border-style:solid;
 	border-width:1px;
   overflow: scroll;
+}
+
+hr.style-two {
+    border: 0;
+    height: 1px;
+    position:relative;
+    background-image: -webkit-linear-gradient(left, rgba(8, 48, 107,0),  #08306B, rgba(8, 48, 107,0)); 
+    background-image:    -moz-linear-gradient(left, rgba(8, 48, 107,0), #08306B, rgba(8, 48, 107,0)); 
+    background-image:     -ms-linear-gradient(left, rgba(08, 48, 107,0),  #08306B, rgba(8, 48, 107,0)); 
+    background-image:      -o-linear-gradient(left, rgba(8, 48, 107,0),  #08306B, rgba(8, 48, 107,0)); 
 }

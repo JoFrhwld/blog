@@ -55,7 +55,7 @@ library(ggplot2)</code></pre>
 Here's the data. It's measurements of one person's (pseudonymously "Jean") production of "I" and contractions of "I".
 
 
-<pre><code class="prettyprint ">  I_jean &lt;- read.delim(&quot;http://jofrhwld.github.io/data/I_jean.txt&quot;)
+<pre><code class="prettyprint ">  I_jean &lt;- read.delim(&quot;https://jofrhwld.github.io/data/I_jean.txt&quot;)
   head(I_jean)</code></pre>
 
 

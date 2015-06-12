@@ -22,4 +22,4 @@ knit_post <- function(input, outdir = NULL, base.url = "/", fig.dir = NULL) {
   opts_chunk$set(fig.cap = "center")
   render_jekyll(highlight="prettify")
   knit(input, output=output, envir = parent.frame())
-}cd 
+}

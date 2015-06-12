@@ -1,6 +1,6 @@
 <div class="header">
 	<ul id="header">
-		<li><a href = "http://jofrhwld.github.io">Home</a></li>
+		<li><a href = "https://jofrhwld.github.io">Home</a></li>
 		<li 
 			{% if page.title == "The Blog"%}
 				id = "curr"

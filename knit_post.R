@@ -4,7 +4,7 @@ my_svg <- function(file, width, height) {
          onefile = TRUE, xmlHeader = TRUE)
 }
 
-inject_jekyll <- function(mdfile){
+inject_liquid <- function(mdfile){
   inConn <- file(mdfile)
   lines <- readLines(inConn)
   close(inConn)
@@ -34,7 +34,7 @@ knit_post <- function(input, outdir = NULL, base.url = "/", fig.dir = NULL) {
   opts_chunk$set(fig.cap = "center")
   render_jekyll(highlight="prettify")
   knit(input, output=output, envir = parent.frame())
-  inject_jekyll(output)
+  inject_liquid(output)
 }
 
 

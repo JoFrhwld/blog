@@ -21,4 +21,4 @@ I'm not sure if I'm doing figures right.
   ggplot(faithful, aes(waiting, eruptions, color = clust))+
     geom_point()</code></pre>
 
-![center](/figs/2015-2-26-test_figsunnamed-chunk-1.svg) 
+![center]({{site.baseurl}}/figs/2015-2-26-test_figsunnamed-chunk-1.svg) 

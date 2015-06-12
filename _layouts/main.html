@@ -1,15 +1,12 @@
 <!DOCTYPE html>
  <html>
  	{% include head %}
-	<body class="oneColElsCtr">
-		<div id="container">
-			<div id = "mainContent">
-				{{ if page.title}}
-					<h1>{{page.title}}</h1>
-				{{ endif }}
-				{{ content }}
-			</div>
-		</div>
+	<body>
+		{{ content }}
+		
+		<script src="{{site.baseurl}}/fixed-nav/js/fastclick.js"></script>
+		<script src="{{site.baseurl}}/fixed-nav/js/scroll.js"></script>
+		<script src="{{site.baseurl}}/fixed-nav/js/fixed-responsive-nav.js"></script>		
 	</body>
 	{% if site.analytics %}
 		{% include analytics %}

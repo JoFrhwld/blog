@@ -5,10 +5,12 @@ title: The Blog
 
 {% include header %}
 
-<div style = "float:left; width:100%">
+<div class = "container">
+<section id = "home">
+<div class = "col span_2_of_2">
 {% for post in site.posts limit: 10 %}
 	<div class = "box" style = "margin-bottom:5%">
-  <h2><a href="{{site.baseurl}}{{ post.url }}"><span>{{ post.title }}<span></a></h2>
+  <h2><a href="{{site.baseurl}}{{ post.url }}"><span>{{ post.title }}</span></a></h2>
         <p>
          <i>-{{ post.date | date: "%B %-d, %Y" }}</i>
         </p>
@@ -46,10 +48,12 @@ title: The Blog
         <p>
         	<a href = "{{ post.url | prepend: site.baseurl | append: '#disqus_thread'}}">Comments</a>
         </p>
-
 	</div>
 
 {% endfor %}
+</div>  
+<section>
+
 {% include footer %}
 
       <script type="text/javascript">

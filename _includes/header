@@ -1,16 +1,19 @@
-<div class="header">
-	<ul id="header">
-		<li><a href = "https://jofrhwld.github.io">Home</a></li>
-		<li 
-			{% if page.title == "The Blog"%}
-				id = "curr"
-			{% endif %}
-			><a href = {{"/" | prepend: site.baseurl}}>The Blog</a></li>
-		<li
-			{% if page.title == "Archives" %}
-				id = "curr"
-			{% endif %}
-			><a href = {{ "/archives/" | prepend: site.baseurl}}> Archives</a> </li>
-		<li><a href = {{"/feed.articles.xml" | prepend: site.baseurl }}>Subscribe (RSS)</a></li>
-	</ul>
-</div>
+<header>
+  <a href="#home" class="logo" data-scroll><h1>The Blog</h1></a>
+  <nav class="nav-collapse">
+    <ul>
+    <li class="menu-item"><a href = "https://jofrhwld.github.io">Main Site</a></li>
+    <li class="menu-item
+      {% if page.title == "The Blog"%}
+        active
+      {% endif %}"
+      ><a href = {{"/" | prepend: site.baseurl}}>The Blog</a></li>
+    <li class="menu-item
+    {% if page.title == "Archives"%}
+        active
+      {% endif %}"
+      ><a href = {{ "/archives/" | prepend: site.baseurl}}> Archives</a> </li>
+    <li class="menu-item"><a href = {{"/feed.articles.xml" | prepend: site.baseurl }}>Subscribe (RSS)</a></li>      
+    </ul>
+  </nav>
+</header>

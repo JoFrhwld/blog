@@ -18,11 +18,11 @@ inject_liquid <- function(mdfile){
 }
 
 knit_post <- function(input, outdir = NULL, base.url = "/", fig.dir = NULL) {
-  require(knitr)
+  library(knitr)
   if(is.null(outdir)){
     output <- sub(".Rmd$",".md",input)
   }else{
-    output <- file.path(outdir, sub(".Rmd$", ".md", basename(input)))
+    output <- file.path(outdir, paste(Sys.Date(), sub(".Rmd$", ".md", basename(input)), sep = "-"))
   }
   opts_knit$set(base.url = base.url)
   if(is.null(fig.dir)){

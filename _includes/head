@@ -21,8 +21,9 @@
 	<link rel="stylesheet" media="only screen and (max-width: {{site.govertical}}px)" href="{{site.baseurl}}/GRID/css/480.css">
 
 	<link rel="stylesheet" href="{{site.baseurl}}/fixed-nav/css/styles.css">
-	<link rel="stylesheet" href="{{site.baseurl}}/assets/mystyle.css">
 	<script src="{{site.baseurl}}/fixed-nav/js/responsive-nav.js"></script>	
 	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>		
+	<link rel="stylesheet" href="{{site.baseurl}}/assets/mystyle.css">
+	
 	<meta charset="utf-8">
 </head>

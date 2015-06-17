@@ -113,9 +113,9 @@ a:visited{
 }
 
 img{
-  margin-left: 2%;
-  margin-right: 2%;
-  max-width:96%;
+  margin-left: 4%;
+  margin-right: 4%;
+  max-width:90%;
 
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -141,6 +141,32 @@ ul {
 	list-style-position: outside;	
 }
 
+table{
+  margin-left: 4%;
+  margin-right: 4%;
+  max-width:90%;
+  border-collapse: collapse;
+}
+
+th {
+  margin: 5%;
+  padding: 10px 8px;
+
+  border-bottom: 2px solid #08306B;
+  border-right: 1px dashed #4292C6;  
+}
+
+td{
+  margin: 1%;  
+  padding: 6px 8px;
+
+  border-right: 1px dashed #4292C6;  
+}
+
+table tr td:last-child,
+table tr th:last-child {
+    border-right: 0;
+}
 
 header {
   background: #E6E6E6;

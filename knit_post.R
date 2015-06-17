@@ -17,11 +17,15 @@ inject_liquid <- function(mdfile){
   close(outConn)
 }
 
-knit_post <- function(input, outdir = NULL, base.url = "/", fig.dir = NULL) {
+knit_post <- function(input, outdir = NULL, base.url = "/", fig.dir = NULL, remove.drafts = T) {
   library(knitr)
   if(is.null(outdir)){
     output <- sub(".Rmd$",".md",input)
   }else{
+    if(remove.drafts){
+      drafts <- Sys.glob(file.path(outdir, paste0("*", sub(".Rmd$", ".md", basename(input)))))
+      removed <- lapply(drafts, file.remove)
+    }
     output <- file.path(outdir, paste(Sys.Date(), sub(".Rmd$", ".md", basename(input)), sep = "-"))
   }
   opts_knit$set(base.url = base.url)

@@ -1,5 +1,5 @@
 <header>
-  <a href="#home" class="logo" data-scroll><h1>The Blog</h1></a>
+  <a href="{{site.baseurl}}#home" class="logo" data-scroll><h1>The Blog</h1></a>
   <nav class="nav-collapse">
     <ul>
     <li class="menu-item"><a href = "https://jofrhwld.github.io">Main Site</a></li>

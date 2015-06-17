@@ -22,7 +22,10 @@
 
 	<link rel="stylesheet" href="{{site.baseurl}}/fixed-nav/css/styles.css">
 	<script src="{{site.baseurl}}/fixed-nav/js/responsive-nav.js"></script>	
-	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>		
+	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+	<script type="text/javascript"
+            src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>	
 	<link rel="stylesheet" href="{{site.baseurl}}/assets/mystyle.css">
 	
 	<meta charset="utf-8">

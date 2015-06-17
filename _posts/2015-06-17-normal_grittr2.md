@@ -2,7 +2,7 @@
 layout: post
 title: "Tidy Data, Split-Apply-Combine, and Vowel Data: Part 2"
 comments: true
-date: 2015-06-17 15:26:19
+date: 2015-06-17 15:29:52
 author: [{name: "Joe", url: "jofrhwld.github.io"}]
 ---
 
@@ -106,7 +106,7 @@ The usual way of representing these sex effects emphasizes the effect it has on 
 
 ![center]({{site.baseurl}}/figs/normal_grittr2unnorm_triangle-1.svg) 
 
-The fact there are these differences in vowel spectra and the reasons for it are interesting, but when you're doing research like this, not all interesting phenomena are the object of study.
+The fact there are these differences in vowel spectra and the reasons for it are interesting, but when you're doing empirical research, not all interesting phenomena are the object of study.
 Usually, sociolinguists want to factor out gross sex differences involving the *location* and *scale* of the formant values.
 This usually involves transforming formant values by subtraction and division with reference to some other set of values.
 How you characterize that process is the point of this post.

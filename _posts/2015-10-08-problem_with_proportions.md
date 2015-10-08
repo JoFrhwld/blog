@@ -2,11 +2,11 @@
 layout: post
 title: "The Average of Formant Dynamics Doesn't Have the Average Dynamic Properties"
 comments: true
-date: 2015-10-08 15:10:58
+date: 2015-10-08 18:10:23
 author: [{name: "Joe", url: "jofrhwld.github.io"}]
 ---
 
-I've been playing around with an analsis method called "Functional Data Analysis", which has me looking at the kinds of analyses we do of formant measurements a bit differently. 
+I've been playing around with an analysis method called "Functional Data Analysis", which has me looking at the kinds of analyses we do of formant measurements a bit differently. 
 In sociolinguistics, we've inherited an intellectual and methodological tradition of characterizing vowels, including diphthongs, using single point measurements.
 More historiography needs to be done on *why* this is, but I think it might be a long carry over from Daniel Jone's cardinal vowels theory, plus Trager & Bloch's theory characterizing English has having 6 phonemic vowels.
 I've got a table here of Trager & Bloch's phonemic theory, cause it's kind of beautiful.

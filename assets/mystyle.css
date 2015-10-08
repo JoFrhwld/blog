@@ -16,6 +16,12 @@ body {
   margin-right: auto;  
 }
 
+@media screen and (max-width: 1000px) {
+    .container{
+      width:75%;
+    }
+}
+
 @media screen and (max-width: 600px) {
     .container{
       width:95%;

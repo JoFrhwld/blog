@@ -11,7 +11,7 @@ body {
 
 .container{
   margin-top:70px;
-  width:75%;
+  width:60%;
   margin-left: auto; 
   margin-right: auto;  
 }
@@ -59,8 +59,9 @@ p {
   margin-bottom: 1em;
   margin-left: 2%;
   margin-right: 2%;
-
+  line-height: 1.5;
   text-align:left;  
+  text-indent: 5%;
 }
 
 h1,
@@ -113,8 +114,8 @@ a:visited{
 }
 
 img{
-  margin-left: 4%;
-  margin-right: 4%;
+  margin-left: auto;
+  margin-right: auto;
   max-width:90%;
 
   -moz-border-radius: 10px;
@@ -128,7 +129,7 @@ img{
 ol {
   margin-left: 5%;
   padding-left: 2%;
-
+  line-height: 1.5;
   list-style: decimal;
 }
 
@@ -213,8 +214,8 @@ header {
   }
 }
 
-rcode {
-  font-family: Courier, monospace;
+code {
+  font-family: Inconsolata, Courier, monospace;
   font-size: 100%;
 }
 
@@ -263,12 +264,12 @@ hr.style-two {
 }
 
 pre{
-  margin-left: 12%;
-  margin-right: 12%;  
+  margin-left: auto;
+  margin-right: auto;  
   margin-top: 1%;
   margin-bottom: 1%;  
   padding: 1%;
-  width: 75%;
+  width: 85%;
 
   overflow: scroll;
   text-align: left;

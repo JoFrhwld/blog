@@ -20,19 +20,19 @@ inject_liquid <- function(mdfile){
 knit_post <- function(input, outdir = NULL, base.url = "/", fig.dir = NULL, remove.drafts = T) {
   library(knitr)
   if(is.null(outdir)){
-    output <- sub(".Rmd$",".md",input)
+    output <- sub(".[Rr]md$",".md",input)
   }else{
     if(remove.drafts){
-      drafts <- Sys.glob(file.path(outdir, paste0("*", sub(".Rmd$", ".md", basename(input)))))
+      drafts <- Sys.glob(file.path(outdir, paste0("*", sub(".[Rr]md$", ".md", basename(input)))))
       removed <- lapply(drafts, file.remove)
     }
-    output <- file.path(outdir, paste(Sys.Date(), sub(".Rmd$", ".md", basename(input)), sep = "-"))
+    output <- file.path(outdir, paste(Sys.Date(), sub(".[Rr]md$", ".md", basename(input)), sep = "-"))
   }
   opts_knit$set(base.url = base.url)
   if(is.null(fig.dir)){
-    fig.path <- file.path("/figs", sub(".Rmd$", "", basename(input)))
+    fig.path <- file.path("/figs", sub(".[Rr]md$", "", basename(input)))
   }else{
-    fig.path <- file.path(fig.dir, sub(".Rmd$", "", basename(input))) 
+    fig.path <- file.path(fig.dir, sub(".[Rr]md$", "", basename(input))) 
   }
   opts_chunk$set(fig.path = fig.path)
   opts_chunk$set(fig.cap = "center")

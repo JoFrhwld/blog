@@ -26,7 +26,9 @@
 	<script type="text/javascript"
             src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>	
+  <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="{{site.baseurl}}/assets/mystyle.css">
+
 	
 	<meta charset="utf-8">
 </head>

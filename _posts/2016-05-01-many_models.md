@@ -96,7 +96,7 @@ So, we'll use this subset for the speech rate modeling.
     ggplot(aes(DictRate))+
       geom_density()</code></pre>
 
-<img src="/figs/many_modelsdictrate_plot-1.svg" title="center" alt="center" width="100%" />
+<img src="/blog/figs/many_modelsdictrate_plot-1.svg" title="center" alt="center" width="100%" />
 </div>
 <div style = "float:left;width:50%">
 
@@ -104,7 +104,7 @@ So, we'll use this subset for the speech rate modeling.
     ggplot(aes(DictRate))+
       geom_density()</code></pre>
 
-<img src="/figs/many_modelsdictrate_plot2-1.svg" title="center" alt="center" width="100%" />
+<img src="/blog/figs/many_modelsdictrate_plot2-1.svg" title="center" alt="center" width="100%" />
 </div>
 </div>
 

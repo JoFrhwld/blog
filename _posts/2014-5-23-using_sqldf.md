@@ -118,7 +118,7 @@ I could've done something more fancy, where I select /uw/ and /ow/ with duration
 The trick now is how to do this over and over again with a list of files, and with any arbitrary conditions.
 Here's the function I've come up with.
 
-{% gist JoFrhwld/26c42b35a5b4fc5a5bb8 %}
+<script src="https://gist.github.com/JoFrhwld/26c42b35a5b4fc5a5bb8.js"></script>
 
 To use it, first get a list of speakers' data files by globbing for them.
 

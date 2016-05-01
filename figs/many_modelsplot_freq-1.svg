@@ -193,7 +193,7 @@
   <path d="M 340 5.480469 L 342 5.480469 L 342 257.8125 L 340 257.8125 Z "/>
 </clipPath>
 </defs>
-<g id="surface724">
+<g id="surface744">
 <rect x="0" y="0" width="460" height="288" style="fill:rgb(100%,100%,100%);fill-opacity:1;stroke:none;"/>
 <g clip-path="url(#clip1)" clip-rule="nonzero">
 <path style="fill-rule:nonzero;fill:rgb(100%,100%,100%);fill-opacity:1;stroke-width:1.066978;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(100%,100%,100%);stroke-opacity:1;stroke-miterlimit:10;" d="M 25.894531 288 L 434.105469 288 L 434.105469 0 L 25.894531 0 Z "/>

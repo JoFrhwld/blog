@@ -2,11 +2,9 @@
 layout: post
 title: "Individual Differences and Fitting Many Models"
 comments: true
-date: 2016-05-01 15:29:52
+date: 2016-05-01 15:56:54
 author: [{name: "Joe", url: "jofrhwld.github.io"}]
 ---
-
-
 
 Today I went to Hadley Wickham's talk to the EdinbR users' group called [Managing Many Models in R](http://edinbr.org/edinbr/2016/04/24/april-Hadley-Update.html).
 It highlighted some workflows for cleanly fitting many models to subsets of a data set, then comparing across model fits

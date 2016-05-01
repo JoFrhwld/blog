@@ -1,3 +1,0 @@
-[submodule "data/movies"]
-	path = data/movies
-	url = https://github.com/matthewfdaniels/scripts.git

@@ -8,5 +8,5 @@ timezone: Europe/London
 analytics: true
 markdown: kramdown
 paginate: 5
-paginate_path: "//jofrhwld.github.io/blog/page:num/"
+paginate_path: "/blog/page:num/"
 gems: [jekyll-paginate]

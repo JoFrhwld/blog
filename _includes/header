@@ -13,7 +13,7 @@
         active
       {% endif %}"
       ><a href = {{ "/archives/" | prepend: site.baseurl}}> Archives</a> </li>
-    <li class="menu-item"><a href = {{"/feed.articles.xml" | prepend: site.baseurl }}>Subscribe (RSS)</a></li>      
+    <li class="menu-item"><a href = {{"/feed.xml" | prepend: site.baseurl }}>Subscribe (RSS)</a></li>      
     </ul>
   </nav>
 </header>

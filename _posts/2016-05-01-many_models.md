@@ -2,7 +2,7 @@
 layout: post
 title: "Individual Differences and Fitting Many Models"
 comments: true
-date: 2016-05-01 15:56:54
+date: 2016-05-01 16:56:54
 author: [{name: "Joe", url: "jofrhwld.github.io"}]
 ---
 

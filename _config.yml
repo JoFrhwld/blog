@@ -9,4 +9,6 @@ analytics: true
 markdown: kramdown
 paginate: 5
 paginate_path: "/page:num/"
-gems: [jekyll-paginate]
+gems:
+    - jekyll-paginate
+    - jekyll-feed

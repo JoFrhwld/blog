@@ -7,3 +7,6 @@ exclude: [rmd_drafts]
 timezone: Europe/London
 analytics: true
 markdown: kramdown
+paginate: 5
+paginate_path: "page:num/"
+gems: [jekyll-paginate]

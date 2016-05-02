@@ -36,7 +36,7 @@ knit_post <- function(input, outdir = NULL, base.url = "/", fig.dir = NULL, remo
   }
   opts_chunk$set(fig.path = fig.path)
   opts_chunk$set(fig.cap = "center")
-  render_jekyll(highlight="prettyprint")
+  render_jekyll(highlight="prettify")
   knit(input, output=output, envir = parent.frame())
   inject_liquid(output)
 }

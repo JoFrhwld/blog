@@ -8,7 +8,7 @@ title: The Blog
 <div class = "container">
 <section id = "home">
 <div class = "col span_2_of_2">
-{% for post in site.posts limit: 10 %}
+{% for post in paginator.posts %}
 	<div class = "box" style = "margin-bottom:5%">
   <h2><a href="{{site.baseurl}}{{ post.url }}"><span>{{ post.title }}</span></a></h2>
         <p>
@@ -52,6 +52,20 @@ title: The Blog
 
 {% endfor %}
 </div>  
+
+<div class="pagination">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path }}" class="previous">Previous</a>
+  {% else %}
+    <span class="previous">Previous</span>
+  {% endif %}
+  <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path }}" class="next">Next</a>
+  {% else %}
+    <span class="next ">Next</span>
+  {% endif %}
+</div>
 <section>
 
 {% include footer %}

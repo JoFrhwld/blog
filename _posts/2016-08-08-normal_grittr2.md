@@ -79,7 +79,7 @@ You can see how:
     ggplot(aes(formant, hz, fill = sex))+
       geom_boxplot()</code></pre>
 
-![center]({{site.baseurl}}/figs/normal_grittr2unnorm_box-1.svg) 
+![center]({{site.baseurl}}/figs//normal_grittr2unnorm_box-1.svg)
 
 One thing that's not immediately evident from the figure above is that the variance of formant values also differs between each sex, also following the pattern C > F > M
 
@@ -91,7 +91,7 @@ One thing that's not immediately evident from the figure above is that the varia
     ggplot(aes(formant, hz_sd, fill = sex))+
       geom_boxplot()</code></pre>
 
-![center]({{site.baseurl}}/figs/normal_grittr2unnorm_sd-1.svg) 
+![center]({{site.baseurl}}/figs//normal_grittr2unnorm_sd-1.svg)
 
 The usual way of representing these sex effects emphasizes the effect it has on the vowel triangle, which is especially evident in the high front region.
 
@@ -104,7 +104,7 @@ The usual way of representing these sex effects emphasizes the effect it has on 
       scale_y_reverse()+
       coord_fixed()</code></pre>
 
-![center]({{site.baseurl}}/figs/normal_grittr2unnorm_triangle-1.svg) 
+![center]({{site.baseurl}}/figs//normal_grittr2unnorm_triangle-1.svg)
 
 The fact there are these differences in vowel spectra and the reasons for it are interesting, but when you're doing empirical research, not all interesting phenomena are the object of study.
 Usually, sociolinguists want to factor out gross sex differences involving the *location* and *scale* of the formant values.
@@ -133,8 +133,8 @@ I'll be looking at 6 normalization procedures in this post, and they break down 
 
 |       | Vowel Token Intrinsic | Vowel Token Extrinsic |
 | :---- | :------------ | :----------- |
-| Formant Intrinsic |         |   Z-score, Neary1, Watt & Fabricius           |
-| Formant Extrinsic |  Bark Difference    |    Neary2, **ANAE**      |
+| Formant Intrinsic |         |   Z-score, Nearey1, Watt & Fabricius           |
+| Formant Extrinsic |  Bark Difference    |    Nearey2, **ANAE**      |
 
 To a large degree, this "intrinsic" vs "extrinsic" distinction can be captured by which variables are included in a ``dplyr::group_by()`` operation.
 I'll try to be pedantic about that fact in the R code below, even if the particular grouping is going to be vacuous with respect to R's vectorized arithmetic.
@@ -188,7 +188,7 @@ Here's how that looks.
       scale_y_reverse()+
       coord_fixed()</code></pre>
 
-![center]({{site.baseurl}}/figs/normal_grittr2bark1_fig-1.svg) 
+![center]({{site.baseurl}}/figs//normal_grittr2bark1_fig-1.svg)
 
 Some things to notice about the resulting normalized space:
 
@@ -246,7 +246,7 @@ This method preserves both the relative ordering of F1 and F2, as well as the gr
     ggplot(aes(formant, norm_hz, fill = sex))+
       geom_boxplot()</code></pre>
 
-![center]({{site.baseurl}}/figs/normal_grittr2anae_box-1.svg) 
+![center]({{site.baseurl}}/figs//normal_grittr2anae_box-1.svg)
 
 Here's how it looks in the vowel triangle.
 
@@ -259,7 +259,7 @@ Here's how it looks in the vowel triangle.
       scale_y_reverse()+
       coord_fixed()</code></pre>
 
-![center]({{site.baseurl}}/figs/normal_grittr2anae_fig-1.svg) 
+![center]({{site.baseurl}}/figs//normal_grittr2anae_fig-1.svg)
 
 ### ANAE Summary
 
@@ -270,21 +270,21 @@ Here's how it looks in the vowel triangle.
 
 - One.
 
-## Neary
+## Nearey
 
-Neary normalization is essentially identitcal to the ANAE normalization, except it's speaker intrinsic. 
-That's not always clear given the way the ANAE and Neary formulas are usually given, so I've defined the Neary formula below in a way to emphasize this fact.
-`neary_fun()` is identical to `anae_fun()` except it takes a single argument, and `grand_mean` is replaced by 0.
+Nearey normalization is essentially identitcal to the ANAE normalization, except it's speaker intrinsic. 
+That's not always clear given the way the ANAE and Nearey formulas are usually given, so I've defined the Nearey formula below in a way to emphasize this fact.
+`nearey_fun()` is identical to `anae_fun()` except it takes a single argument, and `grand_mean` is replaced by 0.
 
 
-<pre><code class="prettyprint ">  neary_fun &lt;- function(hz){
+<pre><code class="prettyprint ">  nearey_fun &lt;- function(hz){
     hz * (exp(0 - mean(log(hz))))
   }</code></pre>
 
-There are two instantiations of Neary. Neary1 is formant intrinsic, and Neary2 is formant extrinsic.
+There are two instantiations of Nearey. Nearey1 is formant intrinsic, and Nearey2 is formant extrinsic.
 
 
-Neary is easy peasy. 
+Nearey is easy peasy. 
 
 - group data, appropriately
 - apply the normalization function
@@ -292,40 +292,40 @@ Neary is easy peasy.
 
 <pre><code class="prettyprint ">  pb_long %&gt;%
     group_by(speaker, formant)%&gt;%
-    mutate(neary = neary_fun(hz)) -&gt; pb_neary1_long
+    mutate(nearey = nearey_fun(hz)) -&gt; pb_nearey1_long
   
   pb_long %&gt;%
     filter(formant %in% c(&quot;F1&quot;,&quot;F2&quot;))%&gt;%
     group_by(speaker)%&gt;%
-    mutate(neary = neary_fun(hz)) -&gt; pb_neary2_long  </code></pre>
+    mutate(nearey = nearey_fun(hz)) -&gt; pb_nearey2_long  </code></pre>
 
 The formant intrinsic approach eliminates the relative ordering of each formant, and mitigates the difference in variance, at least between F1 and F2.
 The formant extrinsic approach looks roughly similar to the ANAE plot
 
 
-<pre><code class="prettyprint ">  pb_neary1_long %&gt;%
-    ggplot(aes(formant, neary, fill = sex)) + 
+<pre><code class="prettyprint ">  pb_nearey1_long %&gt;%
+    ggplot(aes(formant, nearey, fill = sex)) + 
       geom_boxplot()+
-      ggtitle(&quot;Neary1: Formant intrinsic&quot;)</code></pre>
+      ggtitle(&quot;Nearey1: Formant intrinsic&quot;)</code></pre>
 
-![center]({{site.baseurl}}/figs/normal_grittr2neary_box-1.svg) 
+![center]({{site.baseurl}}/figs//normal_grittr2nearey_box-1.svg)
 
 
 
-<pre><code class="prettyprint ">  pb_neary2_long %&gt;%
-    ggplot(aes(formant, neary, fill = sex)) + 
+<pre><code class="prettyprint ">  pb_nearey2_long %&gt;%
+    ggplot(aes(formant, nearey, fill = sex)) + 
       geom_boxplot()+
-      ggtitle(&quot;Neary2: Formant extrinsic&quot;)</code></pre>
+      ggtitle(&quot;Nearey2: Formant extrinsic&quot;)</code></pre>
 
-![center]({{site.baseurl}}/figs/normal_grittr2neary2_box-1.svg) 
+![center]({{site.baseurl}}/figs//normal_grittr2nearey2_box-1.svg)
 
 Here's how it looks in the vowel space.
-For Neary1, I've included horizontal and vertical lines at 1, since these represent the "center" of the vowel space as far as the normalization is concerned.
+For Nearey1, I've included horizontal and vertical lines at 1, since these represent the "center" of the vowel space as far as the normalization is concerned.
 
 
-<pre><code class="prettyprint ">  pb_neary1_long %&gt;%
+<pre><code class="prettyprint ">  pb_nearey1_long %&gt;%
     select(-hz)%&gt;%
-    spread(formant, neary)%&gt;%
+    spread(formant, nearey)%&gt;%
     ggplot(aes(F2, F1, color = sex))+
       geom_hline(y = 1)+
       geom_vline(x = 1)+
@@ -333,24 +333,27 @@ For Neary1, I've included horizontal and vertical lines at 1, since these repres
       scale_y_reverse()+
       scale_x_reverse()+
       coord_fixed()+
-      ggtitle(&quot;Neary1: Formant intrinsic&quot;)</code></pre>
-
-![center]({{site.baseurl}}/figs/normal_grittr2neary1_fig-1.svg) 
+      ggtitle(&quot;Nearey1: Formant intrinsic&quot;)</code></pre>
 
 
-<pre><code class="prettyprint ">  pb_neary2_long %&gt;%
+
+<pre><code>## Error: Unknown parameters: y
+</code></pre>
+
+
+<pre><code class="prettyprint ">  pb_nearey2_long %&gt;%
     select(-hz)%&gt;%
-    spread(formant, neary)%&gt;%
+    spread(formant, nearey)%&gt;%
     ggplot(aes(F2, F1, color = sex))+
       geom_point(alpha = 0.75)+
       scale_y_reverse()+
       scale_x_reverse()+
       coord_fixed()+
-      ggtitle(&quot;Neary2: Formant extrinsic&quot;)</code></pre>
+      ggtitle(&quot;Nearey2: Formant extrinsic&quot;)</code></pre>
 
-![center]({{site.baseurl}}/figs/normal_grittr2neary2_fig-1.svg) 
+![center]({{site.baseurl}}/figs//normal_grittr2nearey2_fig-1.svg)
 
-### Neary Summary
+### Nearey Summary
 
 #### Model of an observation
 
@@ -388,7 +391,7 @@ Z-scores eliminate the relative ordering of the formants, and mitigate the diffe
     ggplot(aes(formant, zscore, fill = sex))+
       geom_boxplot()</code></pre>
 
-![center]({{site.baseurl}}/figs/normal_grittr2unnamed-chunk-13-1.svg) 
+![center]({{site.baseurl}}/figs//normal_grittr2unnamed-chunk-13-1.svg)
 
 
 Maybe I'm just biased because z-scores are what I always use, but this to me looks like what a vowel space should.
@@ -404,7 +407,10 @@ Maybe I'm just biased because z-scores are what I always use, but this to me loo
       scale_x_reverse()+
       coord_fixed()</code></pre>
 
-![center]({{site.baseurl}}/figs/normal_grittr2z_fig-1.svg) 
+
+
+<pre><code>## Error: Unknown parameters: y
+</code></pre>
 
 
 ## Watt & Fabricius
@@ -451,7 +457,7 @@ Second, after merging these centroid values back onto the original data, dividin
 
 
 
-<pre><code>## Joining by: &quot;speaker&quot;
+<pre><code>## Joining, by = &quot;speaker&quot;
 </code></pre>
 
 Here's the resulting vowel space. I'll say it does a helluva job normalizing /iy/.
@@ -465,7 +471,10 @@ Here's the resulting vowel space. I'll say it does a helluva job normalizing /iy
       scale_x_reverse()+
       coord_fixed()</code></pre>
 
-![center]({{site.baseurl}}/figs/normal_grittr2wf_fig1-1.svg) 
+
+
+<pre><code>## Error: Unknown parameters: y
+</code></pre>
 
 ### Watt & Fabricius Summary
 
@@ -486,8 +495,8 @@ So, here's a summary of these methods, classified by their observation models, n
 | ---- | -------------   | ----------- | ------- | -------- | ------ |
 | Bark Difference | F0, F1, F2, F3 for each vowel | 0 | intrinsic | extrinsic | instrinsic |
 | ANAE | Hz for each formant |  1 | ex | ex | ex |
-| Neary1 | Hz for each formant | 0 | in | in | ex |
-| Neary2 | Hz for each formant | 0 | in| ex| ex |
+| Nearey1 | Hz for each formant | 0 | in | in | ex |
+| Nearey2 | Hz for each formant | 0 | in| ex| ex |
 | Z-score | Hz for each formant | 0 | in | in | ex  |
 | Watt & Fabricius | F1, F2 for each vowel | 1 | in | in | ex |
 

@@ -1,0 +1,37 @@
+project:
+  type: website
+  output-dir: "docs"
+  render:
+    - "*.qmd"
+    - "!old_posts/"  
+
+execute:
+  freeze: auto
+
+website:
+  title: "Fruehwald Blog"
+  navbar:
+    left:
+      - href: https://jofrhwld.github.io/
+        text: homepage
+      
+  # sidebar: 
+  #   style: "floating"
+  #   search: true
+  #   contents: 
+  #     - href: https://jofrhwld.github.io/
+  #       text: "my homepage"
+
+format:
+  html:
+    theme: 
+      - "vapor"
+      - custom.scss
+    include-in-header: font_import.html
+    monofont: Fira Code
+    mainfont: Atkinson Hyperlegible
+    toc: true
+    fig-width: 6
+    fig-height: 5
+
+editor: visual

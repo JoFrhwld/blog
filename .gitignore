@@ -1,5 +1,8 @@
 .DS_Store
 .Rproj.user
+.Rhistory
 *.Rproj
 _site/*
 rmd_drafts/*
+/.quarto/
+renv/

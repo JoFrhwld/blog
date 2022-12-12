@@ -10,6 +10,7 @@ execute:
 
 website:
   title: "Fruehwald Blog"
+  google-analytics: "G-SS6YYGWPPL"
   navbar:
     left:
       - href: https://jofrhwld.github.io/

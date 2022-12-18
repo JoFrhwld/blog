@@ -4,6 +4,7 @@ library(ggdark)
 library(showtext)
 font_add_google(name = "Fira Sans", family = "Fira Sans")
 showtext_auto()
+PLOT_FONT <- "Fira Sans"
 theme_set(dark_theme_gray(base_size = 12) + 
             theme(text = element_text(family = "Fira Sans"),
                   plot.background = element_rect(fill = "grey10"),

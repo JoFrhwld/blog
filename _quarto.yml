@@ -9,12 +9,20 @@ execute:
   freeze: auto
 
 website:
-  title: "Fruehwald Blog"
+  title: "Væl Space"
   google-analytics: "G-SS6YYGWPPL"
+  page-navigation: true
   navbar:
     left:
       - href: https://jofrhwld.github.io/
-        text: homepage
+        text: Homepage
+      - href: about.qmd
+        text: About
+  sidebar:
+    collapse-level: 0
+    style: floating
+    background: none
+    contents: posts
       
   # sidebar: 
   #   style: "floating"
@@ -34,5 +42,6 @@ format:
     toc: true
     fig-width: 6
     fig-height: 5
+    title-block-banner: true
 
 editor: visual

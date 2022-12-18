@@ -1,0 +1,46 @@
+---
+title: "About"
+editor: visual
+toc: false
+about: 
+  template: trestles
+  image: "assets/profile.jpg"
+  image-width: 75%
+  links: 
+    - icon: house-fill
+      href: https://jofrhwld.github.io/
+    - icon: github
+      href: https://github.com/JoFrhwld
+    - icon: mastodon
+      href: https://lingo.lol/@JoFrhwld
+    - icon: twitter
+      href: https://twitter.com/JoFrhwld
+---
+
+## About Me
+
+I'm an Assistant Professor of Linguistics at the university of Kentucky. You can find out more about me and my research on [my homepage](https://jofrhwld.github.io/).
+
+## About the title
+
+In my variety of Philadelphia English, the diphthong /aw/ merges with /æː/ before /l/. So *vowel* and *val* both sound like \[væːɫ\], and sometimes *vow* gets into the mix as well.
+
+Throughout grad school and a few years after, I maintained a blog called [Val Systems](http://val-systems.blogspot.com/). It's still there, but I got out of the habit of blogging there, and eventually came to feel a bit hampered by the drafting, posting & designing process there. So now, maybe I'll maintain **Væl Space.**
+
+## Site fonts
+
+Headers
+
+:   [Comfortaa](https://fonts.google.com/specimen/Comfortaa)
+
+Body
+
+:   [Atkinson Hyperlegible](https://fonts.google.com/specimen/Atkinson+Hyperlegible)
+
+Figures
+
+:   [Fira Sans](https://fonts.google.com/specimen/Fira+Sans)
+
+Code
+
+:   [Fira code](https://fonts.google.com/specimen/Fira+Code)

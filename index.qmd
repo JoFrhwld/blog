@@ -1,7 +1,8 @@
 ---
-title: "Joe Fruehwald's Blog"
+title: "Væl Space"
 listing:
   contents: posts
+  sort: "date desc"
   date-format: iso
 ---
 

@@ -10,6 +10,7 @@ execute:
 
 website:
   title: "Væl Space"
+  site-url: "https://jofrhwld.github.io/blog"
   google-analytics: "G-SS6YYGWPPL"
   page-navigation: true
   navbar:
@@ -43,5 +44,6 @@ format:
     fig-width: 6
     fig-height: 5
     title-block-banner: true
+    license: "CC-BY-SA 4.0"
 
 editor: visual

@@ -12,7 +12,8 @@ open-graph:
 execute:
   echo: true
   message: false
-fig-cap-location: margin
+citation: 
+  url: "https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10.html"
 ---
 
 One of the courses I taught in the Fall 2022 semester was Natural Language Processing (NLP). It was a fun course to teach, and I learned a lot since it's not a topic in my core areas of research. At the same time, the amount of work I put into it has made me really start to rethink how I prepare for teaching.

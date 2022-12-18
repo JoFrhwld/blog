@@ -1,0 +1,14 @@
+{
+  "hash": "13161d4dd412485e461f91c7e8c891e4",
+  "result": {
+    "markdown": "---\ntitle: \"`rayshader` experiment\"\nauthor: \"Josef Fruehwald\"\ndate: 2022-12-18\nknitr: \n  opts_chunk:\n    message: false\ndraft: true\n---\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(sf)\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

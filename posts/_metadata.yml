@@ -1,0 +1,11 @@
+comments:
+  giscus:
+    repo: JoFrhwld/blog
+    theme: transparent_dark
+  
+format:
+  html:
+    fig-cap-location: margin
+
+citation: 
+  collection-title: "Væl Space"

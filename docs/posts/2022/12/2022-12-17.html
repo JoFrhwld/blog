@@ -140,15 +140,19 @@ gtag('config', 'G-SS6YYGWPPL', { 'anonymize_ip': true});
 
 <meta property="og:title" content="Væl Space - What is R?">
 <meta property="og:description" content="In the Spring 2023 semester, I’m going to be teaching two R intensive courses: a statistics for linguists course, and an R for the Arts and Sciences course.">
-<meta property="og:image" content="2022-12-17_files/figure-html/fig-network-1.png">
+<meta property="og:image" content="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17_files/figure-html/fig-network-1.png">
 <meta property="og:site-name" content="Væl Space">
+<meta property="og:image:height" content="960">
+<meta property="og:image:width" content="960">
 <meta name="twitter:title" content="Væl Space - What is R?">
 <meta name="twitter:description" content="In the Spring 2023 semester, I’m going to be teaching two R intensive courses: a statistics for linguists course, and an R for the Arts and Sciences course.">
-<meta name="twitter:image" content="2022-12-17_files/figure-html/fig-network-1.png">
+<meta name="twitter:image" content="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17_files/figure-html/fig-network-1.png">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="960">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-sidebar floating nav-fixed slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -280,7 +284,7 @@ gtag('config', 'G-SS6YYGWPPL', { 'anonymize_ip': true});
 </nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
 
 
 
@@ -300,7 +304,7 @@ gtag('config', 'G-SS6YYGWPPL', { 'anonymize_ip': true});
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="a-programming-language" class="level2">
+<section id="a-programming-language" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="a-programming-language">A programming language?</h2>
 <p>The <a href="https://en.wikipedia.org/wiki/R_(programming_language)">Wikipedia slug for R</a> says</p>
 <blockquote class="blockquote">
@@ -345,15 +349,15 @@ F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12</code></pre>
 </div>
 </div>
 <p>And it can do graphics.</p>
-<div class="cell" data-layout-align="center">
+<div class="cell page-columns page-full" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># `PLOT_FONT &lt;- "Fira Sans"` in my .Rprofile</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">family =</span> PLOT_FONT)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div id="fig-carsplot" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
+<div class="cell-output-display page-columns page-full">
+<div id="fig-carsplot" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
 <p><img src="2022-12-17_files/figure-html/fig-carsplot-1.png" class="img-fluid figure-img" alt="A base graphics scatter plot showing the relationship between speed and distance from the cars default data frame." width="576"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1: A plot</figcaption><p></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure&nbsp;1: A plot</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -361,7 +365,7 @@ F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12</code></pre>
 <p>Obviously, none of these things are <em>unique</em> to R. In the other programming language I know best, Python, you can <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html">fit a linear model</a> and <a href="https://matplotlib.org/stable/plot_types/basic/scatter_plot.html">make a scatter plot</a>. What differentiates programming languages, in my experience, is what kinds of operations, data structures, and workflows it prioritizes.</p>
 <p>For R, I think it’s uncontroversial to say it prioritizes rectangular data with mixed data-type rows &amp; single data-type columns and also provides a lot of options for indexing column-wise. And a lot of the extensions to R have leaned into this prioritization <em>hard</em>.</p>
 </section>
-<section id="an-ecosystem" class="level2">
+<section id="an-ecosystem" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="an-ecosystem">An ecosystem?</h2>
 <p>But “R” isn’t just a programming language, it’s also an ecosystem of community created packages. “Learning R” involves learning about these packages, and how they’re interrelated. I grabbed the list of all packages on <a href="https://cran.r-project.org/">CRAN</a> and the packages they import with the <a href="https://github.com/clement-lee/crandep"><code>crandep</code></a> package.</p>
 <div class="cell">
@@ -386,7 +390,7 @@ F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12</code></pre>
 </details>
 </div>
 <p>If you count up how often each package gets imported and rank them, you get the familiar power-law plot. I’ve plotted this one out a bit non standard-ly so that frequency is on the x axis for both the main plot and the inset, and so that I could include the package names in the inset with horizontal text.</p>
-<div class="cell" data-layout-align="center">
+<div class="cell page-columns page-full" data-layout-align="center">
 <details>
 <summary>Plotting code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>imported <span class="sc">|&gt;</span> </span>
@@ -419,11 +423,11 @@ F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12</code></pre>
 <span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>mainplot <span class="sc">+</span> <span class="fu">inset_element</span>(inset, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<div id="fig-rank" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
+<div class="cell-output-display page-columns page-full">
+<div id="fig-rank" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
 <p><img src="2022-12-17_files/figure-html/fig-rank-1.png" class="img-fluid figure-img" alt="The main figure shows the linear decreasing relationship between log(frequency) and log(rank). The inset is a bar graph showing the import frequency of the top 10 packages, which are stats, utils, methods, dplyr, ggplot2, Rcpp, graphics, magrittr, rlang, stringr" width="768"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;2: A log(rank) by log(frequency) plot of R imports</figcaption><p></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure&nbsp;2: A log(rank) by log(frequency) plot of R imports</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -453,7 +457,7 @@ F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12</code></pre>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>yclip <span class="ot">&lt;-</span> <span class="fu">quantile</span>(cran_flat<span class="sc">$</span>y, <span class="fu">c</span>(<span class="fl">0.0025</span>, <span class="fl">0.9975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-layout-align="center">
+<div class="cell page-columns page-full" data-layout-align="center">
 <details>
 <summary>Network graph</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cran_flat <span class="sc">|&gt;</span> </span>
@@ -481,11 +485,11 @@ F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12</code></pre>
 <span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> PLOT_FONT),</span>
 <span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display">
-<div id="fig-network" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
+<div class="cell-output-display page-columns page-full">
+<div id="fig-network" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
 <p><img src="2022-12-17_files/figure-html/fig-network-1.png" class="img-fluid figure-img" alt="A network diagram displaying just the nodes, color coded according to their name pattern: beginning with tidy, beginning with gg, ending with r, and else" width="480"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;3: CRAN network graph</figcaption><p></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure&nbsp;3: CRAN network graph</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -511,7 +515,18 @@ F-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12</code></pre>
 <li id="fn1"><p>sorry, but they are<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>Most often, click on the URL listed on CRAN, which takes you to the package’s github, which <em>then</em> probably has a link to the <code>pkgdown</code> site in its “about” box.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section></div></main> <!-- /main -->
+</section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2022,
+  author = {Josef Fruehwald},
+  title = {What *Is* {R?}},
+  series = {Væl Space},
+  date = {2022-12-17},
+  url = {https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17.html},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Josef Fruehwald. 2022. <span>“What *Is* R?”</span> Væl Space. December
+17, 2022. <a href="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17.html">https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17.html</a>.
+</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -644,6 +659,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
+</script>
+<script src="https://giscus.app/client.js" data-repo="JoFrhwld/blog" data-repo-id="MDEwOlJlcG9zaXRvcnkxNjU0MzIyNg==" data-category="General" data-category-id="DIC_kwDOAPxt-s4CTI5W" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="transparent_dark" data-lang="en" crossorigin="anonymous" async="">
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">

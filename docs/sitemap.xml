@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jofrhwld.github.io/blog/index.html</loc>
-    <lastmod>2022-12-18T18:36:32.399Z</lastmod>
+    <loc>https://jofrhwld.github.io/blog/about.html</loc>
+    <lastmod>2022-12-21T20:10:52.279Z</lastmod>
   </url>
   <url>
-    <loc>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17.html</loc>
-    <lastmod>2022-12-18T18:36:32.092Z</lastmod>
+    <loc>https://jofrhwld.github.io/blog/index.html</loc>
+    <lastmod>2022-12-21T20:10:52.627Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10.html</loc>
-    <lastmod>2022-12-18T18:35:58.523Z</lastmod>
+    <lastmod>2022-12-21T20:10:54.006Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17.html</loc>
+    <lastmod>2022-12-21T20:10:55.318Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jofrhwld.github.io/blog/posts/2022/12/github_onboarding.html</loc>
+    <lastmod>2022-12-21T20:10:58.863Z</lastmod>
   </url>
 </urlset>

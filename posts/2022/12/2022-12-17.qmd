@@ -2,6 +2,7 @@
 title: "What *is* R?"
 author: "Josef Fruehwald"
 date: 2022-12-17
+order: 17
 editor: visual
 image: "2022-12-17_files/figure-html/fig-network-1.png"
 twitter-card:

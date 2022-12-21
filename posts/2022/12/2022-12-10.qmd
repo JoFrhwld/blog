@@ -2,6 +2,7 @@
 title: "A lesson in over-preparing"
 author: "Josef Fruehwald"
 date: 2022-12-10
+order: 10
 format: html
 editor: visual
 image: "2022-12-10_files/figure-html/fig-total-1.png"

@@ -4,16 +4,16 @@ author: "Josef Fruehwald"
 date: 2022-12-17
 order: 17
 editor: visual
-image: "2022-12-17_files/figure-html/fig-network-1.png"
+image: "index_files/figure-html/fig-network-1.png"
 twitter-card:
-  image: "2022-12-17_files/figure-html/fig-network-1.png"
+  image: "index_files/figure-html/fig-network-1.png"
 open-graph:
-  image: "2022-12-17_files/figure-html/fig-network-1.png"
+  image: "index_files/figure-html/fig-network-1.png"
 code-fold: true
 categories:
   - "R"
-citation:
-  url: "https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17.html"
+# citation:
+#   url: "https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17.html"
 ---
 
 In the Spring 2023 semester, I'm going to be teaching two R intensive courses: a statistics for linguists course, and an R for the Arts and Sciences course. For both, I'm going to have to do a "What is R" discussion during week 1, and given the breadth of tools I hope students come away with, I've been rethinking my usual answers.

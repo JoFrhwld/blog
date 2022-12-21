@@ -28,106 +28,106 @@
     "text": "Hello!\n\n\n\n\n\n\n\n\n  \n\n\n\n\nGithub Onboarding with RStudio\n\n\n\n\n\n\n\n\n\n\n\n\n2022-12-21\n\n\nJosef Fruehwald\n\n\n\n\n\n\n  \n\n\n\n\nWhat is R?\n\n\n\n\n\n\n\n\n\n\n\n\n2022-12-17\n\n\nJosef Fruehwald\n\n\n\n\n\n\n  \n\n\n\n\nA lesson in over-preparing\n\n\n\n\n\n\n\n\n\n\n\n\n2022-12-10\n\n\nJosef Fruehwald\n\n\n\n\n\n\nNo matching items\n\nReuseCC-BY-SA 4.0"
   },
   {
-    "objectID": "posts/2022/12/2022-12-10.html",
-    "href": "posts/2022/12/2022-12-10.html",
+    "objectID": "posts/2022/12/2022-12-10/index.html",
+    "href": "posts/2022/12/2022-12-10/index.html",
     "title": "A lesson in over-preparing",
     "section": "",
     "text": "One of the courses I taught in the Fall 2022 semester was Natural Language Processing (NLP). It was a fun course to teach, and I learned a lot since it’s not a topic in my core areas of research. At the same time, the amount of work I put into it has made me really start to rethink how I prepare for teaching.\nMy tendency, for a while, has been to prepare extensive course notes that I publish on my website (Exhibit A, Exhibit B). I’ve never really reflected on how much work that actually takes. Moreover, I don’t tend to consider it when I reflect on how much “writing” I get done (and inevitably get a bit discouraged about my productivity).\nBut, it occurred to me that I could quantify how much writing I really did this semester. I wrote all my course notes in Quarto, which generates a search index in a .json file. To get a total count of words that I wrote in course notes, I just need to parse that json file and tokenize it! I found a handy blog post about analyzing git repos that helped a lot in the process."
   },
   {
-    "objectID": "posts/2022/12/2022-12-10.html#setup",
-    "href": "posts/2022/12/2022-12-10.html#setup",
+    "objectID": "posts/2022/12/2022-12-10/index.html#setup",
+    "href": "posts/2022/12/2022-12-10/index.html#setup",
     "title": "A lesson in over-preparing",
     "section": "Setup",
     "text": "Setup\n\nlibrary(tidyverse)\nlibrary(tidyjson)\nlibrary(tidytext)\nlibrary(lubridate)\nlibrary(scales)\nlibrary(padr)\nlibrary(glue)\n\nThis block of code is just copied from the blog post I just mentioned.\n\n# Remote repository URL\nrepo_url <- \"https://github.com/JoFrhwld/2022_lin517.git\"\n\n# Directory into which git repo will be cloned\nclone_dir <- file.path(tempdir(), \"git_repo\")\n\n# Create command\nclone_cmd <- glue(\"git clone {repo_url} {clone_dir}\")\n\n# Invoke command\nsystem(clone_cmd)\n\nThere’s a handful of R libraries for reading json files into R, but after searching around I went with tidyjson because I like using tidyverse things.\n\nsearch_file <- file.path(clone_dir, \"_site\", \"search.json\")\nsite_search <- read_json(search_file)\n\nI was really glad to find that the search.json file is relatively flat, so pulling out the metadata and text was not as complicated as it could have been.\n\nsite_search |>\n  gather_array() |>\n  hoist(..JSON,\n    \"title\",\n    \"section\",\n    \"text\"\n  )  |>\n  as_tibble() |>\n  select(array.index, title, section, text) |>\n  unnest_tokens(input = text, output = \"words\") -> tokens_table\n\nI noticed in the json file that there were multiple entries for a single page of course notes, one for each subsection, but there were also some entries with the subsection value set to blank. I just wanted to double check that the blank section entries weren’t the entire page of lecture notes, with additional entries duplicating the text by subsection.\n\ntokens_table |>\n  mutate(has_section = section != \"\") |>\n  group_by(title, has_section) |>\n  count()\n\n# A tibble: 45 × 3\n# Groups:   title, has_section [45]\n   title                              has_section     n\n   <chr>                              <lgl>       <int>\n 1 Addendum                           FALSE          43\n 2 Addendum                           TRUE          100\n 3 Additional Neural Network Concepts FALSE         473\n 4 Additional Neural Network Concepts TRUE         1109\n 5 Comprehensions and Useful Things   FALSE        1116\n 6 Data Processing                    FALSE         654\n 7 Data Processing                    TRUE         1804\n 8 Data Sparsity                      FALSE         720\n 9 Data Sparsity                      TRUE         1724\n10 Evaluating models                  FALSE          42\n# … with 35 more rows\n\n\nLooks like no. The blank titled sections are probably cases where I had a paragraph or two that came before the first section header.\n\nSo how many words?\n\ntokens_table |>\n  nrow()\n\n[1] 43637\n\n\nBased on the default tokenization from tidytext, it looks like I wrote just north of 40k words. I don’t have the best sense of how this compares to other kinds of genre writing, but apparently the goal of NaNoWriMo (National Novel Writing Month) is to write a novel that is 50k words.\nSo, I didn’t quite write a novel. But the amount of work that went into these 40k words was still considerable in terms of background research and trying to come to my own understanding of relatively complex mathematical formulae so that I could distill them into a comprehensible lesson. Also not accounted for was all the code I wrote and had to debug within the course notes!"
   },
   {
-    "objectID": "posts/2022/12/2022-12-10.html#how-many-words-did-i-write-over-time",
-    "href": "posts/2022/12/2022-12-10.html#how-many-words-did-i-write-over-time",
+    "objectID": "posts/2022/12/2022-12-10/index.html#how-many-words-did-i-write-over-time",
+    "href": "posts/2022/12/2022-12-10/index.html#how-many-words-did-i-write-over-time",
     "title": "A lesson in over-preparing",
     "section": "How many words did I write over time?",
     "text": "How many words did I write over time?\nSince I was publishing the course notes to github, that means I also have a preserved history of how my word count grew over time. All I have to do is apply the same procedures to the history of search.json.\n\n\ncode to get the git commit history\nlog_format_options <- c(datetime = \"cd\", commit = \"h\", parents = \"p\", author = \"an\", subject = \"s\")\noption_delim <- \"\\t\"\nlog_format   <- glue(\"%{log_format_options}\") |> glue_collapse(option_delim)\nlog_options  <- glue('--pretty=format:\"{log_format}\" --date=format:\"%Y-%m-%d %H:%M:%S\"')\nlog_cmd      <- glue('git -C {clone_dir} log {log_options}')\n\n\n\nsystem(log_cmd, intern = TRUE) |>\n  str_split_fixed(option_delim, length(log_format_options)) |>\n  as_tibble(.name_repair = \"minimal\") |>\n  setNames(names(log_format_options))->commit_history\n\n\n\nget_length() function definition\nget_length <- function(commit, clone_dir){\n  search_file <- file.path(clone_dir, \"_site\", \"search.json\")\n  checkout_cmd <- glue(\"git -C {clone_dir} checkout {commit} {search_file}\")\n  system(checkout_cmd)\n  site_search <- read_json(search_file)\n  site_search |>\n    gather_array() |>\n    hoist(..JSON,\n      \"title\",\n      \"section\",\n      \"text\"\n    )  |>\n    as_tibble() |>\n    select(array.index, title, section, text) |>\n    unnest_tokens(input = text, output = \"words\") |>\n    nrow() -> word_count\n  return(word_count)\n}\n\n\nThe data frame commit_history contains metadata about each commit. What I’ll do next is apply the function I wrote in the collapsed code above to the list of commit hashes, and get the word count at each commit.\n\ncommit_history |>\n  mutate(word_count = map(commit, ~get_length(.x, clone_dir)) |>\n           simplify()) -> word_history\n\nI often had many commits in a single day, so to simplify things a bit, I’ll just get the max number of words I had by the end of a given day. Fortunately, I did not stay up past midnight pushing commits this semester, so the data shouldn’t be messed up by work sessions overlapping across days.\n\nword_history |>\n  mutate(datetime = ymd_hms(datetime)) |>\n  thicken(\"day\") |>\n  group_by(datetime_day) |>\n  summarise(words = max(word_count)) |>\n  arrange(datetime_day) -> daily_words\n\n\nCumulative Wordcount\nHere’s the cumulative count of words over the course of the semester. I forget why, exactly, it starts out at 7,000 words. I think I might’ve been managing the course notes differently between the end of August and start of September, and then just copied them over. But it is a pretty continuous rise, with a few notable plateaus. Some of those plateaus occurred when I had actually prepared more than could be covered in a one or two class meetings, so we stayed with a set of lecture notes for a longer period of time.\n\n\nplotting code\ndaily_words |>\n  pad(\"day\") |>\n  fill(words) |>\n  ggplot(aes(datetime_day, words))+\n    geom_ribbon(aes(ymin = 0, ymax = words), alpha = 0.2)+\n    geom_line(linewidth = 1,\n              lineend = \"round\")+\n    expand_limits(y = 0)+\n    scale_y_continuous(labels = label_comma(),\n                       expand = expansion(mult = c(0, 0.05)))+\n    scale_x_date(expand = expansion(mult = 0.01))+\n    labs(x = \"date\",\n         y = \"number of words\",\n         title = \"Cumulative number of words in course notes\")\n\n\n\n\n\nFigure 1: The number of words I wrote over the course of Fall 2022\n\n\n\n\n\n\nWhen was I writing?\nI can also double check when I was writing my course notes. I was teaching on a Monday-Wednesday-Friday schedule, and Fridays were usually given over to practical exercises (the text of which is largely absent from these counts…).\nIt was no surprise to me that I wrote most of the course notes on Sundays. The total number of Sunday words is about 17k, which comes out to about mean of about 1,300 words for Sundays this semester.\n\n\nplotting code\ndaily_words |>\n  pad(\"day\") |>\n  fill(words) |>\n  mutate(daily_words = words - lag(words),\n         wday = wday(datetime_day, label = T)) |>\n  drop_na() |>\n  group_by(wday) |>\n  summarise(word = sum(daily_words)) |>\n  ggplot(aes(wday, word))+\n    geom_col(fill = \"grey70\")+\n    scale_y_continuous(labels = label_comma())+\n    labs(x = \"day of the week\",\n         y = \"total words\",\n         title = \"words written by day of week\")\n\n\n\n\n\nFigure 2: The total number of words I wrote per day of the week."
   },
   {
-    "objectID": "posts/2022/12/2022-12-10.html#thoughts",
-    "href": "posts/2022/12/2022-12-10.html#thoughts",
+    "objectID": "posts/2022/12/2022-12-10/index.html#thoughts",
+    "href": "posts/2022/12/2022-12-10/index.html#thoughts",
     "title": "A lesson in over-preparing",
     "section": "Thoughts",
     "text": "Thoughts\nWhile I feel pretty good about the material I produced, I really don’t think this way of doing things is tenable. The writing that I did do for these course notes was writing that I didn’t do for any other project. Moreover, you can almost see how much energy Sundays took out of me! And even though I wasn’t writing as many course notes Tuesday through Friday, those were full work days that I was doing all of my other work during.\nSo the upshot is: I’m already brainstorming on how to not prepare like this for a class again!"
   },
   {
-    "objectID": "posts/2022/12/2022-12-10.html#sources",
-    "href": "posts/2022/12/2022-12-10.html#sources",
+    "objectID": "posts/2022/12/2022-12-10/index.html#sources",
+    "href": "posts/2022/12/2022-12-10/index.html#sources",
     "title": "A lesson in over-preparing",
     "section": "Sources",
     "text": "Sources\n\nhttps://drsimonj.svbtle.com/embarking-on-a-tidy-git-analysis\nhttps://tidyr.tidyverse.org/reference/hoist.html"
   },
   {
-    "objectID": "posts/2022/12/2022-12-17.html",
-    "href": "posts/2022/12/2022-12-17.html",
+    "objectID": "posts/2022/12/2022-12-17/index.html",
+    "href": "posts/2022/12/2022-12-17/index.html",
     "title": "What is R?",
     "section": "",
     "text": "In the Spring 2023 semester, I’m going to be teaching two R intensive courses: a statistics for linguists course, and an R for the Arts and Sciences course. For both, I’m going to have to do a “What is R” discussion during week 1, and given the breadth of tools I hope students come away with, I’ve been rethinking my usual answers."
   },
   {
-    "objectID": "posts/2022/12/2022-12-17.html#a-programming-language",
-    "href": "posts/2022/12/2022-12-17.html#a-programming-language",
+    "objectID": "posts/2022/12/2022-12-17/index.html#a-programming-language",
+    "href": "posts/2022/12/2022-12-17/index.html#a-programming-language",
     "title": "What is R?",
     "section": "A programming language?",
     "text": "A programming language?\nThe Wikipedia slug for R says\n\nR is a programming language for statistical computing and graphics supported by the R Core Team and the R Foundation for Statistical Computing\n\nAnd yeah, it is definitely a programming language. Here it is doing some programming language things:\n\n2+2\n\n[1] 4\n\n\n\n2+2 < 5\n\n[1] TRUE\n\n\nAnd it can do statistical computing, like a linear model\n\ncars_model <- lm(dist ~ speed, data = cars)\nsummary(cars_model)\n\n\nCall:\nlm(formula = dist ~ speed, data = cars)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-29.069  -9.525  -2.272   9.215  43.201 \n\nCoefficients:\n            Estimate Std. Error t value Pr(>|t|)    \n(Intercept) -17.5791     6.7584  -2.601   0.0123 *  \nspeed         3.9324     0.4155   9.464 1.49e-12 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 15.38 on 48 degrees of freedom\nMultiple R-squared:  0.6511,    Adjusted R-squared:  0.6438 \nF-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12\n\n\nAnd it can do graphics.\n\n# `PLOT_FONT <- \"Fira Sans\"` in my .Rprofile\npar(family = PLOT_FONT)\nplot(cars)\n\n\n\n\nFigure 1: A plot\n\n\n\n\nObviously, none of these things are unique to R. In the other programming language I know best, Python, you can fit a linear model and make a scatter plot. What differentiates programming languages, in my experience, is what kinds of operations, data structures, and workflows it prioritizes.\nFor R, I think it’s uncontroversial to say it prioritizes rectangular data with mixed data-type rows & single data-type columns and also provides a lot of options for indexing column-wise. And a lot of the extensions to R have leaned into this prioritization hard."
   },
   {
-    "objectID": "posts/2022/12/2022-12-17.html#an-ecosystem",
-    "href": "posts/2022/12/2022-12-17.html#an-ecosystem",
+    "objectID": "posts/2022/12/2022-12-17/index.html#an-ecosystem",
+    "href": "posts/2022/12/2022-12-17/index.html#an-ecosystem",
     "title": "What is R?",
     "section": "An ecosystem?",
     "text": "An ecosystem?\nBut “R” isn’t just a programming language, it’s also an ecosystem of community created packages. “Learning R” involves learning about these packages, and how they’re interrelated. I grabbed the list of all packages on CRAN and the packages they import with the crandep package.\n\ncran_df <- crandep::get_dep_all_packages()\n\n\n\n\n\n\n\n\n\nImport Summaries\ncran_df |> \n  filter(type == \"imports\", !reverse) |> \n  count(to) |> \n  arrange(desc(n)) |> \n  mutate(rank = 1:n()) -> imported\n\nimported_10 <- imported |> slice(1:10)\n\n\nIf you count up how often each package gets imported and rank them, you get the familiar power-law plot. I’ve plotted this one out a bit non standard-ly so that frequency is on the x axis for both the main plot and the inset, and so that I could include the package names in the inset with horizontal text.\n\n\nPlotting code\nimported |> \n  ggplot(aes(n, rank))+\n    geom_point()+\n    scale_x_log10(labels = label_comma())+\n    scale_y_log10(labels = label_comma())+\n    labs(title = \"Frequency by rank of imported R packages\") -> mainplot\n\nimported_10 |> \n  mutate(to = as.factor(to),\n          to = fct_reorder(to, rank)) |> \n  ggplot(aes(n, to))+\n    geom_col(fill = \"white\")+\n    geom_text(aes(label = to,\n                  x = 0), \n              color = \"grey10\",\n              hjust = 0,\n              nudge_x = 100, \n              family = PLOT_FONT,\n              size = 4.5)+\n    scale_x_continuous(expand = expansion(mult = 0),\n                       labels = label_comma())+\n    theme(axis.text.y = element_blank(),\n          text = element_text(size = 10),\n          panel.grid.minor  = element_blank(),\n          panel.grid.major.y = element_blank())+\n    labs(y = NULL,\n         title = \"top10\") -> inset\n \nmainplot + inset_element(inset, 0.05, 0.05, 0.5, 0.6)\n\n\n\n\n\nFigure 2: A log(rank) by log(frequency) plot of R imports\n\n\n\n\nHere’s a network visualization of these imports and dependencies. I color coded the nodes according to common R package naming trends\n\ngg* - Packages extending ggplot2\ntidy* - Packages declaring their adherence to tidy-data principles (and the tidyverse more generally)\n*r - Packages declaring that they are… R packages\n\n\n\nNetwork graph setup\nimported |>\n  filter(n >= 5) |> \n  pull(to) -> to_network\n\ncran_df |>\n  filter(!reverse, type == \"imports\",\n         to %in% to_network) |>\n  df_to_graph(nodelist = cran_df |> rename(name = from)) -> cran_network\n\nset.seed(300)\ncran_flat <- ggnetwork(cran_network, layout = with_drl())\n\nxclip <- quantile(cran_flat$x, c(0.0025, 0.9975))\nyclip <- quantile(cran_flat$y, c(0.0025, 0.9975))\n\n\n\n\nNetwork graph\ncran_flat |> \n  mutate(name_pattern = case_when(str_detect(name, \"[rR]$\") ~ \"thingr\",\n                                  str_detect(name, \"tidy\") ~ \"tidy\",\n                                  str_detect(name, \"^[Gg]g\") ~ \"gg\",\n                                  T ~ \"else\"),\n         name_pattern = factor(name_pattern, levels = c(\"tidy\", \"gg\", \"thingr\", \"else\"))) |> \n  arrange(desc(name_pattern)) |> \n  filter(x >= xclip[1], x <= xclip[2],\n         y >= yclip[1], y <= yclip[2]) |> \nggplot(aes(x = x, y = y, xend = xend, yend = yend, color = name_pattern))+\n  #geom_nodes()+  \n  geom_nodes(aes(alpha = name_pattern))+\n  scale_color_bright(limits = c(\"tidy\", \"gg\", \"thingr\", \"else\"),\n                     labels = c(\"tidy*\", \"gg*\", \"*r\", \"else\"))+\n  dark_theme_void()+\n  scale_alpha_manual(values = c(0.5,0.3, 0.08, 0.02), \n                     limits = c(\"tidy\", \"gg\", \"thingr\", \"else\"),\n                     guide = \"none\")+\n  labs(color = NULL,\n       title = \"CRAN imports network visualization\")+\n  theme(legend.position = c(0.2,0.8), \n        legend.text = element_text(family = PLOT_FONT),\n        text = element_text(family = PLOT_FONT),\n        plot.title = element_text(hjust = 0.5))\n\n\n\n\n\nFigure 3: CRAN network graph"
   },
   {
-    "objectID": "posts/2022/12/2022-12-17.html#a-communications-platform",
-    "href": "posts/2022/12/2022-12-17.html#a-communications-platform",
+    "objectID": "posts/2022/12/2022-12-17/index.html#a-communications-platform",
+    "href": "posts/2022/12/2022-12-17/index.html#a-communications-platform",
     "title": "What is R?",
     "section": "A communications platform?",
     "text": "A communications platform?\nBut beyond just the R packages that implement specific analysis or process data in a specific way, there are also all of the tools built around R (and mostly around the RStudio IDE) that also make R what I might call a “communications platform.” From Sweave to knitr to rmarkdown and now Quarto, the kind of literate programming you can do in R has moved from ugly1 Beamer slides to, well, full on blogs.\nBut, it’s not just for the novelty or nerd appeal that I think it’s important to learn about R authoring tools available. They’ve also changed my own discovery and learning process about new packages. You can always find the documentation for a package on CRAN, but you should really try to find its pkgdown site.2"
   },
   {
-    "objectID": "posts/2022/12/2022-12-17.html#what-does-it-mean-to-know-r",
-    "href": "posts/2022/12/2022-12-17.html#what-does-it-mean-to-know-r",
+    "objectID": "posts/2022/12/2022-12-17/index.html#what-does-it-mean-to-know-r",
+    "href": "posts/2022/12/2022-12-17/index.html#what-does-it-mean-to-know-r",
     "title": "What is R?",
     "section": "What does it mean to “know R”?",
     "text": "What does it mean to “know R”?\nWhen I think about what it means to “know R”, and my goal for the kind of knowledge my students should start getting a handle on, it involves all of these components: the programming syntax, the social graph of the ecosystem, and the authoring tools to use and seek out.\nA lot of other programming languages have similar kinds of features, especially Python with pypi or conda keeping track of the ecosystem and Sphinx providing the authoring tools. There too I’d say that getting to “know Python” involves a lot more than learning its syntax."
   },
   {
-    "objectID": "posts/2022/12/github_onboarding.html",
-    "href": "posts/2022/12/github_onboarding.html",
+    "objectID": "posts/2022/12/2022-12-21_github-onboarding/index.html",
+    "href": "posts/2022/12/2022-12-21_github-onboarding/index.html",
     "title": "Github Onboarding with RStudio",
     "section": "",
     "text": "I’m writhing this primarily for students I’ll be teaching in Spring 2023 who I want to use Git/Github with Posit Workbench.\n\nThis tutorial is appropriate for:\n\nAnyone using RStudio/RStudio Server/Posit Workbench/Posit Cloud\n\nI will assume:\n\n\nGit is already installed and available.\nYou have not already configured Git locally.\nYou cannot access the terminal.\n\n\n\nIf item number 1 is not correct, or you want more detail on using Git and Github with RStudio, you should check out Jennifer Bryan’s much more extensive Happy Git and GitHub for the useR.\nItem number 2 might be a strange assumption, but the Posit Workbench configuration I have access to actually does not allow opening a terminal.\nInstruction boxes with  should be done on github, and instruction boxes with  should be done in RStudio."
   },
   {
-    "objectID": "posts/2022/12/github_onboarding.html#step-1-create-a-github-account",
-    "href": "posts/2022/12/github_onboarding.html#step-1-create-a-github-account",
+    "objectID": "posts/2022/12/2022-12-21_github-onboarding/index.html#step-1-create-a-github-account",
+    "href": "posts/2022/12/2022-12-21_github-onboarding/index.html#step-1-create-a-github-account",
     "title": "Github Onboarding with RStudio",
     "section": "Step 1: Create a Github Account",
     "text": "Step 1: Create a Github Account\nGo over to Github and create a free account.\n\n\n\n\n\n\n\n\n\n\n\nGo To\n\nhttps://github.com/\n\n\n\n\nAs suggested in Happy Git Chapter 4, it would make sense to register an account username that aligns with your professional identity.\nAfter you’ve created your free account, if you are affiliated with a university, I would also suggest applying for the education benefits here: https://education.github.com/. There are a few nice, but not mandatory, perks."
   },
   {
-    "objectID": "posts/2022/12/github_onboarding.html#step-2-configure-git-in-rstudio",
-    "href": "posts/2022/12/github_onboarding.html#step-2-configure-git-in-rstudio",
+    "objectID": "posts/2022/12/2022-12-21_github-onboarding/index.html#step-2-configure-git-in-rstudio",
+    "href": "posts/2022/12/2022-12-21_github-onboarding/index.html#step-2-configure-git-in-rstudio",
     "title": "Github Onboarding with RStudio",
     "section": "Step 2: Configure Git in RStudio",
     "text": "Step 2: Configure Git in RStudio\nNow, you need to tell Git a little bit about yourself on the computer/server you’re using RStudio on.\n\n\n\n\n\n\n\n\n\n\n\nGo To\n\nWherever you are using RStudio ( could be Posit Workbench, Posit Cloud, RStudio Server, or RStudio Desktop)\n\nThen Go To\n\nThe Console (a.k.a the R Prompt)\n\n\n\n\n\n\n\nThe Console in RStudio is here.\n\n\nNext, we need to tell the local version of Git who you are, specifically your username (which should match your Github username) and your email address (which should match the email address you registered for Github with).\n\n\n\n\n\n\n, \n\n\n\nIn the code below, USERNAME should be replaced with your Github username and EMAIL should be replaced with the email you registered your github account with.\n\n\n\nRun this in the R Console:\n\nsystem('git config --global user.name \"USERNAME\"')\nsystem('git config --global user.email \"EMAIL\"')"
   },
   {
-    "objectID": "posts/2022/12/github_onboarding.html#step-3-configure-rstudio-to-communicate-with-github",
-    "href": "posts/2022/12/github_onboarding.html#step-3-configure-rstudio-to-communicate-with-github",
+    "objectID": "posts/2022/12/2022-12-21_github-onboarding/index.html#step-3-configure-rstudio-to-communicate-with-github",
+    "href": "posts/2022/12/2022-12-21_github-onboarding/index.html#step-3-configure-rstudio-to-communicate-with-github",
     "title": "Github Onboarding with RStudio",
     "section": "Step 3: Configure RStudio to Communicate with Github",
     "text": "Step 3: Configure RStudio to Communicate with Github\nIn order to be able to push commits from RStudio to Github, you’ll need to set up secure communication between wherever you are using RStudio and Github. I’ll walk you through how to do this with SSH credentials. (See also Happy Git with R for personal access tokens via HTTPS).\n\nRStudio Configuration\n\n\n\n\n\n\n\n\n\n\n\nGo To:\n\nThe Tools menu, then Global Options\n\n\n\n\n\n\n\n\nThen Go To:\n\nGit/SVN from the left hand side option selector. Its icon is a cardboard box\n\n\n\n\n\n\n\n\nThen Go To\n\nCreate SSH Key\n\n\n\n\n\n\n\n\nThen\n\nThe default options should be fine to use. The passphrase here is for the ssh key. It should not be your Github password, or the password for logging into Posit Workbench or Posit Cloud. Once you’re ready, click Create.\n\nThen\n\nAfter creating the SSH key, you should see the option “View Public Key”. Click on it, and copy the text that appears.\n\n\n\n\nThis concludes everything necessary on the RStudio side of things. You should probably keep the session open so that you can come back to re-copy your public key.\n\n\nGithub Configuration\nNow, you’ll need to go over to github to add the public key to your profile.\n\n\n\n\n\n\n\n\n\n\n\nGo To\n\nYour Github Profile Settings\n\n\n\n\n\n\n\n\nThen Go To\n\nSSH and GPG keys from the left side menu\n\n\n\n\n\n\n\n\nThen\n\nClick on the New SSH key button\n\n\n\n\n\n\n\n\nThen\n\nGive this key an informative name so you can remember which computer it’s coming from.\n\nThen\n\nPaste the text you copied from RStudio into the Key box and click Add SSH Key."
   },
   {
-    "objectID": "posts/2022/12/github_onboarding.html#configured",
-    "href": "posts/2022/12/github_onboarding.html#configured",
+    "objectID": "posts/2022/12/2022-12-21_github-onboarding/index.html#configured",
+    "href": "posts/2022/12/2022-12-21_github-onboarding/index.html#configured",
     "title": "Github Onboarding with RStudio",
     "section": "Configured",
     "text": "Configured\nNow, wherever you are using RStudio from should be able to push commits to your Github account."

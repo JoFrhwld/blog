@@ -6,6 +6,8 @@ order: 21
 knitr: 
   opts_chunk: 
     message: false
+citation:
+  url: "https://jofrhwld.github.io/blog/posts/2022/12/github_onboarding.html"
 ---
 
 ## The target audience

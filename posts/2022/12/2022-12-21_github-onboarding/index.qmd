@@ -12,7 +12,7 @@ knitr:
 
 ## The target audience
 
-I'm writhing this primarily for students [I'll be teaching in Spring 2023](../2022-12-17/index.qmd) who I want to use Git/Github with Posit Workbench.
+I'm writing this primarily for students [I'll be teaching in Spring 2023](../2022-12-17/index.qmd) who I want to use Git/Github with Posit Workbench.
 
 This tutorial is appropriate for:
 

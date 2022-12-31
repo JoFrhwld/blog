@@ -12,6 +12,9 @@ website:
   title: "Væl Space"
   site-url: "https://jofrhwld.github.io/blog"
   google-analytics: "G-SS6YYGWPPL"
+  cookie-consent:
+    type: express
+    palette: dark
   page-navigation: true
   navbar:
     left:

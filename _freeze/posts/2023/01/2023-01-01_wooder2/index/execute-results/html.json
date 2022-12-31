@@ -1,0 +1,14 @@
+{
+  "hash": "4d4ea2a93c41c67364ca63aa81b07a9c",
+  "result": {
+    "markdown": "---\ntitle: \"Rising Wooders: 2\"\nsubtitle: \"Part 2: Saying Wooder\"\nauthor: \"Josef Fruehwald\"\ndate: 2023-01-01\ncategories:\n  - \"research\"\n  - \"linguistics\"\ntwitter-card: \n#  image: \"index_files/figure-html/fig-wooder-paper-1.png\"\n  card-style: summary_large_image\n  creator: \"@jofrhwld\"\nopen-graph: true\n # image: \"index_files/figure-html/fig-wooder-paper-1.png\"  \nknitr: \n  opts_chunk: \n    message: false\n---\n\n\nThis is part 2 of my blog posts to accompany my ADS2023 Poster.\n\n[![](/posts/2022/12/2022-12-31_wooder1/assets/ADS2023-wooder.png){fig-alt=\"The full American Dialect Society poster for \\\"Philadelphians' say Wooder, and that's that\\\"?\"}](/posts/2022/12/2022-12-31_wooder1/assets/ADS2023-wooder.png)\n\n## Wooder\n\nAs I said in [the previous post](../../../2022/12/2022-12-31_wooder1/index.qmd),\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

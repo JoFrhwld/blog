@@ -10,7 +10,47 @@
 <atom:link href="https://jofrhwld.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.2.280</generator>
-<lastBuildDate>Sat, 31 Dec 2022 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 01 Jan 2023 05:00:00 GMT</lastBuildDate>
+<item>
+  <title>Rising Wooders: 2</title>
+  <dc:creator>Josef Fruehwald</dc:creator>
+  <link>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>This is part 2 of my blog posts to accompany my ADS2023 Poster.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../../../posts/2022/12/2022-12-31_wooder1/assets/ADS2023-wooder.png"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1/assets/ADS2023-wooder.png" class="img-fluid figure-img" alt="The full American Dialect Society poster for &quot;Philadelphians' say Wooder, and that's that&quot;?"></a></p>
+</figure>
+</div>
+<section id="wooder" class="level2">
+<h2 class="anchored" data-anchor-id="wooder">Wooder</h2>
+<p>As I said in <a href="../../../../posts/2022/12/2022-12-31_wooder1/index.html">the previous post</a>,</p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
+  author = {Josef Fruehwald},
+  title = {Rising {Wooders:} 2},
+  series = {Væl Space},
+  date = {2023-01-01},
+  url = {https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2023" class="csl-entry quarto-appendix-citeas">
+Josef Fruehwald. 2023. <span>“Rising Wooders: 2.”</span> Væl Space.
+January 1, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2">https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2</a>.
+</div></div></section></div> ]]></description>
+  <category>research</category>
+  <category>linguistics</category>
+  <guid>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index.html</guid>
+  <pubDate>Sun, 01 Jan 2023 05:00:00 GMT</pubDate>
+  <media:content url="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1/assets/ADS2023-wooder.png" medium="image" type="image/png" height="81" width="144"/>
+</item>
 <item>
   <title>Rising Wooders</title>
   <dc:creator>Josef Fruehwald</dc:creator>

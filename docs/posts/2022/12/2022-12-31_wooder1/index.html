@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.280">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Josef Fruehwald">
+<meta name="dcterms.date" content="2022-12-31">
+
+<title>Væl Space - Rising Wooders</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<link href="../../../../posts/2022/12/2022-12-21_github-onboarding/index.html" rel="prev">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SS6YYGWPPL"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-SS6YYGWPPL', { 'anonymize_ip': true});
+</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@300;400;500;600;700&amp;family=Fira+Code:wght@300;400;500;600;700&amp;family=Noto+Emoji:wght@300&amp;display=swap" rel="stylesheet">
+
+
+<meta property="og:title" content="Væl Space - Rising Wooders">
+<meta property="og:description" content="Part 1: Talking about Wooder">
+<meta property="og:image" content="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1/index_files/figure-html/fig-wooder-paper-1.png">
+<meta property="og:site-name" content="Væl Space">
+<meta property="og:image:height" content="768">
+<meta property="og:image:width" content="888">
+<meta name="twitter:title" content="Væl Space - Rising Wooders">
+<meta name="twitter:description" content="Part 1: Talking about Wooder">
+<meta name="twitter:image" content="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1/index_files/figure-html/fig-wooder-paper-1.png">
+<meta name="twitter:creator" content="@jofrhwld">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image-height" content="768">
+<meta name="twitter:image-width" content="888">
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../../index.html">
+    <span class="navbar-title">Væl Space</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://jofrhwld.github.io/">
+ <span class="menu-text">Homepage</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../../../index.xml"><i class="bi bi-rss" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Rising Wooders</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title d-none d-lg-block">Rising Wooders</h1>
+            <p class="subtitle lead">Part 1: Talking about Wooder</p>
+                                <div class="quarto-categories">
+                <div class="quarto-category">research</div>
+                <div class="quarto-category">linguistics</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Josef Fruehwald </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 31, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Posts</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">2022</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">12</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2022/12/2022-12-10/index.html" class="sidebar-item-text sidebar-link">A lesson in over-preparing</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2022/12/2022-12-17/index.html" class="sidebar-item-text sidebar-link">What <em>is</em> R?</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2022/12/2022-12-21_github-onboarding/index.html" class="sidebar-item-text sidebar-link">Github Onboarding with RStudio</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2022/12/2022-12-31_wooder1/index.html" class="sidebar-item-text sidebar-link active">Rising Wooders</a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#wooder" id="toc-wooder" class="nav-link active" data-scroll-target="#wooder">“Wooder”</a></li>
+  <li><a href="#when-did-people-notice-wooder" id="toc-when-did-people-notice-wooder" class="nav-link" data-scroll-target="#when-did-people-notice-wooder">When did people notice “wooder”?</a>
+  <ul class="collapse">
+  <li><a href="#wooder-in-print" id="toc-wooder-in-print" class="nav-link" data-scroll-target="#wooder-in-print">Wooder in print</a></li>
+  <li><a href="#talking-about-wooder" id="toc-talking-about-wooder" class="nav-link" data-scroll-target="#talking-about-wooder">Talking about wooder</a></li>
+  </ul></li>
+  <li><a href="#when-did-people-start-saying-wooder" id="toc-when-did-people-start-saying-wooder" class="nav-link" data-scroll-target="#when-did-people-start-saying-wooder">When did people start <em>saying</em> “wooder”?</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+
+
+
+
+<p>This is a blog post to accompany my American Dialect Society poster.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="assets/ADS2023-wooder.png"><img src="assets/ADS2023-wooder.png" class="img-fluid figure-img" alt="The full American Dialect Society poster for &quot;Philadelphians' say Wooder, and that's that&quot;?"></a></p>
+</figure>
+</div>
+<section id="wooder" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="wooder">“Wooder”</h2>
+<p>If there’s one thing people know about the Philadelphia dialect, it’s that we say [wʊɾɚ], often spelled “wooder” for the word <em>water</em>. It was how the LA Times <a href="https://www.latimes.com/entertainment-arts/tv/story/2021-04-29/mare-of-easttown-hbo-kate-winslet-accent-dialect-coach">opened their story about <em>Mare of Easttown</em></a><em>.</em></p>
+<blockquote class="blockquote">
+<p>Barely 11 minutes into the first episode of "Mare of Easttown," Kate Winslet goes where few actors have gone before.</p>
+<p>She says the word "wooder."</p>
+<p>As in, what the good people of southeastern Pennsylvania call the stuff that comes out of the faucet.</p>
+</blockquote>
+<p>When accepting a Webby award in 2019, the NHL mascot Gritty held up a sign saying</p>
+<blockquote class="blockquote">
+<p>It Pronounced Wooder, not Water.</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><a href="https://twitter.com/GrittyNHL/status/1128111151206809602"><img src="assets/gritty_webby.png" class="img-fluid figure-img" style="width:30.0%" alt="An image of NHL mascot Gritty dressed in a tux, accepting a Webby, holding a sign that sats &quot;It Pronounced Wooder, not Water&quot;"></a></p>
+<p></p><figcaption class="figure-caption margin-caption">Gritty (2019)</figcaption><p></p>
+</figure>
+</div>
+<p>The fact that Philadelphians say “wooder” is also the number one thing anyone ever wants to talk to me about when they find out I study the Philadelphia dialect. Back in 2013, when the big paper about what we found in the Philadelphia Neighborhood Corpus came out <span class="citation" data-cites="100Years">(<a href="#ref-100Years" role="doc-biblioref">Labov, Rosenfelder, and Fruehwald 2013</a>)</span>, we got interviewed by the local news, and they asked me “What about ‘wooder’”? I said “Philadelphians say wooder, and that’s that.”</p>
+<p>When I said it, I meant it almost apologetically. We hadn’t investigated anything about the word, mostly because we were focusing on larger structural shifts in the vowel system. As far as I knew, the “wooder” pronunciation was just a one off alteration to a single word, and I didn’t think there was anything too interesting to say about it. “That’s that.” The way it got edited into the final broadcast, it seemed like I was making more of a statement of finality, as if to say “Lots of other things are changing about the Philadelphia dialect, but not ‘wooder.’ And that’s that.”</p>
+<p>This project is me circling back around to <em>both</em> of those possible messages behind “and that’s that” and asking “is it really?”</p>
+</section>
+<section id="when-did-people-notice-wooder" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="when-did-people-notice-wooder">When did people notice “wooder”?</h2>
+<p>I start off the poster looking at what people have had to say about “wooder”. In part, this is inspired by a disagreement I’ve had with how the vowel ought to be described. With my own introspection, I think the eye-dialect version &lt;wooder&gt; is just right. I think the vowel in the first syllable is /ʊ/, or <span class="smallcaps">Foot</span> class. However, Labov has suggested here and there that it’s more of an extremely raised and stereotyped realization of /ɔ/ or <span class="smallcaps">Thought</span> class.</p>
+<p>I was explaining this to a friend, and she said “Well, you <em>would</em> think it was /ʊ/ growing up with the ‘wooder’ spelling in media and print.” To which I replied, “I don’t think &lt;wooder&gt; was a thing people wrote out when I was growing up.” So, that launched my first systematic exploration of ‘wooder.’</p>
+<section id="wooder-in-print" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="wooder-in-print">Wooder in print</h3>
+<p>My best approach, so far, to see how long the pronunciation [wʊɾɚ] has been represented as &lt;wooder&gt; is to do a NewsBank search for it in Philadelphia area newspapers. Those results are represented in the next figure.</p>
+<div class="cell">
+<details>
+<summary>Data Loading</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>wooder <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/wooder.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p><br>
+</p>
+<div class="cell page-columns page-full" data-crop="true">
+<details>
+<summary>plotting code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>all_year <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">seq</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">min</span>(wooder<span class="sc">$</span>year),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">max</span>(wooder<span class="sc">$</span>year),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="dv">1</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>wooder <span class="sc">|&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(all_year) <span class="sc">|&gt;</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">hits =</span> <span class="dv">0</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(year, hits))<span class="sc">+</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"gam"</span>, </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">family =</span> <span class="st">"poisson"</span>)) <span class="sc">+</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">str_wrap</span>(</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"'wooder' in print"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">width =</span> <span class="dv">30</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="fu">str_wrap</span>(</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"The number of hits for the word 'wooder'</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="st">        in Philadelphia area newspapers by year"</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">width =</span> <span class="dv">40</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Source: Newsbank"</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>      )<span class="sc">+</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">aspect.ratio =</span> <span class="dv">5</span><span class="sc">/</span><span class="dv">8</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>          <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>),</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>          <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"grey80"</span>),</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>          <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"grey80"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-wooder-paper" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="index_files/figure-html/fig-wooder-paper-1.png" class="img-fluid figure-img" alt="A scatter plot with a smoothing line over it showing the number of hits per year. The trend line is flat and low from 1983 till 2000, when it begins to gradually increase. Then in 2015 there's a sudden spike." width="576"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure&nbsp;1: Search results for &lt;wooder&gt; in print.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>It won’t be surprising to Philly area people, but every hit prior to 1994 is from a single columnist, Clark DeLeon<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. DeLeon wrote a popular column, and often had a keen ear for Philly area dialect features. But other than one columnist’s keen ear, there’s essentially nothing until about the year 2000 when a gradual increase begins. There’s a bit of a phase change in 2015, and when I looked at most of those stories, they were about Philadelphia Brewing Company’s “Holy Wooder,” a Belgian Tripel they released in honor of the papal visit to the city.</p>
+<p>It’s worth saying <em>I</em> didn’t personally realize there was anything distinctive about the way I said <em>water</em> until I was 18 and in college, and someone did a double take when I said [wʊɾɚ]. That was in 2003, just before the &lt;wooder&gt; boom. Needless to say, I don’t think an 18 year old Philadelphian could repeat that experience today!</p>
+</section>
+<section id="talking-about-wooder" class="level3">
+<h3 class="anchored" data-anchor-id="talking-about-wooder">Talking about wooder</h3>
+<p>By this point, I’ve gone through and listened to every token of <em>water</em> in the Philadelphia Neighborhood Corpus, and there are a number of points of “metalinguistic commentary”, or people talking <em>about</em> the word’s pronunciation. The earliest example is from 1974, when a young man said</p>
+<blockquote class="blockquote">
+<p>That’s what a lot of people say, [wɑtʰɚ], cause [wʊɾɚ] sounds like W-O-O-D-D-E-R or something.</p>
+</blockquote>
+<p>This is a really interesting comment, cause he’s specifically singling out the [ɑ] vowel pronunciation as something a lot of (presumably <em>other</em>) people say. In fact, two of the other instances of commentary about <em>water</em> only ever use the [ɑ] vowel version as something marked about New York City speech. He also combines [ɑ] with an aspirated [tʰ], which would seem to align use of [ɑ] with hyper- or hypercorrect- speech. While flapping the /t/ in <em>water</em> is nearly a North American standard, it seems to get almost just as much notice and attention as the vowel quality.</p>
+<p>And speaking of vowel quality! This comment also identifies the vowel category with /ʊ/, because he specifically spells it out “W-O-O-D”. So, there’s one point in my column!</p>
+</section>
+</section>
+<section id="when-did-people-start-saying-wooder" class="level2">
+<h2 class="anchored" data-anchor-id="when-did-people-start-saying-wooder">When did people start <em>saying</em> “wooder”?</h2>
+<p>Now, it’s possible for a linguistic feature to be part a community’s repertoire for a long time without it becoming noticed or commentable. Take the distinctively named Philly area dessert, “<a href="https://en.wikipedia.org/wiki/Italian_ice">water ice</a>,” as an example. This phrase contains <em>two</em> distinctively Philly area pronunciation features:</p>
+<ol type="1">
+<li>The pronunciation of “water” as [wʊɾɚ].</li>
+<li>The pre-voiceless centralization of the onset of /ay/ to [ʌi] in “ice”.</li>
+</ol>
+<p>I’ve actually done a lot of research on this second feature, which is now a well established feature of the dialect. But I’m actually not aware of <em>any</em> public commentary about it, and when the whole phrase is rendered in eye dialect or printed on a tee-shirt, it comes out as just &lt;wooder ice&gt;, not &lt;wooder uhys&gt;</p>
+<p>That is to say, just because the earliest time I can find anyone discussing “wooder” is 1974 doesn’t mean that’s when people <em>started</em> pronouncing it that way. In fact, it definitely means people starting pronouncing it that way well before! Figuring out the history here became the second part of the project, which I’ll write about in a second post.</p>
+
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-grittygrittynhl2019" class="csl-entry" role="doc-biblioentry">
+Gritty [@GrittyNHL]. 2019. <span>“I Continue to Amaze Me. @TheWebbyAwards <span>#</span>5WordSpeech Https://t.co/URV9MrfznE.”</span> <a href="https://twitter.com/GrittyNHL/status/1128111151206809602">https://twitter.com/GrittyNHL/status/1128111151206809602</a>.
+</div>
+<div id="ref-100Years" class="csl-entry" role="doc-biblioentry">
+Labov, William, Ingrid Rosenfelder, and Josef Fruehwald. 2013. <span>“One Hundred Years of Sound Change in Philadelphia: Linear Incrementaion, Reversal, and Reanalysis.”</span> <em>Language</em> 89 (1): 30–65. <a href="https://doi.org/10.1353/lan.2013.0015">https://doi.org/10.1353/lan.2013.0015</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>If you have access to NewsBank or the Inquirer Archives, the first &lt;wooder&gt; hit is from April 26, 1983 in DeLeon’s column <em>The Scene</em> with the lede “LANGUAGE: YO, BILL, WATCHES TAWKIN’ ABOUT?”. The “Bill” in question was William Safire.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2022,
+  author = {Josef Fruehwald},
+  title = {Rising {Wooders}},
+  series = {Væl Space},
+  date = {2022-12-31},
+  url = {https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
+Josef Fruehwald. 2022. <span>“Rising Wooders.”</span> Væl Space.
+December 31, 2022. <a href="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1">https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="JoFrhwld/blog" data-repo-id="MDEwOlJlcG9zaXRvcnkxNjU0MzIyNg==" data-category="General" data-category-id="DIC_kwDOAPxt-s4CTI5W" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="transparent_dark" data-lang="en" crossorigin="anonymous" async="">
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../../posts/2022/12/2022-12-21_github-onboarding/index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Github Onboarding with RStudio</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+<script src="../../../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

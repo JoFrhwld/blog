@@ -19,6 +19,8 @@ website:
         text: Homepage
       - href: about.qmd
         text: About
+      - icon: rss
+        href: index.xml
   sidebar:
     collapse-level: 0
     style: floating

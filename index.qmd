@@ -4,6 +4,8 @@ listing:
   contents: posts
   sort: "date desc"
   date-format: iso
+  fields: [date, author, reading-time, title, subtitle, description, image, categories]
+  feed: true
 ---
 
 Hello!

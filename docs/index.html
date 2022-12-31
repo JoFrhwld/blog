@@ -70,9 +70,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-author','listing-reading-time','listing-title','listing-subtitle','listing-description','listing-image','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
+      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -105,7 +105,7 @@ gtag('config', 'G-SS6YYGWPPL', { 'anonymize_ip': true});
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-</head>
+<link rel="alternate" type="application/rss+xml" title="Væl Space" href="index.xml"></head>
 
 <body class="nav-sidebar floating nav-fixed">
 
@@ -130,6 +130,11 @@ gtag('config', 'G-SS6YYGWPPL', { 'anonymize_ip': true});
   <li class="nav-item">
     <a class="nav-link" href="./about.html">
  <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="./index.xml"><i class="bi bi-rss" role="img">
+</i> 
+ <span class="menu-text"></span></a>
   </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
@@ -206,6 +211,11 @@ gtag('config', 'G-SS6YYGWPPL', { 'anonymize_ip': true});
   <a href="./posts/2022/12/2022-12-21_github-onboarding/index.html" class="sidebar-item-text sidebar-link">Github Onboarding with RStudio</a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./posts/2022/12/2022-12-31_wooder1/index.html" class="sidebar-item-text sidebar-link">Rising Wooders</a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -232,7 +242,48 @@ gtag('config', 'G-SS6YYGWPPL', { 'anonymize_ip': true});
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1671598800000" data-listing-file-modified-sort="1671822866669" data-listing-reading-time-sort="3.955">
+<div class="quarto-post image-right" data-index="0" data-categories="research,linguistics" data-listing-date-sort="1672462800000" data-listing-file-modified-sort="1672515052255" data-listing-reading-time-sort="6.925">
+<div class="thumbnail">
+<p><a href="./posts/2022/12/2022-12-31_wooder1/index.html"> <img src="./posts/2022/12/2022-12-31_wooder1/assets/ADS2023-wooder.png" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./posts/2022/12/2022-12-31_wooder1/index.html">
+<h3 class="no-anchor listing-title">
+Rising Wooders
+</h3>
+<div class="listing-subtitle">
+Part 1: Talking about Wooder
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('research'); return false;">
+research
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('linguistics'); return false;">
+linguistics
+</div>
+</div>
+<a href="./posts/2022/12/2022-12-31_wooder1/index.html">
+<div class="listing-description">
+This is a blog post to accompany my American Dialect Society poster.
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./posts/2022/12/2022-12-31_wooder1/index.html">
+<div class="listing-date">
+2022-12-31
+</div>
+<div class="listing-author">
+Josef Fruehwald
+</div>
+<div class="listing-reading-time">
+6 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1671598800000" data-listing-file-modified-sort="1671822866669" data-listing-reading-time-sort="3.955">
 <div class="thumbnail">
 <p><a href="./posts/2022/12/2022-12-21_github-onboarding/index.html"> <img src="./posts/2022/12/2022-12-21_github-onboarding/github_onboarding_assets/rstudio_console.png" class="thumnail-image"> </a></p>
 </div>
@@ -257,10 +308,13 @@ I’m writing this primarily for students I’ll be teaching in Spring 2023 who 
 <div class="listing-author">
 Josef Fruehwald
 </div>
+<div class="listing-reading-time">
+3 min
+</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="R" data-listing-date-sort="1671253200000" data-listing-file-modified-sort="1671660294566" data-listing-reading-time-sort="7.545">
+<div class="quarto-post image-right" data-index="2" data-categories="R" data-listing-date-sort="1671253200000" data-listing-file-modified-sort="1671660294566" data-listing-reading-time-sort="7.545">
 <div class="thumbnail">
 <p><a href="./posts/2022/12/2022-12-17/index.html"> <img src="./posts/2022/12/2022-12-17/index_files/figure-html/fig-network-1.png" class="thumnail-image"> </a></p>
 </div>
@@ -272,6 +326,13 @@ What <em>is</em> R?
 <div class="listing-subtitle">
 
 </div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+</div>
+<a href="./posts/2022/12/2022-12-17/index.html">
 <div class="listing-description">
 In the Spring 2023 semester, I’m going to be teaching two R intensive courses: a statistics for linguists course, and an R for the Arts and Sciences…
 </div>
@@ -285,10 +346,13 @@ In the Spring 2023 semester, I’m going to be teaching two R intensive courses:
 <div class="listing-author">
 Josef Fruehwald
 </div>
+<div class="listing-reading-time">
+7 min
+</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1670648400000" data-listing-file-modified-sort="1671660266425" data-listing-reading-time-sort="7.33">
+<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1670648400000" data-listing-file-modified-sort="1671660266425" data-listing-reading-time-sort="7.33">
 <div class="thumbnail">
 <p><a href="./posts/2022/12/2022-12-10/index.html"> <img src="./posts/2022/12/2022-12-10/index_files/figure-html/fig-total-1.png" class="thumnail-image"> </a></p>
 </div>
@@ -312,6 +376,9 @@ One of the courses I taught in the Fall 2022 semester was Natural Language Proce
 </div>
 <div class="listing-author">
 Josef Fruehwald
+</div>
+<div class="listing-reading-time">
+7 min
 </div>
 </a>
 </div>

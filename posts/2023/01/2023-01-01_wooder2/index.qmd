@@ -23,4 +23,183 @@ This is part 2 of my blog posts to accompany my ADS2023 Poster.
 
 ## Wooder
 
-As I said in [the previous post](../../../2022/12/2022-12-31_wooder1/index.qmd),
+As I said in [the previous post](../../../2022/12/2022-12-31_wooder1/index.qmd), people seem to be very aware *now* that pronouncing "water" as \[wʊɾɚ\] is a feature of Philadelphia English, but
+
+## Acoustics
+
+```{r}
+#| label: libraries
+#| code-fold: true
+#| code-summary: "libraries"
+library(tidyverse)
+library(khroma)
+library(scales)
+library(geomtextpath)
+library(ggnewscale)
+
+library(tuneR)
+library(seewave)
+
+library(readtextgrid)
+```
+
+```{r}
+#| label: data-loading
+#| code-fold: true
+#| code-summary: "loading data"
+water_wav <- readWave("data/water.wav")
+water_formant <- read_csv("data/water.csv")
+water_tg <- read_textgrid("data/water.TextGrid")
+```
+
+```{r}
+#| label: spectrogram_processing
+#| code-fold: true
+#| code-summary: "spectrogram processing"
+
+water_wav |> 
+  spectro(
+    # window length, in terms of samples
+    wl = 0.005 * water_wav@samp.rate, 
+    # window overlap
+    ovlp = 90, 
+    plot = F
+    ) -> spect
+
+# "dynamic range"
+dyn <- -50
+
+colnames(spect$amp) <- spect$time
+rownames(spect$amp) <- spect$freq
+
+spect_df <- 
+  spect$amp |> 
+  as_tibble(rownames = "freq") |> 
+  pivot_longer(-freq, names_to = "time", values_to = "amp") |> 
+  mutate(freq = as.numeric(freq),
+           time = as.numeric(time)) |> 
+  # floor at the dynamic range
+  mutate(amp = case_when(amp <= dyn ~ dyn,
+                         TRUE ~ amp)) 
+```
+
+```{r}
+#| label: textgrid processing
+#| code-fold: true
+#| code-summary: "textgrid processing"
+water_labels <- 
+  water_tg |> 
+  filter(tier_num == 1) |> 
+  mutate(ipa_label = case_when(text == "W" ~ "wɔ(ɹ)",
+                               text == "AO1" ~ "wɔ(ɹ)",
+                               text == "T" ~ "ɾ",
+                               text == "ER0" ~ "ɚ")) |> 
+  group_by(ipa_label) |> 
+  summarise(
+    xmin = min(xmin),
+    xmax = max(xmax)
+    ) |> 
+  arrange(xmin) |> 
+  rowwise() |> 
+  mutate(midpoint = median(c(xmin, xmax)))
+
+water_boundaries <- 
+  water_labels |> 
+  select(-midpoint) |> 
+  pivot_longer(-ipa_label) |> 
+  select(value) |> 
+  distinct()
+```
+
+```{r}
+#| label: formant-processing
+#| code-fold: true
+#| code-summary: "formant track processing"
+formant_df <- 
+  water_formant |> 
+  select(time, f1, f2, f3) |> 
+  pivot_longer(
+    -time, 
+    names_to = "formant",
+    values_to = "hz"
+    ) |> 
+  mutate(
+    formant = toupper(formant),
+    formant_num = str_extract(formant, "\\d"),
+    formant_num = as.numeric(formant_num)
+    )
+```
+
+```{r}
+#| label: fig-spectrogram
+#| fig-width: 6
+#| fig-height: 4
+#| fig-cap: "Spectrogram of a token of 'water' from the PNC, illustrating a dropping F3 prior to the flap"
+#| fig-alt: "Spectrogram of a token of 'water' from the PNC, illustrating a dropping F3 prior to the flap"
+#| crop: true
+#| code-fold: true
+#| code-summary: "plotting code"
+spect_df |> 
+  ggplot(aes(time, freq*1000))+
+    stat_contour(
+      aes(z = amp, fill = after_stat(level)),
+      geom = "polygon",
+      bins = 500
+      )+
+    scale_fill_grayC(reverse = T, guide = "none")+
+    geom_vline(
+      data = water_boundaries, 
+      aes(xintercept = value),
+      linetype = 2, 
+      color = "grey70"
+      )+
+    geom_text(
+      data = water_labels,
+      aes(
+        x = midpoint, 
+        label = ipa_label
+        ),
+      family = "Fira Sans",
+      y = 5000,
+      size = 6
+    )+
+    new_scale_fill()+
+    geom_labelline(
+      data = formant_df,
+      aes(
+        x = time,
+        y = hz,
+        fill = formant,
+        color = formant,
+        label = formant,
+        hjust = formant_num/10
+        ),
+      textcolor = "white",
+      linewidth = 1.5
+      )+
+    scale_fill_manual(
+      values = c("#33BBEE", "#EE3377", "#009988"),
+      guide = "none"
+    )+
+    scale_color_manual(
+      values = c("#33BBEE", "#EE3377", "#009988"),
+      guide = "none"
+    )+
+    scale_y_continuous(expand = expansion(mult = 0),
+                       labels = label_comma())+
+    coord_cartesian(ylim = c(0, 5500))+
+    labs(
+      x = "time (s)", 
+      y = "freq (hz)",
+      title = '"water" spectrogram',
+      subtitle = str_wrap(
+        "sample token from a speaker born in 1890
+        with a dropping F3 prior to the flap",
+        width = 40
+        )
+      )+
+    theme(aspect.ratio = 5/8,
+          text = element_text(size = 16),
+          plot.subtitle = element_text(size = 10, color = "grey80"),
+          plot.caption = element_text(size = 10, color = "grey80"))
+```

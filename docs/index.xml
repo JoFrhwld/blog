@@ -12,7 +12,7 @@
 <generator>quarto-1.2.280</generator>
 <lastBuildDate>Sun, 01 Jan 2023 05:00:00 GMT</lastBuildDate>
 <item>
-  <title>Rising Wooders: 2</title>
+  <title>Rising Wooders: Part 2</title>
   <dc:creator>Josef Fruehwald</dc:creator>
   <link>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index.html</link>
   <description><![CDATA[ 
@@ -26,12 +26,109 @@
 <p><a href="../../../../posts/2022/12/2022-12-31_wooder1/assets/ADS2023-wooder.png"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1/assets/ADS2023-wooder.png" class="img-fluid figure-img" alt="The full American Dialect Society poster for &quot;Philadelphians' say Wooder, and that's that&quot;?"></a></p>
 </figure>
 </div>
-<section id="wooder" class="level2">
-<h2 class="anchored" data-anchor-id="wooder">Wooder</h2>
-<p>As I said in <a href="../../../../posts/2022/12/2022-12-31_wooder1/index.html">the previous post</a>, people seem to be very aware <em>now</em> that pronouncing “water” as [wʊɾɚ] is a feature of Philadelphia English, but</p>
+<section id="saying-wooder" class="level2">
+<h2 class="anchored" data-anchor-id="saying-wooder">Saying Wooder</h2>
+<p>As I said in <a href="../../../../posts/2022/12/2022-12-31_wooder1/index.html">the previous post</a>, people seem to be very aware <em>now</em> that pronouncing “water” as [wʊɾɚ] is a feature of Philadelphia English, but the surge in written recognition from 2000 onwards isn’t an accurate indicator of when people <em>started</em> pronouncing it that way.</p>
+<p>The order in which I actually approached this is a little different from how it’s laid out in the poster, but for the sake of blogginess, I’ll describe it in more chronological order. My bias was that this was a very old feature of Philadelphia English, so I started with the oldest records of Philadelphia speech I know of in the Linguistic Linguistic Atlas of the Middle and South Atlantic States (LAMSAS) <span class="citation" data-cites="kretzschmar1993">(Kretzschmar et al. 1993)</span>.</p>
+</section>
+<section id="written-records" class="level2">
+<h2 class="anchored" data-anchor-id="written-records">Written Records</h2>
+<p>LAMSAS was a linguistic atlas project carried out between 1933 and 1974. The interviews had a heavy focus on regional and dialect words, and for the earliest interviews, the only records available are fieldworker transcriptions. In 1939, Guy Lowman interviewed 8 people in Philadelphia, and for one target item, transcribed how they pronounced “glass/tumbler of water.”</p>
+<table class="table">
+<caption>LAMSAS Informant Demographics</caption>
+<thead>
+<tr class="header">
+<th>LAMSAS ID</th>
+<th>Gender</th>
+<th>Race</th>
+<th style="text-align: right;">Age</th>
+<th style="text-align: right;">Year of Birth</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PA1G</td>
+<td>man</td>
+<td>white</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">1869</td>
+</tr>
+<tr class="even">
+<td>PA1A</td>
+<td>man</td>
+<td>white</td>
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">1871</td>
+</tr>
+<tr class="odd">
+<td>PA1C</td>
+<td>woman</td>
+<td>white</td>
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">1871</td>
+</tr>
+<tr class="even">
+<td>PA1E</td>
+<td>man</td>
+<td>white</td>
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">1871</td>
+</tr>
+<tr class="odd">
+<td>PA1D</td>
+<td>man</td>
+<td>white</td>
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">1873</td>
+</tr>
+<tr class="even">
+<td>PA1F</td>
+<td>man</td>
+<td>white</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">1877</td>
+</tr>
+<tr class="odd">
+<td>PA1H</td>
+<td>woman</td>
+<td>white</td>
+<td style="text-align: right;">59</td>
+<td style="text-align: right;">1880</td>
+</tr>
+<tr class="even">
+<td>PA1B</td>
+<td>man</td>
+<td>white</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">1896</td>
+</tr>
+</tbody>
+</table>
+<p>I’m not going to have much more to say about these LAMSAS speakers, though, because they were <em>all</em> transcribed as saying [wɔɾɚ], which would be the same vowel as in <em>wall</em> or <em>walk</em>, not as in <em>wood</em>. In fact, I’ve done some more combing through the LAMSAS records from counties surrounding Philadelphia in both Pennsylvania and New Jersey, and there are <em>no</em> records of [wʊɾɚ].</p>
+<section id="wooderless" class="level3">
+<h3 class="anchored" data-anchor-id="wooderless">Wooderless?</h3>
+<p>On the one hand, I was really surprised by this, but I don’t know why I should have been. There’s really no reason why [wʊɾɚ] should have been a long-standing feature of the dialect as long as a century ago. Moreover, <span class="citation" data-cites="Tucker1944">Tucker (1944)</span> is often cited as the earliest description of the Philadelphia dialect,<sup>1</sup> and he includes a few word-by-word descriptions that ring true based on my own Philly upbringing like:</p>
+<ul>
+<li><p>“<em>spigot</em>, pronounced <em>spicket</em> and commonly used for ‘faucet.’”</p></li>
+<li><p>“<em>taffy</em> ‘lollipop,’ known in some places as a ‘sucker.’”</p></li>
+<li><p>“<em>yo</em> […] used especially by children in calling one another”</p></li>
+</ul>
+<p>Others must’ve fallen out of use before my time, and I’m completely unfamiliar with them, such as</p>
+<ul>
+<li><p>“<em>yakers</em> (or <em>yakes</em> or <em>yacks</em>), or <em>yakers on it!</em> ‘I claim it’; also Goods (on it)I ‘I claim a share.’”</p></li>
+<li><p>“<em>this after</em>, short for ‘this afternoon.’”</p></li>
+</ul>
+<p>The point, though, is that he does not mention anything about the word “water” at all. So sometime around the early 1940s, the pronunciation [wʊɾɚ] was either non-existent or used too infrequently for either Tucker or Lowman to note it.</p>
+</section>
 </section>
 <section id="acoustics" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="acoustics">Acoustics</h2>
+<p>This is where I would normally turn to acoustic data in the Philadelphia Neighborhood Corpus, but there are a few complications there. First and foremost, I really don’t trust any automated system to be able to place a firm boundary between where the /w/ ends and the vowel begins in a word like “water”, especially because I wouldn’t really trust myself to be able to do so. So, while I <em>do</em> have access to acoustic data for all tokens of “water”, I don’t have a high degree of trust in them as they are.</p>
+<p>The exciting news is that the longest ago born person in the PNC (1890) overlaps with the latest born person in LAMSAS (1896), meaning we have some degree of data continuity in year of births ranging from 1869 through to 1990. But, the fact that the LAMSAS data only exists in transcription form means I need to do things the old fashioned way and listen to all of these tokens and impressionistically code them.</p>
+<p>So that’s what I did, starting with the speaker born in 1890.</p>
+<section id="worder" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="worder">Worder!</h3>
+<p>I’ve really lucked out that the speaker born in 1890 (interviewed in 1973) talked about water a <em>lot</em>. And, to my surprise, l coded most of his pronunciations as [wɔɾɚ], just like Guy Lowman’s informants from 1939. However, while he never said [wʊɾɚ], there were a bunch of tokens where I could hear an [ɹ] before the flap, and could see a falling F3, characteristic of [ɹ]s as well. Here’s a representative spectrogram.</p>
 <div class="cell">
 <details>
 <summary>libraries</summary>
@@ -199,33 +296,156 @@
 <div class="cell-output-display page-columns page-full">
 <div id="fig-spectrogram" class="quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="figure page-columns page-full">
-<p><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index_files/figure-html/fig-spectrogram-1.png" class="img-fluid figure-img" alt="Spectrogram of a token of 'water' from the PNC, illustrating a dropping F3 prior to the flap" width="576"></p>
-<p></p><figcaption class="figure-caption margin-caption">Figure&nbsp;1: Spectrogram of a token of ‘water’ from the PNC, illustrating a dropping F3 prior to the flap</figcaption><p></p>
+<p><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index_files/figure-html/fig-spectrogram-1.png" class="img-fluid figure-img" alt="Spectrogram of a token of 'water' from the PNC, illustrating a dropping F3 prior to the flap." width="576"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure&nbsp;1: Spectrogram of a token of ‘water’ from the PNC, illustrating a dropping F3 prior to the flap.</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
+</section>
+<section id="the-coding-scheme" class="level3">
+<h3 class="anchored" data-anchor-id="the-coding-scheme">The coding scheme</h3>
+<p>This pronunciation with an [ɹ] hasn’t really been discussed by anyone, but it is reminiscent of how <em>daughter</em> is sometimes pronounced in Philly, as they recently (kinda<sup>2</sup>) portrayed in the SNL satirization of <em>Mare of Easttown</em>, <a href="https://www.youtube.com/watch?v=qaKZi6p6sxg"><em>Murder Durder</em></a>.</p>
+<p>I had to take this variant into account in my coding. In fact, I think it’s actually key to understanding where <em>wooder</em> came from. So my coding scheme had the following values:</p>
+<ul>
+<li><p>ʊ - any high, rounded realization without a [ɹ]</p></li>
+<li><p>ɔɹ - any mid to high-ish rounded realization with a [ɹ]</p></li>
+<li><p>ɔ - any lowish to mid rounded realization without an [ɹ]</p></li>
+<li><p>ɑ - any low, unrounded realization</p></li>
+</ul>
+<p>This unrounded variant mostly shows up when people are talking <em>about</em> the pronunciation of <em>water</em>, but not exclusively.</p>
+</section>
+<section id="the-model" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="the-model">The model</h3>
+<p>Since this is already getting to be a pretty long post, I’ll just skip to the model results! I fit a multilevel multinomial logistic regression model<sup>3</sup> with these 4 variants as outcomes.</p>
+<div class="cell">
+<details>
+<summary>libraries</summary>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu" style="color: #4758AB;">library</span>(brms)</span>
+<span id="cb8-2"><span class="fu" style="color: #4758AB;">library</span>(tidybayes)</span></code></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>load brms model</summary>
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1">model <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">read_rds</span>(<span class="st" style="color: #20794D;">"data/multinomial_linear.rds"</span>)</span></code></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>get model estimates</summary>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">newdat <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">tibble</span>(</span>
+<span id="cb10-2">  <span class="at" style="color: #657422;">dob =</span> <span class="dv" style="color: #AD0000;">1869</span><span class="sc" style="color: #5E5E5E;">:</span><span class="dv" style="color: #AD0000;">1990</span>,</span>
+<span id="cb10-3">  <span class="at" style="color: #657422;">decade =</span> (dob <span class="sc" style="color: #5E5E5E;">-</span> <span class="dv" style="color: #AD0000;">1950</span>)<span class="sc" style="color: #5E5E5E;">/</span><span class="dv" style="color: #AD0000;">10</span></span>
+<span id="cb10-4">  )</span>
+<span id="cb10-5"></span>
+<span id="cb10-6">ests <span class="ot" style="color: #003B4F;">&lt;-</span> </span>
+<span id="cb10-7">  newdat <span class="sc" style="color: #5E5E5E;">|&gt;</span> </span>
+<span id="cb10-8">  <span class="fu" style="color: #4758AB;">add_epred_draws</span>(model, <span class="at" style="color: #657422;">re_formula =</span> <span class="cn" style="color: #8f5902;">NA</span>) <span class="sc" style="color: #5E5E5E;">|&gt;</span> </span>
+<span id="cb10-9">  <span class="fu" style="color: #4758AB;">group_by</span>(dob, .category) <span class="sc" style="color: #5E5E5E;">|&gt;</span> </span>
+<span id="cb10-10">  <span class="fu" style="color: #4758AB;">median_hdci</span>(.epred, <span class="at" style="color: #657422;">.width =</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="fl" style="color: #AD0000;">0.2</span>, <span class="fl" style="color: #AD0000;">0.8</span>, <span class="at" style="color: #657422;">by =</span> <span class="fl" style="color: #AD0000;">0.1</span>)) <span class="sc" style="color: #5E5E5E;">|&gt;</span> </span>
+<span id="cb10-11">  <span class="fu" style="color: #4758AB;">mutate</span>(<span class="at" style="color: #657422;">code =</span> <span class="fu" style="color: #4758AB;">case_when</span>(.category <span class="sc" style="color: #5E5E5E;">==</span> <span class="st" style="color: #20794D;">"0_a"</span> <span class="sc" style="color: #5E5E5E;">~</span> <span class="st" style="color: #20794D;">"ɑ"</span>,</span>
+<span id="cb10-12">                          .category <span class="sc" style="color: #5E5E5E;">==</span> <span class="st" style="color: #20794D;">"1_oh"</span> <span class="sc" style="color: #5E5E5E;">~</span> <span class="st" style="color: #20794D;">"ɔ"</span>,</span>
+<span id="cb10-13">                          .category <span class="sc" style="color: #5E5E5E;">==</span> <span class="st" style="color: #20794D;">"2_ohr"</span> <span class="sc" style="color: #5E5E5E;">~</span> <span class="st" style="color: #20794D;">"ɔr"</span>,</span>
+<span id="cb10-14">                          .category <span class="sc" style="color: #5E5E5E;">==</span> <span class="st" style="color: #20794D;">"3_u"</span> <span class="sc" style="color: #5E5E5E;">~</span> <span class="st" style="color: #20794D;">"ʊ"</span>), </span>
+<span id="cb10-15">         <span class="at" style="color: #657422;">code =</span> <span class="fu" style="color: #4758AB;">as.factor</span>(code) <span class="sc" style="color: #5E5E5E;">|&gt;</span> <span class="fu" style="color: #4758AB;">fct_rev</span>()) </span></code></pre></div>
+</details>
+</div>
+<div class="cell page-columns page-full" data-crop="true">
+<details>
+<summary>plot code</summary>
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1">ests <span class="sc" style="color: #5E5E5E;">|&gt;</span> </span>
+<span id="cb11-2"> <span class="fu" style="color: #4758AB;">ggplot</span>(<span class="fu" style="color: #4758AB;">aes</span>(dob))<span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb11-3">    <span class="fu" style="color: #4758AB;">geom_ribbon</span>(</span>
+<span id="cb11-4">      <span class="fu" style="color: #4758AB;">aes</span>(</span>
+<span id="cb11-5">        <span class="at" style="color: #657422;">ymin =</span> .lower, </span>
+<span id="cb11-6">        <span class="at" style="color: #657422;">ymax =</span> .upper, </span>
+<span id="cb11-7">        <span class="at" style="color: #657422;">group =</span> <span class="fu" style="color: #4758AB;">paste</span>(.width, .category), </span>
+<span id="cb11-8">        <span class="at" style="color: #657422;">fill =</span> .category</span>
+<span id="cb11-9">        ),</span>
+<span id="cb11-10">      <span class="at" style="color: #657422;">alpha =</span> <span class="fl" style="color: #AD0000;">0.2</span>)<span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb11-11">    <span class="fu" style="color: #4758AB;">scale_fill_bright</span>(<span class="at" style="color: #657422;">guide =</span> <span class="st" style="color: #20794D;">"none"</span>)<span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb11-12">    <span class="fu" style="color: #4758AB;">facet_wrap</span>(<span class="sc" style="color: #5E5E5E;">~</span>code)<span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb11-13">    <span class="fu" style="color: #4758AB;">scale_y_continuous</span>(</span>
+<span id="cb11-14">      <span class="at" style="color: #657422;">expand =</span> <span class="fu" style="color: #4758AB;">expansion</span>(<span class="at" style="color: #657422;">mult =</span> <span class="dv" style="color: #AD0000;">0</span>), </span>
+<span id="cb11-15">      <span class="at" style="color: #657422;">limits =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>,<span class="dv" style="color: #AD0000;">1</span>), </span>
+<span id="cb11-16">      <span class="at" style="color: #657422;">breaks =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="fl" style="color: #AD0000;">0.5</span>, <span class="dv" style="color: #AD0000;">1</span>)</span>
+<span id="cb11-17">      )<span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb11-18">    <span class="fu" style="color: #4758AB;">labs</span>(<span class="at" style="color: #657422;">x =</span> <span class="st" style="color: #20794D;">"year of birth"</span>,</span>
+<span id="cb11-19">         <span class="at" style="color: #657422;">y =</span> <span class="st" style="color: #20794D;">"vowel probability"</span>,</span>
+<span id="cb11-20">         <span class="at" style="color: #657422;">title =</span> <span class="st" style="color: #20794D;">"variant probability"</span>,</span>
+<span id="cb11-21">         <span class="at" style="color: #657422;">subtitle =</span> <span class="fu" style="color: #4758AB;">str_wrap</span>(</span>
+<span id="cb11-22">           <span class="st" style="color: #20794D;">"the probability of one of four vowel variants in water'</span></span>
+<span id="cb11-23"><span class="st" style="color: #20794D;">           being used for different year of birth cohorts, as modeled by a</span></span>
+<span id="cb11-24"><span class="st" style="color: #20794D;">           multinomial logistic regression"</span>,</span>
+<span id="cb11-25">           <span class="at" style="color: #657422;">width =</span> <span class="dv" style="color: #AD0000;">60</span></span>
+<span id="cb11-26">           )</span>
+<span id="cb11-27">         )<span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb11-28">    <span class="fu" style="color: #4758AB;">theme</span>(<span class="at" style="color: #657422;">aspect.ratio =</span> <span class="dv" style="color: #AD0000;">5</span><span class="sc" style="color: #5E5E5E;">/</span><span class="dv" style="color: #AD0000;">8</span>,</span>
+<span id="cb11-29">          <span class="at" style="color: #657422;">text =</span> <span class="fu" style="color: #4758AB;">element_text</span>(<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">16</span>),</span>
+<span id="cb11-30">          <span class="at" style="color: #657422;">plot.subtitle =</span> <span class="fu" style="color: #4758AB;">element_text</span>(<span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">8</span>, <span class="at" style="color: #657422;">color =</span> <span class="st" style="color: #20794D;">"grey80"</span>)) </span></code></pre></div>
+</details>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-variant-prob" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index_files/figure-html/fig-variant-prob-1.png" class="img-fluid figure-img" alt="&quot;A plot with 4 facets, 1 for each vowel variannt.  ɔ starts off near 100% then declines from 1869 to 1990.  ʊ starts off close to 0%, then increases to about 75% between 1869 to 1990.  ɔr starts off close to 0%, rises to about 25%, then falls again to close to 0%  a only appears to be just above 0% in the most recent time periods.&quot; " width="576"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure&nbsp;2: Modeled estimates of the probability of one of the 4 vowel variants being used in <em>water</em>.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="wooder-on-the-rise" class="level2">
+<h2 class="anchored" data-anchor-id="wooder-on-the-rise">Wooder on the rise</h2>
+<p>So it looks like the shift from [wɔɾɚ] to [wʊɾɚ] was shift that occurred in Philadelphia during the 20<sup>th</sup> century alongside many others. But it also seems like it was not as simple as a categorical pronunciation jump nor a gradual shift from [ɔ] to [ʊ] because we also have this rhotic variant [wɔɹɾɚ] in the mix.</p>
+<p>I actually think the [wɔɹɾɚ] variant is key to figuring out how we got from [wɔɾɚ] to [wʊɾɚ], specifically because of another pattern in Philadelphia English, r-dissimilation, which I’ll hopefully write up for a post tomorrow!</p>
+
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-kretzschmar1993" class="csl-entry">
+Kretzschmar, William A., Virginia G. McDavid, Theodore K. Lerud, and Ellen Johnson. 1993. <em>Handbook of the Linguistic Atlas of the Middle and South Atlantic States</em>. Chicago: University of Chicago Press.
+</div>
+<div id="ref-Tucker1944" class="csl-entry">
+Tucker, R Whitney. 1944. <span>“Notes on the Philadelphia Dialect.”</span> <em>American Speech</em> 19 (1): 37–42.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Although, he offers no information for the <em>basis</em> of how he came to describe the dialect. As in, this is more like his collected observations, but he doesn’t even really say that either.↩︎</p></li>
+<li id="fn2"><p>What’s off about the SNL sketch is they pronounce the first syllable of <em>daughter</em> with the <span class="smallcaps">Nurse</span> vowel, [ɚ], when it should be something ranging between [ɔɹ] to [ʊɹ].↩︎</p></li>
+<li id="fn3"><p>More specifically, I fit the model using <code>brms::brm</code> like so</p>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;">brm</span>(</span>
+<span id="cb7-2">    <span class="at" style="color: #657422;">data =</span> data,</span>
+<span id="cb7-3">    <span class="at" style="color: #657422;">family =</span> <span class="fu" style="color: #4758AB;">categorical</span>(</span>
+<span id="cb7-4">      <span class="at" style="color: #657422;">link =</span> logit,</span>
+<span id="cb7-5">      <span class="at" style="color: #657422;">refcat =</span> <span class="st" style="color: #20794D;">"1_oh"</span></span>
+<span id="cb7-6">      ),</span>
+<span id="cb7-7">    code_param <span class="sc" style="color: #5E5E5E;">~</span> decade <span class="sc" style="color: #5E5E5E;">+</span> (<span class="dv" style="color: #AD0000;">1</span><span class="sc" style="color: #5E5E5E;">|</span>idstring),</span>
+<span id="cb7-8">  )</span></code></pre></div>
+↩︎</li>
+</ol>
+</section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
   author = {Josef Fruehwald},
-  title = {Rising {Wooders:} 2},
+  title = {Rising {Wooders:} {Part} 2},
   series = {Væl Space},
   date = {2023-01-01},
   url = {https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2},
   langid = {en}
 }
 </code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2023" class="csl-entry quarto-appendix-citeas">
-Josef Fruehwald. 2023. <span>“Rising Wooders: 2.”</span> Væl Space.
+Josef Fruehwald. 2023. <span>“Rising Wooders: Part 2.”</span> Væl Space.
 January 1, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2">https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2</a>.
 </div></div></section></div> ]]></description>
   <category>research</category>
   <category>linguistics</category>
   <guid>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index.html</guid>
   <pubDate>Sun, 01 Jan 2023 05:00:00 GMT</pubDate>
-  <media:content url="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1/assets/ADS2023-wooder.png" medium="image" type="image/png" height="81" width="144"/>
+  <media:content url="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index_files/figure-html/fig-spectrogram-1.png" medium="image" type="image/png"/>
 </item>
 <item>
   <title>Rising Wooders</title>

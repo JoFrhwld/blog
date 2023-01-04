@@ -10,7 +10,230 @@
 <atom:link href="https://jofrhwld.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.2.280</generator>
-<lastBuildDate>Sun, 01 Jan 2023 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 04 Jan 2023 06:00:00 GMT</lastBuildDate>
+<item>
+  <title>Rising Wooders: Part 3</title>
+  <dc:creator>Josef Fruehwald</dc:creator>
+  <link>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>This is part 3 of my blog posts to accompany my ADS2023 Poster.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../../../../posts/2022/12/2022-12-31_wooder1/assets/ADS2023-wooder.png"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1/assets/ADS2023-wooder.png" class="img-fluid figure-img" alt="The full American Dialect Society poster for &quot;Philadelphians' say Wooder, and that's that&quot;?"></a></p>
+</figure>
+</div>
+<section id="waughter-worder-wooder" class="level2">
+<h2 class="anchored" data-anchor-id="waughter-worder-wooder">Waughter? Worder? Wooder?</h2>
+<p>In my <a href="../../../../posts/2022/12/2022-12-31_wooder1/index.html">first post</a>, I talked about the timeline of when Philadelphians came to realize there was something distinctive about the way we say <em>water</em>, and the use of &lt;wooder&gt; in print. In my second post, I modelled the timeline of <em>when</em> Philadelphians started saying [wʊɾɚ], which seems to have been in variation with [wɔɾɚ] and [wɔɹɾɚ] for people born across the 20<sup>th</sup> century. Now there’s just the question of why any of this happened at all.</p>
+</section>
+<section id="story-1-wɔɾɚ-raising" class="level2">
+<h2 class="anchored" data-anchor-id="story-1-wɔɾɚ-raising">Story 1: [wɔɾɚ] raising</h2>
+<p>One possibility is that changes in the pronunciation of /ɔ/ just naturally shifted the vowel’s pronunciation in <em>water</em> in particular. If you look at the &lt;ɔ&gt; symbol on an IPA chart, you’d probably describe it as a mid to low back vowel. However, /ɔ/ is pretty significantly raised in Philly so that for many speakers its more like a high back vowel.</p>
+<div id="fig-oh" class="quarto-layout-panel">
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-oh1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/oh_1.png" class="img-fluid figure-img" alt="An illustration of a triangular vowel space with ɔ placed mid-low and back." data-ref-parent="fig-oh"></p>
+<p></p><figcaption class="figure-caption">(a) “canonical” ɔ placement</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div id="fig-oh2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/oh_2.png" class="img-fluid figure-img" alt="An illustration of a triangular vowel space with ɔ placed high and back." data-ref-parent="fig-oh"></p>
+<p></p><figcaption class="figure-caption">(b) Philly ɔ placement</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: The “canonical” placement of /ɔ/ vs a typical Philadelphia /ɔ/</figcaption><p></p>
+</figure>
+</div>
+<p>In fact, this is essentially the story we told in 100 Years of Sound Change. (“/oh/” and “open-o” are how we referred to this vowel).</p>
+<blockquote class="blockquote">
+<p>The parallel back vowel is /oh/ in long open-o words talk, lost, off, and so on. Here the social stereotype is firmly fixed on one word, water, pronounced with a high back nucleus.</p>
+<p><span class="citation" data-cites="100Years">Labov, Rosenfelder, and Fruehwald (2013)</span></p>
+</blockquote>
+<p>In a lot of ways this story makes sense, since not only is /ɔ/ very high in Philadelphia, but with it coming immediately after a /w/, the coarticulatory effect could pull it even higher to [ʊ].</p>
+<section id="some-shortcomings" class="level3">
+<h3 class="anchored" data-anchor-id="some-shortcomings">Some shortcomings</h3>
+<p>A shortcoming for me about this story is that there are other words with a /wɔ/ sequence that <em>haven’t</em> shifted to [wʊ]. For example, <em>wall</em> [wɔɫ] is very distinct from <em>wool</em> [wʊɫ] for me. Similarly, none of <em>walk</em>, <em>Waldo</em>, <em>walnut</em>, <em>Walter</em>, <em>waltz</em> have [ʊ] in them.</p>
+<p>This is a classic kind of problem/debate in the study of sound change. Is it exceptionless? Does it happen all at once, or does it move word by word?<sup>1</sup> This <em>could</em> be an example of “lexical diffusion”, where for some reason or another, change from [ɔ] ➡️ [ʊ] happened in just one word, <em>water</em>, and not in any of the other words that are similar.</p>
+</section>
+</section>
+<section id="story-2-passing-through-worder." class="level2">
+<h2 class="anchored" data-anchor-id="story-2-passing-through-worder.">Story 2: Passing through Worder.</h2>
+<p>Another possibility here that recently occurred to me is that maybe the [wɔɹɾɚ] tokens I found in the PNC aren’t just some third variant in the mix, but are actually evidence of how <em>water</em> moved from [ɔ] to [ʊ]. But it has a few steps to it.</p>
+<section id="r-dissimilation" class="level3">
+<h3 class="anchored" data-anchor-id="r-dissimilation">r-dissimilation</h3>
+<p>Unlike a lot of eastern seaboard cities in North America, like Boston, New York City and Charleston, Philadelphia has always been an /r/ pronouncing city. Where in Boston and NYC they might drop the /r/ in <em>park</em> [p<sup>h</sup>aːk] and <em>car</em> [k<sup>h</sup>aː], Philly has always pronounced that /r/: [p<sup>h</sup>ɒɹk] and [k<sup>h</sup>ɒɹ].<sup>2</sup></p>
+<p>The one exception to this rule is when there is <em>more than one /r/</em> in the word, and if one of those /r/s is dropable, people are likely to drop it <span class="citation" data-cites="ellis2006">(Ellis, Groff, and Mead 2006)</span>. This tendency is maybe most notable in the name of a nearby suburb and college “Swarthmore”, which is usually pronounced [swɑθ.mɔɹ]. In fact, Swarthmore College recently capitalized on this variation in dueling billboards.<sup>3</sup></p>
+<div id="fig-swat" class="quarto-layout-panel">
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="swat" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/swathmore.jpeg" class="img-fluid figure-img" alt="A social media post that reads &quot;There's only one &quot;R&quot; in Swaaathmore - And don't let anyone tell you different.&quot;"></p>
+<p></p><figcaption class="figure-caption">“Swathmore” with the first &lt;r&gt; dropped.</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div id="swart" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/swarthmore.jpeg" class="img-fluid figure-img" alt="A social media image that reads &quot;There are two R's in Swarthmore. - And don't let anyone tell you different.&quot;"></p>
+<p></p><figcaption class="figure-caption">“Swathmore”, with the first &lt;r&gt; present.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: Dueling enregisterments.</figcaption><p></p>
+</figure>
+</div>
+<p>But, this /r/ dissimilation isn’t restricted to just the word “Swarthmore.” The first /r/ is usually dropped in words like “quarter” or “corner”.</p>
+</section>
+<section id="reinterpretation" class="level3">
+<h3 class="anchored" data-anchor-id="reinterpretation">Reinterpretation</h3>
+<p>I think this /r/ dissimilation is what got “worder” in the door, which I’ll try to illustrate with an example. Let’s say you’re in Philadelphia and from Philadelphia, and some shows you this coin and says “Here’s a [kʰwɔ.ɾɚ].”</p>
+<div id="fig-coin" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/coin.png" class="img-fluid figure-img" style="width:25.0%" alt="The face side of a quarter."></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;3: A quarter</figcaption><p></p>
+</figure>
+</div>
+<p>There are two possible ways you could decide to interpret the underlying form of this word. The first would be to take into account /r/ dissimulation, and stick the /r/ back in, for a /kʰwɔɹ.tɹ̩/ representation. The other would be to <em>not</em> take into account /r/ dissimilation, and decided on a /kʰwɔ.tɹ̩/representation.</p>
+<div id="fig-quarter" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/quarter.png" class="img-fluid figure-img" style="width:75.0%" alt="A diagram showing how kʰwɔ.ɾɚ could be interpreted as being underlyingly kʰwɔɹ.tɹ̩ or kʰwɔ.tɹ̩"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;4: The possible re-interpretations of kʰwɔ.ɾɚ</figcaption><p></p>
+</figure>
+</div>
+<p>Now, let’s just take off the [kʰ] at the beginning, and we have a remarkably similar kind of interpretation pathways for <em>water</em>!</p>
+<div id="fig-water-interp" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/water_interp.png" class="img-fluid figure-img" style="width:75.0%" alt="A diagram showing wɔ.ɾɚ being reinterpreted as wɔɹ.tɹ̩ or as wɔ.tɹ̩"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5: Possible re-interpretations of wɔ.ɾɚ</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="merger" class="level3">
+<h3 class="anchored" data-anchor-id="merger">Merger</h3>
+<p>So, not only is the /wɔɹ.tɹ̩/ reinterpretation plausible, <a href="../../../../posts/2023/01/2023-01-01_wooder2/index.html#worder">I <em>heard</em> a lot of [wɔɹɾɚ]</a> when I was coding the data. The next thing to know about these vowels in Philly is that the vowels /ɔɹ/ (as in <em>tore</em>) and /uɹ/ <em>tour</em> have merged to a high back position. Perhaps the most noticeable aspect of this merger is that it’s dragged /aɹ/, as in <em>tar</em>, to a much higher and rounded position in Philly than many other varieties.</p>
+<div id="fig-merger" class="quarto-layout-panel">
+<figure class="figure">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/pre-merger.png" class="img-fluid figure-img" alt="A vowel space showing *tar* in a low back position, *tore* in a mid back position, and *tour* in a high back position."></p>
+<p></p><figcaption class="figure-caption"><em>tar</em>, <em>tore</em> and <em>tour</em> prior to the merger</figcaption><p></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/post-merger.png" class="img-fluid figure-img" alt="A vowel space showing *tar* in a mid back position, and both tore and tour in a high back position."></p>
+<p></p><figcaption class="figure-caption"><em>tar</em>, <em>tore</em> and <em>tour</em> after the merger</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p></p><figcaption class="figure-caption">Figure&nbsp;6: Before and after the merger</figcaption><p></p>
+</figure>
+</div>
+<p>If people were inserting an /ɹ/ into the middle of <em>water</em>, it would belong to this /ɔɹ/ vowel, and we would expect it to be merged into /uɹ/.</p>
+<p>So, once you’ve put an /ɹ/ into the middle of <em>water</em> and merged it with /uɹ/, what do you get if you then do /r/ dissimilation on <em>that</em>?</p>
+</section>
+<section id="wooder" class="level3">
+<h3 class="anchored" data-anchor-id="wooder">Wooder!</h3>
+<div id="fig-wooder-path" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/wooder_path.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;7: My proposed pathway of “wooder” development.</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="shortcomings" class="level3">
+<h3 class="anchored" data-anchor-id="shortcomings">Shortcomings</h3>
+<p>So, a shortcoming of this story about how we got “wooder” is that it could seem a little convoluted. Like we decided to just stick an /ɹ/ in just to delete it later, and voilà! Wooder!</p>
+</section>
+<section id="benefits" class="level3">
+<h3 class="anchored" data-anchor-id="benefits">Benefits</h3>
+<p>On the other hand, there <em>are</em> a bunch of [wɔɹɾɚ] tokens in the Philadelphia Neighborhood Corpus. It also would account for why non of the other /wɔ/ words had this shift to [ʊ]. It <em>also</em> captures a but of what’s going on with <em>daughter</em> <a href="../../../../posts/2023/01/2023-01-01_wooder2/index.html#the-coding-scheme">as satirized by the SNL skit Murder Durder</a>.</p>
+</section>
+</section>
+<section id="which-story-is-the-right-one" class="level2">
+<h2 class="anchored" data-anchor-id="which-story-is-the-right-one">Which story is the right one?</h2>
+<p>I’d say I need to do a bit more work, looking at the acoustic data more closely, looking at how individuals vary, as well as looking at <em>daughter</em> and the other /ɔɹ/ words that both have and don’t have /r/ dissimilation to really get closer to settling the issue.</p>
+<p>But I think the way you react to each account could shed a little light on the kind of linguistic analyses you prefer. I really like Story 2. All the pieces that make it work are happening and have been described <em>already</em>, so I didn’t need to describe any new phenomenon to get “water” to turn into “wooder”. It just got pulled up in the interplay of different sound changes. It looks like a beautiful pattern, to me.</p>
+<p>However, maybe Story 2 looks overwrought to you. “Words just do things sometimes!” you might say. “The /ɔ/ was rising, and there’s a /w/ <em>right there</em>!” And you know what, fair enough! That was my own analysis until about a year ago as well.</p>
+<p>The good news is that Story 2 has piqued my interest, which means I’m going to be digging into this more in the near future. And maybe as I go I’ll find the “passage through worder” account unsupported, but for right now it seems really plausible to me!</p>
+
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Bybee2002" class="csl-entry">
+Bybee, Joan. 2002. <span>“Word Frequency and Context of Use in the Lexical Diffusion of Phonetically Conditioned Sound Change.”</span> <em>Language Variation and Change</em> 14: 261–90.
+</div>
+<div id="ref-ellis2006" class="csl-entry">
+Ellis, Michael, Cynthia Groff, and Rebecca Mead. 2006. <span>“A Rapid and Anonymous Study of /r/ Vocalization in an /r/ Pronouncing City.”</span> <em>Penn Working Papers in Linguistics</em> 12 (1): 57–67.
+</div>
+<div id="ref-fruehwald2007" class="csl-entry">
+Fruehwald, Josef. 2007. <span>“The Spread of Raising: Opacity, Lexicalization, and Diffusion.”</span> <em>CUREJ: College Undergraduate Research Electronic Journal</em>. <a href="http://repository.upenn.edu/curej/73">http://repository.upenn.edu/curej/73</a>.
+</div>
+<div id="ref-labov1981" class="csl-entry">
+Labov, William. 1981. <span>“Resolving the Neogrammarian Controversy.”</span> <em>Language</em> 57 (2): 267–308.
+</div>
+<div id="ref-100Years" class="csl-entry">
+Labov, William, Ingrid Rosenfelder, and Josef Fruehwald. 2013. <span>“One Hundred Years of Sound Change in Philadelphia: Linear Incrementaion, Reversal, and Reanalysis.”</span> <em>Language</em> 89 (1): 30–65. <a href="https://doi.org/10.1353/lan.2013.0015">https://doi.org/10.1353/lan.2013.0015</a>.
+</div>
+<div id="ref-Phillips2006" class="csl-entry">
+Phillips, Betty S. 2006. <em>Word Frequency and Lexical Diffusion</em>. Basingstoke: Palgrave Macmillian.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p><span class="citation" data-cites="labov1981">Labov (1981)</span>, <span class="citation" data-cites="Bybee2002">Bybee (2002)</span>, <span class="citation" data-cites="Phillips2006">Phillips (2006)</span>, <span class="citation" data-cites="fruehwald2007">Fruehwald (2007)</span>, and many many others↩︎</p></li>
+<li id="fn2"><p>I’ll come back to that different vowel in a sec.↩︎</p></li>
+<li id="fn3"><blockquote class="twitter-tweet blockquote" data-dnt="true" data-theme="dark">
+<p lang="en" dir="ltr">
+</p><p>Have you seen the new signs at the <a href="https://twitter.com/SEPTA?ref_src=twsrc%5Etfw"><span class="citation" data-cites="SEPTA">(</span></a><strong>SEPTA?</strong>) train station? 👀 <a href="https://t.co/3DYfiGcRPs">pic.twitter.com/3DYfiGcRPs</a></p>
+<p></p>
+<p>— Swarthmore College (<span class="citation" data-cites="swarthmore">(<strong>swarthmore?</strong>)</span>) <a href="https://twitter.com/swarthmore/status/1563185246102687746?ref_src=twsrc%5Etfw">August 26, 2022</a></p>
+</blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+↩︎</li>
+</ol>
+</section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
+  author = {Josef Fruehwald},
+  title = {Rising {Wooders:} {Part} 3},
+  series = {Væl Space},
+  date = {2023-01-04},
+  url = {https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2023" class="csl-entry quarto-appendix-citeas">
+Josef Fruehwald. 2023. <span>“Rising Wooders: Part 3.”</span> Væl Space.
+January 4, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3">https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3</a>.
+</div></div></section></div> ]]></description>
+  <category>research</category>
+  <category>linguistics</category>
+  <guid>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/index.html</guid>
+  <pubDate>Wed, 04 Jan 2023 06:00:00 GMT</pubDate>
+  <media:content url="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/wooder_path.png" medium="image" type="image/png" height="80" width="144"/>
+</item>
 <item>
   <title>Rising Wooders: Part 2</title>
   <dc:creator>Josef Fruehwald</dc:creator>
@@ -444,7 +667,7 @@ January 1, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-
   <category>research</category>
   <category>linguistics</category>
   <guid>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index.html</guid>
-  <pubDate>Sun, 01 Jan 2023 05:00:00 GMT</pubDate>
+  <pubDate>Sun, 01 Jan 2023 06:00:00 GMT</pubDate>
   <media:content url="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index_files/figure-html/fig-spectrogram-1.png" medium="image" type="image/png"/>
 </item>
 <item>
@@ -599,7 +822,7 @@ December 31, 2022. <a href="https://jofrhwld.github.io/blog/posts/2022/12/2022-1
   <category>research</category>
   <category>linguistics</category>
   <guid>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1/index.html</guid>
-  <pubDate>Sat, 31 Dec 2022 05:00:00 GMT</pubDate>
+  <pubDate>Sat, 31 Dec 2022 06:00:00 GMT</pubDate>
   <media:content url="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1/assets/ADS2023-wooder.png" medium="image" type="image/png" height="81" width="144"/>
 </item>
 <item>
@@ -853,7 +1076,7 @@ Josef Fruehwald. 2022. <span>“Github Onboarding with RStudio.”</span>
 Væl Space. December 21, 2022. <a href="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding">https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding</a>.
 </div></div></section></div> ]]></description>
   <guid>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/index.html</guid>
-  <pubDate>Wed, 21 Dec 2022 05:00:00 GMT</pubDate>
+  <pubDate>Wed, 21 Dec 2022 06:00:00 GMT</pubDate>
   <media:content url="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/github_onboarding_assets/rstudio_console.png" medium="image" type="image/png" height="76" width="144"/>
 </item>
 <item>
@@ -1105,7 +1328,7 @@ Josef Fruehwald. 2022. <span>“What *Is* R?”</span> Væl Space. December
 </div></div></section></div> ]]></description>
   <category>R</category>
   <guid>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index.html</guid>
-  <pubDate>Sat, 17 Dec 2022 05:00:00 GMT</pubDate>
+  <pubDate>Sat, 17 Dec 2022 06:00:00 GMT</pubDate>
   <media:content url="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index_files/figure-html/fig-network-1.png" medium="image" type="image/png"/>
 </item>
 <item>
@@ -1350,7 +1573,7 @@ Josef Fruehwald. 2022. <span>“A Lesson in over-Preparing.”</span> Væl
 Space. December 10, 2022. <a href="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10">https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10</a>.
 </div></div></section></div> ]]></description>
   <guid>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10/index.html</guid>
-  <pubDate>Sat, 10 Dec 2022 05:00:00 GMT</pubDate>
+  <pubDate>Sat, 10 Dec 2022 06:00:00 GMT</pubDate>
   <media:content url="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10/index_files/figure-html/fig-total-1.png" medium="image" type="image/png"/>
 </item>
 </channel>

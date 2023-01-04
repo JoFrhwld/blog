@@ -40,7 +40,7 @@ website:
 format:
   html:
     theme: 
-      - "vapor"
+      - "darkly"
       - custom.scss
     include-in-header: font_import.html
     monofont: Fira Code

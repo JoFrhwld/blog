@@ -27,7 +27,6 @@ website:
   sidebar:
     collapse-level: 0
     style: floating
-    background: none
     contents: posts
       
   # sidebar: 

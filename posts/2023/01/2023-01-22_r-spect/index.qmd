@@ -123,7 +123,8 @@ tibble(
   left_edge = center - (win_len/2),
   right_edge = center + (win_len/2),
   win_num = seq_along(center)
-) |> 
+) -> window_fig
+window_fig |> 
   ggplot(aes(x = center, y = win_num))+
     geom_pointrange(
       aes(
@@ -375,3 +376,64 @@ spect2_df_floor |>
 ```
 
 I think this might not be necessary if I had a better handle on `stat_contour()` but for now, it does the trick!
+
+## Update
+
+Due to popular request, another attempt at showing the degree of window overlap.
+
+<blockquote class="twitter-tweet" data-conversation="none" data-dnt="true" data-theme="dark">
+
+<p lang="en" dir="ltr">
+
+This is fantastic, jo, thx! One quick q, I'm wondering if there might be a better way to visualize overlapping windows. The image maybe implies some y dimension (windows increasing in some vertical space). I'm just putting myself in a 1st yrs shoes in my speech class
+
+</p>
+
+--- Chandan (@GutStrings) <a href="https://twitter.com/GutStrings/status/1617251839749279745?ref_src=twsrc%5Etfw">January 22, 2023</a>
+
+</blockquote>
+
+```{=html}
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+```
+I've folded the code here, just because it's medium gnarly. The short version is you can get the weights for the window functions from `seewave::ftwindow()`, and then I used `geom_area()` to plot it.
+
+```{r}
+#| label: fig-window-dist
+#| fig-width: 8
+#| fig-height: 4
+#| fig-cap: "Hamming window functions"
+#| fig-alt: "A sequence of Hamming window functions across the time domain, each overlapping with the previous by 60%"
+#| code-fold: true
+#| code-summary: "the data and plotting code"
+window_fig |> 
+  group_by(win_num) |> 
+  nest() |> 
+  mutate(
+    dists = map(
+      data, 
+      \(df){
+        tibble(
+          time = seq(df$left_edge, df$right_edge, len = 512),
+          weight = ftwindow(512)
+        )
+      }
+    )
+  ) |> 
+  unnest(dists) -> window_weights
+
+window_weights |> 
+  ggplot(aes(time, weight, group = win_num)) +
+    geom_area(
+      aes(
+        group = win_num, 
+        fill = win_num,
+        color = win_num
+      ), 
+      position = "identity", 
+      alpha = 0.5)+
+    scale_fill_hawaii(guide = "none")+
+    scale_color_hawaii(guide = "none")+
+  labs(title = "Hamming window functions",
+       subtitle = "window length = 0.005, time step =0.002")
+```

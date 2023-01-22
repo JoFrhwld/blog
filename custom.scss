@@ -5,4 +5,7 @@ h1, h2, h3, h4, h5, h5 {
   font-family: 'Comfortaa', Sans-Serif;
 }
 
-// Todo: inline code color isn't that great
+
+code:not(pre *){
+  color: $warning;
+}

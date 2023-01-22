@@ -209,7 +209,7 @@ daily_words |>
   group_by(wday) |>
   summarise(word = sum(daily_words)) |>
   ggplot(aes(wday, word))+
-    geom_col(fill = "grey70")+
+    geom_col(fill = "grey90")+
     scale_y_continuous(labels = label_comma())+
     labs(x = "day of the week",
          y = "total words",

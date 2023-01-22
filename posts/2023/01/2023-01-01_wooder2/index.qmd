@@ -281,7 +281,7 @@ Since this is already getting to be a pretty long post, I'll just skip to the mo
 
 [^3]: More specifically, I fit the model using `brms::brm` like so
 
-    ``` R
+    ``` r
     brm(
         data = data,
         family = categorical(
@@ -370,7 +370,8 @@ ests |>
          )+
     theme(aspect.ratio = 5/8,
           text = element_text(size = 16),
-          plot.subtitle = element_text(size = 8, color = "grey80")) 
+          plot.subtitle = element_text(size = 8, color = "#ebebeb"),
+         ) 
 ```
 
 ## Wooder on the rise

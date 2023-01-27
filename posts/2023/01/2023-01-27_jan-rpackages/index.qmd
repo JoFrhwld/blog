@@ -1,0 +1,314 @@
+---
+title: "R Package Exploration (Jan 2023)"
+date: 2023-01-27
+categories:
+  - R
+  - "R package exploration"
+  - "`{ggforce}`"
+  - "`{geomtextpath}`"
+  - "`{ggdensity}`"
+image: "index_files/figure-html/fig-penguin-hull4-1.png"
+twitter-card: 
+  image: "index_files/figure-html/fig-penguin-hull4-1.png"
+  card-style: summary_large_image
+open-graph:
+  image: "index_files/figure-html/fig-penguin-hull4-1.png"
+knitr: 
+  opts_chunk: 
+    message: false
+order: 04    
+---
+
+As I scroll through my feeds, I often come across a really cool looking package, or feature of a new package, that I think looks really cool, and then I forget to back to really kick the tires and see how it works. So I've decided to try to set up a workflow where I send the docs or `{pkgdown}` pages for the package to a Trello board, and then come back maybe once a month and experiment with them in a blog post.
+
+## `{ggforce}`, `{ggdensity}` and `{geomtextpath}`
+
+The packages I want to mess around with today are all extensions to `{ggplot2}`, so I'll load up the `{palmerpenguins}` dataset for experimentation.
+
+```{r}
+## setup
+library(tidyverse)
+library(khroma)
+library(palmerpenguins)
+
+## exploration packages
+library(ggforce)
+library(ggdensity)
+library(geomtextpath)
+```
+
+## `{ggforce}` and convex hulls
+
+The `{ggforce}` package as the option to add a convex hull over your data (`ggforce::geom_mark_hull()`), kind of indicating where the data clusters are. Here's my base plot.
+
+```{r}
+#| label: fig-penguin1
+#| fig-cap: "The base penguins scatterplot"
+#| fig-alt: "A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo"
+#| fig-width: 6
+#| fig-height: 5
+#| fig-align: center
+
+plot1 <- 
+  penguins |> 
+  drop_na() |> 
+  ggplot(aes(bill_length_mm, bill_depth_mm, color = species))+
+    geom_point()+
+    scale_color_brewer(palette = "Dark2")+
+    scale_fill_brewer(palette = "Dark2")
+plot1
+```
+
+I'll throw on the default convex hull
+
+```{r}
+#| label: fig-penguin_hull1
+#| fig-cap: "Basic convex hull"
+#| fig-alt: "A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged."
+#| fig-width: 6
+#| fig-height: 5
+#| fig-align: center
+plot1 +
+  geom_mark_hull()
+```
+
+Default is *ok*, bu for this data set needs to be a bit less jagged, which can be adjusted with the `concavity` argument. I'll also throw in a fill color.
+
+```{r}
+#| label: fig-penguin_hull2
+#| fig-cap: "Smoothed out and filled convex hulls"
+#| fig-alt: "The same scatterplot, but now the convex hulls are smoother and are filled by species."
+#| fig-width: 6
+#| fig-height: 5
+#| fig-align: center
+
+plot1 +
+  geom_mark_hull(
+    concavity = 5,
+    aes(
+      fill = species
+    )
+  )
+```
+
+That's better. It also comes with a mappable `label` and `description` aesthetics. Here, it seems a bit more touchy.
+
+```{r}
+#| label: fig-penguin_hull3
+#| fig-cap: "*Attempted* labelling of convex hulls"
+#| fig-alt: "The scatter plot with the sme convex hull, but no labels actually present."
+#| fig-width: 6
+#| fig-height: 5
+#| fig-align: center
+
+plot1 +
+  geom_mark_hull(
+    concavity = 5,
+    aes(fill = species,
+        label = species,
+    ),
+    label.family = "Fira Sans"
+  )
+```
+
+The labels actually appear in the RStudio IDE for me, but not in the rendered page here because it wants more headroom around the plot. I'll add that in by setting the `expand` arguments to `ggplot::scale_y_continuous()` and `ggplot::scale_x_continuous()`, and I'll drop the legend while I'm at it.
+
+```{r}
+#| label: fig-penguin-hull4
+#| fig-cap: "Labelled convex hulls"
+#| fig-alt: "The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull"
+#| fig-width: 8
+#| fig-height: 6
+#| fig-align: center
+plot1 +
+  geom_mark_hull(
+    concavity = 5,
+    aes(fill = species,
+        label = species,
+    ),
+    label.family = "Fira Sans"
+  )+
+  scale_y_continuous(
+    expand = expansion(
+      mult = c(0.25, 0.25)
+    )
+  )+
+  scale_x_continuous(
+    expand = expansion(
+      mult = c(0.25, 0.25)
+    )
+  ) +
+  guides(
+    color = "none",
+    fill = "none"
+  )
+```
+
+### Thoughts
+
+I like the convex hulls as a presentational aide. It probably shouldn't be taken as a *statistical* statement about, for example the degree of overlap between these three species, but is useful for outlining data points of interest.
+
+I kind of wish this was separated out into a few different, more conventional, ggplot2 layers. It's called a `geom_` but the convex hulls are definitely `stat_`s. But the convex hull statistic layer isn't exposed to users, so you can't mix-and-match convex hull estimation and the geom used to draw it. On the other hand, I can see that it's much more souped up than a typical geom. For example, you can filter the data within the `aes()` mapping.
+
+```{r}
+#| label: fig-penguin-hull-filter
+#| fig-cap: "Filtered convex hulls"
+#| fig-alt: "The scatterplot, now with the convex hulls for each species only containung a portion of the data."
+#| fig-width: 6
+#| fig-height: 5
+#| fig-align: center
+
+plot1 +
+  geom_mark_hull(
+    concavity = 5,
+    aes(
+      filter = sex == "female"
+    )
+  )
+```
+
+## `{ggdensity}`
+
+As pointed out on the `{ggdensity}` readme, there's already a stat+geom in ggplot2 to visualize 2d density plots.
+
+```{r}
+#| label: fig-penguin_dens
+#| fig-cap: "Density contour plot"
+#| fig-alt: "A density contour plot showing three peaks in the density distribution"
+#| fig-width: 6
+#| fig-height: 5
+#| fig-align: center
+plot2 <- 
+  penguins |> 
+  drop_na() |> 
+  ggplot(aes(bill_length_mm, bill_depth_mm))
+
+plot2 +
+  stat_density_2d_filled()
+```
+
+Those levels are a *little* hard to follow, though, which is what `ggdensity::stat_hdr()` is for. It will plot polygons/contours for given probability levels, of the data distribution
+
+```{r}
+#| label: fig-penguin_hdr
+#| fig-cap: "Highest density region contour plot"
+#| fig-alt: "A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%"
+#| fig-width: 6
+#| fig-height: 5
+#| fig-align: center
+plot2 +
+  stat_hdr()
+```
+
+The probabilities are mapped to transparency by default, so you can map the fill color to a different dimension.
+
+```{r}
+#| label: fig-penguin_hdr2
+#| fig-cap: "Highest density region contour plot, filled by species"
+#| fig-alt: "A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species"
+#| fig-width: 6
+#| fig-height: 5
+#| fig-align: center
+plot2 +
+  stat_hdr(aes(fill = species))+
+  scale_fill_brewer(palette = "Dark2")
+```
+
+The package also has a `ggdensity::stat_hdr_rug()` to add density distribution rugs to plots.
+
+```{r}
+#| label: fig-penguin_hdr_rug
+#| fig-cap: "HDR rug"
+#| fig-alt: "A scatter plot with a data distribution rug indicating the density of the data distribution."
+#| fig-width: 6
+#| fig-height: 5
+#| fig-align: center
+plot2 +
+  geom_point()+
+  stat_hdr_rug(fill = "grey90")
+```
+
+## `{geomtextpath}`
+
+I've actually been messing around with this for a bit, but `{geomtextpath}` allows you to place text along lines. There's standalone `geom_textpath()` and `geom_labelpath()` functions, but just to stick with the penguins data, I'm going to match the `textpath` geom with a different stat.
+
+```{r}
+#| label: fig-penguin_textsmooth     
+#| fig-cap: "Trendlines with text written along them"
+#| fig-alt: "A plot with one trend line for each species with the species name written along the line."
+#| fig-width: 6
+#| fig-height: 5
+#| fig-align: center
+plot3 <-
+  penguins |> 
+  drop_na() |> 
+  ggplot(aes(bill_length_mm, bill_depth_mm, color = species))+
+    scale_color_brewer(palette = "Dark2")
+
+plot3 +
+  stat_smooth(
+    geom = "textpath", 
+    # you have to map a label aesthetic
+    aes(label = species),
+  ) +
+  guides(color = "none")
+```
+
+You can move the location of the text on the path back and forth by either setting or mapping `hjust` to a number between 0 and 1, and you can lift the text off the line with `vjust`.
+
+```{r}
+#| label: fig-penguin_textsmooth2     
+#| fig-cap: "Trendlines with text written along them"
+#| fig-alt: "A plot with one trend line for each species with the species name written just above line."
+#| fig-width: 6
+#| fig-height: 5
+#| fig-align: center
+plot3 +
+  stat_smooth(
+    geom = "textpath", 
+    # you have to map a label aesthetic
+    aes(label = species),
+    hjust = 0.1,
+    vjust = -1
+  ) +
+  guides(color = "none")
+```
+
+Mixing and matching statistics and these direct labels could get pretty powerful. For example, here's the name of each species written around data ellipses.
+
+```{r}
+#| label: fig-penguin_textsmooth3     
+#| fig-cap: "Data ellipses text written along them"
+#| fig-alt: "A plot with one data ellipse drawn for each penguin species, with the species name written across it."
+#| fig-width: 6
+#| fig-height: 5
+#| fig-align: center
+plot3 +
+  stat_ellipse(
+    geom = "textpath", 
+    # you have to map a label aesthetic
+    aes(label = species),
+    hjust = 0.1  
+  ) +
+  guides(color = "none")
+```
+
+## Combo `{ggdensity}` and `{geomtextpath}`
+
+Since the `{ggdensity}` statistics are ordinary `stat_`, we can also combine them with textpaths to label the probability levels directly.
+
+```{r}
+#| label: fig-penguin_hdr-text 
+#| fig-cap: "Higest density region plot with direct labels"
+#| fig-alt: "A highest density region plot with the probability levels written along the contours"
+#| fig-width: 6
+#| fig-height: 5
+#| fig-align: center
+plot2 +
+  stat_hdr_lines(
+    aes(label = after_stat(probs)),
+    color = "grey90",
+    geom = "textpath"
+  ) +
+  guides(alpha = "none")
+```

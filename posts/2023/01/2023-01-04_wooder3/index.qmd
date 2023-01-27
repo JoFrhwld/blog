@@ -18,6 +18,7 @@ knitr:
     message: false
 fig-cap-location: bottom    
 bibliography: references.bib
+order: 02
 ---
 
 This is part 3 of my blog posts to accompany my ADS2023 Poster.

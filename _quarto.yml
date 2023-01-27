@@ -50,5 +50,6 @@ format:
     title-block-banner: true
     license: "CC-BY-SA 4.0"
     smooth-scroll: true
+    code-link: true
 
 editor: visual

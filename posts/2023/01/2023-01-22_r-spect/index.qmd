@@ -16,6 +16,7 @@ knitr:
 resources: 
   - "assets/Close_front_unrounded_vowel.wav"
   - "assets/Close_front_unrounded_vowel.ogg"
+order: 03
 ---
 
 I might flesh this out as a more detailed tutorial for [LingMethodsHub](https://lingmethodshub.github.io/content/), but for now this is going to be a rough-around-the-edges post about making spectrograms in R. My goal will be to get as close as possible to recreating a spectrogram like you might get from Praat.

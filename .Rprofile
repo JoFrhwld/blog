@@ -35,6 +35,7 @@ theme_set(dark_theme_gray(base_size = 12) +
                   panel.background = element_blank(),
                   panel.grid.major = element_line(color = major, linewidth = 0.2),
                   panel.grid.minor = element_line(color = minor, linewidth = 0.2),
+                  legend.key = element_blank(),
                   strip.background = element_rect(fill = strip_bg),
                   strip.text = element_text(color = body_bg),
                   axis.ticks = element_blank(),

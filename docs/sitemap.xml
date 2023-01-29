@@ -2,42 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jofrhwld.github.io/blog/about.html</loc>
-    <lastmod>2023-01-27T21:54:40.620Z</lastmod>
+    <lastmod>2023-01-29T18:35:16.896Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/index.html</loc>
-    <lastmod>2023-01-29T16:39:40.907Z</lastmod>
+    <lastmod>2023-01-29T18:35:23.882Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10/index.html</loc>
-    <lastmod>2023-01-27T21:54:52.851Z</lastmod>
+    <lastmod>2023-01-29T18:35:32.462Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index.html</loc>
-    <lastmod>2023-01-27T21:54:58.375Z</lastmod>
+    <lastmod>2023-01-29T18:35:39.952Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/index.html</loc>
-    <lastmod>2023-01-27T21:55:01.552Z</lastmod>
+    <lastmod>2023-01-29T18:35:43.427Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1/index.html</loc>
-    <lastmod>2023-01-27T21:55:06.435Z</lastmod>
+    <lastmod>2023-01-29T18:35:48.571Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index.html</loc>
-    <lastmod>2023-01-29T16:39:40.480Z</lastmod>
+    <lastmod>2023-01-29T18:36:02.361Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/index.html</loc>
-    <lastmod>2023-01-27T21:56:19.948Z</lastmod>
+    <lastmod>2023-01-29T18:36:05.798Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/index.html</loc>
-    <lastmod>2023-01-27T21:56:37.945Z</lastmod>
+    <lastmod>2023-01-29T18:36:12.567Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index.html</loc>
-    <lastmod>2023-01-29T16:39:48.253Z</lastmod>
+    <lastmod>2023-01-29T18:36:17.875Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-29_starting-plotly/index.html</loc>
+    <lastmod>2023-01-29T18:36:23.009Z</lastmod>
   </url>
 </urlset>

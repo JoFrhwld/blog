@@ -25,7 +25,7 @@
     "href": "index.html",
     "title": "Væl Space",
     "section": "",
-    "text": "Hello!\n\n\n\n\n\n\n\n\n  \n\n\n\n\nR Package Exploration (Jan 2023)\n\n\n\n\n\n\n\nR\n\n\nR package exploration\n\n\n{ggforce}\n\n\n{geomtextpath}\n\n\n{ggdensity}\n\n\n\n\n\n\n\n\n\n\n\n2023-01-27\n\n\nJosef Fruehwald\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nMaking a spectrogram in R\n\n\n\n\n\n\n\nhow-to\n\n\nr\n\n\n\n\n\n\n\n\n\n\n\n2023-01-22\n\n\nJosef Fruehwald\n\n\n10 min\n\n\n\n\n\n\n  \n\n\n\n\nRising Wooders: Part 3\n\n\nPart 3: The role of r-dissimilation\n\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n\n\n2023-01-04\n\n\nJosef Fruehwald\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nRising Wooders: Part 2\n\n\nPart 2: Saying Wooder\n\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n\n\n2023-01-01\n\n\nJosef Fruehwald\n\n\n14 min\n\n\n\n\n\n\n  \n\n\n\n\nRising Wooders\n\n\nPart 1: Talking about Wooder\n\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n\n\n2022-12-31\n\n\nJosef Fruehwald\n\n\n6 min\n\n\n\n\n\n\n  \n\n\n\n\nGithub Onboarding with RStudio\n\n\n\n\n\n\n\n\n\n\n\n\n2022-12-21\n\n\nJosef Fruehwald\n\n\n3 min\n\n\n\n\n\n\n  \n\n\n\n\nWhat is R?\n\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\n\n\n2022-12-17\n\n\nJosef Fruehwald\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nA lesson in over-preparing\n\n\n\n\n\n\n\n\n\n\n\n\n2022-12-10\n\n\nJosef Fruehwald\n\n\n7 min\n\n\n\n\n\n\nNo matching items\n\nReuseCC-BY-SA 4.0"
+    "text": "Hello!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMaking a Plotly Plot\n\n\n\n\n\n\n\nplotly\n\n\n\n\n\n\n\n\n\n\n\n2023-01-29\n\n\nJosef Fruehwald\n\n\n3 min\n\n\n\n\n\n\n  \n\n\n\n\nR Package Exploration (Jan 2023)\n\n\n\n\n\n\n\nR\n\n\nR package exploration\n\n\n{ggforce}\n\n\n{geomtextpath}\n\n\n{ggdensity}\n\n\n\n\n\n\n\n\n\n\n\n2023-01-27\n\n\nJosef Fruehwald\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nMaking a spectrogram in R\n\n\n\n\n\n\n\nhow-to\n\n\nr\n\n\n\n\n\n\n\n\n\n\n\n2023-01-22\n\n\nJosef Fruehwald\n\n\n10 min\n\n\n\n\n\n\n  \n\n\n\n\nRising Wooders: Part 3\n\n\nPart 3: The role of r-dissimilation\n\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n\n\n2023-01-04\n\n\nJosef Fruehwald\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nRising Wooders: Part 2\n\n\nPart 2: Saying Wooder\n\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n\n\n2023-01-01\n\n\nJosef Fruehwald\n\n\n14 min\n\n\n\n\n\n\n  \n\n\n\n\nRising Wooders\n\n\nPart 1: Talking about Wooder\n\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n\n\n2022-12-31\n\n\nJosef Fruehwald\n\n\n6 min\n\n\n\n\n\n\n  \n\n\n\n\nGithub Onboarding with RStudio\n\n\n\n\n\n\n\n\n\n\n\n\n2022-12-21\n\n\nJosef Fruehwald\n\n\n3 min\n\n\n\n\n\n\n  \n\n\n\n\nWhat is R?\n\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\n\n\n2022-12-17\n\n\nJosef Fruehwald\n\n\n7 min\n\n\n\n\n\n\n  \n\n\n\n\nA lesson in over-preparing\n\n\n\n\n\n\n\n\n\n\n\n\n2022-12-10\n\n\nJosef Fruehwald\n\n\n7 min\n\n\n\n\n\n\nNo matching items\n\nReuseCC-BY-SA 4.0"
   },
   {
     "objectID": "posts/2022/12/2022-12-10/index.html",
@@ -315,10 +315,31 @@
     "text": "Combo {ggdensity} and {geomtextpath}\n\nSince the ggdensity statistics are ordinary stat_, we can also combine them with textpaths to label the probability levels directly.\n\nplot2 +\n  stat_hdr_lines(\n    aes(label = after_stat(probs)),\n    color = \"grey90\",\n    geom = \"textpath\"\n  ) +\n  guides(alpha = \"none\")\n\n\n\nFigure 14: Higest density region plot with direct labels"
   },
   {
-    "objectID": "drafts/plotly-animation/index.html",
-    "href": "drafts/plotly-animation/index.html",
-    "title": "Making a Plotly Animation",
+    "objectID": "posts/2023/01/2023-01-29_starting-plotly/index.html",
+    "href": "posts/2023/01/2023-01-29_starting-plotly/index.html",
+    "title": "Making a Plotly Plot",
     "section": "",
-    "text": "ReuseCC-BY-SA 4.0CitationBibTeX citation:@online{fruehwald,\n  author = {Josef Fruehwald},\n  title = {Making a {Plotly} {Animation}},\n  series = {Væl Space},\n  url = {https://jofrhwld.github.io/blog/drafts/plotly-animation},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nJosef Fruehwald. n.d. “Making a Plotly Animation.” Væl\nSpace. https://jofrhwld.github.io/blog/drafts/plotly-animation."
+    "text": "I’m a bit nervous about investing time into an interactive plotting framework after getting burned by Google Motion Charts.1 But, plotly seems to work even offline, which I think means once I’ve installed it, it doesn’t depend on a service or code hosted by the plotly company. That makes me feel a little more confident. I’d like to build some animations in it, but that means learning how it works, so here I go!"
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-29_starting-plotly/index.html#basic-scatter.",
+    "href": "posts/2023/01/2023-01-29_starting-plotly/index.html#basic-scatter.",
+    "title": "Making a Plotly Plot",
+    "section": "Basic scatter.",
+    "text": "Basic scatter.\nFollowing the book and the docs, it looks like if I were to take the “layers” analogy to building a plot, the most basic layer function is going to be plotly::add_trace(). Data gets mapped to plot aesthetics with function notation.\n\nplot_ly(\n  data = penguins,\n  x = ~bill_length_mm,\n  y = ~bill_depth_mm,\n  color = ~species\n) |> \n  add_trace(\n    type = \"scatter\",\n    mode = \"markers\",\n    size = 4\n  )\n\n\n\n\n\nSome thoughts:\n\nI think the type argument defines the kind of “space” the plot is placed in? Putting in an unsupported type returns a pretty diverse set of options that’s leaving me a bit confused about the exact work this argument does.\nI think mode is how you go about defining the plotted geometry, with \"markers\" being points.\nIt’s nice how the points default to ColorBrewer Dark2 with a slight transparency for overplotting."
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-29_starting-plotly/index.html#theming",
+    "href": "posts/2023/01/2023-01-29_starting-plotly/index.html#theming",
+    "title": "Making a Plotly Plot",
+    "section": "Theming",
+    "text": "Theming\nIt looks like the approach to theming is to just set everything by hand in plotly::layout(). This took a little bit of messing around with to find what all of the various parameters are called in plotly. My ggplot2::theme() translations are:\n\n\nggplot2\nplotly\n\n\n\nplot.background\npaper_bgcolor\n\n\npanel.background\nplot_bgcolor\n\n\npanel.grid.major.[x,y]\n[xy]axis\n\n\n\nAnother thing to note is that to get a transparent layer, you need to give it a hex code with 00 transparency at the end, rather than an NA or NULL value.\nI have a few of these colors defined in my blog .Rprofile.\n\nplot_bg\n\n[1] \"#122F4A\"\n\nmajor\n\n[1] \"#4C5D75\"\n\nminor\n\n[1] \"#31455E\"\n\n\nAlso, to get the right font family, you have to reference fonts you’ve imported in the html page, rather than fonts imported into R with showtext.\nHere it is in plotly.\n\nplot_ly() |> \n  add_trace(\n    data = penguins,\n    x = ~bill_length_mm,\n    y = ~bill_depth_mm,\n    color = ~species,\n    type = \"scatter\",\n    mode = \"markers\"\n  ) |> \n  layout(\n    plot_bgcolor = \"#ffffff00\",\n    paper_bgcolor = plot_bg,\n    font = list(\n      family = \"Fira Sans\",\n      color = \"#fff\"\n    ), \n    xaxis = list(\n      gridcolor = minor\n    ),\n    yaxis = list(\n      gridcolor = minor\n    )    \n  )"
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-29_starting-plotly/index.html#ggplotly",
+    "href": "posts/2023/01/2023-01-29_starting-plotly/index.html#ggplotly",
+    "title": "Making a Plotly Plot",
+    "section": "ggplotly",
+    "text": "ggplotly\nplotly also has a the ability to convert ggplot2 plots into plotly plots, at least somewhat. Here’s how it does by default.\n\npenguin_plot <- \n  ggplot(\n    data = penguins, \n    aes(x = bill_length_mm, \n        y = bill_depth_mm, \n        color = species\n      )\n  ) +\n  geom_point() +\n  scale_color_brewer(palette = \"Dark2\")\n\nggplotly(penguin_plot)\n\n\n\n\n\nSo, it looks like the panel.background = element_blank() I set in my blog theme doesn’t translate over in the conversion. Which is honestly a good illustration of why its probably worth learning a little bit about how the actual plotly system works, even if you’re going to mostly be interacting with it through plotly::ggplotly() like I am\n\nggplotly(penguin_plot) |> \n  layout(\n    plot_bgcolor = \"#ffffff00\"\n  )"
   }
 ]

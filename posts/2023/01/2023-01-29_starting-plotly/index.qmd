@@ -1,0 +1,125 @@
+---
+title: "Making a Plotly Plot"
+date: 2023-01-29
+order: 29
+categories:
+  - plotly
+knitr: 
+  opts_chunk: 
+    message: false
+    warning: false
+---
+
+I'm a bit nervous about investing time into an interactive plotting framework after getting burned by [Google Motion Charts](https://developers.google.com/chart/interactive/docs/gallery/motionchart).[^1] But, `{plotly}` seems to work even offline, which I think means once I've installed it, it doesn't depend on a service or code hosted by the [plotly company](https://plotly.com/). That makes me feel a *little* more confident. I'd like to build some animations in it, but that means learning how it works, so here I go!
+
+[^1]: Really, it's the deprecation of Flash, but Google never updated how the motion charts work.
+
+```{r}
+library(tidyverse)
+library(plotly)
+library(palmerpenguins)
+```
+
+## Basic scatter.
+
+Following the book and the docs, it looks like if I were to take the "layers" analogy to building a plot, the most basic layer function is going to be `plotly::add_trace()`. Data gets mapped to plot aesthetics with function notation.
+
+```{r}
+plot_ly(
+  data = penguins,
+  x = ~bill_length_mm,
+  y = ~bill_depth_mm,
+  color = ~species
+) |> 
+  add_trace(
+    type = "scatter",
+    mode = "markers",
+    size = 4
+  )
+```
+
+Some thoughts:
+
+-   I think the `type` argument defines the kind of "space" the plot is placed in? Putting in an unsupported type returns a pretty diverse set of options that's leaving me a bit confused about the exact work this argument does.
+
+-   I think `mode` is how you go about defining the plotted geometry, with `"markers"` being points.
+
+-   It's nice how the points default to [ColorBrewer Dark2](https://colorbrewer2.org/#type=qualitative&scheme=Dark2&n=3) with a slight transparency for overplotting.
+
+## Theming
+
+It looks like the approach to theming is to just set everything by hand in `plotly::layout()`. This took a little bit of messing around with to find what all of the various parameters are called in plotly. My `ggplot2::theme()` translations are:
+
+| ggplot2                  | plotly          |
+|--------------------------|-----------------|
+| `plot.background`        | `paper_bgcolor` |
+| `panel.background`       | `plot_bgcolor`  |
+| `panel.grid.major.[x,y]` | `[xy]axis`      |
+
+Another thing to note is that to get a transparent layer, you need to give it a hex code with `00` transparency at the end, rather than an `NA` or `NULL` value.
+
+I have a few of these colors defined in my blog `.Rprofile`.
+
+```{r}
+plot_bg
+major
+minor
+```
+
+Also, to get the right font family, you have to reference fonts you've imported in the *html* page, rather than fonts imported into R with `{showtext}`.
+
+Here it is in plotly.
+
+```{r}
+plot_ly() |> 
+  add_trace(
+    data = penguins,
+    x = ~bill_length_mm,
+    y = ~bill_depth_mm,
+    color = ~species,
+    type = "scatter",
+    mode = "markers"
+  ) |> 
+  layout(
+    plot_bgcolor = "#ffffff00",
+    paper_bgcolor = plot_bg,
+    font = list(
+      family = "Fira Sans",
+      color = "#fff"
+    ), 
+    xaxis = list(
+      gridcolor = minor
+    ),
+    yaxis = list(
+      gridcolor = minor
+    )    
+  )
+```
+
+## ggplotly
+
+plotly also has a the ability to convert ggplot2 plots into plotly plots, at least somewhat. Here's how it does by default.
+
+```{r}
+penguin_plot <- 
+  ggplot(
+    data = penguins, 
+    aes(x = bill_length_mm, 
+        y = bill_depth_mm, 
+        color = species
+      )
+  ) +
+  geom_point() +
+  scale_color_brewer(palette = "Dark2")
+
+ggplotly(penguin_plot)
+```
+
+So, it looks like the `panel.background = element_blank()` I set in my blog theme doesn't translate over in the conversion. Which is honestly a good illustration of why its probably worth learning a little bit about how the actual plotly system works, even if you're going to mostly be interacting with it through `plotly::ggplotly()` like I am
+
+```{r}
+ggplotly(penguin_plot) |> 
+  layout(
+    plot_bgcolor = "#ffffff00"
+  )
+```

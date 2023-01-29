@@ -17,7 +17,7 @@ knitr:
   opts_chunk: 
     message: false
 bibliography: references.bib
-orcer: 01
+order: 01
 ---
 
 This is part 2 of my blog posts to accompany my ADS2023 Poster.

@@ -15,7 +15,7 @@
   <title>R Package Exploration (Jan 2023)</title>
   <dc:creator>Josef Fruehwald</dc:creator>
   <link>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index.html</link>
-  <description><![CDATA[ <p>As I scroll through my feeds, I often come across a really cool looking package, or feature of a new package, that I think looks really cool, and then I forget to back to really kick the tires and see how it works. So I’ve decided to try to set up a workflow where I send the docs or <a href="https://pkgdown.r-lib.org">pkgdown</a> pages for the package to a Trello board, and then come back maybe once a month and experiment with them in a blog post.</p>
+  <description><![CDATA[ <p>As I scroll through my feeds, I often come across a really cool looking package, or a new feature of a package, that I think looks really cool, and then I forget to go back to really kick the tires to see how it works. So I’ve decided to try to set up a workflow where I send the docs or <a href="https://pkgdown.r-lib.org">pkgdown</a> pages for the package to a Trello board, and then come back maybe once a month and experiment with them in a blog post.</p>
 <section id="ggforce-ggdensity-and-geomtextpath" class="level2"><h2 class="anchored" data-anchor-id="ggforce-ggdensity-and-geomtextpath">
 <code>{ggforce}</code>, <code>{ggdensity}</code> and <code>{geomtextpath}</code>
 </h2>
@@ -51,7 +51,7 @@
 </div>
 </div>
 </div>
-<p>I’ll throw on the default convex hull</p>
+<p>I’ll throw on the default convex hull.</p>
 <div class="cell page-columns page-full" data-layout-align="center">
 <div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;">plot1</span> <span class="op" style="color: #5E5E5E;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;"><a href="https://ggforce.data-imaginist.com/reference/geom_mark_hull.html">geom_mark_hull</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
@@ -67,7 +67,7 @@
 </div>
 </div>
 </div>
-<p>Default is <em>ok</em>, bu for this data set needs to be a bit less jagged, which can be adjusted with the <code>concavity</code> argument. I’ll also throw in a fill color.</p>
+<p>Default is <em>ok</em>, but for this data set, the hulls are a bit jagged. That can be adjusted with the <code>concavity</code> argument. I’ll also throw in a fill color.</p>
 <div class="cell page-columns page-full" data-layout-align="center">
 <div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;">plot1</span> <span class="op" style="color: #5E5E5E;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;"><a href="https://ggforce.data-imaginist.com/reference/geom_mark_hull.html">geom_mark_hull</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
@@ -136,7 +136,7 @@
 </div>
 <section id="thoughts" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="thoughts">Thoughts</h3>
 <p>I like the convex hulls as a presentational aide. It probably shouldn’t be taken as a <em>statistical</em> statement about, for example the degree of overlap between these three species, but is useful for outlining data points of interest.</p>
-<p>I kind of wish this was separated out into a few different, more conventional, ggplot2 layers. It’s called a <code>geom_</code> but the convex hulls are definitely <code>stat_</code>s. But the convex hull statistic layer isn’t exposed to users, so you can’t mix-and-match convex hull estimation and the geom used to draw it. On the other hand, I can see that it’s much more souped up than a typical geom. For example, you can filter the data within the <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> mapping.</p>
+<p>I kind of wish this was separated out into a few different, more conventional, ggplot2 layers. It’s called a <code>geom_</code> but the convex hulls are definitely <code>stat_</code>s. The convex hull statistic layer isn’t exposed to users, so you can’t mix-and-match convex hull estimation and the geom used to draw it. On the other hand, I can see that it’s much more souped up than a typical geom. For example, you can filter the data within the <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> mapping.</p>
 <div class="cell page-columns page-full" data-layout-align="center">
 <div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;">plot1</span> <span class="op" style="color: #5E5E5E;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;"><a href="https://ggforce.data-imaginist.com/reference/geom_mark_hull.html">geom_mark_hull</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
@@ -1283,7 +1283,7 @@ January 1, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-
   <category>linguistics</category>
   <guid>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index.html</guid>
   <pubDate>Sun, 01 Jan 2023 05:00:00 GMT</pubDate>
-  <media:content url="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index_files/figure-html/fig-spectrogram-1.png" medium="image" type="image/png"/>
+  <media:content url="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index_files/figure-html/fig-spectrogram-1.png" medium="image" type="image/png" height="111" width="144"/>
 </item>
 <item>
   <title>Rising Wooders</title>

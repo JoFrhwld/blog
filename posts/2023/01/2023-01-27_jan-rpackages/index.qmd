@@ -19,7 +19,7 @@ knitr:
 order: 04    
 ---
 
-As I scroll through my feeds, I often come across a really cool looking package, or feature of a new package, that I think looks really cool, and then I forget to back to really kick the tires and see how it works. So I've decided to try to set up a workflow where I send the docs or `{pkgdown}` pages for the package to a Trello board, and then come back maybe once a month and experiment with them in a blog post.
+As I scroll through my feeds, I often come across a really cool looking package, or a new feature of a package, that I think looks really cool, and then I forget to go back to really kick the tires to see how it works. So I've decided to try to set up a workflow where I send the docs or `{pkgdown}` pages for the package to a Trello board, and then come back maybe once a month and experiment with them in a blog post.
 
 ## `{ggforce}`, `{ggdensity}` and `{geomtextpath}`
 
@@ -59,7 +59,7 @@ plot1 <-
 plot1
 ```
 
-I'll throw on the default convex hull
+I'll throw on the default convex hull.
 
 ```{r}
 #| label: fig-penguin_hull1
@@ -72,7 +72,7 @@ plot1 +
   geom_mark_hull()
 ```
 
-Default is *ok*, bu for this data set needs to be a bit less jagged, which can be adjusted with the `concavity` argument. I'll also throw in a fill color.
+Default is *ok*, but for this data set, the hulls are a bit jagged. That can be adjusted with the `concavity` argument. I'll also throw in a fill color.
 
 ```{r}
 #| label: fig-penguin_hull2
@@ -148,7 +148,7 @@ plot1 +
 
 I like the convex hulls as a presentational aide. It probably shouldn't be taken as a *statistical* statement about, for example the degree of overlap between these three species, but is useful for outlining data points of interest.
 
-I kind of wish this was separated out into a few different, more conventional, ggplot2 layers. It's called a `geom_` but the convex hulls are definitely `stat_`s. But the convex hull statistic layer isn't exposed to users, so you can't mix-and-match convex hull estimation and the geom used to draw it. On the other hand, I can see that it's much more souped up than a typical geom. For example, you can filter the data within the `aes()` mapping.
+I kind of wish this was separated out into a few different, more conventional, ggplot2 layers. It's called a `geom_` but the convex hulls are definitely `stat_`s. The convex hull statistic layer isn't exposed to users, so you can't mix-and-match convex hull estimation and the geom used to draw it. On the other hand, I can see that it's much more souped up than a typical geom. For example, you can filter the data within the `aes()` mapping.
 
 ```{r}
 #| label: fig-penguin-hull-filter

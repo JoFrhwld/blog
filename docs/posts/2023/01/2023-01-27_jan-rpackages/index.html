@@ -91,7 +91,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
-<link href="../../../../posts/2023/01/2023-01-01_wooder2/index.html" rel="next">
 <link href="../../../../posts/2023/01/2023-01-22_r-spect/index.html" rel="prev">
 <script src="../../../../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
@@ -145,13 +144,13 @@ cookieconsent.run({
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@300;400;500;600;700&amp;family=Fira+Code:wght@300;400;500;600;700&amp;family=Noto+Emoji:wght@300&amp;display=swap" rel="stylesheet">
 <meta property="og:title" content="Væl Space - R Package Exploration (Jan 2023)">
-<meta property="og:description" content="As I scroll through my feeds, I often come across a really cool looking package, or feature of a new package, that I think looks really cool, and then I forget to back to really kick the tires and…">
+<meta property="og:description" content="As I scroll through my feeds, I often come across a really cool looking package, or a new feature of a package, that I think looks really cool, and then I forget to go back to really kick the tires…">
 <meta property="og:image" content="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull4-1.png">
 <meta property="og:site-name" content="Væl Space">
 <meta property="og:image:height" content="1152">
 <meta property="og:image:width" content="1536">
 <meta name="twitter:title" content="Væl Space - R Package Exploration (Jan 2023)">
-<meta name="twitter:description" content="As I scroll through my feeds, I often come across a really cool looking package, or feature of a new package, that I think looks really cool, and then I forget to back to really kick the tires and…">
+<meta name="twitter:description" content="As I scroll through my feeds, I often come across a really cool looking package, or a new feature of a package, that I think looks really cool, and then I forget to go back to really kick the tires…">
 <meta name="twitter:image" content="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull4-1.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image-height" content="1152">
@@ -298,6 +297,11 @@ cookieconsent.run({
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2023/01/2023-01-01_wooder2/index.html" class="sidebar-item-text sidebar-link">Rising Wooders: Part 2</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../posts/2023/01/2023-01-04_wooder3/index.html" class="sidebar-item-text sidebar-link">Rising Wooders: Part 3</a>
   </div>
 </li>
@@ -309,11 +313,6 @@ cookieconsent.run({
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2023/01/2023-01-27_jan-rpackages/index.html" class="sidebar-item-text sidebar-link active">R Package Exploration (Jan 2023)</a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2023/01/2023-01-01_wooder2/index.html" class="sidebar-item-text sidebar-link">Rising Wooders: Part 2</a>
   </div>
 </li>
       </ul>
@@ -341,7 +340,7 @@ cookieconsent.run({
   </ul></nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content"><p>As I scroll through my feeds, I often come across a really cool looking package, or feature of a new package, that I think looks really cool, and then I forget to back to really kick the tires and see how it works. So I’ve decided to try to set up a workflow where I send the docs or <a href="https://pkgdown.r-lib.org">pkgdown</a> pages for the package to a Trello board, and then come back maybe once a month and experiment with them in a blog post.</p>
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content"><p>As I scroll through my feeds, I often come across a really cool looking package, or a new feature of a package, that I think looks really cool, and then I forget to go back to really kick the tires to see how it works. So I’ve decided to try to set up a workflow where I send the docs or <a href="https://pkgdown.r-lib.org">pkgdown</a> pages for the package to a Trello board, and then come back maybe once a month and experiment with them in a blog post.</p>
 <section id="ggforce-ggdensity-and-geomtextpath" class="level2"><h2 class="anchored" data-anchor-id="ggforce-ggdensity-and-geomtextpath">
 <code>{ggforce}</code>, <code>{ggdensity}</code> and <code>{geomtextpath}</code>
 </h2>
@@ -377,7 +376,7 @@ cookieconsent.run({
 </div>
 </div>
 </div>
-<p>I’ll throw on the default convex hull</p>
+<p>I’ll throw on the default convex hull.</p>
 <div class="cell page-columns page-full" data-layout-align="center">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot1</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggforce.data-imaginist.com/reference/geom_mark_hull.html">geom_mark_hull</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -393,7 +392,7 @@ cookieconsent.run({
 </div>
 </div>
 </div>
-<p>Default is <em>ok</em>, bu for this data set needs to be a bit less jagged, which can be adjusted with the <code>concavity</code> argument. I’ll also throw in a fill color.</p>
+<p>Default is <em>ok</em>, but for this data set, the hulls are a bit jagged. That can be adjusted with the <code>concavity</code> argument. I’ll also throw in a fill color.</p>
 <div class="cell page-columns page-full" data-layout-align="center">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot1</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggforce.data-imaginist.com/reference/geom_mark_hull.html">geom_mark_hull</a></span><span class="op">(</span></span>
@@ -462,7 +461,7 @@ cookieconsent.run({
 </div>
 <section id="thoughts" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="thoughts">Thoughts</h3>
 <p>I like the convex hulls as a presentational aide. It probably shouldn’t be taken as a <em>statistical</em> statement about, for example the degree of overlap between these three species, but is useful for outlining data points of interest.</p>
-<p>I kind of wish this was separated out into a few different, more conventional, ggplot2 layers. It’s called a <code>geom_</code> but the convex hulls are definitely <code>stat_</code>s. But the convex hull statistic layer isn’t exposed to users, so you can’t mix-and-match convex hull estimation and the geom used to draw it. On the other hand, I can see that it’s much more souped up than a typical geom. For example, you can filter the data within the <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> mapping.</p>
+<p>I kind of wish this was separated out into a few different, more conventional, ggplot2 layers. It’s called a <code>geom_</code> but the convex hulls are definitely <code>stat_</code>s. The convex hull statistic layer isn’t exposed to users, so you can’t mix-and-match convex hull estimation and the geom used to draw it. On the other hand, I can see that it’s much more souped up than a typical geom. For example, you can filter the data within the <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> mapping.</p>
 <div class="cell page-columns page-full" data-layout-align="center">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot1</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggforce.data-imaginist.com/reference/geom_mark_hull.html">geom_mark_hull</a></span><span class="op">(</span></span>
@@ -767,9 +766,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../../posts/2023/01/2023-01-01_wooder2/index.html" class="pagination-link">
-        <span class="nav-page-text">Rising Wooders: Part 2</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

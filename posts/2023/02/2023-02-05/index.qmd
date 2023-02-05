@@ -1,0 +1,216 @@
+---
+title: "A handy dplyr function for linguistics"
+author: "Josef Fruehwald"
+date: 2023-02-05
+order: 05
+resources: "data/table.png"
+image: "data/table.png"
+twitter-card: 
+  image: "data/table.png"
+  card-style: summary_large_image
+open-graph:
+  image: "data/table.png"
+---
+
+One of the new functions in `{dplyr}` v1.1.0 is `dplyr::consecutive_id()`, which strikes me as having a few good use cases for linguistic data. The one I'll illustrate here is for processing transcriptions.
+
+```{r}
+#| message: false
+library(tidyverse)
+library(gt)
+
+# make sure its >= v1.1.0
+packageVersion("dplyr")
+```
+
+I'll use a sample transcription extract from [LANCS](https://linguisticatlasproject.org/LANCS), where the audio has been chunked into "breath groups" and transcribed, along with an identifier of who was speaking, and beginning and end times.
+
+```{r}
+#| message: false
+transcription <- 
+  read_csv("data/KY25A_1.csv")
+```
+
+```{r}
+#| echo: false
+
+my_gt <- function(df){
+  gt(df) |> 
+  tab_style(style = 
+              list(
+               cell_fill("#375a7f"),
+                cell_text(
+                 color = "white"
+               )
+              ),
+            locations = 
+              list(
+                cells_body(rows = speaker == "IVR")
+              )
+            ) |> 
+    tab_style(style = 
+              list(
+               cell_fill("#3498db"),
+               cell_text(
+                 color = "white"
+               )
+              ),
+            locations = 
+              list(
+                cells_body(rows = speaker == "KY25A")
+              )
+            )
+}
+
+```
+
+```{r}
+#| echo: false
+my_gt(transcription)
+```
+
+One thing we might want to do is indicate which *sequences* of transcription chunks belong to one speaker, corresponding roughly to their speaking turns. I've hacked my way through this kind of coding before, but now we can easily add turn numbers with `dplyr::consecutive_id()`, which will add a column of numbers that increment every time the value in the indicated column changes.
+
+```{r}
+#| eval: false
+transcription |> 
+  mutate(
+    turn = consecutive_id(speaker)
+  )
+```
+
+```{r}
+#| echo: false
+transcription |> 
+  mutate(
+    turn = consecutive_id(speaker)
+  ) |> 
+ my_gt()
+```
+
+Now we can do things like group the data by turn, and get a new dataframe summarized by turn.
+
+```{r}
+#| eval: false
+transcription |> 
+  mutate(
+    turn = consecutive_id(speaker)
+  ) |> 
+  summarise(
+    .by = c(turn, speaker),
+    start = min(start),
+    end = max(end),
+    transcript = str_c(transcript, collapse = " "),
+  )
+```
+
+```{r}
+#| echo: false
+transcription |> 
+  mutate(
+    turn = consecutive_id(speaker)
+  ) |> 
+  summarise(
+    .by = c(turn, speaker),
+    start = min(start),
+    end = max(end),
+    transcript = str_c(transcript, collapse = " "),
+  ) |> 
+  my_gt()
+```
+
+And then you can start moving onto other analyses, like what the lag was between one speaker's end and the next's beginning.
+
+```{r}
+#| eval: false
+transcription |> 
+  mutate(
+    turn = consecutive_id(speaker)
+  ) |> 
+  summarise(
+    .by = c(turn, speaker),
+    start = min(start),
+    end = max(end),
+    transcript = str_c(transcript, collapse = " "),
+  ) |> 
+  mutate(overlapping = start < lag(end)) 
+```
+
+```{r}
+#| echo: false
+transcription |> 
+  mutate(
+    turn = consecutive_id(speaker)
+  ) |> 
+  summarise(
+    .by = c(turn, speaker),
+    start = min(start),
+    end = max(end),
+    transcript = str_c(transcript, collapse = " "),
+  ) |> 
+  mutate(lag = start - lag(end))  |> 
+  my_gt()
+```
+
+This was just the first example that came to mind, but there's probably a lot of data processing tasks that can be made a lot less annoying with `dplyr::consecutive_id()`.
+
+## Extra
+
+I'll throw the duration of within-turn pauses in there.
+
+```{r}
+library(glue)
+```
+
+```{r}
+#| eval: false
+transcription |> 
+  mutate(
+    turn = consecutive_id(speaker)
+  ) |> 
+  mutate(
+    .by = turn,
+    pause_dur = start - lag(end),
+    transcript = case_when(
+      .default = transcript,
+      is.finite(pause_dur) ~ glue(
+        "<{round(pause_dur, digits = 2)} second pause> {transcript}"
+      )
+    )
+  ) |> 
+  summarise(
+    .by = c(turn, speaker),
+    start = min(start),
+    end = max(end),
+    transcript = str_c(transcript, collapse = " "),
+  ) |> 
+  mutate(lag = start - lag(end)) |> 
+  relocate(lag,  .before = start)
+```
+
+```{r}
+#| echo: false
+transcription |> 
+  mutate(
+    turn = consecutive_id(speaker)
+  ) |> 
+  mutate(
+    .by = turn,
+    pause_dur = start - lag(end),
+    transcript = case_when(
+      .default = transcript,
+      is.finite(pause_dur) ~ glue(
+        "<{round(pause_dur, digits = 2)} second pause> {transcript}"
+      )
+    )
+  ) |> 
+  summarise(
+    .by = c(turn, speaker),
+    start = min(start),
+    end = max(end),
+    transcript = str_c(transcript, collapse = " "),
+  ) |> 
+  mutate(lag = start - lag(end)) |> 
+  relocate(lag, .before = start)  |> 
+  my_gt()
+```

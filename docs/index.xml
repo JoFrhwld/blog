@@ -10,7 +10,2583 @@
 <atom:link href="https://jofrhwld.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.2.313</generator>
-<lastBuildDate>Sun, 29 Jan 2023 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 05 Feb 2023 05:00:00 GMT</lastBuildDate>
+<item>
+  <title>A handy dplyr function for linguistics</title>
+  <dc:creator>Josef Fruehwald</dc:creator>
+  <link>https://jofrhwld.github.io/blog/posts/2023/02/2023-02-05/index.html</link>
+  <description><![CDATA[ <p>One of the new functions in <a href="https://dplyr.tidyverse.org">dplyr</a> v1.1.0 is <code><a href="https://dplyr.tidyverse.org/reference/consecutive_id.html">dplyr::consecutive_id()</a></code>, which strikes me as having a few good use cases for linguistic data. The one I’ll illustrate here is for processing transcriptions.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw" style="color: #003B4F;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span><span class="kw" style="color: #003B4F;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;"><a href="https://gt.rstudio.com/">gt</a></span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span></span>
+<span><span class="co" style="color: #5E5E5E;"># make sure its &gt;= v1.1.0</span></span>
+<span><span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/utils/packageDescription.html">packageVersion</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="st" style="color: #20794D;">"dplyr"</span><span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] '1.1.0'</code></pre>
+</div>
+</div>
+<p>I’ll use a sample transcription extract from <a href="https://linguisticatlasproject.org/LANCS">LANCS</a>, where the audio has been chunked into “breath groups” and transcribed, along with an identifier of who was speaking, and beginning and end times.</p>
+<div class="cell">
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;">transcription</span> <span class="op" style="color: #5E5E5E;">&lt;-</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="st" style="color: #20794D;">"data/KY25A_1.csv"</span><span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="unzidpxhga" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+:where(#unzidpxhga) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#unzidpxhga) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#unzidpxhga) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#unzidpxhga) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#unzidpxhga) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#unzidpxhga) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#unzidpxhga) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#unzidpxhga) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#unzidpxhga) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#unzidpxhga) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#unzidpxhga) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#unzidpxhga) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#unzidpxhga) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#unzidpxhga) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#unzidpxhga) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#unzidpxhga) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#unzidpxhga) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#unzidpxhga) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#unzidpxhga) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#unzidpxhga) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#unzidpxhga) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#unzidpxhga) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#unzidpxhga) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#unzidpxhga) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#unzidpxhga) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#unzidpxhga) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#unzidpxhga) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#unzidpxhga) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#unzidpxhga) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#unzidpxhga) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#unzidpxhga) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#unzidpxhga) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#unzidpxhga) .gt_left {
+  text-align: left;
+}
+
+:where(#unzidpxhga) .gt_center {
+  text-align: center;
+}
+
+:where(#unzidpxhga) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#unzidpxhga) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#unzidpxhga) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#unzidpxhga) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#unzidpxhga) .gt_super {
+  font-size: 65%;
+}
+
+:where(#unzidpxhga) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#unzidpxhga) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#unzidpxhga) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#unzidpxhga) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#unzidpxhga) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#unzidpxhga) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#unzidpxhga) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+<thead class="gt_col_headings"><tr>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="speaker">speaker</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="start">start</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="end">end</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="transcript">transcript</th>
+    </tr></thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">192.110</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">194.710</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">well uh, I have a number of uh</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">195.530</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">198.620</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">things I'd like to ask you about. I wonder if you'd just mind uh.</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">199.110</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">200.900</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">answering questions uh</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">202.130</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">203.610</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">one after another if you</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">203.295</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">204.405</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">yeah</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">204.745</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.225</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">well</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">204.740</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">205.805</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">if I remind you of a</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.510</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">207.930</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">now you might start that</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">208.440</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">209.570</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">I was born in</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">210.420</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">212.120</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">eighteen sixty seven</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">213.350</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">215.450</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">mhm and that makes you how old?</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">215.780</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">216.600</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">ninety three</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">216.665</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">217.455</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">ninety three</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>One thing we might want to do is indicate which <em>sequences</em> of transcription chunks belong to one speaker, corresponding roughly to their speaking turns. I’ve hacked my way through this kind of coding before, but now we can easily add turn numbers with <code><a href="https://dplyr.tidyverse.org/reference/consecutive_id.html">dplyr::consecutive_id()</a></code>, which will add a column of numbers that increment every time the value in the indicated column changes.</p>
+<div class="cell">
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;">transcription</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    turn <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/consecutive_id.html">consecutive_id</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">speaker</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="ltuyhhyxhi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+:where(#ltuyhhyxhi) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#ltuyhhyxhi) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#ltuyhhyxhi) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#ltuyhhyxhi) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#ltuyhhyxhi) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#ltuyhhyxhi) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#ltuyhhyxhi) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#ltuyhhyxhi) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#ltuyhhyxhi) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#ltuyhhyxhi) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#ltuyhhyxhi) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#ltuyhhyxhi) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#ltuyhhyxhi) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#ltuyhhyxhi) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#ltuyhhyxhi) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#ltuyhhyxhi) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#ltuyhhyxhi) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#ltuyhhyxhi) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#ltuyhhyxhi) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#ltuyhhyxhi) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#ltuyhhyxhi) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#ltuyhhyxhi) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#ltuyhhyxhi) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#ltuyhhyxhi) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#ltuyhhyxhi) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#ltuyhhyxhi) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#ltuyhhyxhi) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#ltuyhhyxhi) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#ltuyhhyxhi) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#ltuyhhyxhi) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#ltuyhhyxhi) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#ltuyhhyxhi) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#ltuyhhyxhi) .gt_left {
+  text-align: left;
+}
+
+:where(#ltuyhhyxhi) .gt_center {
+  text-align: center;
+}
+
+:where(#ltuyhhyxhi) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#ltuyhhyxhi) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#ltuyhhyxhi) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#ltuyhhyxhi) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#ltuyhhyxhi) .gt_super {
+  font-size: 65%;
+}
+
+:where(#ltuyhhyxhi) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#ltuyhhyxhi) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#ltuyhhyxhi) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#ltuyhhyxhi) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#ltuyhhyxhi) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#ltuyhhyxhi) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#ltuyhhyxhi) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+<thead class="gt_col_headings"><tr>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="speaker">speaker</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="start">start</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="end">end</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="transcript">transcript</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="turn">turn</th>
+    </tr></thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">192.110</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">194.710</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">well uh, I have a number of uh</td>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">195.530</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">198.620</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">things I'd like to ask you about. I wonder if you'd just mind uh.</td>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">199.110</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">200.900</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">answering questions uh</td>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">202.130</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">203.610</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">one after another if you</td>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">203.295</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">204.405</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">yeah</td>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">2</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">204.745</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.225</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">well</td>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">2</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">204.740</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">205.805</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">if I remind you of a</td>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">3</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.510</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">207.930</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">now you might start that</td>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">4</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">208.440</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">209.570</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">I was born in</td>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">4</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">210.420</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">212.120</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">eighteen sixty seven</td>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">4</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">213.350</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">215.450</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">mhm and that makes you how old?</td>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">5</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">215.780</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">216.600</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">ninety three</td>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">6</td>
+</tr>
+<tr>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">216.665</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">217.455</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">ninety three</td>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Now we can do things like group the data by turn, and get a new dataframe summarized by turn.</p>
+<div class="cell">
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;">transcription</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    turn <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/consecutive_id.html">consecutive_id</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">speaker</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    .by <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">turn</span>, <span class="va" style="color: #111111;">speaker</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>    start <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">start</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>    end <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">end</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>    transcript <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">transcript</span>, collapse <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">" "</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="wofqypphhj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+:where(#wofqypphhj) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#wofqypphhj) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#wofqypphhj) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#wofqypphhj) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#wofqypphhj) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#wofqypphhj) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#wofqypphhj) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#wofqypphhj) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#wofqypphhj) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#wofqypphhj) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#wofqypphhj) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#wofqypphhj) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#wofqypphhj) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#wofqypphhj) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#wofqypphhj) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#wofqypphhj) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#wofqypphhj) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#wofqypphhj) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#wofqypphhj) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#wofqypphhj) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#wofqypphhj) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#wofqypphhj) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#wofqypphhj) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#wofqypphhj) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#wofqypphhj) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#wofqypphhj) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#wofqypphhj) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#wofqypphhj) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#wofqypphhj) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#wofqypphhj) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#wofqypphhj) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#wofqypphhj) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#wofqypphhj) .gt_left {
+  text-align: left;
+}
+
+:where(#wofqypphhj) .gt_center {
+  text-align: center;
+}
+
+:where(#wofqypphhj) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#wofqypphhj) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#wofqypphhj) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#wofqypphhj) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#wofqypphhj) .gt_super {
+  font-size: 65%;
+}
+
+:where(#wofqypphhj) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#wofqypphhj) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#wofqypphhj) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#wofqypphhj) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#wofqypphhj) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#wofqypphhj) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#wofqypphhj) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+<thead class="gt_col_headings"><tr>
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="turn">turn</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="speaker">speaker</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="start">start</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="end">end</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="transcript">transcript</th>
+    </tr></thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">192.110</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">203.610</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">well uh, I have a number of uh things I'd like to ask you about. I wonder if you'd just mind uh. answering questions uh one after another if you</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">2</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">203.295</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.225</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">yeah well</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">3</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">204.740</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">205.805</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">if I remind you of a</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">4</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.510</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">212.120</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">now you might start that I was born in eighteen sixty seven</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">5</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">213.350</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">215.450</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">mhm and that makes you how old?</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">6</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">215.780</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">216.600</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">ninety three</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">7</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">216.665</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">217.455</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">ninety three</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>And then you can start moving onto other analyses, like what the lag was between one speaker’s end and the next’s beginning.</p>
+<div class="cell">
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;">transcription</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    turn <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/consecutive_id.html">consecutive_id</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">speaker</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    .by <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">turn</span>, <span class="va" style="color: #111111;">speaker</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>    start <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">start</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>    end <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">end</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>    transcript <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">transcript</span>, collapse <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">" "</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span>overlapping <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">start</span> <span class="op" style="color: #5E5E5E;">&lt;</span> <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html">lag</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">end</span><span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">)</span> </span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="hhgmkfqgdn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+:where(#hhgmkfqgdn) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#hhgmkfqgdn) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#hhgmkfqgdn) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#hhgmkfqgdn) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#hhgmkfqgdn) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#hhgmkfqgdn) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#hhgmkfqgdn) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#hhgmkfqgdn) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#hhgmkfqgdn) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#hhgmkfqgdn) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#hhgmkfqgdn) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#hhgmkfqgdn) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#hhgmkfqgdn) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#hhgmkfqgdn) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#hhgmkfqgdn) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#hhgmkfqgdn) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#hhgmkfqgdn) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#hhgmkfqgdn) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#hhgmkfqgdn) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#hhgmkfqgdn) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#hhgmkfqgdn) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#hhgmkfqgdn) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#hhgmkfqgdn) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#hhgmkfqgdn) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#hhgmkfqgdn) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#hhgmkfqgdn) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#hhgmkfqgdn) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#hhgmkfqgdn) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#hhgmkfqgdn) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#hhgmkfqgdn) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#hhgmkfqgdn) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#hhgmkfqgdn) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#hhgmkfqgdn) .gt_left {
+  text-align: left;
+}
+
+:where(#hhgmkfqgdn) .gt_center {
+  text-align: center;
+}
+
+:where(#hhgmkfqgdn) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#hhgmkfqgdn) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#hhgmkfqgdn) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#hhgmkfqgdn) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#hhgmkfqgdn) .gt_super {
+  font-size: 65%;
+}
+
+:where(#hhgmkfqgdn) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#hhgmkfqgdn) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#hhgmkfqgdn) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#hhgmkfqgdn) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#hhgmkfqgdn) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#hhgmkfqgdn) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#hhgmkfqgdn) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+<thead class="gt_col_headings"><tr>
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="turn">turn</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="speaker">speaker</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="start">start</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="end">end</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="transcript">transcript</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="lag">lag</th>
+    </tr></thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">192.110</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">203.610</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">well uh, I have a number of uh things I'd like to ask you about. I wonder if you'd just mind uh. answering questions uh one after another if you</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">NA</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">2</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">203.295</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.225</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">yeah well</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">-0.315</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">3</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">204.740</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">205.805</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">if I remind you of a</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">-0.485</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">4</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.510</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">212.120</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">now you might start that I was born in eighteen sixty seven</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">-0.295</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">5</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">213.350</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">215.450</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">mhm and that makes you how old?</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1.230</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">6</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">215.780</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">216.600</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">ninety three</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">0.330</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">7</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">216.665</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">217.455</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">ninety three</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">0.065</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>This was just the first example that came to mind, but there’s probably a lot of data processing tasks that can be made a lot less annoying with <code><a href="https://dplyr.tidyverse.org/reference/consecutive_id.html">dplyr::consecutive_id()</a></code>.</p>
+<section id="extra" class="level2"><h2 class="anchored" data-anchor-id="extra">Extra</h2>
+<p>I’ll throw the duration of within-turn pauses in there.</p>
+<div class="cell">
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw" style="color: #003B4F;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;"><a href="https://github.com/tidyverse/glue">glue</a></span><span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;">transcription</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    turn <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/consecutive_id.html">consecutive_id</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">speaker</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    .by <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">turn</span>,</span>
+<span>    pause_dur <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">start</span> <span class="op" style="color: #5E5E5E;">-</span> <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html">lag</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">end</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>    transcript <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>      .default <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">transcript</span>,</span>
+<span>      <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/is.finite.html">is.finite</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">pause_dur</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">~</span> <span class="fu" style="color: #4758AB;"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>        <span class="st" style="color: #20794D;">"&lt;{round(pause_dur, digits = 2)} second pause&gt; {transcript}"</span></span>
+<span>      <span class="op" style="color: #5E5E5E;">)</span></span>
+<span>    <span class="op" style="color: #5E5E5E;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    .by <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">turn</span>, <span class="va" style="color: #111111;">speaker</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>    start <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">start</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>    end <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">end</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>    transcript <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">transcript</span>, collapse <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">" "</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span>lag <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">start</span> <span class="op" style="color: #5E5E5E;">-</span> <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html">lag</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">end</span><span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/relocate.html">relocate</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">lag</span>,  .before <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">start</span><span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="bkskthpzpd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+:where(#bkskthpzpd) .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+:where(#bkskthpzpd) .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#bkskthpzpd) .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+:where(#bkskthpzpd) .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+:where(#bkskthpzpd) .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+:where(#bkskthpzpd) .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#bkskthpzpd) .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#bkskthpzpd) .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+:where(#bkskthpzpd) .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+:where(#bkskthpzpd) .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+:where(#bkskthpzpd) .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+:where(#bkskthpzpd) .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+:where(#bkskthpzpd) .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+:where(#bkskthpzpd) .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+:where(#bkskthpzpd) .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+:where(#bkskthpzpd) .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+:where(#bkskthpzpd) .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+:where(#bkskthpzpd) .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#bkskthpzpd) .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+:where(#bkskthpzpd) .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+:where(#bkskthpzpd) .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#bkskthpzpd) .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+:where(#bkskthpzpd) .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+:where(#bkskthpzpd) .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#bkskthpzpd) .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#bkskthpzpd) .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+:where(#bkskthpzpd) .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+:where(#bkskthpzpd) .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+:where(#bkskthpzpd) .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#bkskthpzpd) .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#bkskthpzpd) .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+:where(#bkskthpzpd) .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:where(#bkskthpzpd) .gt_left {
+  text-align: left;
+}
+
+:where(#bkskthpzpd) .gt_center {
+  text-align: center;
+}
+
+:where(#bkskthpzpd) .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(#bkskthpzpd) .gt_font_normal {
+  font-weight: normal;
+}
+
+:where(#bkskthpzpd) .gt_font_bold {
+  font-weight: bold;
+}
+
+:where(#bkskthpzpd) .gt_font_italic {
+  font-style: italic;
+}
+
+:where(#bkskthpzpd) .gt_super {
+  font-size: 65%;
+}
+
+:where(#bkskthpzpd) .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+:where(#bkskthpzpd) .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+:where(#bkskthpzpd) .gt_indent_1 {
+  text-indent: 5px;
+}
+
+:where(#bkskthpzpd) .gt_indent_2 {
+  text-indent: 10px;
+}
+
+:where(#bkskthpzpd) .gt_indent_3 {
+  text-indent: 15px;
+}
+
+:where(#bkskthpzpd) .gt_indent_4 {
+  text-indent: 20px;
+}
+
+:where(#bkskthpzpd) .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+<thead class="gt_col_headings"><tr>
+<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="turn">turn</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="speaker">speaker</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="lag">lag</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="start">start</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="end">end</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="transcript">transcript</th>
+    </tr></thead>
+<tbody class="gt_table_body">
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">NA</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">192.110</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">203.610</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">well uh, I have a number of uh &lt;0.82 second pause&gt; things I'd like to ask you about. I wonder if you'd just mind uh. &lt;0.49 second pause&gt; answering questions uh &lt;1.23 second pause&gt; one after another if you</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">2</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">-0.315</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">203.295</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.225</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">yeah &lt;0.34 second pause&gt; well</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">3</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">-0.485</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">204.740</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">205.805</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">if I remind you of a</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">4</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">-0.295</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.510</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">212.120</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">now you might start that &lt;0.51 second pause&gt; I was born in &lt;0.85 second pause&gt; eighteen sixty seven</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">5</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1.230</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">213.350</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">215.450</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">mhm and that makes you how old?</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">6</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">0.330</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">215.780</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">216.600</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">ninety three</td>
+</tr>
+<tr>
+<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">7</td>
+<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
+<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">0.065</td>
+<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">216.665</td>
+<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">217.455</td>
+<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">ninety three</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
+  author = {Josef Fruehwald},
+  title = {A Handy Dplyr Function for Linguistics},
+  series = {Væl Space},
+  date = {2023-02-05},
+  url = {https://jofrhwld.github.io/blog/posts/2023/02/2023-02-05},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2023" class="csl-entry quarto-appendix-citeas">
+Josef Fruehwald. 2023. <span>“A Handy Dplyr Function for
+Linguistics.”</span> Væl Space. February 5, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/02/2023-02-05">https://jofrhwld.github.io/blog/posts/2023/02/2023-02-05</a>.
+</div></div></section></div> ]]></description>
+  <guid>https://jofrhwld.github.io/blog/posts/2023/02/2023-02-05/index.html</guid>
+  <pubDate>Sun, 05 Feb 2023 05:00:00 GMT</pubDate>
+  <media:content url="https://jofrhwld.github.io/blog/posts/2023/02/2023-02-05/data/table.png" medium="image" type="image/png" height="51" width="144"/>
+</item>
 <item>
   <title>Making a Plotly Plot</title>
   <dc:creator>Josef Fruehwald</dc:creator>
@@ -2183,7 +4759,7 @@ Josef Fruehwald. 2022. <span>“What *Is* R?”</span> Væl Space. December
 <details><summary>plotting code</summary><div class="sourceCode" id="cb15" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;">daily_words</span> <span class="op" style="color: #5E5E5E;">|&gt;</span></span>
 <span>  <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/pkg/padr/man/pad.html">pad</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="st" style="color: #20794D;">"day"</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span></span>
 <span>  <span class="fu" style="color: #4758AB;"><a href="https://tidyr.tidyverse.org/reference/fill.html">fill</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">words</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span>daily_words <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">words</span> <span class="op" style="color: #5E5E5E;">-</span> <span class="fu" style="color: #4758AB;">lag</span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">words</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span>daily_words <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">words</span> <span class="op" style="color: #5E5E5E;">-</span> <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html">lag</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">words</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
 <span>         wday <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://lubridate.tidyverse.org/reference/day.html">wday</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">datetime_day</span>, label <span class="op" style="color: #5E5E5E;">=</span> <span class="cn" style="color: #8f5902;">T</span><span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span></span>
 <span>  <span class="fu" style="color: #4758AB;"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span></span>
 <span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">wday</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span></span>

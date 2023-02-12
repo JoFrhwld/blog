@@ -1,0 +1,211 @@
+---
+title: "Simulating DND Rolls"
+date: 2023-02-12
+order: 12
+image: "index_files/figure-html/fig-rollprob-1.png"
+twitter-card: 
+  image: "index_files/figure-html/fig-rollprob-1.png"
+  card-style: summary_large_image
+open-graph:
+  image: "index_files/figure-html/fig-rollprob-1.png"
+---
+
+I've recently started playing Dungeons and Dragons, and have been really enjoying the campaign my sibling runs. I'm still getting a handle on the mechanics, especially in combat, where the sequence of events that are allowed, and keeping track of your what you roll when is still a little confusing to me. Even though it's not playing out in real time, it *feels* urgent, and I don't always keep track of things like "Am I rolling with advantage?", "Do I have bardic inspiration" etc.
+
+But in the time in between sessions, in addition to thinking through the mechanics to remember, I've also been thinking about the probabilities of it all. And what do you know! There's an R package for that: [`{droll}`](https://curso-r.github.io/droll/) !
+
+## Simulating rolls
+
+```{r}
+#| message: false
+library(tidyverse)
+library(geomtextpath)
+library(khroma)
+library(droll)
+```
+
+The `{droll}` package works seems to be explicitly built to compatible with the DnD directions work. For example, you might roll a 20 sided die, or a "d20", and add an ability "modifier" to the result. In droll commands, we'll create a d20, set a dexterity modifier, then roll a random value then add that modifier:
+
+```{r}
+#| code-fold: false
+#| code-summary: "Setting a random seed"
+set.seed(12)
+```
+
+```{r}
+# make a d20
+d20 <- d(20)
+# low dex
+dex <- 1
+d20 + dex
+```
+
+Another thing you might do is roll multiple dice, then add the result together. For example "roll 3d8" means you roll three 8-sided dice, then add the result together for *something* to happen.
+
+```{r}
+d8 <- d(8)
+3 * d8
+```
+
+## Distributions
+
+It also comes with a few probability distributions built to get the density, cumulative probability, and quantiles of die, which might already be familiar to some R users. Here's the density distributions of rolling 1, 2, 3, and 4 d8s.
+
+```{r}
+## A function to make a tibble
+## of n rolls of a die.
+make_roll_tibble <- function(n, die){
+  nfaces <- max(die@faces)
+  tibble(
+    rolls = n:(n*nfaces),
+    faces = nfaces,
+    density = droll(rolls, n*die)
+  )
+}
+
+```
+
+```{r}
+## Constructing the roll densities
+tibble(n = 1:4) |> 
+  mutate(
+    roll_df = map(
+      n,
+      # new R anonymous function
+      \(n) make_roll_tibble(n, d8)
+    )
+  ) |> 
+  unnest(roll_df) -> 
+  roll_densities
+```
+
+```{r}
+#| label: fig-rolldens
+#| fig-align: center
+#| fig-cap: "Density distributions of nd8 rolls"
+#| fig-alt: "Density plots of 1, 2, 3 and 4 d8 rolls. 1d8 is a uniform distribution, while 4d8 is approaching a normal distribution"
+
+## plotting the roll densities
+roll_densities |> 
+  mutate(
+    nd = str_c(n, "d", faces)
+  ) |> 
+  ggplot(aes(rolls, density))+
+    geom_area(fill = "grey90")+
+    expand_limits(x = 1)+
+    facet_wrap(
+      ~nd, 
+      scales = "free_x"
+      )+
+  labs(
+    title = "Density distributions of 1 through 4 d8 rolls"
+  )
+```
+
+## Advantage vs Disadvantage
+
+One mechanic in DnD is rolling with "Advantage" vs rolling with "Disadvantage". If you have advantage (say, because an enemy is restrained), you roll two d20s and take the highest value. If you roll with disadvantage (say, because *you* are restrained), you roll two d20s and take the lowest value.
+
+There's not a straightforward way to get the advantage vs disadvantage rolls, but I figured out a way to do with with some tidyverse tricks.
+
+```{r}
+## Set up the number of rolls
+nsims = 10000
+nrolls = nsims * 2
+
+## Initial tibble with 
+## random rolls
+tibble(
+  roll_id = 0:(nrolls-1),
+  roll_value = rroll(nrolls, d20)
+) |> 
+  ## convert to roll groups
+  mutate(
+    roll_group = floor(roll_id/2)
+  ) |> 
+  ## group
+  group_by(roll_group) |> 
+  ## number the rolls
+  mutate(
+    roll_num = row_number()
+  ) |> 
+  ## Get advantage, 
+  ## disadvantage
+  ## and first roll
+  summarise(
+    advantage = max(roll_value),
+    disadvantage = min(roll_value),
+    normal = roll_value[1]
+  ) -> 
+  simulated_rolls
+
+head(simulated_rolls)
+```
+
+Next step is to count up how many of each value we got, which requires pivoting.
+
+```{r}
+simulated_rolls |> 
+  pivot_longer(
+    cols = advantage:normal,
+    names_to = "roll_type",
+    values_to = "roll_value"
+  ) ->
+  rolls_long
+
+head(rolls_long)
+```
+
+After pivoting long, I'll calculate the cumulative probability that a player will pass the skill check.
+
+```{r}
+rolls_long |> 
+  count(roll_type, roll_value) |> 
+  arrange(desc(roll_value)) |> 
+  mutate(
+    .by = roll_type,
+    prob = cumsum(n)/sum(n)
+  )  -> 
+  check_prob
+head(check_prob)
+```
+
+Last thing to do is make a plot!
+
+```{r}
+#| label: fig-rollprob
+#| fig-align: center
+#| fig-cap: "Cumulative probability density functions"
+#| fig-alt: "A line graph showing the inverse cumulative density distributions of rolling a d20 normally, with advantage, and with disadvantage. Normal rolls are a straight, decreasing line. Advantage arcs over the normal rolls, while disadvantage arcs underneath it."
+check_prob |> 
+  ggplot(aes(roll_value, prob, color = roll_type))+
+    geom_textpath(
+      aes(label = roll_type),
+      linewidth = 2
+    )+
+    scale_x_continuous(
+      breaks = c(5, 10, 15, 20),
+      minor_breaks = c(
+        1:4,
+        6:9,
+        11:14,
+        16:19
+      )
+    )+
+    scale_color_manual(
+      values = c("#b59e54", "#AB6dac","#c73032" )
+    )+
+    guides(
+      color = "none"
+    )+
+    labs(
+      title = "Probability of passing a skill check, no modifier",
+      x = "Difficulty class"
+    )
+```
+
+## Closing thoughts
+
+One thought I had, while writing this post, was how the different reasons for doing these dice rolls in the game affected the kind probability plot I made. Most often you'll be rolling 3d8 in order to calculate how much damage you're going to do, so for that plot what you want to know what the point probabilities of each outcome is, hence the density functions.
+
+For rolling d20s with advantage or disadvantage, you're wanting to see what the probability is that you'll pass the skill check, that is, that you'll roll *at least* some value, hence the inverse cumulative probability distributions!

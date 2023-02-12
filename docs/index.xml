@@ -9,8 +9,243 @@
 <link>https://jofrhwld.github.io/blog/index.html</link>
 <atom:link href="https://jofrhwld.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.2.313</generator>
-<lastBuildDate>Sun, 05 Feb 2023 05:00:00 GMT</lastBuildDate>
+<generator>quarto-1.2.335</generator>
+<lastBuildDate>Sun, 12 Feb 2023 05:00:00 GMT</lastBuildDate>
+<item>
+  <title>Simulating DND Rolls</title>
+  <dc:creator>Josef Fruehwald</dc:creator>
+  <link>https://jofrhwld.github.io/blog/posts/2023/02/2023-02-12_dndroll/index.html</link>
+  <description><![CDATA[ <p>I’ve recently started playing Dungeons and Dragons, and have been really enjoying the campaign my sibling runs. I’m still getting a handle on the mechanics, especially in combat, where the sequence of events that are allowed, and keeping track of your what you roll when is still a little confusing to me. Even though it’s not playing out in real time, it <em>feels</em> urgent, and I don’t always keep track of things like “Am I rolling with advantage?”, “Do I have bardic inspiration” etc.</p>
+<p>But in the time in between sessions, in addition to thinking through the mechanics to remember, I’ve also been thinking about the probabilities of it all. And what do you know! There’s an R package for that: <a href="https://curso-r.github.io/droll/"><code>{droll}</code></a> !</p>
+<section id="simulating-rolls" class="level2"><h2 class="anchored" data-anchor-id="simulating-rolls">Simulating rolls</h2>
+<div class="cell">
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw" style="color: #003B4F;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span><span class="kw" style="color: #003B4F;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;"><a href="https://allancameron.github.io/geomtextpath/">geomtextpath</a></span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span><span class="kw" style="color: #003B4F;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;"><a href="https://packages.tesselle.org/khroma/">khroma</a></span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span><span class="kw" style="color: #003B4F;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">droll</span><span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
+</div>
+<p>The <code>{droll}</code> package works seems to be explicitly built to compatible with the DnD directions work. For example, you might roll a 20 sided die, or a “d20”, and add an ability “modifier” to the result. In droll commands, we’ll create a d20, set a dexterity modifier, then roll a random value then add that modifier:</p>
+<div class="cell">
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="fl" style="color: #AD0000;">12</span><span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co" style="color: #5E5E5E;"># make a d20</span></span>
+<span><span class="va" style="color: #111111;">d20</span> <span class="op" style="color: #5E5E5E;">&lt;-</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/pkg/droll/man/d.html">d</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="fl" style="color: #AD0000;">20</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span><span class="co" style="color: #5E5E5E;"># low dex</span></span>
+<span><span class="va" style="color: #111111;">dex</span> <span class="op" style="color: #5E5E5E;">&lt;-</span> <span class="fl" style="color: #AD0000;">1</span></span>
+<span><span class="va" style="color: #111111;">d20</span> <span class="op" style="color: #5E5E5E;">+</span> <span class="va" style="color: #111111;">dex</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<p>Another thing you might do is roll multiple dice, then add the result together. For example “roll 3d8” means you roll three 8-sided dice, then add the result together for <em>something</em> to happen.</p>
+<div class="cell">
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;">d8</span> <span class="op" style="color: #5E5E5E;">&lt;-</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/pkg/droll/man/d.html">d</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="fl" style="color: #AD0000;">8</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span><span class="fl" style="color: #AD0000;">3</span> <span class="op" style="color: #5E5E5E;">*</span> <span class="va" style="color: #111111;">d8</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 17</code></pre>
+</div>
+</div>
+</section><section id="distributions" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="distributions">Distributions</h2>
+<p>It also comes with a few probability distributions built to get the density, cumulative probability, and quantiles of die, which might already be familiar to some R users. Here’s the density distributions of rolling 1, 2, 3, and 4 d8s.</p>
+<div class="cell">
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co" style="color: #5E5E5E;">## A function to make a tibble</span></span>
+<span><span class="co" style="color: #5E5E5E;">## of n rolls of a die.</span></span>
+<span><span class="va" style="color: #111111;">make_roll_tibble</span> <span class="op" style="color: #5E5E5E;">&lt;-</span> <span class="kw" style="color: #003B4F;">function</span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">n</span>, <span class="va" style="color: #111111;">die</span><span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">{</span></span>
+<span>  <span class="va" style="color: #111111;">nfaces</span> <span class="op" style="color: #5E5E5E;">&lt;-</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">die</span><span class="op" style="color: #5E5E5E;">@</span><span class="va" style="color: #111111;">faces</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    rolls <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">n</span><span class="op" style="color: #5E5E5E;">:</span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">n</span><span class="op" style="color: #5E5E5E;">*</span><span class="va" style="color: #111111;">nfaces</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>    faces <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">nfaces</span>,</span>
+<span>    density <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/pkg/droll/man/roll.html">droll</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">rolls</span>, <span class="va" style="color: #111111;">n</span><span class="op" style="color: #5E5E5E;">*</span><span class="va" style="color: #111111;">die</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span></span>
+<span><span class="op" style="color: #5E5E5E;">}</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co" style="color: #5E5E5E;">## Constructing the roll densities</span></span>
+<span><span class="fu" style="color: #4758AB;"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op" style="color: #5E5E5E;">(</span>n <span class="op" style="color: #5E5E5E;">=</span> <span class="fl" style="color: #AD0000;">1</span><span class="op" style="color: #5E5E5E;">:</span><span class="fl" style="color: #AD0000;">4</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    roll_df <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>      <span class="va" style="color: #111111;">n</span>,</span>
+<span>      <span class="co" style="color: #5E5E5E;"># new R anonymous function</span></span>
+<span>      \<span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">n</span><span class="op" style="color: #5E5E5E;">)</span> <span class="fu" style="color: #4758AB;">make_roll_tibble</span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">n</span>, <span class="va" style="color: #111111;">d8</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span>    <span class="op" style="color: #5E5E5E;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">roll_df</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">-&gt;</span> </span>
+<span>  <span class="va" style="color: #111111;">roll_densities</span></span></code></pre></div>
+</div>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co" style="color: #5E5E5E;">## plotting the roll densities</span></span>
+<span><span class="va" style="color: #111111;">roll_densities</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    nd <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">n</span>, <span class="st" style="color: #20794D;">"d"</span>, <span class="va" style="color: #111111;">faces</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">rolls</span>, <span class="va" style="color: #111111;">density</span><span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">+</span></span>
+<span>    <span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area</a></span><span class="op" style="color: #5E5E5E;">(</span>fill <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">"grey90"</span><span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">+</span></span>
+<span>    <span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/expand_limits.html">expand_limits</a></span><span class="op" style="color: #5E5E5E;">(</span>x <span class="op" style="color: #5E5E5E;">=</span> <span class="fl" style="color: #AD0000;">1</span><span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">+</span></span>
+<span>    <span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>      <span class="op" style="color: #5E5E5E;">~</span><span class="va" style="color: #111111;">nd</span>, </span>
+<span>      scales <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">"free_x"</span></span>
+<span>      <span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    title <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">"Density distributions of 1 through 4 d8 rolls"</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-rolldens" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full"><p><img src="https://jofrhwld.github.io/blog/posts/2023/02/2023-02-12_dndroll/index_files/figure-html/fig-rolldens-1.png" class="img-fluid figure-img" alt="Density plots of 1, 2, 3 and 4 d8 rolls. 1d8 is a uniform distribution, while 4d8 is approaching a normal distribution" width="576"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure&nbsp;1: Density distributions of nd8 rolls</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="advantage-vs-disadvantage" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="advantage-vs-disadvantage">Advantage vs Disadvantage</h2>
+<p>One mechanic in DnD is rolling with “Advantage” vs rolling with “Disadvantage”. If you have advantage (say, because an enemy is restrained), you roll two d20s and take the highest value. If you roll with disadvantage (say, because <em>you</em> are restrained), you roll two d20s and take the lowest value.</p>
+<p>There’s not a straightforward way to get the advantage vs disadvantage rolls, but I figured out a way to do with with some tidyverse tricks.</p>
+<div class="cell">
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co" style="color: #5E5E5E;">## Set up the number of rolls</span></span>
+<span><span class="va" style="color: #111111;">nsims</span> <span class="op" style="color: #5E5E5E;">=</span> <span class="fl" style="color: #AD0000;">10000</span></span>
+<span><span class="va" style="color: #111111;">nrolls</span> <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">nsims</span> <span class="op" style="color: #5E5E5E;">*</span> <span class="fl" style="color: #AD0000;">2</span></span>
+<span></span>
+<span><span class="co" style="color: #5E5E5E;">## Initial tibble with </span></span>
+<span><span class="co" style="color: #5E5E5E;">## random rolls</span></span>
+<span><span class="fu" style="color: #4758AB;"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>  roll_id <span class="op" style="color: #5E5E5E;">=</span> <span class="fl" style="color: #AD0000;">0</span><span class="op" style="color: #5E5E5E;">:</span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">nrolls</span><span class="op" style="color: #5E5E5E;">-</span><span class="fl" style="color: #AD0000;">1</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>  roll_value <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/pkg/droll/man/roll.html">rroll</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">nrolls</span>, <span class="va" style="color: #111111;">d20</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="co" style="color: #5E5E5E;">## convert to roll groups</span></span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    roll_group <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/Round.html">floor</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">roll_id</span><span class="op" style="color: #5E5E5E;">/</span><span class="fl" style="color: #AD0000;">2</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="co" style="color: #5E5E5E;">## group</span></span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">roll_group</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="co" style="color: #5E5E5E;">## number the rolls</span></span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    roll_num <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/row_number.html">row_number</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="co" style="color: #5E5E5E;">## Get advantage, </span></span>
+<span>  <span class="co" style="color: #5E5E5E;">## disadvantage</span></span>
+<span>  <span class="co" style="color: #5E5E5E;">## and first roll</span></span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    advantage <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">roll_value</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>    disadvantage <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">roll_value</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>    normal <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">roll_value</span><span class="op" style="color: #5E5E5E;">[</span><span class="fl" style="color: #AD0000;">1</span><span class="op" style="color: #5E5E5E;">]</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">-&gt;</span> </span>
+<span>  <span class="va" style="color: #111111;">simulated_rolls</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">simulated_rolls</span><span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  roll_group advantage disadvantage normal
+       &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt;
+1          0        12            3     12
+2          1        16            2     16
+3          2        17            5     17
+4          3        16           12     16
+5          4         8            2      2
+6          5        11            1      1</code></pre>
+</div>
+</div>
+<p>Next step is to count up how many of each value we got, which requires pivoting.</p>
+<div class="cell">
+<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;">simulated_rolls</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    cols <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">advantage</span><span class="op" style="color: #5E5E5E;">:</span><span class="va" style="color: #111111;">normal</span>,</span>
+<span>    names_to <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">"roll_type"</span>,</span>
+<span>    values_to <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">"roll_value"</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">-&gt;</span></span>
+<span>  <span class="va" style="color: #111111;">rolls_long</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">rolls_long</span><span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  roll_group roll_type    roll_value
+       &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;
+1          0 advantage            12
+2          0 disadvantage          3
+3          0 normal               12
+4          1 advantage            16
+5          1 disadvantage          2
+6          1 normal               16</code></pre>
+</div>
+</div>
+<p>After pivoting long, I’ll calculate the cumulative probability that a player will pass the skill check.</p>
+<div class="cell">
+<div class="sourceCode" id="cb14" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;">rolls_long</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">roll_type</span>, <span class="va" style="color: #111111;">roll_value</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">roll_value</span><span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>    .by <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">roll_type</span>,</span>
+<span>    prob <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">n</span><span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">/</span><span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">n</span><span class="op" style="color: #5E5E5E;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;">)</span>  <span class="op" style="color: #5E5E5E;">-&gt;</span> </span>
+<span>  <span class="va" style="color: #111111;">check_prob</span></span>
+<span><span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">check_prob</span><span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  roll_type    roll_value     n   prob
+  &lt;chr&gt;             &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;
+1 advantage            20   979 0.0979
+2 disadvantage         20    31 0.0031
+3 normal               20   515 0.0515
+4 advantage            19   884 0.186 
+5 disadvantage         19    86 0.0117
+6 normal               19   503 0.102 </code></pre>
+</div>
+</div>
+<p>Last thing to do is make a plot!</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb16" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;">check_prob</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">roll_value</span>, <span class="va" style="color: #111111;">prob</span>, color <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">roll_type</span><span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">+</span></span>
+<span>    <span class="fu" style="color: #4758AB;"><a href="https://allancameron.github.io/geomtextpath/reference/geom_textpath.html">geom_textpath</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>      <span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;">(</span>label <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">roll_type</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>      linewidth <span class="op" style="color: #5E5E5E;">=</span> <span class="fl" style="color: #AD0000;">2</span></span>
+<span>    <span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">+</span></span>
+<span>    <span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>      breaks <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="fl" style="color: #AD0000;">5</span>, <span class="fl" style="color: #AD0000;">10</span>, <span class="fl" style="color: #AD0000;">15</span>, <span class="fl" style="color: #AD0000;">20</span><span class="op" style="color: #5E5E5E;">)</span>,</span>
+<span>      minor_breaks <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>        <span class="fl" style="color: #AD0000;">1</span><span class="op" style="color: #5E5E5E;">:</span><span class="fl" style="color: #AD0000;">4</span>,</span>
+<span>        <span class="fl" style="color: #AD0000;">6</span><span class="op" style="color: #5E5E5E;">:</span><span class="fl" style="color: #AD0000;">9</span>,</span>
+<span>        <span class="fl" style="color: #AD0000;">11</span><span class="op" style="color: #5E5E5E;">:</span><span class="fl" style="color: #AD0000;">14</span>,</span>
+<span>        <span class="fl" style="color: #AD0000;">16</span><span class="op" style="color: #5E5E5E;">:</span><span class="fl" style="color: #AD0000;">19</span></span>
+<span>      <span class="op" style="color: #5E5E5E;">)</span></span>
+<span>    <span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">+</span></span>
+<span>    <span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>      values <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="st" style="color: #20794D;">"#b59e54"</span>, <span class="st" style="color: #20794D;">"#AB6dac"</span>,<span class="st" style="color: #20794D;">"#c73032"</span> <span class="op" style="color: #5E5E5E;">)</span></span>
+<span>    <span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">+</span></span>
+<span>    <span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>      color <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">"none"</span></span>
+<span>    <span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">+</span></span>
+<span>    <span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op" style="color: #5E5E5E;">(</span></span>
+<span>      title <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">"Probability of passing a skill check, no modifier"</span>,</span>
+<span>      x <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">"Difficulty class"</span></span>
+<span>    <span class="op" style="color: #5E5E5E;">)</span></span></code></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-rollprob" class="quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="figure page-columns page-full"><p><img src="https://jofrhwld.github.io/blog/posts/2023/02/2023-02-12_dndroll/index_files/figure-html/fig-rollprob-1.png" class="img-fluid figure-img" alt="A line graph showing the inverse cumulative density distributions of rolling a d20 normally, with advantage, and with disadvantage. Normal rolls are a straight, decreasing line. Advantage arcs over the normal rolls, while disadvantage arcs underneath it." width="576"></p>
+<p></p><figcaption class="figure-caption margin-caption">Figure&nbsp;2: Cumulative probability density functions</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="closing-thoughts" class="level2"><h2 class="anchored" data-anchor-id="closing-thoughts">Closing thoughts</h2>
+<p>One thought I had, while writing this post, was how the different reasons for doing these dice rolls in the game affected the kind probability plot I made. Most often you’ll be rolling 3d8 in order to calculate how much damage you’re going to do, so for that plot what you want to know what the point probabilities of each outcome is, hence the density functions.</p>
+<p>For rolling d20s with advantage or disadvantage, you’re wanting to see what the probability is that you’ll pass the skill check, that is, that you’ll roll <em>at least</em> some value, hence the inverse cumulative probability distributions!</p>
+
+
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
+  author = {Josef Fruehwald},
+  title = {Simulating {DND} {Rolls}},
+  series = {Væl Space},
+  date = {2023-02-12},
+  url = {https://jofrhwld.github.io/blog/posts/2023/02/2023-02-12_dndroll},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2023" class="csl-entry quarto-appendix-citeas">
+Josef Fruehwald. 2023. <span>“Simulating DND Rolls.”</span> Væl Space.
+February 12, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/02/2023-02-12_dndroll">https://jofrhwld.github.io/blog/posts/2023/02/2023-02-12_dndroll</a>.
+</div></div></section></div> ]]></description>
+  <guid>https://jofrhwld.github.io/blog/posts/2023/02/2023-02-12_dndroll/index.html</guid>
+  <pubDate>Sun, 12 Feb 2023 05:00:00 GMT</pubDate>
+  <media:content url="https://jofrhwld.github.io/blog/posts/2023/02/2023-02-12_dndroll/index_files/figure-html/fig-rollprob-1.png" medium="image" type="image/png"/>
+</item>
 <item>
   <title>A handy dplyr function for linguistics</title>
   <dc:creator>Josef Fruehwald</dc:creator>
@@ -3405,7 +3640,7 @@ Explanation of a hacky thing I had to do.
 <span>      <span class="op" style="color: #5E5E5E;">}</span></span>
 <span>    <span class="op" style="color: #5E5E5E;">)</span></span>
 <span>  <span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
-<span>  <span class="fu" style="color: #4758AB;"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">dists</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">-&gt;</span> <span class="va" style="color: #111111;">window_weights</span></span>
+<span>  <span class="fu" style="color: #4758AB;"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">dists</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">-&gt;</span> <span class="va" style="color: #111111;">window_weights</span></span>
 <span></span>
 <span><span class="va" style="color: #111111;">window_weights</span> <span class="op" style="color: #5E5E5E;">|&gt;</span> </span>
 <span>  <span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="fu" style="color: #4758AB;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;">(</span><span class="va" style="color: #111111;">time</span>, <span class="va" style="color: #111111;">weight</span>, group <span class="op" style="color: #5E5E5E;">=</span> <span class="va" style="color: #111111;">win_num</span><span class="op" style="color: #5E5E5E;">)</span><span class="op" style="color: #5E5E5E;">)</span> <span class="op" style="color: #5E5E5E;">+</span></span>

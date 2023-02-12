@@ -6,6 +6,7 @@ comments:
 format:
   html:
     fig-cap-location: margin
+    code-link: true
 
 citation: 
   collection-title: "Væl Space"

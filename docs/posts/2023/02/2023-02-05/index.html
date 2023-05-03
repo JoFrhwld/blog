@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.3.296">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2023-02-05">
@@ -16,9 +16,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -45,43 +46,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -145,13 +116,13 @@ cookieconsent.run({
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@300;400;500;600;700&amp;family=Fira+Code:wght@300;400;500;600;700&amp;family=Fira+Sans:ital,wght@0,100;0,400;1,100;1,400&amp;display=swap" rel="stylesheet">
 <meta property="og:title" content="Væl Space - A handy dplyr function for linguistics">
-<meta property="og:description" content="One of the new functions in dplyr v1.1.0 is dplyr::consecutive_id(), which strikes me as having a few good use cases for linguistic data. The one I’ll illustrate here is for processing transcriptions.">
+<meta property="og:description" content="">
 <meta property="og:image" content="https://jofrhwld.github.io/blog/posts/2023/02/2023-02-05/data/table.png">
 <meta property="og:site-name" content="Væl Space">
 <meta property="og:image:height" content="704">
 <meta property="og:image:width" content="1972">
 <meta name="twitter:title" content="Væl Space - A handy dplyr function for linguistics">
-<meta name="twitter:description" content="One of the new functions in dplyr v1.1.0 is dplyr::consecutive_id(), which strikes me as having a few good use cases for linguistic data. The one I’ll illustrate here is for processing transcriptions.">
+<meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://jofrhwld.github.io/blog/posts/2023/02/2023-02-05/data/table.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image-height" content="704">
@@ -166,37 +137,41 @@ cookieconsent.run({
     <span class="navbar-title">Væl Space</span>
     </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
 <li class="nav-item">
-    <a class="nav-link" href="https://jofrhwld.github.io/">
+    <a class="nav-link" href="https://jofrhwld.github.io/" rel="" target="">
  <span class="menu-text">Homepage</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../../about.html">
+    <a class="nav-link" href="../../../../about.html" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="../../../../index.xml"><i class="bi bi-rss" role="img">
+    <a class="nav-link" href="../../../../index.xml" rel="" target=""><i class="bi bi-rss" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-<div id="quarto-search" class="" title="Search"></div>
+<div class="quarto-navbar-tools ms-auto">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
-    </nav><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">A handy dplyr function for linguistics</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Posts</li><li class="breadcrumb-item">2023</li><li class="breadcrumb-item"><a href="../../../../posts/2023/02/2023-02-05/index.html">A handy dplyr function for linguistics</a></li><li class="breadcrumb-item"><a href="../../../../posts/2023/02/2023-02-05/index.html">A handy dplyr function for linguistics</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
     </div>
   </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title d-none d-lg-block">A handy dplyr function for linguistics</h1>
+      <h1 class="title">A handy dplyr function for linguistics</h1>
                       </div>
   </div>
     
@@ -223,50 +198,57 @@ cookieconsent.run({
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto"><div class="sidebar-menu-container"> 
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
 <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Posts</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Posts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">2022</a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+ <span class="menu-text">2022</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">
 <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">12</a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+ <span class="menu-text">12</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 ">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2022/12/2022-12-10/index.html" class="sidebar-item-text sidebar-link">A lesson in over-preparing</a>
+  <a href="../../../../posts/2022/12/2022-12-10/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A lesson in over-preparing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2022/12/2022-12-17/index.html" class="sidebar-item-text sidebar-link">What <em>is</em> R?</a>
+  <a href="../../../../posts/2022/12/2022-12-17/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What <em>is</em> R?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2022/12/2022-12-21_github-onboarding/index.html" class="sidebar-item-text sidebar-link">Github Onboarding with RStudio</a>
+  <a href="../../../../posts/2022/12/2022-12-21_github-onboarding/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Github Onboarding with RStudio</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2022/12/2022-12-31_wooder1/index.html" class="sidebar-item-text sidebar-link">Rising Wooders</a>
+  <a href="../../../../posts/2022/12/2022-12-31_wooder1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rising Wooders</span></a>
   </div>
 </li>
       </ul>
@@ -275,63 +257,73 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">2023</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">2023</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">
 <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">01</a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">01</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2023/01/2023-01-01_wooder2/index.html" class="sidebar-item-text sidebar-link">Rising Wooders: Part 2</a>
+  <a href="../../../../posts/2023/01/2023-01-01_wooder2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rising Wooders: Part 2</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2023/01/2023-01-04_wooder3/index.html" class="sidebar-item-text sidebar-link">Rising Wooders: Part 3</a>
+  <a href="../../../../posts/2023/01/2023-01-04_wooder3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rising Wooders: Part 3</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2023/01/2023-01-22_r-spect/index.html" class="sidebar-item-text sidebar-link">Making a spectrogram in R</a>
+  <a href="../../../../posts/2023/01/2023-01-22_r-spect/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Making a spectrogram in R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2023/01/2023-01-27_jan-rpackages/index.html" class="sidebar-item-text sidebar-link">R Package Exploration (Jan 2023)</a>
+  <a href="../../../../posts/2023/01/2023-01-27_jan-rpackages/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Package Exploration (Jan 2023)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2023/01/2023-01-29_starting-plotly/index.html" class="sidebar-item-text sidebar-link">Making a Plotly Plot</a>
+  <a href="../../../../posts/2023/01/2023-01-29_starting-plotly/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Making a Plotly Plot</span></a>
   </div>
 </li>
       </ul>
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">02</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">02</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth3 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2023/02/2023-02-05/index.html" class="sidebar-item-text sidebar-link active">A handy dplyr function for linguistics</a>
+  <a href="../../../../posts/2023/02/2023-02-05/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">A handy dplyr function for linguistics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2023/02/2023-02-12_dndroll/index.html" class="sidebar-item-text sidebar-link">Simulating DND Rolls</a>
+  <a href="../../../../posts/2023/02/2023-02-12_dndroll/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simulating DND Rolls</span></a>
   </div>
 </li>
       </ul>
@@ -342,7 +334,9 @@ cookieconsent.run({
 </li>
     </ul>
 </div>
-</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
@@ -377,7 +371,7 @@ cookieconsent.run({
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#unzidpxhga) .gt_table {
+#unzidpxhga .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -402,7 +396,7 @@ cookieconsent.run({
   border-left-color: #D3D3D3;
 }
 
-:where(#unzidpxhga) .gt_heading {
+#unzidpxhga .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -414,12 +408,12 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#unzidpxhga) .gt_caption {
+#unzidpxhga .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#unzidpxhga) .gt_title {
+#unzidpxhga .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -431,7 +425,7 @@ cookieconsent.run({
   border-bottom-width: 0;
 }
 
-:where(#unzidpxhga) .gt_subtitle {
+#unzidpxhga .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -443,13 +437,13 @@ cookieconsent.run({
   border-top-width: 0;
 }
 
-:where(#unzidpxhga) .gt_bottom_border {
+#unzidpxhga .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#unzidpxhga) .gt_col_headings {
+#unzidpxhga .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -464,7 +458,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#unzidpxhga) .gt_col_heading {
+#unzidpxhga .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -484,7 +478,7 @@ cookieconsent.run({
   overflow-x: hidden;
 }
 
-:where(#unzidpxhga) .gt_column_spanner_outer {
+#unzidpxhga .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -496,15 +490,15 @@ cookieconsent.run({
   padding-right: 4px;
 }
 
-:where(#unzidpxhga) .gt_column_spanner_outer:first-child {
+#unzidpxhga .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#unzidpxhga) .gt_column_spanner_outer:last-child {
+#unzidpxhga .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#unzidpxhga) .gt_column_spanner {
+#unzidpxhga .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -516,7 +510,7 @@ cookieconsent.run({
   width: 100%;
 }
 
-:where(#unzidpxhga) .gt_group_heading {
+#unzidpxhga .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -542,7 +536,7 @@ cookieconsent.run({
   text-align: left;
 }
 
-:where(#unzidpxhga) .gt_empty_group_heading {
+#unzidpxhga .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -557,15 +551,15 @@ cookieconsent.run({
   vertical-align: middle;
 }
 
-:where(#unzidpxhga) .gt_from_md > :first-child {
+#unzidpxhga .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#unzidpxhga) .gt_from_md > :last-child {
+#unzidpxhga .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#unzidpxhga) .gt_row {
+#unzidpxhga .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -584,7 +578,7 @@ cookieconsent.run({
   overflow-x: hidden;
 }
 
-:where(#unzidpxhga) .gt_stub {
+#unzidpxhga .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -597,7 +591,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#unzidpxhga) .gt_stub_row_group {
+#unzidpxhga .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -611,11 +605,11 @@ cookieconsent.run({
   vertical-align: top;
 }
 
-:where(#unzidpxhga) .gt_row_group_first td {
+#unzidpxhga .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#unzidpxhga) .gt_summary_row {
+#unzidpxhga .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -625,16 +619,16 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#unzidpxhga) .gt_first_summary_row {
+#unzidpxhga .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#unzidpxhga) .gt_first_summary_row.thick {
+#unzidpxhga .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#unzidpxhga) .gt_last_summary_row {
+#unzidpxhga .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -644,7 +638,7 @@ cookieconsent.run({
   border-bottom-color: #D3D3D3;
 }
 
-:where(#unzidpxhga) .gt_grand_summary_row {
+#unzidpxhga .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -654,7 +648,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#unzidpxhga) .gt_first_grand_summary_row {
+#unzidpxhga .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -664,11 +658,11 @@ cookieconsent.run({
   border-top-color: #D3D3D3;
 }
 
-:where(#unzidpxhga) .gt_striped {
+#unzidpxhga .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#unzidpxhga) .gt_table_body {
+#unzidpxhga .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -677,7 +671,7 @@ cookieconsent.run({
   border-bottom-color: #D3D3D3;
 }
 
-:where(#unzidpxhga) .gt_footnotes {
+#unzidpxhga .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -691,7 +685,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#unzidpxhga) .gt_footnote {
+#unzidpxhga .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -700,7 +694,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#unzidpxhga) .gt_sourcenotes {
+#unzidpxhga .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -714,7 +708,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#unzidpxhga) .gt_sourcenote {
+#unzidpxhga .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -722,152 +716,152 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#unzidpxhga) .gt_left {
+#unzidpxhga .gt_left {
   text-align: left;
 }
 
-:where(#unzidpxhga) .gt_center {
+#unzidpxhga .gt_center {
   text-align: center;
 }
 
-:where(#unzidpxhga) .gt_right {
+#unzidpxhga .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#unzidpxhga) .gt_font_normal {
+#unzidpxhga .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#unzidpxhga) .gt_font_bold {
+#unzidpxhga .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#unzidpxhga) .gt_font_italic {
+#unzidpxhga .gt_font_italic {
   font-style: italic;
 }
 
-:where(#unzidpxhga) .gt_super {
+#unzidpxhga .gt_super {
   font-size: 65%;
 }
 
-:where(#unzidpxhga) .gt_footnote_marks {
+#unzidpxhga .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#unzidpxhga) .gt_asterisk {
+#unzidpxhga .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#unzidpxhga) .gt_indent_1 {
+#unzidpxhga .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#unzidpxhga) .gt_indent_2 {
+#unzidpxhga .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#unzidpxhga) .gt_indent_3 {
+#unzidpxhga .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#unzidpxhga) .gt_indent_4 {
+#unzidpxhga .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#unzidpxhga) .gt_indent_5 {
+#unzidpxhga .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-<thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="speaker">speaker</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="start">start</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="end">end</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="transcript">transcript</th>
-    </tr></thead>
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true">
+<thead class="gt_col_headings"><tr class="header">
+<th id="speaker" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">speaker</th>
+<th id="start" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">start</th>
+<th id="end" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">end</th>
+<th id="transcript" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">transcript</th>
+</tr></thead>
 <tbody class="gt_table_body">
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">192.110</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">194.710</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">well uh, I have a number of uh</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">192.110</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">194.710</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">well uh, I have a number of uh</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">195.530</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">198.620</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">things I'd like to ask you about. I wonder if you'd just mind uh.</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">195.530</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">198.620</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">things I'd like to ask you about. I wonder if you'd just mind uh.</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">199.110</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">200.900</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">answering questions uh</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">199.110</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">200.900</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">answering questions uh</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">202.130</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">203.610</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">one after another if you</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">202.130</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">203.610</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">one after another if you</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">203.295</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">204.405</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">yeah</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">203.295</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">204.405</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">yeah</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">204.745</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.225</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">well</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">204.745</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">205.225</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">well</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">204.740</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">205.805</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">if I remind you of a</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">204.740</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">205.805</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">if I remind you of a</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.510</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">207.930</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">now you might start that</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">205.510</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">207.930</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">now you might start that</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">208.440</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">209.570</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">I was born in</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">208.440</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">209.570</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">I was born in</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">210.420</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">212.120</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">eighteen sixty seven</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">210.420</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">212.120</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">eighteen sixty seven</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">213.350</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">215.450</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">mhm and that makes you how old?</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">213.350</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">215.450</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">mhm and that makes you how old?</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">215.780</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">216.600</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">ninety three</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">215.780</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">216.600</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">ninety three</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">216.665</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">217.455</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">ninety three</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">216.665</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">217.455</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">ninety three</td>
 </tr>
 </tbody>
 </table>
@@ -889,7 +883,7 @@ cookieconsent.run({
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#ltuyhhyxhi) .gt_table {
+#ltuyhhyxhi .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -914,7 +908,7 @@ cookieconsent.run({
   border-left-color: #D3D3D3;
 }
 
-:where(#ltuyhhyxhi) .gt_heading {
+#ltuyhhyxhi .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -926,12 +920,12 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#ltuyhhyxhi) .gt_caption {
+#ltuyhhyxhi .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#ltuyhhyxhi) .gt_title {
+#ltuyhhyxhi .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -943,7 +937,7 @@ cookieconsent.run({
   border-bottom-width: 0;
 }
 
-:where(#ltuyhhyxhi) .gt_subtitle {
+#ltuyhhyxhi .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -955,13 +949,13 @@ cookieconsent.run({
   border-top-width: 0;
 }
 
-:where(#ltuyhhyxhi) .gt_bottom_border {
+#ltuyhhyxhi .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#ltuyhhyxhi) .gt_col_headings {
+#ltuyhhyxhi .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -976,7 +970,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#ltuyhhyxhi) .gt_col_heading {
+#ltuyhhyxhi .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -996,7 +990,7 @@ cookieconsent.run({
   overflow-x: hidden;
 }
 
-:where(#ltuyhhyxhi) .gt_column_spanner_outer {
+#ltuyhhyxhi .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1008,15 +1002,15 @@ cookieconsent.run({
   padding-right: 4px;
 }
 
-:where(#ltuyhhyxhi) .gt_column_spanner_outer:first-child {
+#ltuyhhyxhi .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#ltuyhhyxhi) .gt_column_spanner_outer:last-child {
+#ltuyhhyxhi .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#ltuyhhyxhi) .gt_column_spanner {
+#ltuyhhyxhi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1028,7 +1022,7 @@ cookieconsent.run({
   width: 100%;
 }
 
-:where(#ltuyhhyxhi) .gt_group_heading {
+#ltuyhhyxhi .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1054,7 +1048,7 @@ cookieconsent.run({
   text-align: left;
 }
 
-:where(#ltuyhhyxhi) .gt_empty_group_heading {
+#ltuyhhyxhi .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1069,15 +1063,15 @@ cookieconsent.run({
   vertical-align: middle;
 }
 
-:where(#ltuyhhyxhi) .gt_from_md > :first-child {
+#ltuyhhyxhi .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#ltuyhhyxhi) .gt_from_md > :last-child {
+#ltuyhhyxhi .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#ltuyhhyxhi) .gt_row {
+#ltuyhhyxhi .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1096,7 +1090,7 @@ cookieconsent.run({
   overflow-x: hidden;
 }
 
-:where(#ltuyhhyxhi) .gt_stub {
+#ltuyhhyxhi .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1109,7 +1103,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#ltuyhhyxhi) .gt_stub_row_group {
+#ltuyhhyxhi .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1123,11 +1117,11 @@ cookieconsent.run({
   vertical-align: top;
 }
 
-:where(#ltuyhhyxhi) .gt_row_group_first td {
+#ltuyhhyxhi .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#ltuyhhyxhi) .gt_summary_row {
+#ltuyhhyxhi .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1137,16 +1131,16 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#ltuyhhyxhi) .gt_first_summary_row {
+#ltuyhhyxhi .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#ltuyhhyxhi) .gt_first_summary_row.thick {
+#ltuyhhyxhi .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#ltuyhhyxhi) .gt_last_summary_row {
+#ltuyhhyxhi .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1156,7 +1150,7 @@ cookieconsent.run({
   border-bottom-color: #D3D3D3;
 }
 
-:where(#ltuyhhyxhi) .gt_grand_summary_row {
+#ltuyhhyxhi .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1166,7 +1160,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#ltuyhhyxhi) .gt_first_grand_summary_row {
+#ltuyhhyxhi .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1176,11 +1170,11 @@ cookieconsent.run({
   border-top-color: #D3D3D3;
 }
 
-:where(#ltuyhhyxhi) .gt_striped {
+#ltuyhhyxhi .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#ltuyhhyxhi) .gt_table_body {
+#ltuyhhyxhi .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1189,7 +1183,7 @@ cookieconsent.run({
   border-bottom-color: #D3D3D3;
 }
 
-:where(#ltuyhhyxhi) .gt_footnotes {
+#ltuyhhyxhi .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1203,7 +1197,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#ltuyhhyxhi) .gt_footnote {
+#ltuyhhyxhi .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1212,7 +1206,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#ltuyhhyxhi) .gt_sourcenotes {
+#ltuyhhyxhi .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1226,7 +1220,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#ltuyhhyxhi) .gt_sourcenote {
+#ltuyhhyxhi .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1234,166 +1228,166 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#ltuyhhyxhi) .gt_left {
+#ltuyhhyxhi .gt_left {
   text-align: left;
 }
 
-:where(#ltuyhhyxhi) .gt_center {
+#ltuyhhyxhi .gt_center {
   text-align: center;
 }
 
-:where(#ltuyhhyxhi) .gt_right {
+#ltuyhhyxhi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#ltuyhhyxhi) .gt_font_normal {
+#ltuyhhyxhi .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#ltuyhhyxhi) .gt_font_bold {
+#ltuyhhyxhi .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#ltuyhhyxhi) .gt_font_italic {
+#ltuyhhyxhi .gt_font_italic {
   font-style: italic;
 }
 
-:where(#ltuyhhyxhi) .gt_super {
+#ltuyhhyxhi .gt_super {
   font-size: 65%;
 }
 
-:where(#ltuyhhyxhi) .gt_footnote_marks {
+#ltuyhhyxhi .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#ltuyhhyxhi) .gt_asterisk {
+#ltuyhhyxhi .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#ltuyhhyxhi) .gt_indent_1 {
+#ltuyhhyxhi .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#ltuyhhyxhi) .gt_indent_2 {
+#ltuyhhyxhi .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#ltuyhhyxhi) .gt_indent_3 {
+#ltuyhhyxhi .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#ltuyhhyxhi) .gt_indent_4 {
+#ltuyhhyxhi .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#ltuyhhyxhi) .gt_indent_5 {
+#ltuyhhyxhi .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-<thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="speaker">speaker</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="start">start</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="end">end</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="transcript">transcript</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="turn">turn</th>
-    </tr></thead>
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true">
+<thead class="gt_col_headings"><tr class="header">
+<th id="speaker" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">speaker</th>
+<th id="start" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">start</th>
+<th id="end" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">end</th>
+<th id="transcript" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">transcript</th>
+<th id="turn" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">turn</th>
+</tr></thead>
 <tbody class="gt_table_body">
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">192.110</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">194.710</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">well uh, I have a number of uh</td>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">192.110</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">194.710</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">well uh, I have a number of uh</td>
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">1</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">195.530</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">198.620</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">things I'd like to ask you about. I wonder if you'd just mind uh.</td>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">195.530</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">198.620</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">things I'd like to ask you about. I wonder if you'd just mind uh.</td>
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">1</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">199.110</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">200.900</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">answering questions uh</td>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">199.110</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">200.900</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">answering questions uh</td>
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">1</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">202.130</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">203.610</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">one after another if you</td>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">202.130</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">203.610</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">one after another if you</td>
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">1</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">203.295</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">204.405</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">yeah</td>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">2</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">203.295</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">204.405</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">yeah</td>
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">2</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">204.745</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.225</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">well</td>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">2</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">204.745</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">205.225</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">well</td>
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">2</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">204.740</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">205.805</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">if I remind you of a</td>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">3</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">204.740</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">205.805</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">if I remind you of a</td>
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">3</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.510</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">207.930</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">now you might start that</td>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">4</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">205.510</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">207.930</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">now you might start that</td>
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">4</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">208.440</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">209.570</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">I was born in</td>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">4</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">208.440</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">209.570</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">I was born in</td>
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">4</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">210.420</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">212.120</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">eighteen sixty seven</td>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">4</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">210.420</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">212.120</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">eighteen sixty seven</td>
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">4</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">213.350</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">215.450</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">mhm and that makes you how old?</td>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">5</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">213.350</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">215.450</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">mhm and that makes you how old?</td>
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">5</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">215.780</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">216.600</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">ninety three</td>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">6</td>
+<tr class="even">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">215.780</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">216.600</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">ninety three</td>
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">6</td>
 </tr>
-<tr>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">216.665</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">217.455</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">ninety three</td>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">7</td>
+<tr class="odd">
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">216.665</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">217.455</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">ninety three</td>
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">7</td>
 </tr>
 </tbody>
 </table>
@@ -1421,7 +1415,7 @@ cookieconsent.run({
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#wofqypphhj) .gt_table {
+#wofqypphhj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1446,7 +1440,7 @@ cookieconsent.run({
   border-left-color: #D3D3D3;
 }
 
-:where(#wofqypphhj) .gt_heading {
+#wofqypphhj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1458,12 +1452,12 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#wofqypphhj) .gt_caption {
+#wofqypphhj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#wofqypphhj) .gt_title {
+#wofqypphhj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1475,7 +1469,7 @@ cookieconsent.run({
   border-bottom-width: 0;
 }
 
-:where(#wofqypphhj) .gt_subtitle {
+#wofqypphhj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1487,13 +1481,13 @@ cookieconsent.run({
   border-top-width: 0;
 }
 
-:where(#wofqypphhj) .gt_bottom_border {
+#wofqypphhj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#wofqypphhj) .gt_col_headings {
+#wofqypphhj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1508,7 +1502,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#wofqypphhj) .gt_col_heading {
+#wofqypphhj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1528,7 +1522,7 @@ cookieconsent.run({
   overflow-x: hidden;
 }
 
-:where(#wofqypphhj) .gt_column_spanner_outer {
+#wofqypphhj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1540,15 +1534,15 @@ cookieconsent.run({
   padding-right: 4px;
 }
 
-:where(#wofqypphhj) .gt_column_spanner_outer:first-child {
+#wofqypphhj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#wofqypphhj) .gt_column_spanner_outer:last-child {
+#wofqypphhj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#wofqypphhj) .gt_column_spanner {
+#wofqypphhj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1560,7 +1554,7 @@ cookieconsent.run({
   width: 100%;
 }
 
-:where(#wofqypphhj) .gt_group_heading {
+#wofqypphhj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1586,7 +1580,7 @@ cookieconsent.run({
   text-align: left;
 }
 
-:where(#wofqypphhj) .gt_empty_group_heading {
+#wofqypphhj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1601,15 +1595,15 @@ cookieconsent.run({
   vertical-align: middle;
 }
 
-:where(#wofqypphhj) .gt_from_md > :first-child {
+#wofqypphhj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#wofqypphhj) .gt_from_md > :last-child {
+#wofqypphhj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#wofqypphhj) .gt_row {
+#wofqypphhj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1628,7 +1622,7 @@ cookieconsent.run({
   overflow-x: hidden;
 }
 
-:where(#wofqypphhj) .gt_stub {
+#wofqypphhj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1641,7 +1635,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#wofqypphhj) .gt_stub_row_group {
+#wofqypphhj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1655,11 +1649,11 @@ cookieconsent.run({
   vertical-align: top;
 }
 
-:where(#wofqypphhj) .gt_row_group_first td {
+#wofqypphhj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#wofqypphhj) .gt_summary_row {
+#wofqypphhj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1669,16 +1663,16 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#wofqypphhj) .gt_first_summary_row {
+#wofqypphhj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#wofqypphhj) .gt_first_summary_row.thick {
+#wofqypphhj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#wofqypphhj) .gt_last_summary_row {
+#wofqypphhj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1688,7 +1682,7 @@ cookieconsent.run({
   border-bottom-color: #D3D3D3;
 }
 
-:where(#wofqypphhj) .gt_grand_summary_row {
+#wofqypphhj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1698,7 +1692,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#wofqypphhj) .gt_first_grand_summary_row {
+#wofqypphhj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1708,11 +1702,11 @@ cookieconsent.run({
   border-top-color: #D3D3D3;
 }
 
-:where(#wofqypphhj) .gt_striped {
+#wofqypphhj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#wofqypphhj) .gt_table_body {
+#wofqypphhj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1721,7 +1715,7 @@ cookieconsent.run({
   border-bottom-color: #D3D3D3;
 }
 
-:where(#wofqypphhj) .gt_footnotes {
+#wofqypphhj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1735,7 +1729,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#wofqypphhj) .gt_footnote {
+#wofqypphhj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1744,7 +1738,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#wofqypphhj) .gt_sourcenotes {
+#wofqypphhj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1758,7 +1752,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#wofqypphhj) .gt_sourcenote {
+#wofqypphhj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1766,124 +1760,124 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#wofqypphhj) .gt_left {
+#wofqypphhj .gt_left {
   text-align: left;
 }
 
-:where(#wofqypphhj) .gt_center {
+#wofqypphhj .gt_center {
   text-align: center;
 }
 
-:where(#wofqypphhj) .gt_right {
+#wofqypphhj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#wofqypphhj) .gt_font_normal {
+#wofqypphhj .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#wofqypphhj) .gt_font_bold {
+#wofqypphhj .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#wofqypphhj) .gt_font_italic {
+#wofqypphhj .gt_font_italic {
   font-style: italic;
 }
 
-:where(#wofqypphhj) .gt_super {
+#wofqypphhj .gt_super {
   font-size: 65%;
 }
 
-:where(#wofqypphhj) .gt_footnote_marks {
+#wofqypphhj .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#wofqypphhj) .gt_asterisk {
+#wofqypphhj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#wofqypphhj) .gt_indent_1 {
+#wofqypphhj .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#wofqypphhj) .gt_indent_2 {
+#wofqypphhj .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#wofqypphhj) .gt_indent_3 {
+#wofqypphhj .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#wofqypphhj) .gt_indent_4 {
+#wofqypphhj .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#wofqypphhj) .gt_indent_5 {
+#wofqypphhj .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-<thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="turn">turn</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="speaker">speaker</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="start">start</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="end">end</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="transcript">transcript</th>
-    </tr></thead>
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true">
+<thead class="gt_col_headings"><tr class="header">
+<th id="turn" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">turn</th>
+<th id="speaker" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">speaker</th>
+<th id="start" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">start</th>
+<th id="end" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">end</th>
+<th id="transcript" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">transcript</th>
+</tr></thead>
 <tbody class="gt_table_body">
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">192.110</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">203.610</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">well uh, I have a number of uh things I'd like to ask you about. I wonder if you'd just mind uh. answering questions uh one after another if you</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">1</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">192.110</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">203.610</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">well uh, I have a number of uh things I'd like to ask you about. I wonder if you'd just mind uh. answering questions uh one after another if you</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">2</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">203.295</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.225</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">yeah well</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">2</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">203.295</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">205.225</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">yeah well</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">3</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">204.740</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">205.805</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">if I remind you of a</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">3</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">204.740</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">205.805</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">if I remind you of a</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">4</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.510</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">212.120</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">now you might start that I was born in eighteen sixty seven</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">4</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">205.510</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">212.120</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">now you might start that I was born in eighteen sixty seven</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">5</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">213.350</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">215.450</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">mhm and that makes you how old?</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">5</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">213.350</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">215.450</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">mhm and that makes you how old?</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">6</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">215.780</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">216.600</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">ninety three</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">6</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">215.780</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">216.600</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">ninety three</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">7</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">216.665</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">217.455</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">ninety three</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">7</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">216.665</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">217.455</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">ninety three</td>
 </tr>
 </tbody>
 </table>
@@ -1912,7 +1906,7 @@ cookieconsent.run({
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#hhgmkfqgdn) .gt_table {
+#hhgmkfqgdn .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1937,7 +1931,7 @@ cookieconsent.run({
   border-left-color: #D3D3D3;
 }
 
-:where(#hhgmkfqgdn) .gt_heading {
+#hhgmkfqgdn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1949,12 +1943,12 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#hhgmkfqgdn) .gt_caption {
+#hhgmkfqgdn .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#hhgmkfqgdn) .gt_title {
+#hhgmkfqgdn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1966,7 +1960,7 @@ cookieconsent.run({
   border-bottom-width: 0;
 }
 
-:where(#hhgmkfqgdn) .gt_subtitle {
+#hhgmkfqgdn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1978,13 +1972,13 @@ cookieconsent.run({
   border-top-width: 0;
 }
 
-:where(#hhgmkfqgdn) .gt_bottom_border {
+#hhgmkfqgdn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#hhgmkfqgdn) .gt_col_headings {
+#hhgmkfqgdn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1999,7 +1993,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#hhgmkfqgdn) .gt_col_heading {
+#hhgmkfqgdn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2019,7 +2013,7 @@ cookieconsent.run({
   overflow-x: hidden;
 }
 
-:where(#hhgmkfqgdn) .gt_column_spanner_outer {
+#hhgmkfqgdn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2031,15 +2025,15 @@ cookieconsent.run({
   padding-right: 4px;
 }
 
-:where(#hhgmkfqgdn) .gt_column_spanner_outer:first-child {
+#hhgmkfqgdn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#hhgmkfqgdn) .gt_column_spanner_outer:last-child {
+#hhgmkfqgdn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#hhgmkfqgdn) .gt_column_spanner {
+#hhgmkfqgdn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2051,7 +2045,7 @@ cookieconsent.run({
   width: 100%;
 }
 
-:where(#hhgmkfqgdn) .gt_group_heading {
+#hhgmkfqgdn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2077,7 +2071,7 @@ cookieconsent.run({
   text-align: left;
 }
 
-:where(#hhgmkfqgdn) .gt_empty_group_heading {
+#hhgmkfqgdn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2092,15 +2086,15 @@ cookieconsent.run({
   vertical-align: middle;
 }
 
-:where(#hhgmkfqgdn) .gt_from_md > :first-child {
+#hhgmkfqgdn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#hhgmkfqgdn) .gt_from_md > :last-child {
+#hhgmkfqgdn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#hhgmkfqgdn) .gt_row {
+#hhgmkfqgdn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2119,7 +2113,7 @@ cookieconsent.run({
   overflow-x: hidden;
 }
 
-:where(#hhgmkfqgdn) .gt_stub {
+#hhgmkfqgdn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2132,7 +2126,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#hhgmkfqgdn) .gt_stub_row_group {
+#hhgmkfqgdn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2146,11 +2140,11 @@ cookieconsent.run({
   vertical-align: top;
 }
 
-:where(#hhgmkfqgdn) .gt_row_group_first td {
+#hhgmkfqgdn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#hhgmkfqgdn) .gt_summary_row {
+#hhgmkfqgdn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2160,16 +2154,16 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#hhgmkfqgdn) .gt_first_summary_row {
+#hhgmkfqgdn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#hhgmkfqgdn) .gt_first_summary_row.thick {
+#hhgmkfqgdn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#hhgmkfqgdn) .gt_last_summary_row {
+#hhgmkfqgdn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2179,7 +2173,7 @@ cookieconsent.run({
   border-bottom-color: #D3D3D3;
 }
 
-:where(#hhgmkfqgdn) .gt_grand_summary_row {
+#hhgmkfqgdn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2189,7 +2183,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#hhgmkfqgdn) .gt_first_grand_summary_row {
+#hhgmkfqgdn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2199,11 +2193,11 @@ cookieconsent.run({
   border-top-color: #D3D3D3;
 }
 
-:where(#hhgmkfqgdn) .gt_striped {
+#hhgmkfqgdn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#hhgmkfqgdn) .gt_table_body {
+#hhgmkfqgdn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2212,7 +2206,7 @@ cookieconsent.run({
   border-bottom-color: #D3D3D3;
 }
 
-:where(#hhgmkfqgdn) .gt_footnotes {
+#hhgmkfqgdn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2226,7 +2220,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#hhgmkfqgdn) .gt_footnote {
+#hhgmkfqgdn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2235,7 +2229,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#hhgmkfqgdn) .gt_sourcenotes {
+#hhgmkfqgdn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2249,7 +2243,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#hhgmkfqgdn) .gt_sourcenote {
+#hhgmkfqgdn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2257,132 +2251,132 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#hhgmkfqgdn) .gt_left {
+#hhgmkfqgdn .gt_left {
   text-align: left;
 }
 
-:where(#hhgmkfqgdn) .gt_center {
+#hhgmkfqgdn .gt_center {
   text-align: center;
 }
 
-:where(#hhgmkfqgdn) .gt_right {
+#hhgmkfqgdn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#hhgmkfqgdn) .gt_font_normal {
+#hhgmkfqgdn .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#hhgmkfqgdn) .gt_font_bold {
+#hhgmkfqgdn .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#hhgmkfqgdn) .gt_font_italic {
+#hhgmkfqgdn .gt_font_italic {
   font-style: italic;
 }
 
-:where(#hhgmkfqgdn) .gt_super {
+#hhgmkfqgdn .gt_super {
   font-size: 65%;
 }
 
-:where(#hhgmkfqgdn) .gt_footnote_marks {
+#hhgmkfqgdn .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#hhgmkfqgdn) .gt_asterisk {
+#hhgmkfqgdn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#hhgmkfqgdn) .gt_indent_1 {
+#hhgmkfqgdn .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#hhgmkfqgdn) .gt_indent_2 {
+#hhgmkfqgdn .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#hhgmkfqgdn) .gt_indent_3 {
+#hhgmkfqgdn .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#hhgmkfqgdn) .gt_indent_4 {
+#hhgmkfqgdn .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#hhgmkfqgdn) .gt_indent_5 {
+#hhgmkfqgdn .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-<thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="turn">turn</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="speaker">speaker</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="start">start</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="end">end</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="transcript">transcript</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="lag">lag</th>
-    </tr></thead>
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true">
+<thead class="gt_col_headings"><tr class="header">
+<th id="turn" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">turn</th>
+<th id="speaker" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">speaker</th>
+<th id="start" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">start</th>
+<th id="end" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">end</th>
+<th id="transcript" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">transcript</th>
+<th id="lag" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">lag</th>
+</tr></thead>
 <tbody class="gt_table_body">
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">192.110</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">203.610</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">well uh, I have a number of uh things I'd like to ask you about. I wonder if you'd just mind uh. answering questions uh one after another if you</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">NA</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">1</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">192.110</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">203.610</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">well uh, I have a number of uh things I'd like to ask you about. I wonder if you'd just mind uh. answering questions uh one after another if you</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #375A7F; color: #FFFFFF">NA</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">2</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">203.295</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.225</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">yeah well</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">-0.315</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">2</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">203.295</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">205.225</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">yeah well</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #3498DB; color: #FFFFFF">-0.315</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">3</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">204.740</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">205.805</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">if I remind you of a</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">-0.485</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">3</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">204.740</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">205.805</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">if I remind you of a</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #375A7F; color: #FFFFFF">-0.485</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">4</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.510</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">212.120</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">now you might start that I was born in eighteen sixty seven</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">-0.295</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">4</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">205.510</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">212.120</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">now you might start that I was born in eighteen sixty seven</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #3498DB; color: #FFFFFF">-0.295</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">5</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">213.350</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">215.450</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">mhm and that makes you how old?</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1.230</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">5</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">213.350</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">215.450</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">mhm and that makes you how old?</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #375A7F; color: #FFFFFF">1.230</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">6</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">215.780</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">216.600</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">ninety three</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">0.330</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">6</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">215.780</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">216.600</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">ninety three</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #3498DB; color: #FFFFFF">0.330</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">7</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">216.665</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">217.455</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">ninety three</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">0.065</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">7</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">216.665</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">217.455</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">ninety three</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #375A7F; color: #FFFFFF">0.065</td>
 </tr>
 </tbody>
 </table>
@@ -2427,7 +2421,7 @@ cookieconsent.run({
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#bkskthpzpd) .gt_table {
+#bkskthpzpd .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2452,7 +2446,7 @@ cookieconsent.run({
   border-left-color: #D3D3D3;
 }
 
-:where(#bkskthpzpd) .gt_heading {
+#bkskthpzpd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2464,12 +2458,12 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#bkskthpzpd) .gt_caption {
+#bkskthpzpd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#bkskthpzpd) .gt_title {
+#bkskthpzpd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2481,7 +2475,7 @@ cookieconsent.run({
   border-bottom-width: 0;
 }
 
-:where(#bkskthpzpd) .gt_subtitle {
+#bkskthpzpd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2493,13 +2487,13 @@ cookieconsent.run({
   border-top-width: 0;
 }
 
-:where(#bkskthpzpd) .gt_bottom_border {
+#bkskthpzpd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#bkskthpzpd) .gt_col_headings {
+#bkskthpzpd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2514,7 +2508,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#bkskthpzpd) .gt_col_heading {
+#bkskthpzpd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2534,7 +2528,7 @@ cookieconsent.run({
   overflow-x: hidden;
 }
 
-:where(#bkskthpzpd) .gt_column_spanner_outer {
+#bkskthpzpd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2546,15 +2540,15 @@ cookieconsent.run({
   padding-right: 4px;
 }
 
-:where(#bkskthpzpd) .gt_column_spanner_outer:first-child {
+#bkskthpzpd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#bkskthpzpd) .gt_column_spanner_outer:last-child {
+#bkskthpzpd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#bkskthpzpd) .gt_column_spanner {
+#bkskthpzpd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2566,7 +2560,7 @@ cookieconsent.run({
   width: 100%;
 }
 
-:where(#bkskthpzpd) .gt_group_heading {
+#bkskthpzpd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2592,7 +2586,7 @@ cookieconsent.run({
   text-align: left;
 }
 
-:where(#bkskthpzpd) .gt_empty_group_heading {
+#bkskthpzpd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2607,15 +2601,15 @@ cookieconsent.run({
   vertical-align: middle;
 }
 
-:where(#bkskthpzpd) .gt_from_md > :first-child {
+#bkskthpzpd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#bkskthpzpd) .gt_from_md > :last-child {
+#bkskthpzpd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#bkskthpzpd) .gt_row {
+#bkskthpzpd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2634,7 +2628,7 @@ cookieconsent.run({
   overflow-x: hidden;
 }
 
-:where(#bkskthpzpd) .gt_stub {
+#bkskthpzpd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2647,7 +2641,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#bkskthpzpd) .gt_stub_row_group {
+#bkskthpzpd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2661,11 +2655,11 @@ cookieconsent.run({
   vertical-align: top;
 }
 
-:where(#bkskthpzpd) .gt_row_group_first td {
+#bkskthpzpd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#bkskthpzpd) .gt_summary_row {
+#bkskthpzpd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2675,16 +2669,16 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#bkskthpzpd) .gt_first_summary_row {
+#bkskthpzpd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#bkskthpzpd) .gt_first_summary_row.thick {
+#bkskthpzpd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#bkskthpzpd) .gt_last_summary_row {
+#bkskthpzpd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2694,7 +2688,7 @@ cookieconsent.run({
   border-bottom-color: #D3D3D3;
 }
 
-:where(#bkskthpzpd) .gt_grand_summary_row {
+#bkskthpzpd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2704,7 +2698,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#bkskthpzpd) .gt_first_grand_summary_row {
+#bkskthpzpd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2714,11 +2708,11 @@ cookieconsent.run({
   border-top-color: #D3D3D3;
 }
 
-:where(#bkskthpzpd) .gt_striped {
+#bkskthpzpd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#bkskthpzpd) .gt_table_body {
+#bkskthpzpd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2727,7 +2721,7 @@ cookieconsent.run({
   border-bottom-color: #D3D3D3;
 }
 
-:where(#bkskthpzpd) .gt_footnotes {
+#bkskthpzpd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2741,7 +2735,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#bkskthpzpd) .gt_footnote {
+#bkskthpzpd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2750,7 +2744,7 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#bkskthpzpd) .gt_sourcenotes {
+#bkskthpzpd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2764,7 +2758,7 @@ cookieconsent.run({
   border-right-color: #D3D3D3;
 }
 
-:where(#bkskthpzpd) .gt_sourcenote {
+#bkskthpzpd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2772,132 +2766,132 @@ cookieconsent.run({
   padding-right: 5px;
 }
 
-:where(#bkskthpzpd) .gt_left {
+#bkskthpzpd .gt_left {
   text-align: left;
 }
 
-:where(#bkskthpzpd) .gt_center {
+#bkskthpzpd .gt_center {
   text-align: center;
 }
 
-:where(#bkskthpzpd) .gt_right {
+#bkskthpzpd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#bkskthpzpd) .gt_font_normal {
+#bkskthpzpd .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#bkskthpzpd) .gt_font_bold {
+#bkskthpzpd .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#bkskthpzpd) .gt_font_italic {
+#bkskthpzpd .gt_font_italic {
   font-style: italic;
 }
 
-:where(#bkskthpzpd) .gt_super {
+#bkskthpzpd .gt_super {
   font-size: 65%;
 }
 
-:where(#bkskthpzpd) .gt_footnote_marks {
+#bkskthpzpd .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#bkskthpzpd) .gt_asterisk {
+#bkskthpzpd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#bkskthpzpd) .gt_indent_1 {
+#bkskthpzpd .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#bkskthpzpd) .gt_indent_2 {
+#bkskthpzpd .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#bkskthpzpd) .gt_indent_3 {
+#bkskthpzpd .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#bkskthpzpd) .gt_indent_4 {
+#bkskthpzpd .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#bkskthpzpd) .gt_indent_5 {
+#bkskthpzpd .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-<thead class="gt_col_headings"><tr>
-<th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="turn">turn</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="speaker">speaker</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="lag">lag</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="start">start</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="end">end</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="transcript">transcript</th>
-    </tr></thead>
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true">
+<thead class="gt_col_headings"><tr class="header">
+<th id="turn" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">turn</th>
+<th id="speaker" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">speaker</th>
+<th id="lag" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">lag</th>
+<th id="start" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">start</th>
+<th id="end" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">end</th>
+<th id="transcript" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">transcript</th>
+</tr></thead>
 <tbody class="gt_table_body">
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">NA</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">192.110</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">203.610</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">well uh, I have a number of uh &lt;0.82 second pause&gt; things I'd like to ask you about. I wonder if you'd just mind uh. &lt;0.49 second pause&gt; answering questions uh &lt;1.23 second pause&gt; one after another if you</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">1</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #375A7F; color: #FFFFFF">NA</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">192.110</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">203.610</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">well uh, I have a number of uh &lt;0.82 second pause&gt; things I'd like to ask you about. I wonder if you'd just mind uh. &lt;0.49 second pause&gt; answering questions uh &lt;1.23 second pause&gt; one after another if you</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">2</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">-0.315</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">203.295</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.225</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">yeah &lt;0.34 second pause&gt; well</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">2</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #3498DB; color: #FFFFFF">-0.315</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">203.295</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">205.225</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">yeah &lt;0.34 second pause&gt; well</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">3</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">-0.485</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">204.740</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">205.805</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">if I remind you of a</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">3</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #375A7F; color: #FFFFFF">-0.485</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">204.740</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">205.805</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">if I remind you of a</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">4</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">-0.295</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">205.510</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">212.120</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">now you might start that &lt;0.51 second pause&gt; I was born in &lt;0.85 second pause&gt; eighteen sixty seven</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">4</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #3498DB; color: #FFFFFF">-0.295</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">205.510</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">212.120</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">now you might start that &lt;0.51 second pause&gt; I was born in &lt;0.85 second pause&gt; eighteen sixty seven</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">5</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">1.230</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">213.350</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">215.450</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">mhm and that makes you how old?</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">5</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #375A7F; color: #FFFFFF">1.230</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">213.350</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">215.450</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">mhm and that makes you how old?</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">6</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">KY25A</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">0.330</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">215.780</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #3498DB; color: #FFFFFF;">216.600</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #3498DB; color: #FFFFFF;">ninety three</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="turn" style="background-color: #3498DB; color: #FFFFFF">6</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #3498DB; color: #FFFFFF">KY25A</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #3498DB; color: #FFFFFF">0.330</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #3498DB; color: #FFFFFF">215.780</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #3498DB; color: #FFFFFF">216.600</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #3498DB; color: #FFFFFF">ninety three</td>
 </tr>
-<tr>
-<td headers="turn" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">7</td>
-<td headers="speaker" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">IVR</td>
-<td headers="lag" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">0.065</td>
-<td headers="start" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">216.665</td>
-<td headers="end" class="gt_row gt_right" style="background-color: #375A7F; color: #FFFFFF;">217.455</td>
-<td headers="transcript" class="gt_row gt_left" style="background-color: #375A7F; color: #FFFFFF;">ninety three</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="turn" style="background-color: #375A7F; color: #FFFFFF">7</td>
+<td class="gt_row gt_left" headers="speaker" style="background-color: #375A7F; color: #FFFFFF">IVR</td>
+<td class="gt_row gt_right" headers="lag" style="background-color: #375A7F; color: #FFFFFF">0.065</td>
+<td class="gt_row gt_right" headers="start" style="background-color: #375A7F; color: #FFFFFF">216.665</td>
+<td class="gt_row gt_right" headers="end" style="background-color: #375A7F; color: #FFFFFF">217.455</td>
+<td class="gt_row gt_left" headers="transcript" style="background-color: #375A7F; color: #FFFFFF">ninety three</td>
 </tr>
 </tbody>
 </table>
@@ -2906,16 +2900,16 @@ cookieconsent.run({
 </div>
 
 
-</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
-  author = {Josef Fruehwald},
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
+  author = {Fruehwald, Josef},
   title = {A Handy Dplyr Function for Linguistics},
   series = {Væl Space},
   date = {2023-02-05},
   url = {https://jofrhwld.github.io/blog/posts/2023/02/2023-02-05},
   langid = {en}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2023" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Josef Fruehwald. 2023. <span>“A Handy Dplyr Function for
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2023" class="csl-entry quarto-appendix-citeas" role="listitem">
+Fruehwald, Josef. 2023. <span>“A Handy Dplyr Function for
 Linguistics.”</span> Væl Space. February 5, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/02/2023-02-05">https://jofrhwld.github.io/blog/posts/2023/02/2023-02-05</a>.
 </div></div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -2944,9 +2938,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -3011,6 +3019,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -3063,7 +3157,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </nav>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer">
-      <div class="nav-footer-center"><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center"><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
   </div>
 </footer>
 

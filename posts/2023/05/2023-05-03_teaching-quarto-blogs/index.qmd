@@ -3,7 +3,6 @@ title: "Using Quarto Blogs for Teaching"
 author: "Josef Fruehwald"
 date: 2023-05-03
 order: 13
-draft: true
 ---
 
 This semester I was teaching two R intensive courses: [Quantitative Investigations in the Social Sciences](https://jofrhwld.github.io/AandS500_2023/) and [Quantitative Methods in Linguistics](https://jofrhwld.github.io/2023_Lin611/). For both courses, I had students maintain Quarto blogs that they pushed to [Github Classroom](https://classroom.github.com/) and I thought I'd write up my thoughts on what worked, what didn't work, and what I wish I'd planned out in advance.
@@ -76,7 +75,7 @@ Be sure to add and commit the `_freeze/` directory though!
 
 ### Tip 3: Encourage (enforce!) actual *rendering* of the blog.
 
-One of the positives of any code notebook system general is that they look nice while you're writing, and interleave prose, code, & results. A downside for a Quarto blog, though, is that students may not realize that the code results they see in the notebook *don't* get saved and committed. You (the reader/grader) will have to re-run all of the code chunks, or re-render the html blog.
+One of the positives of any code notebook system in general is that they look nice while you're writing, and interleave prose, code, & results. A downside for a Quarto blog, though, is that students may not realize that the code results they see in the notebook *don't* get saved and committed. You (the reader/grader) will have to re-run all of the code chunks, or re-render the html blog.
 
 But, as long as students click the "Render Project" button, the generated html pages will be viewable in `_site`, with all of the prose, code and code results... *if* they click "Render Project".
 
@@ -147,7 +146,7 @@ git submodule update --remote
 
 ### Tip 9: Make use of RStudio's project navigation.
 
-The way I'd read and grade the blog posts was by navigating to a student's blog repository in RStudio's file browser, then clicking on `blog.Rproj` file. This will auto open the student's blog as an RStudio project which you can't render and browse in isolation from all other students' projects (especially if you've initialized `renv` inside).
+The way I'd read and grade the blog posts was by navigating to a student's blog repository in RStudio's file browser, then clicking on the `blog.Rproj` file. This will auto open the student's blog as an RStudio project which you can render and browse in isolation from all other students' projects (especially if you've initialized `renv` inside).
 
 ### Tip 10: Always commit all changes, but don't push, after grading
 

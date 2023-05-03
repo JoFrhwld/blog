@@ -5,8 +5,8 @@
 <meta name="generator" content="quarto-1.3.296">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
-<meta name="dcterms.date" content="2022-12-21">
-<title>Væl Space - Github Onboarding with RStudio</title>
+<meta name="dcterms.date" content="2023-05-03">
+<title>Væl Space - Using Quarto Blogs for Teaching</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -62,8 +62,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
-<link href="../../../../posts/2022/12/2022-12-31_wooder1/index.html" rel="next">
-<link href="../../../../posts/2022/12/2022-12-17/index.html" rel="prev">
+<link href="../../../../posts/2023/02/2023-02-12_dndroll/index.html" rel="prev">
 <script src="../../../../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../../../../site_libs/quarto-html/quarto.js"></script>
@@ -74,9 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -118,7 +115,7 @@ cookieconsent.run({
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@300;400;500;600;700&amp;family=Fira+Code:wght@300;400;500;600;700&amp;family=Fira+Sans:ital,wght@0,100;0,400;1,100;1,400&amp;display=swap" rel="stylesheet">
 </head>
-<body class="nav-sidebar floating nav-fixed slimcontent">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
@@ -155,13 +152,13 @@ cookieconsent.run({
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Posts</li><li class="breadcrumb-item">2022</li><li class="breadcrumb-item"><a href="../../../../posts/2022/12/2022-12-10/index.html">A lesson in over-preparing</a></li><li class="breadcrumb-item"><a href="../../../../posts/2022/12/2022-12-21_github-onboarding/index.html">Github Onboarding with RStudio</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Posts</li><li class="breadcrumb-item">2023</li><li class="breadcrumb-item"><a href="../../../../posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html">Using Quarto Blogs for Teaching</a></li><li class="breadcrumb-item"><a href="../../../../posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html">Using Quarto Blogs for Teaching</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
   </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Github Onboarding with RStudio</h1>
+      <h1 class="title">Using Quarto Blogs for Teaching</h1>
                       </div>
   </div>
     
@@ -178,7 +175,7 @@ cookieconsent.run({
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">December 21, 2022</p>
+        <p class="date">May 3, 2023</p>
       </div>
     </div>
     
@@ -201,22 +198,22 @@ cookieconsent.run({
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
  <span class="menu-text">2022</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">
 <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
  <span class="menu-text">12</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 show">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 ">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2022/12/2022-12-10/index.html" class="sidebar-item-text sidebar-link">
@@ -231,7 +228,7 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2022/12/2022-12-21_github-onboarding/index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../../posts/2022/12/2022-12-21_github-onboarding/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Github Onboarding with RStudio</span></a>
   </div>
 </li>
@@ -247,13 +244,13 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
  <span class="menu-text">2023</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">
 <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
@@ -320,16 +317,16 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
  <span class="menu-text">05</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth3 ">
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth3 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Using Quarto Blogs for Teaching</span></a>
   </div>
 </li>
@@ -347,238 +344,167 @@ cookieconsent.run({
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#the-target-audience" id="toc-the-target-audience" class="nav-link active" data-scroll-target="#the-target-audience">The target audience</a></li>
-  <li><a href="#step-1-create-a-github-account" id="toc-step-1-create-a-github-account" class="nav-link" data-scroll-target="#step-1-create-a-github-account">Step 1: Create a Github Account</a></li>
-  <li><a href="#step-2-configure-git-in-rstudio" id="toc-step-2-configure-git-in-rstudio" class="nav-link" data-scroll-target="#step-2-configure-git-in-rstudio">Step 2: Configure Git in RStudio</a></li>
-  <li>
-<a href="#step-3-configure-rstudio-to-communicate-with-github" id="toc-step-3-configure-rstudio-to-communicate-with-github" class="nav-link" data-scroll-target="#step-3-configure-rstudio-to-communicate-with-github">Step 3: Configure RStudio to Communicate with Github</a>
+<li>
+<a href="#github-classroom-basics" id="toc-github-classroom-basics" class="nav-link active" data-scroll-target="#github-classroom-basics">Github Classroom basics</a>
   <ul class="collapse">
-<li><a href="#rstudio-configuration" id="toc-rstudio-configuration" class="nav-link" data-scroll-target="#rstudio-configuration">RStudio Configuration</a></li>
-  <li><a href="#github-configuration" id="toc-github-configuration" class="nav-link" data-scroll-target="#github-configuration">Github Configuration</a></li>
+<li><a href="#creating-assignments" id="toc-creating-assignments" class="nav-link" data-scroll-target="#creating-assignments">Creating assignments</a></li>
+  <li><a href="#tip-1-take-your-time-on-the-templates" id="toc-tip-1-take-your-time-on-the-templates" class="nav-link" data-scroll-target="#tip-1-take-your-time-on-the-templates">Tip 1: Take your time on the templates</a></li>
+  <li><a href="#thoughts-the-feedback-pull-request-isnt-worth-it." id="toc-thoughts-the-feedback-pull-request-isnt-worth-it." class="nav-link" data-scroll-target="#thoughts-the-feedback-pull-request-isnt-worth-it.">Thoughts: The feedback pull request isn’t worth it.</a></li>
   </ul>
 </li>
-  <li><a href="#configured" id="toc-configured" class="nav-link" data-scroll-target="#configured">Configured</a></li>
+  <li>
+<a href="#quarto-things" id="toc-quarto-things" class="nav-link" data-scroll-target="#quarto-things">Quarto Things</a>
+  <ul class="collapse">
+<li><a href="#tip-2-set-up-freeze-auto" id="toc-tip-2-set-up-freeze-auto" class="nav-link" data-scroll-target="#tip-2-set-up-freeze-auto">Tip 2: Set up <code>freeze: auto</code></a></li>
+  <li><a href="#tip-3-encourage-enforce-actual-rendering-of-the-blog." id="toc-tip-3-encourage-enforce-actual-rendering-of-the-blog." class="nav-link" data-scroll-target="#tip-3-encourage-enforce-actual-rendering-of-the-blog.">Tip 3: Encourage (enforce!) actual <em>rendering</em> of the blog.</a></li>
+  <li><a href="#tip-4-set-error-true-in-the-quarto-project" id="toc-tip-4-set-error-true-in-the-quarto-project" class="nav-link" data-scroll-target="#tip-4-set-error-true-in-the-quarto-project">Tip 4: Set <code>error: true</code> in the quarto project</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#rrstudio-things" id="toc-rrstudio-things" class="nav-link" data-scroll-target="#rrstudio-things">R/RStudio Things</a>
+  <ul class="collapse">
+<li><a href="#tip-5-teach-them-about-here-early" id="toc-tip-5-teach-them-about-here-early" class="nav-link" data-scroll-target="#tip-5-teach-them-about-here-early">Tip 5: Teach them about <code>{here}</code> early</a></li>
+  <li><a href="#tip-6-figure-out-renv." id="toc-tip-6-figure-out-renv." class="nav-link" data-scroll-target="#tip-6-figure-out-renv.">Tip 6: Figure out <code>{renv}</code>.</a></li>
+  <li><a href="#tip-7-remind-them-to-save" id="toc-tip-7-remind-them-to-save" class="nav-link" data-scroll-target="#tip-7-remind-them-to-save">Tip 7: Remind them to save!</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#gitgrading-things" id="toc-gitgrading-things" class="nav-link" data-scroll-target="#gitgrading-things">Git/Grading Things</a>
+  <ul class="collapse">
+<li><a href="#tip-8-add-the-student-blogs-as-git-submodules" id="toc-tip-8-add-the-student-blogs-as-git-submodules" class="nav-link" data-scroll-target="#tip-8-add-the-student-blogs-as-git-submodules">Tip 8: Add the student blogs as git submodules</a></li>
+  <li><a href="#tip-9-make-use-of-rstudios-project-navigation." id="toc-tip-9-make-use-of-rstudios-project-navigation." class="nav-link" data-scroll-target="#tip-9-make-use-of-rstudios-project-navigation.">Tip 9: Make use of RStudio’s project navigation.</a></li>
+  <li><a href="#tip-10-always-commit-all-changes-but-dont-push-after-grading" id="toc-tip-10-always-commit-all-changes-but-dont-push-after-grading" class="nav-link" data-scroll-target="#tip-10-always-commit-all-changes-but-dont-push-after-grading">Tip 10: Always commit all changes, but don’t push, after grading</a></li>
+  </ul>
+</li>
+  <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link" data-scroll-target="#final-thoughts">Final Thoughts</a></li>
   </ul></nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content"><section id="the-target-audience" class="level2"><h2 class="anchored" data-anchor-id="the-target-audience">The target audience</h2>
-<p>I’m writing this primarily for students <a href="../../../../posts/2022/12/2022-12-17/index.html">I’ll be teaching in Spring 2023</a> who I want to use Git/Github with Posit Workbench.</p>
-<dl>
-<dt>This tutorial is appropriate for:</dt>
-<dd>
-<p>Anyone using RStudio/RStudio Server/Posit Workbench/Posit Cloud</p>
-</dd>
-<dt>I will assume:</dt>
-<dd>
-<ol type="1">
-<li>Git is already installed and available.</li>
-<li>You have not already configured Git locally.</li>
-<li>You cannot access the terminal.</li>
-</ol>
-</dd>
-</dl>
-<p>If item number 1 is not correct, or you want more detail on using Git and Github with RStudio, you should check out Jennifer Bryan’s much more extensive <a href="https://happygitwithr.com/">Happy Git and GitHub for the useR</a>.</p>
-<p>Item number 2 might be a strange assumption, but the Posit Workbench configuration I have access to actually does not allow opening a terminal.</p>
-<p>Instruction boxes with <i class="fa-brands fa-github" aria-label="github"></i> should be done on github, and instruction boxes with <i class="fa-brands fa-r-project" aria-label="r-project"></i> should be done in RStudio.</p>
-</section><section id="step-1-create-a-github-account" class="level2"><h2 class="anchored" data-anchor-id="step-1-create-a-github-account">Step 1: Create a Github Account</h2>
-<p>Go over to Github and create a free account.</p>
-<div class="callout callout-style-simple callout-tip no-icon callout-titled">
+<main class="content quarto-banner-title-block" id="quarto-document-content"><p>This semester I was teaching two R intensive courses: <a href="https://jofrhwld.github.io/AandS500_2023/">Quantitative Investigations in the Social Sciences</a> and <a href="https://jofrhwld.github.io/2023_Lin611/">Quantitative Methods in Linguistics</a>. For both courses, I had students maintain Quarto blogs that they pushed to <a href="https://classroom.github.com/">Github Classroom</a> and I thought I’d write up my thoughts on what worked, what didn’t work, and what I wish I’d planned out in advance.</p>
+<section id="github-classroom-basics" class="level2"><h2 class="anchored" data-anchor-id="github-classroom-basics">Github Classroom basics</h2>
+<p>Firstly, I spent relatively little time on the actual Github Classroom site. There may be more functionality to it that’s useful, but largely I didn’t need it. Each “Classroom” creates a Github Organization from which you can access every student’s assignment repository.</p>
+<section id="creating-assignments" class="level3"><h3 class="anchored" data-anchor-id="creating-assignments">Creating assignments</h3>
+<p>To create an assignment, you first have to set up a template repository on Github (could be under your own account or under the classroom organization) that gets associated with the assignment. Github Classroom generates an invite link that you can post to Canvas/Blackboard/whatever that will auto-fork the template for the student in the organization, and name it <code>{name-of-assignment}-{gh-username}</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+<i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<i class="fa-brands fa-github" aria-label="github"></i>
+Repository Visibility
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<dl>
-<dt>Go To</dt>
-<dd>
-<p><a href="https://github.com/" class="uri">https://github.com/</a></p>
-</dd>
-</dl>
+<p>These repositories are, by default, private! In the example repo I show here, I went in and manually changed it to be public</p>
 </div>
 </div>
-<p>As suggested in <a href="https://happygitwithr.com/github-acct.html">Happy Git Chapter 4</a>, it would make sense to register an account username that aligns with your professional identity.</p>
-<p>After you’ve created your free account, if you are affiliated with a university, I would also suggest applying for the education benefits here: <a href="https://education.github.com/" class="uri">https://education.github.com/</a>. There are a few nice, but not mandatory, perks.</p>
-</section><section id="step-2-configure-git-in-rstudio" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="step-2-configure-git-in-rstudio">Step 2: Configure Git in RStudio</h2>
-<p>Now, you need to tell Git a little bit about yourself on the computer/server you’re using RStudio on.</p>
-<div class="callout callout-style-simple callout-tip no-icon callout-titled">
+<p>For example, here’s the repository it created when <em>I</em> clicked the invite link to the mapping project:</p>
+<p><a href="https://github.com/A-S500/maps-final-JoFrhwld" class="uri">https://github.com/A-S500/maps-final-JoFrhwld</a></p>
+<p>The repository isn’t under my personal account, it’s under the A-S500 organization.</p>
+</section><section id="tip-1-take-your-time-on-the-templates" class="level3"><h3 class="anchored" data-anchor-id="tip-1-take-your-time-on-the-templates">Tip 1: Take your time on the templates</h3>
+<p>For a blog-type assignment that students will be updating across the entire semester, take your time on the template. Get your template blog to be exactly like you want it. Obviously, students can make changes to how the blog will render, but your initial settings will have a major inertia effect.</p>
+<p>Here’s one thing I spent time on in set up that I’ll do differently in the future: I created blank template posts for <em>every</em> post students were going to do that year. For one class, I was having them write weekly reflections, so I created a directory and <code>index.qmd</code> for every week. e.g.</p>
+<pre><code>posts/01_week/index.qmd
+posts/02_week/index.qmd
+...
+posts/15_week/index.qmd</code></pre>
+<p>For the the other course, I had them write a post for each chapter of the textbook, and the setup was similar.</p>
+<p>I’d do that differently now for a few reasons. First, when looking at the source code and the rendered blog, it makes it harder to eyeball where the students have created <em>new</em> content. It might not seem like a lot, but it’s just a little extra bit of friction to click through to an <code>index.qmd</code> post to find that it’s still just the original template.</p>
+<p>Second, it facilitated some poor metadata practices for the students. I really couldn’t get everyone to touch the yaml header to update the date of the post if there was already a <code>date:</code> there, so for some people all of their posts were dated January, when I created the template.</p>
+</section><section id="thoughts-the-feedback-pull-request-isnt-worth-it." class="level3"><h3 class="anchored" data-anchor-id="thoughts-the-feedback-pull-request-isnt-worth-it.">Thoughts: The feedback pull request isn’t worth it.</h3>
+<p>Github Classroom will give you the option of automatically creating a feedback branch and open a pull request to leave comments on the code. While this makes sense for some assignments, these quarto blogs with their rendered html are too unwieldy to bother.</p>
+<p>I just opened feedback issues on the blogs referencing the specific lines I was commenting on.</p>
+</section></section><section id="quarto-things" class="level2"><h2 class="anchored" data-anchor-id="quarto-things">Quarto Things</h2>
+<p>Some quarto things that I’d recommend:</p>
+<section id="tip-2-set-up-freeze-auto" class="level3"><h3 class="anchored" data-anchor-id="tip-2-set-up-freeze-auto">Tip 2: Set up <code>freeze: auto</code>
+</h3>
+<p>To save yourself and your students’ time be sure to configure freezing in the <code>_quarto.yml</code> file.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">execute</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">freeze</span><span class="kw">:</span><span class="at"> auto</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This means quarto will save the results of any executed R code, and won’t <em>rerun</em> the code when rendering the project unless the content of the file changes. This will save you and your students a lot of time when re-rendering blogs, especially later in the semester.</p>
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+<i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<i class="fa-brands fa-r-project" aria-label="r-project"></i>
+commit `_freeze/`
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<dl>
-<dt>Go To</dt>
-<dd>
-<p>Wherever you are using RStudio ( could be Posit Workbench, Posit Cloud, RStudio Server, or RStudio Desktop)</p>
-</dd>
-<dt>Then Go To</dt>
-<dd>
-<p>The Console (a.k.a the R Prompt)</p>
-</dd>
-</dl>
+<p>Be sure to add and commit the <code>_freeze/</code> directory though!</p>
 </div>
 </div>
-<div class="quarto-figure quarto-figure-center page-columns page-full">
-<figure class="figure page-columns page-full"><p><img src="github_onboarding_assets/rstudio_console.png" class="quarto-discovered-preview-image img-fluid figure-img" alt="A screenshot of RStudio. The console is in its default pane on the left hand side. An arrow has been drawn onto the screenshot pointing at the"></p>
-<p></p><figcaption class="figure-caption margin-caption">The Console in RStudio is here.</figcaption><p></p>
-</figure>
-</div>
-<p>Next, we need to tell the local version of Git who you are, specifically your username (which should match your Github username) and your email address (which should match the email address you registered for Github with).</p>
-<div class="callout callout-style-simple callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-brands fa-r-project" aria-label="r-project"></i>, <i class="fa-brands fa-git" aria-label="git"></i>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>In the code below, <code>USERNAME</code> should be replaced with your Github username and <code>EMAIL</code> should be replaced with the email you registered your github account with.</p>
+</section><section id="tip-3-encourage-enforce-actual-rendering-of-the-blog." class="level3"><h3 class="anchored" data-anchor-id="tip-3-encourage-enforce-actual-rendering-of-the-blog.">Tip 3: Encourage (enforce!) actual <em>rendering</em> of the blog.</h3>
+<p>One of the positives of any code notebook system in general is that they look nice while you’re writing, and interleave prose, code, &amp; results. A downside for a Quarto blog, though, is that students may not realize that the code results they see in the notebook <em>don’t</em> get saved and committed. You (the reader/grader) will have to re-run all of the code chunks, or re-render the html blog.</p>
+<p>But, as long as students click the “Render Project” button, the generated html pages will be viewable in <code>_site</code>, with all of the prose, code and code results… <em>if</em> they click “Render Project”.</p>
+<p>I didn’t pick up on the fact many students were just running the code in the notebook and <em>never clicking “Render”</em> until too late in the semester, and by that point we were very busy trying to get through the course content for me to turn that ship. That meant I had to re-render their blogs (takes time) <em>and</em> I had to deal with/fix any inconsistencies between our R environments (<em>more</em> time!)</p>
+</section><section id="tip-4-set-error-true-in-the-quarto-project" class="level3"><h3 class="anchored" data-anchor-id="tip-4-set-error-true-in-the-quarto-project">Tip 4: Set <code>error: true</code> in the quarto project</h3>
+<p>I think you should set <code>error: true</code> in <code>_quarto.yml</code>. Usually, if there’s an error in your R code, the project will fail to render. With <code>error: true</code>, the project will render, with the R errors included in the output.</p>
+<p>Maybe you’re thinking “But don’t you want to make sure that students fix the errors?” Well, yes I do, but if there’s errors in their code and they push it anyway, when <em>you</em> try to render the project, <em>you’ll</em> have to hunt down and fix the R errors before you can look at the rendered project!</p>
+</section></section><section id="rrstudio-things" class="level2"><h2 class="anchored" data-anchor-id="rrstudio-things">R/RStudio Things</h2>
+<section id="tip-5-teach-them-about-here-early" class="level3"><h3 class="anchored" data-anchor-id="tip-5-teach-them-about-here-early">Tip 5: Teach them about <code>{here}</code> early</h3>
+<p>So, no matter how many times I left comments about “please use relative paths”, I would still get posts with code that looked like</p>
 <div class="cell">
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Run this in the R Console:</strong></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"~/usernamene/Documents/Courses/blog/data/data.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="st">'git config --global user.name "USERNAME"'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="st">'git config --global user.email "EMAIL"'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When combined with the fact that many people weren’t clicking “Render” on their projects, this meant I had to go in and fix these global paths in order to read their posts.</p>
+<p>The <a href="https://here.r-lib.org/">here</a> package works within RStudio projects to help construct reproducible paths. <code><a href="https://here.r-lib.org//reference/here.html">here::here()</a></code> returns the path to the main project directory, and will concatenate any further arguments to that path. So rewriting the example above would look like:</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/">here</a></span><span class="op">)</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"data.csv"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</div>
-</div>
-</section><section id="step-3-configure-rstudio-to-communicate-with-github" class="level2"><h2 class="anchored" data-anchor-id="step-3-configure-rstudio-to-communicate-with-github">Step 3: Configure RStudio to Communicate with Github</h2>
-<p>In order to be able to push commits from RStudio to Github, you’ll need to set up secure communication between wherever you are using RStudio and Github. I’ll walk you through how to do this with SSH credentials. (See also <a href="https://happygitwithr.com/https-pat.html">Happy Git with R</a> for personal access tokens via HTTPS).</p>
-<section id="rstudio-configuration" class="level3"><h3 class="anchored" data-anchor-id="rstudio-configuration">RStudio Configuration</h3>
-<div class="callout callout-style-simple callout-tip no-icon callout-titled">
+<p>On the one hand, using <a href="https://here.r-lib.org/">here</a> in this way <em>does</em> bypass needing to come to grips with paths, which is a crucial component of scientific computing. But on the other, you need to make a decision about where your class time is spent.</p>
+<p>If you go all in on *nix-style paths and their navigation, you <em>will</em> burn a lot of class time and your own creative energy on a topic that is increasingly conceptually difficult for students before you even get to course content. Moreover, students won’t neatly delimit course content like “paths are utility background information, stats are a collection of theories and methods, R code is an implementation of those theories and methods.” Rather, it’ll all get dumped into one big bucket of “stats is hard.”</p>
+<p>Or, you could teach them to use <a href="https://here.r-lib.org/">here</a>.</p>
+</section><section id="tip-6-figure-out-renv." class="level3"><h3 class="anchored" data-anchor-id="tip-6-figure-out-renv.">Tip 6: Figure out <code>{renv}</code>.</h3>
+<p>This is more of a “to-do”. I’m relatively new to using <a href="https://rstudio.github.io/renv/">renv</a> and am still trying to work out the kinks of making it work in distributed assignments like this.</p>
+<p>I think step one would be to make sure they’ve installed <a href="https://rstudio.github.io/renv/">renv</a> globally, before opening any given project. Then, in your template, commit your <code>renv.lock</code> file, but not the <code>.Rprofile</code>. Then, once they’ve created the project in RStudio, run <code><a href="https://rstudio.github.io/renv/reference/init.html">renv::init()</a></code> once, restore from the lock file.</p>
+<p>I <em>think</em>…</p>
+</section><section id="tip-7-remind-them-to-save" class="level3"><h3 class="anchored" data-anchor-id="tip-7-remind-them-to-save">Tip 7: Remind them to save!</h3>
+<p>Remind them that this is not like Google Docs or Word! The document is not auto-saving as you go along! Save save save!</p>
+</section></section><section id="gitgrading-things" class="level2"><h2 class="anchored" data-anchor-id="gitgrading-things">Git/Grading Things</h2>
+<p>On the reading/grading side of things, I worked out a git workflow that worked pretty well.</p>
+<section id="tip-8-add-the-student-blogs-as-git-submodules" class="level3"><h3 class="anchored" data-anchor-id="tip-8-add-the-student-blogs-as-git-submodules">Tip 8: Add the student blogs as git submodules</h3>
+<p>I originally had a grand idea of adding every student’s blog to one larger quarto project I would render, and look at all of their posts in one place, but that didn’t work out great. Instead, I created a bare bones RStudio project, and added each student’s blog repository as a submodule in a `blogs/` directory:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule add git@github.com:...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After initial setup, this meant I could pull all student’s new posts with</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule update <span class="at">--remote</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section><section id="tip-9-make-use-of-rstudios-project-navigation." class="level3"><h3 class="anchored" data-anchor-id="tip-9-make-use-of-rstudios-project-navigation.">Tip 9: Make use of RStudio’s project navigation.</h3>
+<p>The way I’d read and grade the blog posts was by navigating to a student’s blog repository in RStudio’s file browser, then clicking on the <code>blog.Rproj</code> file. This will auto open the student’s blog as an RStudio project which you can render and browse in isolation from all other students’ projects (especially if you’ve initialized <code>renv</code> inside).</p>
+</section><section id="tip-10-always-commit-all-changes-but-dont-push-after-grading" class="level3"><h3 class="anchored" data-anchor-id="tip-10-always-commit-all-changes-but-dont-push-after-grading">Tip 10: Always commit all changes, but don’t push, after grading</h3>
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+<i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<i class="fa-brands fa-r-project" aria-label="r-project"></i>
+Commit Changes!
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<dl>
-<dt>Go To:</dt>
-<dd>
-<p>The Tools menu, then Global Options</p>
-</dd>
-</dl>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="github_onboarding_assets/global_options.png" class="img-fluid figure-img" style="width:76.0%" alt="A screenshot of an RStudio session with Tools>Global Options selected"></p>
-</figure>
-</div>
-<dl>
-<dt>Then Go To:</dt>
-<dd>
-<p>Git/SVN from the left hand side option selector. Its icon is a cardboard box</p>
-</dd>
-</dl>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="github_onboarding_assets/git_svn.png" class="img-fluid figure-img" style="width:75.0%" alt="A screenshot of RStudio's global options menu, with Git/SVN selected"></p>
-</figure>
-</div>
-<dl>
-<dt>Then Go To</dt>
-<dd>
-<p>Create SSH Key</p>
-</dd>
-</dl>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="github_onboarding_assets/create_ssh_key.png" class="img-fluid figure-img" style="width:75.0%" alt="A screenshot of the RStudio Git/SVN options menu, with Create SSH Key selected"></p>
-</figure>
-</div>
-<dl>
-<dt>Then</dt>
-<dd>
-<p>The default options should be fine to use. The passphrase here is <em><strong>for the ssh key</strong>.</em> It should <u><strong><em>not</em></strong></u> be your Github password, or the password for logging into Posit Workbench or Posit Cloud. Once you’re ready, click Create.</p>
-</dd>
-<dt>Then</dt>
-<dd>
-<p>After creating the SSH key, you should see the option “View Public Key”. Click on it, and copy the text that appears.</p>
-</dd>
-</dl>
+<p>I’m saying the same thing twice because it’s important.</p>
 </div>
 </div>
-<p>This concludes everything necessary on the RStudio side of things. You should probably keep the session open so that you can come back to re-copy your public key.</p>
-</section><section id="github-configuration" class="level3"><h3 class="anchored" data-anchor-id="github-configuration">Github Configuration</h3>
-<p>Now, you’ll need to go over to github to add the public key to your profile.</p>
-<div class="callout callout-style-simple callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-brands fa-github" aria-label="github"></i>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<dl>
-<dt>Go To</dt>
-<dd>
-<p>Your Github Profile Settings</p>
-</dd>
-</dl>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="github_onboarding_assets/github_settings.png" class="img-fluid figure-img" style="width:75.0%" alt="Screenshot of a logged-in github session, with the user's profile setting selected"></p>
-</figure>
-</div>
-<dl>
-<dt>Then Go To</dt>
-<dd>
-<p>SSH and GPG keys from the left side menu</p>
-</dd>
-</dl>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="github_onboarding_assets/ssh_gpg.png" class="img-fluid figure-img" style="width:75.0%" alt="A screenshot of the github profile settings page with SSH and GPG keys selected"></p>
-</figure>
-</div>
-<dl>
-<dt>Then</dt>
-<dd>
-<p>Click on the New SSH key button</p>
-</dd>
-</dl>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="github_onboarding_assets/new_ssh_key.png" class="img-fluid figure-img" style="width:75.0%" alt="Screenshot of the Github SSH and GPG Keys settings, with New SSH Key selected"></p>
-</figure>
-</div>
-<dl>
-<dt>Then</dt>
-<dd>
-<p>Give this key an informative name so you can remember which computer it’s coming from.</p>
-</dd>
-<dt>Then</dt>
-<dd>
-<p>Paste the text you copied from RStudio into the Key box and click Add SSH Key.</p>
-</dd>
-</dl>
-</div>
-</div>
-</section></section><section id="configured" class="level2"><h2 class="anchored" data-anchor-id="configured">Configured</h2>
-<p>Now, wherever you are using RStudio from should be able to push commits to your Github account.</p>
+<p>After re-rendering and reading the student’s blog, <strong>be sure to commit all changes</strong>, but don’t push them. This is because of a detail of how both quarto and git submodules work.</p>
+<p>Every time you re-render a project, the “last modified” metadata in the rendered html files gets updated. Meaning even if you just changed one page, all of the html pages get modified.</p>
+<p>Additionally, if there are uncommitted changes within the git submodule, when you run <code>git submodule update --remote</code>, git <em>won’t</em> pull down the new commits until you’ve committed those changes <em>within</em> then submodule.</p>
+</section></section><section id="final-thoughts" class="level2"><h2 class="anchored" data-anchor-id="final-thoughts">Final Thoughts</h2>
+<p>Overall, I was pretty happy with the outcomes! The blog format worked well for incremental logging of course progress, and it started socializing students into the practices of collaborative coding projects.</p>
+<p>I should note that both classes were relatively small, roughly seminar size, so I’m not sure how this would scale up to 25+ students.</p>
 
 
-</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2022,
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
   author = {Fruehwald, Josef},
-  title = {Github {Onboarding} with {RStudio}},
+  title = {Using {Quarto} {Blogs} for {Teaching}},
   series = {Væl Space},
-  date = {2022-12-21},
-  url = {https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding},
+  date = {2023-05-03},
+  url = {https://jofrhwld.github.io/blog/posts/2023/05/2023-05-03_teaching-quarto-blogs},
   langid = {en}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2022" class="csl-entry quarto-appendix-citeas" role="listitem">
-Fruehwald, Josef. 2022. <span>“Github Onboarding with RStudio.”</span>
-Væl Space. December 21, 2022. <a href="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding">https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding</a>.
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2023" class="csl-entry quarto-appendix-citeas" role="listitem">
+Fruehwald, Josef. 2023. <span>“Using Quarto Blogs for Teaching.”</span>
+Væl Space. May 3, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/05/2023-05-03_teaching-quarto-blogs">https://jofrhwld.github.io/blog/posts/2023/05/2023-05-03_teaching-quarto-blogs</a>.
 </div></div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -813,14 +739,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><script src="https://giscus.app/client.js" data-repo="JoFrhwld/blog" data-repo-id="MDEwOlJlcG9zaXRvcnkxNjU0MzIyNg==" data-category="General" data-category-id="DIC_kwDOAPxt-s4CTI5W" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="transparent_dark" data-lang="en" crossorigin="anonymous" async="">
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="../../../../posts/2022/12/2022-12-17/index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">What <em>is</em> R?</span>
+      <a href="../../../../posts/2023/02/2023-02-12_dndroll/index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Simulating DND Rolls</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../../posts/2022/12/2022-12-31_wooder1/index.html" class="pagination-link">
-        <span class="nav-page-text">Rising Wooders</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

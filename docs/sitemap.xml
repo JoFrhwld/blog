@@ -2,54 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jofrhwld.github.io/blog/about.html</loc>
-    <lastmod>2023-05-03T14:26:20.613Z</lastmod>
+    <lastmod>2023-05-03T14:38:47.121Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/index.html</loc>
-    <lastmod>2023-05-03T14:26:27.529Z</lastmod>
+    <lastmod>2023-05-03T14:38:53.754Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10/index.html</loc>
-    <lastmod>2023-05-03T14:26:36.780Z</lastmod>
+    <lastmod>2023-05-03T14:39:03.646Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index.html</loc>
-    <lastmod>2023-05-03T14:26:44.749Z</lastmod>
+    <lastmod>2023-05-03T14:39:11.153Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/index.html</loc>
-    <lastmod>2023-05-03T14:26:48.076Z</lastmod>
+    <lastmod>2023-05-03T14:39:14.604Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1/index.html</loc>
-    <lastmod>2023-05-03T14:26:53.139Z</lastmod>
+    <lastmod>2023-05-03T14:39:19.932Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-01_wooder2/index.html</loc>
-    <lastmod>2023-05-03T14:27:05.296Z</lastmod>
+    <lastmod>2023-05-03T14:39:30.612Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/index.html</loc>
-    <lastmod>2023-05-03T14:27:08.680Z</lastmod>
+    <lastmod>2023-05-03T14:39:34.064Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/index.html</loc>
-    <lastmod>2023-05-03T14:27:19.711Z</lastmod>
+    <lastmod>2023-05-03T14:39:41.639Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index.html</loc>
-    <lastmod>2023-05-03T14:27:25.065Z</lastmod>
+    <lastmod>2023-05-03T14:39:47.182Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-29_starting-plotly/index.html</loc>
-    <lastmod>2023-05-03T14:27:29.757Z</lastmod>
+    <lastmod>2023-05-03T14:39:52.034Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2023/02/2023-02-05/index.html</loc>
-    <lastmod>2023-05-03T14:27:35.023Z</lastmod>
+    <lastmod>2023-05-03T14:39:57.882Z</lastmod>
   </url>
   <url>
     <loc>https://jofrhwld.github.io/blog/posts/2023/02/2023-02-12_dndroll/index.html</loc>
-    <lastmod>2023-05-03T14:27:40.418Z</lastmod>
+    <lastmod>2023-05-03T14:40:03.881Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jofrhwld.github.io/blog/posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html</loc>
+    <lastmod>2023-05-03T14:40:09.967Z</lastmod>
   </url>
 </urlset>

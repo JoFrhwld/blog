@@ -10,7 +10,200 @@
 <atom:link href="https://jofrhwld.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.3.296</generator>
-<lastBuildDate>Sun, 12 Feb 2023 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 03 May 2023 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Using Quarto Blogs for Teaching</title>
+  <dc:creator>Josef Fruehwald</dc:creator>
+  <link>https://jofrhwld.github.io/blog/posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html</link>
+  <description><![CDATA[ <p>This semester I was teaching two R intensive courses: <a href="https://jofrhwld.github.io/AandS500_2023/">Quantitative Investigations in the Social Sciences</a> and <a href="https://jofrhwld.github.io/2023_Lin611/">Quantitative Methods in Linguistics</a>. For both courses, I had students maintain Quarto blogs that they pushed to <a href="https://classroom.github.com/">Github Classroom</a> and I thought I’d write up my thoughts on what worked, what didn’t work, and what I wish I’d planned out in advance.</p>
+<section id="github-classroom-basics" class="level2"><h2 class="anchored" data-anchor-id="github-classroom-basics">Github Classroom basics</h2>
+<p>Firstly, I spent relatively little time on the actual Github Classroom site. There may be more functionality to it that’s useful, but largely I didn’t need it. Each “Classroom” creates a Github Organization from which you can access every student’s assignment repository.</p>
+<section id="creating-assignments" class="level3"><h3 class="anchored" data-anchor-id="creating-assignments">Creating assignments</h3>
+<p>To create an assignment, you first have to set up a template repository on Github (could be under your own account or under the classroom organization) that gets associated with the assignment. Github Classroom generates an invite link that you can post to Canvas/Blackboard/whatever that will auto-fork the template for the student in the organization, and name it <code>{name-of-assignment}-{gh-username}</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Repository Visibility
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These repositories are, by default, private! In the example repo I show here, I went in and manually changed it to be public</p>
+</div>
+</div>
+<p>For example, here’s the repository it created when <em>I</em> clicked the invite link to the mapping project:</p>
+<p><a href="https://github.com/A-S500/maps-final-JoFrhwld" class="uri">https://github.com/A-S500/maps-final-JoFrhwld</a></p>
+<p>The repository isn’t under my personal account, it’s under the A-S500 organization.</p>
+</section><section id="tip-1-take-your-time-on-the-templates" class="level3"><h3 class="anchored" data-anchor-id="tip-1-take-your-time-on-the-templates">Tip 1: Take your time on the templates</h3>
+<p>For a blog-type assignment that students will be updating across the entire semester, take your time on the template. Get your template blog to be exactly like you want it. Obviously, students can make changes to how the blog will render, but your initial settings will have a major inertia effect.</p>
+<p>Here’s one thing I spent time on in set up that I’ll do differently in the future: I created blank template posts for <em>every</em> post students were going to do that year. For one class, I was having them write weekly reflections, so I created a directory and <code>index.qmd</code> for every week. e.g.</p>
+<pre><code>posts/01_week/index.qmd
+posts/02_week/index.qmd
+...
+posts/15_week/index.qmd</code></pre>
+<p>For the the other course, I had them write a post for each chapter of the textbook, and the setup was similar.</p>
+<p>I’d do that differently now for a few reasons. First, when looking at the source code and the rendered blog, it makes it harder to eyeball where the students have created <em>new</em> content. It might not seem like a lot, but it’s just a little extra bit of friction to click through to an <code>index.qmd</code> post to find that it’s still just the original template.</p>
+<p>Second, it facilitated some poor metadata practices for the students. I really couldn’t get everyone to touch the yaml header to update the date of the post if there was already a <code>date:</code> there, so for some people all of their posts were dated January, when I created the template.</p>
+</section><section id="thoughts-the-feedback-pull-request-isnt-worth-it." class="level3"><h3 class="anchored" data-anchor-id="thoughts-the-feedback-pull-request-isnt-worth-it.">Thoughts: The feedback pull request isn’t worth it.</h3>
+<p>Github Classroom will give you the option of automatically creating a feedback branch and open a pull request to leave comments on the code. While this makes sense for some assignments, these quarto blogs with their rendered html are too unwieldy to bother.</p>
+<p>I just opened feedback issues on the blogs referencing the specific lines I was commenting on.</p>
+</section></section><section id="quarto-things" class="level2"><h2 class="anchored" data-anchor-id="quarto-things">Quarto Things</h2>
+<p>Some quarto things that I’d recommend:</p>
+<section id="tip-2-set-up-freeze-auto" class="level3"><h3 class="anchored" data-anchor-id="tip-2-set-up-freeze-auto">Tip 2: Set up <code>freeze: auto</code>
+</h3>
+<p>To save yourself and your students’ time be sure to configure freezing in the <code>_quarto.yml</code> file.</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">execute</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span></span>
+<span id="cb2-2"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">freeze</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> auto</span></span></code></pre></div>
+<p>This means quarto will save the results of any executed R code, and won’t <em>rerun</em> the code when rendering the project unless the content of the file changes. This will save you and your students a lot of time when re-rendering blogs, especially later in the semester.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+commit `_freeze/`
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Be sure to add and commit the <code>_freeze/</code> directory though!</p>
+</div>
+</div>
+</section><section id="tip-3-encourage-enforce-actual-rendering-of-the-blog." class="level3"><h3 class="anchored" data-anchor-id="tip-3-encourage-enforce-actual-rendering-of-the-blog.">Tip 3: Encourage (enforce!) actual <em>rendering</em> of the blog.</h3>
+<p>One of the positives of any code notebook system in general is that they look nice while you’re writing, and interleave prose, code, &amp; results. A downside for a Quarto blog, though, is that students may not realize that the code results they see in the notebook <em>don’t</em> get saved and committed. You (the reader/grader) will have to re-run all of the code chunks, or re-render the html blog.</p>
+<p>But, as long as students click the “Render Project” button, the generated html pages will be viewable in <code>_site</code>, with all of the prose, code and code results… <em>if</em> they click “Render Project”.</p>
+<p>I didn’t pick up on the fact many students were just running the code in the notebook and <em>never clicking “Render”</em> until too late in the semester, and by that point we were very busy trying to get through the course content for me to turn that ship. That meant I had to re-render their blogs (takes time) <em>and</em> I had to deal with/fix any inconsistencies between our R environments (<em>more</em> time!)</p>
+</section><section id="tip-4-set-error-true-in-the-quarto-project" class="level3"><h3 class="anchored" data-anchor-id="tip-4-set-error-true-in-the-quarto-project">Tip 4: Set <code>error: true</code> in the quarto project</h3>
+<p>I think you should set <code>error: true</code> in <code>_quarto.yml</code>. Usually, if there’s an error in your R code, the project will fail to render. With <code>error: true</code>, the project will render, with the R errors included in the output.</p>
+<p>Maybe you’re thinking “But don’t you want to make sure that students fix the errors?” Well, yes I do, but if there’s errors in their code and they push it anyway, when <em>you</em> try to render the project, <em>you’ll</em> have to hunt down and fix the R errors before you can look at the rendered project!</p>
+</section></section><section id="rrstudio-things" class="level2"><h2 class="anchored" data-anchor-id="rrstudio-things">R/RStudio Things</h2>
+<section id="tip-5-teach-them-about-here-early" class="level3"><h3 class="anchored" data-anchor-id="tip-5-teach-them-about-here-early">Tip 5: Teach them about <code>{here}</code> early</h3>
+<p>So, no matter how many times I left comments about “please use relative paths”, I would still get posts with code that looked like</p>
+<div class="cell">
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">data</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">read_csv</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"~/usernamene/Documents/Courses/blog/data/data.csv"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+</div>
+<p>When combined with the fact that many people weren’t clicking “Render” on their projects, this meant I had to go in and fix these global paths in order to read their posts.</p>
+<p>The <a href="https://here.r-lib.org/">here</a> package works within RStudio projects to help construct reproducible paths. <code><a href="https://here.r-lib.org//reference/here.html">here::here()</a></code> returns the path to the main project directory, and will concatenate any further arguments to that path. So rewriting the example above would look like:</p>
+<div class="cell">
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;"><a href="https://here.r-lib.org/">here</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">data</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">read_csv</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"data"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"data.csv"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+</div>
+<p>On the one hand, using <a href="https://here.r-lib.org/">here</a> in this way <em>does</em> bypass needing to come to grips with paths, which is a crucial component of scientific computing. But on the other, you need to make a decision about where your class time is spent.</p>
+<p>If you go all in on *nix-style paths and their navigation, you <em>will</em> burn a lot of class time and your own creative energy on a topic that is increasingly conceptually difficult for students before you even get to course content. Moreover, students won’t neatly delimit course content like “paths are utility background information, stats are a collection of theories and methods, R code is an implementation of those theories and methods.” Rather, it’ll all get dumped into one big bucket of “stats is hard.”</p>
+<p>Or, you could teach them to use <a href="https://here.r-lib.org/">here</a>.</p>
+</section><section id="tip-6-figure-out-renv." class="level3"><h3 class="anchored" data-anchor-id="tip-6-figure-out-renv.">Tip 6: Figure out <code>{renv}</code>.</h3>
+<p>This is more of a “to-do”. I’m relatively new to using <a href="https://rstudio.github.io/renv/">renv</a> and am still trying to work out the kinks of making it work in distributed assignments like this.</p>
+<p>I think step one would be to make sure they’ve installed <a href="https://rstudio.github.io/renv/">renv</a> globally, before opening any given project. Then, in your template, commit your <code>renv.lock</code> file, but not the <code>.Rprofile</code>. Then, once they’ve created the project in RStudio, run <code><a href="https://rstudio.github.io/renv/reference/init.html">renv::init()</a></code> once, restore from the lock file.</p>
+<p>I <em>think</em>…</p>
+</section><section id="tip-7-remind-them-to-save" class="level3"><h3 class="anchored" data-anchor-id="tip-7-remind-them-to-save">Tip 7: Remind them to save!</h3>
+<p>Remind them that this is not like Google Docs or Word! The document is not auto-saving as you go along! Save save save!</p>
+</section></section><section id="gitgrading-things" class="level2"><h2 class="anchored" data-anchor-id="gitgrading-things">Git/Grading Things</h2>
+<p>On the reading/grading side of things, I worked out a git workflow that worked pretty well.</p>
+<section id="tip-8-add-the-student-blogs-as-git-submodules" class="level3"><h3 class="anchored" data-anchor-id="tip-8-add-the-student-blogs-as-git-submodules">Tip 8: Add the student blogs as git submodules</h3>
+<p>I originally had a grand idea of adding every student’s blog to one larger quarto project I would render, and look at all of their posts in one place, but that didn’t work out great. Instead, I created a bare bones RStudio project, and added each student’s blog repository as a submodule in a `blogs/` directory:</p>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">git</span> submodule add git@github.com:...</span></code></pre></div>
+<p>After initial setup, this meant I could pull all student’s new posts with</p>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">git</span> submodule update <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--remote</span></span></code></pre></div>
+</section><section id="tip-9-make-use-of-rstudios-project-navigation." class="level3"><h3 class="anchored" data-anchor-id="tip-9-make-use-of-rstudios-project-navigation.">Tip 9: Make use of RStudio’s project navigation.</h3>
+<p>The way I’d read and grade the blog posts was by navigating to a student’s blog repository in RStudio’s file browser, then clicking on the <code>blog.Rproj</code> file. This will auto open the student’s blog as an RStudio project which you can render and browse in isolation from all other students’ projects (especially if you’ve initialized <code>renv</code> inside).</p>
+</section><section id="tip-10-always-commit-all-changes-but-dont-push-after-grading" class="level3"><h3 class="anchored" data-anchor-id="tip-10-always-commit-all-changes-but-dont-push-after-grading">Tip 10: Always commit all changes, but don’t push, after grading</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Commit Changes!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I’m saying the same thing twice because it’s important.</p>
+</div>
+</div>
+<p>After re-rendering and reading the student’s blog, <strong>be sure to commit all changes</strong>, but don’t push them. This is because of a detail of how both quarto and git submodules work.</p>
+<p>Every time you re-render a project, the “last modified” metadata in the rendered html files gets updated. Meaning even if you just changed one page, all of the html pages get modified.</p>
+<p>Additionally, if there are uncommitted changes within the git submodule, when you run <code>git submodule update --remote</code>, git <em>won’t</em> pull down the new commits until you’ve committed those changes <em>within</em> then submodule.</p>
+</section></section><section id="final-thoughts" class="level2"><h2 class="anchored" data-anchor-id="final-thoughts">Final Thoughts</h2>
+<p>Overall, I was pretty happy with the outcomes! The blog format worked well for incremental logging of course progress, and it started socializing students into the practices of collaborative coding projects.</p>
+<p>I should note that both classes were relatively small, roughly seminar size, so I’m not sure how this would scale up to 25+ students.</p>
+
+
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
+  author = {Fruehwald, Josef},
+  title = {Using {Quarto} {Blogs} for {Teaching}},
+  series = {Væl Space},
+  date = {2023-05-03},
+  url = {https://jofrhwld.github.io/blog/posts/2023/05/2023-05-03_teaching-quarto-blogs},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2023" class="csl-entry quarto-appendix-citeas">
+Fruehwald, Josef. 2023. <span>“Using Quarto Blogs for Teaching.”</span>
+Væl Space. May 3, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/05/2023-05-03_teaching-quarto-blogs">https://jofrhwld.github.io/blog/posts/2023/05/2023-05-03_teaching-quarto-blogs</a>.
+</div></div></section></div> ]]></description>
+  <guid>https://jofrhwld.github.io/blog/posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html</guid>
+  <pubDate>Wed, 03 May 2023 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Simulating DND Rolls</title>
   <dc:creator>Josef Fruehwald</dc:creator>

@@ -6471,7 +6471,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span>    <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/khroma/man/scale_crameri_batlow.html">scale_fill_batlow</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_batlow.html">scale_fill_batlow</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -6897,7 +6897,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span>    <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/khroma/man/scale_crameri_batlow.html">scale_fill_batlow</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_batlow.html">scale_fill_batlow</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -7171,7 +7171,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span>    <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/khroma/man/scale_crameri_hawaii.html">scale_fill_hawaii</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_hawaii.html">scale_fill_hawaii</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span>guide <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -7184,7 +7184,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span>    <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/khroma/man/scale_crameri_hawaii.html">scale_color_hawaii</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_hawaii.html">scale_color_hawaii</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span>guide <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -8260,7 +8260,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span>    <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/khroma/man/scale_crameri_grayC.html">scale_fill_grayC</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_grayC.html">scale_fill_grayC</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span>reverse <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -8970,7 +8970,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span>    <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/khroma/man/scale_tol_bright.html">scale_fill_bright</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://packages.tesselle.org/khroma/reference/scale_tol_bright.html">scale_fill_bright</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span>guide <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -10943,7 +10943,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/khroma/man/scale_tol_bright.html">scale_color_bright</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://packages.tesselle.org/khroma/reference/scale_tol_bright.html">scale_color_bright</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span>limits <span class="op" style="color: #5E5E5E;
 background-color: null;

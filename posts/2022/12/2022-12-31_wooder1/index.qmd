@@ -57,6 +57,12 @@ I was explaining this to a friend, and she said "Well, you *would* think it was 
 My best approach, so far, to see how long the pronunciation \[wʊɾɚ\] has been represented as \<wooder\> is to do a NewsBank search for it in Philadelphia area newspapers. Those results are represented in the next figure.
 
 ```{r}
+#| echo: false
+
+source(here::here("_defaults.R"))
+```
+
+```{r}
 #| message: false
 #| code-fold: true
 #| code-summary: Data Loading

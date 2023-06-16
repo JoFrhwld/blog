@@ -30,6 +30,8 @@ library(patchwork)
 library(plotly)
 library(khroma)
 library(scales)
+
+source(here::here("_defaults.R"))
 ```
 
 ## A programming language?

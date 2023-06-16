@@ -19,6 +19,8 @@ One of the new functions in `{dplyr}` v1.1.0 is `dplyr::consecutive_id()`, which
 library(tidyverse)
 library(gt)
 
+source(here::here("_defaults.R"))
+
 # make sure its >= v1.1.0
 packageVersion("dplyr")
 ```

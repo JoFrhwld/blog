@@ -34,6 +34,8 @@ library(lubridate)
 library(scales)
 library(padr)
 library(glue)
+
+source(here::here("_defaults.R"))
 ```
 
 This block of code is just copied from the blog post I just mentioned.

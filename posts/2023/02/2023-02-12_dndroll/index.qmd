@@ -22,6 +22,8 @@ library(tidyverse)
 library(geomtextpath)
 library(khroma)
 library(droll)
+
+source(here::here("_defaults.R"))
 ```
 
 The `{droll}` package works seems to be explicitly built to compatible with the DnD directions work. For example, you might roll a 20 sided die, or a "d20", and add an ability "modifier" to the result. In droll commands, we'll create a d20, set a dexterity modifier, then roll a random value then add that modifier:

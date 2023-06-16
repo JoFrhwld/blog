@@ -43,6 +43,8 @@ I know `{tuneR}` package has a `readWave()` function, and I couldn't figure out 
 
 ```{r}
 library(glue)
+
+source(here::here("_defaults.R"))
 ```
 
 ```{r}

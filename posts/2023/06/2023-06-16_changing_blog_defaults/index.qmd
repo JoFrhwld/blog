@@ -1,0 +1,100 @@
+---
+title: "Changing Project Defaults"
+date: 2023-06-16
+tags: 
+  - R
+  - "`{here}`"
+  - Quarto
+---
+
+## Upshot
+
+I've moved a bunch of R defaults that I want for each post from `.Rprofile` into `_defaults.R`, and now run `source(here::here("_defaults.R"))` in each post where I want them. That looks like more work, but it actually makes things run a bit faster with the way Quarto runs R and freezes outputs.
+
+## Initial Defaults
+
+Around when I was setting up this blog project, I decided that I wanted some consistent theming for the figures so that they would fit in nicely into the rest of the blog, but I didn't want to have to include a megablock of code in every post that looked like this:
+
+```{r}
+#| message: false
+library(ggplot2)
+library(khroma)
+library(ggdark)
+library(showtext)
+library(colorspace)
+
+# get Fira Sans from google
+font_add_google(name = "Fira Sans", family = "Fira Sans")
+showtext_auto()
+body_bg <- "#222222"
+plot_bg <- darken("#375a7f", 0.50)
+
+major <- lighten(
+  plot_bg,
+  amount = 0.25
+)
+
+minor <- lighten(
+  plot_bg,
+  amount = 0.125
+)
+
+strip_bg <- lighten(plot_bg, 0.5)
+
+theme_set(dark_theme_gray(base_size = 12) + 
+            theme(text = element_text(family = "Fira Sans"),
+                  plot.background = element_rect(fill = plot_bg),
+                  panel.background = element_blank(),
+                  panel.grid.major = element_line(color = major, linewidth = 0.2),
+                  panel.grid.minor = element_line(color = minor, linewidth = 0.2),
+                  legend.key = element_blank(),
+                  strip.background = element_rect(fill = strip_bg),
+                  strip.text = element_text(color = body_bg),
+                  axis.ticks = element_blank(),
+                  legend.background = element_blank()))
+
+options(
+  ggplot2.discrete.colour = khroma::scale_color_bright,
+  ggplot2.discrete.fill = khroma::scale_fill_bright,
+  ggplot2.continuous.colour = khroma::scale_color_batlow,
+  ggplot2.continuous.fill = khroma::scale_fill_batlow
+)
+```
+
+All that means I can just do some minimal `{ggplot2}` code in each post and it'll look something like this:
+
+```{r}
+#| warning: false
+data(penguins, package = "palmerpenguins")
+
+ggplot(
+  penguins, 
+  aes(
+    x = bill_length_mm,
+    y = bill_depth_mm,
+    color = species
+  )
+)+
+  geom_point()
+  
+```
+
+So, I stuck that big block of code into the `.Rprofile` for the blog project so that every time I opened the project, R would automatically source it. Nice, right?
+
+## The heaviness of `.Rprofile`
+
+I started realizing this wasn't optimal every time I re-rendered the blog for a new post. I have my quarto set to "freeze" each post after it's rendered, meaning it won't re-run all of the R code in a post unless I make a change to it, instead using the output of the previous time it ran. That's a time saver, cause even with many very simple posts with code, it just takes a while to run everything.
+
+The issue was, even with `freeze: true`, Quarto would *still* source `.Rprofile` on every post. Which means that big block of code, including the call to `showtext::font_add_google()` would run for every post when I re-rendered the blog. And that was starting to get tedious!
+
+## Moving to `_defaults.R`
+
+So, I moved all of the customization code from `.Rprofile` into `_defaults.R` file. I forget where I saw a `_defaults.R` first, but I think it was in some repository maintained by Hadley Wickham. The downside is that it's not as automatic as `.Rprofile`, in that I need to source it at the start of every post. That would be annoying if I was going to write the path out by hand, but it's a little easier with `here::here()`.
+
+```{r}
+source(
+  here::here("_defaults.R")
+)
+```
+
+The major upside, though, is that sourcing code gets frozen along with all of the other code chunks in a post! So when I re-render the whole blog, Quarto won't re-run all of the code in `_defaults.R` unless the code has changed in a post. Overall, it feels worth it!.

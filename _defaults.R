@@ -33,12 +33,27 @@ theme_set(dark_theme_gray(base_size = 12) +
                   plot.background = element_rect(fill = plot_bg),
                   panel.background = element_blank(),
                   panel.grid.major = element_line(color = major, linewidth = 0.2),
-                  panel.grid.minor = element_line(color = minor, linewidth = 0.2),
+                  panel.grid.minor = element_blank(),
                   legend.key = element_blank(),
                   strip.background = element_rect(fill = strip_bg),
                   strip.text = element_text(color = body_bg),
                   axis.ticks = element_blank(),
                   legend.background = element_blank()))
+
+theme_no_y <- function(){
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    panel.grid.major.y = element_blank()
+  )
+}
+
+options(
+  ggplot2.discrete.colour = khroma::scale_color_bright,
+  ggplot2.discrete.fill = khroma::scale_fill_bright,
+  ggplot2.continuous.colour = khroma::scale_color_batlow,
+  ggplot2.continuous.fill = khroma::scale_fill_batlow
+)
 
 # set a crop: true hook
 knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)

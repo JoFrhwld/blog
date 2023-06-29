@@ -5,8 +5,16 @@ comments:
   
 format:
   html:
+    fig-width: 8
+    fig-height: 5
     fig-cap-location: margin
     code-link: true
+    
+knitr: 
+  opts_chunk: 
+    message: false
+    warning: false
+    
 
 citation: 
   collection-title: "Væl Space"

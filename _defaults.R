@@ -25,10 +25,11 @@ minor <- lighten(
 )
 strip_bg <- lighten(plot_bg, 0.5)
 
+ptol_red <- "#EE6677"
+ptol_blue <- "#4477AA"
 
 
-
-theme_set(dark_theme_gray(base_size = 12) + 
+theme_set(dark_theme_gray(base_size = 20) + 
             theme(text = element_text(family = "Fira Sans"),
                   plot.background = element_rect(fill = plot_bg),
                   panel.background = element_blank(),
@@ -36,7 +37,7 @@ theme_set(dark_theme_gray(base_size = 12) +
                   panel.grid.minor = element_blank(),
                   legend.key = element_blank(),
                   strip.background = element_rect(fill = strip_bg),
-                  strip.text = element_text(color = body_bg),
+                  strip.text = element_text(color = "white"),
                   axis.ticks = element_blank(),
                   legend.background = element_blank()))
 

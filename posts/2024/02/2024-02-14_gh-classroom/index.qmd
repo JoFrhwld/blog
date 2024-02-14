@@ -1,0 +1,129 @@
+---
+title: "Some lessons in using Github Classroom and Codespaces"
+date: 2024-02-14
+order: 1
+filters:
+  - codeblocklabel
+---
+
+```{r}
+#| echo: false  
+source(here::here("_defaults.R"))
+```
+
+I'm currently teaching [a computational linguistics course](https://lin511-2024.github.io/notes/), and for just the second time, I'm using [Github Classroom](https://classroom.github.com/) to manage assignments. I might make a few posts about what I've learned in the process, but for now, I think I'll focus on what's gone right, and what's been more challenging in using Github Codespaces.
+
+## Github Codespaces
+
+A Github Codespace is basically a virtual machine hosted by Github with VS Code as the default interface. First of all, since running a codespace involves data storage and running computation, they usually cost extra money, but you can get an educational discount to \$0, [as described here](https://docs.github.com/en/education/manage-coursework-with-github-classroom/integrate-github-classroom-with-an-ide/using-github-codespaces-with-github-classroom).
+
+### Why Codespaces?
+
+The number 1 reason to use some kind of cloud computing environment for teaching a computational course is to avoid the development environment paradox I've experienced:
+
+::: callout-note
+## The development environment paradox
+
+If you are teaching a computational course with $N$ students using their own computers, the number of of development environments to debug is $>N$.
+:::
+
+When I previously taught an NLP course, we used replit, but I increasingly felt the goals of the platform were inappropriate for an educational context (e.g. they have "bounties" with dollar amounts attached to them), and they're [sunsetting their educational program anyway](https://blog.replit.com/update-on-teams-for-education).
+
+With Codespaces, I'm still getting the benefits of having full control over the students' development environment, but the way they interact with it will be very similar to what it's like to interact with programming in a local environment.
+
+## How I've customized the Codespaces
+
+When you launch a codespace, the instructions for how it should be configured are located in `.devcontainer/devcontainer.json`. You can check out how I've customized [my assignment template repository here](https://github.com/Lin511-2024/assignment_template/). I've left most of the configuration options at their default values, but here's what I've customized.
+
+### The `postCreateCommand`
+
+After initially setting up the codespace, you can have it run shell commands, like installing any python dependencies. I wound up wanting it to do so many things that I've moved them into a separate `config.sh`, which gets run like this
+
+``` json
+{
+ "postCreateCommand": "sh .devcontainer/config.sh"
+}
+```
+
+#### Installing python requirements
+
+First, I need the codespace install any python requirements for the assignment:
+
+``` sh
+echo "Installing Developer Requirements"
+pip3 install --user -r requirements/requirements.txt
+```
+
+#### Configure merge commits
+
+We ran into a problem where, if I made some changes to which tests should run for the autograder, it resulted in a divergent history between the remote git repo and the student's local repo, which VS Code [does not present in the most user friendly way](https://lin511-2024.github.io/notes/concepts/04_git_errors.html).
+
+So, in my post-creation config file, I've added merge commit configuration
+
+``` sh
+echo "Merge Commits Only" 
+git config pull.rebase false
+```
+
+#### A `pre-commit` hook
+
+We also ran into a problem where I didn't always remember to run `pip freeze` after writing an assignment. When students tried to run the code that I said would just work, it didn't. While learning "module not found" means you should just run `pip install` is a valuable lesson, I decided to add a `pre-commit` git hook to run `pip freeze` and add it to the commit. This also has the benefit that if students install a package and use it, tests should still all pass.\
+
+I saved this hook to `.devcontainer/pre-commit`:
+
+``` sh
+#!/bin/sh
+pip freeze > requirements/requirements.txt
+git add requirements/requirements.txt
+```
+
+And added the following to `.devcontainer/config.sh`
+
+``` sh
+echo "pip freeze pre commit"
+ln .devcontainer/pre-commit .git/hooks/
+chmod +x .git/hooks/pre-commit
+```
+
+### Testing
+
+Github Classroms lets you write unit tests that will "autograde" submissions. I wanted students to be able to run these tests locally, so they could tell where things weren't going right. So I added the following VC Code customizations to `devcontainer.json`.
+
+``` json
+{
+  "customizations": {
+		"vscode": {
+			"settings": {"python.testing.pytestArgs": [
+				"tests"
+			],
+			"python.testing.unittestEnabled": false,
+			"python.testing.pytestEnabled": true}
+		}
+	}
+}
+```
+
+This sets up the testing pane in their VS Code automatically.
+
+## Shouldn't debugging be part of the learning process?
+
+Most of these customizations are me trying to foresee and forestall buggy problems students are going to run into. It's worth asking whether that's counterproductive. Maybe students *should* run into these problems and figure out how to fix them, since that's more realistic to what it's like to do computational work.
+
+To that, I'd say *maybe*, depending on the level of the course. But if both programming and the course content are all new to many students in the class, I think they just need to experience things working first. When first starting out, you're faced with a real problem of how to attribute errors. If you click the git Sync button in VS Code and this error pops up:
+
+![](assets/git_error.png){fig-align="center" width="90%"}
+
+You have no idea whether:
+
+-   You clicked the wrong button.
+-   You're not *supposed* to click any button.
+-   You actually need to click the button twice.
+-   The code you wrote was wrong.
+-   The internet is temporarily down.
+-   Your computer is broken.
+-   You need to install an additional program.
+-   You're too stupid to take this course.
+-   It actually worked and the error message was an error.
+-   ...
+
+Without a baseline framework for understanding how things are working, you can't process and accommodate error messages like this, so, honestly, better for me, as the instructor, to try to make things just *work*, and present errors and bugs in a planned and structured way.

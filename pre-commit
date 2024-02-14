@@ -1,0 +1,4 @@
+#!/bin/sh
+Rscript -e "renv::snapshot(prompt = F)"
+git add renv.lock
+git add requirements.txt

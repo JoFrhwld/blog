@@ -1,6 +1,5 @@
 project:
   type: website
-  output-dir: "docs"
   render:
     - "*.qmd"
     - "!old_posts/"  
@@ -10,6 +9,8 @@ execute:
 
 website:
   title: "Væl Space"
+  favicon: assets/logo.svg
+  bread-crumbs: false
   site-url: "https://jofrhwld.github.io/blog"
   google-analytics: "G-SS6YYGWPPL"
   cookie-consent:
@@ -24,10 +25,11 @@ website:
         text: About
       - icon: rss
         href: index.xml
-    right: 
-      - href: https://jofrhwld.github.io/rethinking-workthrough/
-        text: Statistical Rethinking Workthrough
+    # right: 
+    #   - href: https://jofrhwld.github.io/rethinking-workthrough/
+    #     text: Statistical Rethinking Workthrough
   sidebar:
+    logo: assets/logo.svg  
     collapse-level: 0
     style: floating
     contents: posts

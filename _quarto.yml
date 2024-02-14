@@ -1,6 +1,5 @@
 project:
   type: website
-  output-dir: "docs"
   render:
     - "*.qmd"
     - "!old_posts/"  
@@ -10,6 +9,7 @@ execute:
 
 website:
   title: "Væl Space"
+  bread-crumbs: false
   site-url: "https://jofrhwld.github.io/blog"
   google-analytics: "G-SS6YYGWPPL"
   cookie-consent:
@@ -28,8 +28,8 @@ website:
       - href: https://jofrhwld.github.io/rethinking-workthrough/
         text: Statistical Rethinking Workthrough
   sidebar:
-    collapse-level: 0
-    style: floating
+    collapse-level: 4
+    style: docked
     contents: posts
       
   # sidebar: 

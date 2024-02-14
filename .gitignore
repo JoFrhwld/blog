@@ -5,5 +5,4 @@
 _site/*
 rmd_drafts/*
 /.quarto/
-renv/
 **/drafts/

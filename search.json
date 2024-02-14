@@ -1,0 +1,1143 @@
+[
+  {
+    "objectID": "posts/2023/06/2023-06-29_hierarchical-variance/index.html",
+    "href": "posts/2023/06/2023-06-29_hierarchical-variance/index.html",
+    "title": "Thinking About Hierarchical Variance Parameters",
+    "section": "",
+    "text": "I’m still thinking about priors, distributions, and logistic regressions. The fact that a fairly broad normal distribution in logit space turns into a bimodal distribution in probability space has got me thinking about the standard deviation of random effects in logistic regression. Specifically, what happens in cases where the population of individuals may be bimodal\nsetuplibrary(tidyverse)\nlibrary(brms)\nlibrary(tidybayes)\nlibrary(marginaleffects)\n\nlibrary(gt)\n\nsource(here::here(\"_defaults.R\"))\n\nseed &lt;- 2023-6-29\n\nset.seed(seed)",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Thinking About Hierarchical Variance Parameters"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-29_hierarchical-variance/index.html#simulating-some-data",
+    "href": "posts/2023/06/2023-06-29_hierarchical-variance/index.html#simulating-some-data",
+    "title": "Thinking About Hierarchical Variance Parameters",
+    "section": "Simulating some data",
+    "text": "Simulating some data\nI’ll kick things off with simulating some data. Our predictor variable will be just randomly sampled from ~normal(0,1), so it’ll handily already be z-scored. I’ll also go for a slope in logit space of 1, so logit(y) = x.\nI’ll treat each point I’ve sampled for X as belonging to an individual, or subject, grouping variable, and each individual’s personal probability will be sampled from a beta distribution. I’ll simulate two possibilities here, one where individuals are kind of closely clustered near each other, and another where they’re pretty strongly bifurcated close to 0 and 1.1\n\nsimulation of individualstibble(\n  x = rnorm(100),\n  logit = x,\n  prob = plogis(logit)\n) |&gt; \n  mutate(\n    individual = row_number(),\n    subj_prob_low = rbeta(\n      n = n(), \n      prob * 0.25, \n      (1-prob) * 0.25\n    ),\n    subj_prob_high = rbeta(\n      n = n(), \n      prob * 7, \n      (1-prob) * 7\n      )\n  )-&gt;\n  sim_params\n\n\n\nplotting codesim_params |&gt; \n  pivot_longer(\n    starts_with(\"subj_prob\")\n  ) |&gt; \n  mutate(\n    name = case_when(\n      name == \"subj_prob_high\" ~ \"unimodal\",\n      name == \"subj_prob_low\" ~ \"bifurcated\"\n    )\n  ) |&gt; \n  ggplot(aes(x, value))+\n    geom_point()+\n    labs(title = \"subject-level probabilities\",\n         y = \"prob\")+\n    scale_x_continuous(\n      breaks = seq(-2,2, by = 2)\n    ) +  \n    facet_wrap(~name)\n\n\n\n\n\n\nFigure 1: Probabilities for individuals\n\n\n\n\nFor each of these probabilities, I’ll simulate 50 binomial observations.\n\nsimulating utterancessim_params |&gt; \n  rowwise() |&gt; \n  mutate(\n    obs = list(tibble(\n      y_prob_low = rbinom(n = 50, size = 1, prob = subj_prob_low),\n      y_prob_high = rbinom(n = 50, size = 1, prob = subj_prob_high)\n    ))\n  ) |&gt; \n  unnest(obs) -&gt;\n  sim_obs\n\n\n\nplotting codesim_obs |&gt; \n  pivot_longer(\n    starts_with(\"y_\"),\n    names_to = \"simulation\",\n    values_to = \"observation\"\n  ) |&gt; \n  mutate(\n    simulation = case_when(\n      simulation == \"y_prob_high\" ~ \"unimodal\",\n      simulation == \"y_prob_low\" ~ \"bifurcated\"\n    )\n  ) |&gt; \n  ggplot(aes(x, factor(observation))) +\n    stat_sum(alpha = 0.3)+\n    labs(title = \"simulated observations\")+\n    scale_x_continuous(\n      breaks = seq(-2,2, by = 2)\n    ) +\n    facet_wrap(~simulation)\n\n\n\n\n\n\nFigure 2: simulated observations",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Thinking About Hierarchical Variance Parameters"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-29_hierarchical-variance/index.html#looking-at-the-default-priors",
+    "href": "posts/2023/06/2023-06-29_hierarchical-variance/index.html#looking-at-the-default-priors",
+    "title": "Thinking About Hierarchical Variance Parameters",
+    "section": "Looking at the default priors",
+    "text": "Looking at the default priors\nIf we take a look at the default priors a logistic model would get in brms, we can see that both the Intercept and the slope get pretty broad priors (the blank prior for the slope means it’s a flat prior).\n\nget_prior(\n  bf(y_prob_low ~ x + (1|individual)),\n  data = sim_obs,\n  family = bernoulli(link = \"logit\")\n) |&gt; \n  as_tibble() |&gt; \n  select(prior, class, coef, group) |&gt; \n  gt()\n\n\n\n\n\nprior\nclass\ncoef\ngroup\n\n\n\n\nb\n\n\n\n\n\nb\nx\n\n\n\nstudent_t(3, 0, 2.5)\nIntercept\n\n\n\n\nstudent_t(3, 0, 2.5)\nsd\n\n\n\n\n\nsd\n\nindividual\n\n\n\nsd\nIntercept\nindividual\n\n\n\n\n\n\nIf we real quick look at how the prior on the intercept plays out in the probability space, we get one of these bimodal distributions.\n\nplotting codetibble(\n  x = rstudent_t(1e6, df = 3, sigma = 2.5)\n) |&gt; \n  ggplot(aes(plogis(x))) +\n    stat_slab(fill = ptol_red)+\n    theme_no_y()+\n    scale_y_continuous(\n      expand = expansion(mult = 0)\n    )+\n    labs(title = \"invlogit(student_t(3, 0, 2.5))\",\n         x = NULL)\n\n\n\n\n\n\nFigure 3: Student-t prior in the probability space.\n\n\n\n\nSo, for the intercept and slope priors, I’ll adjust them to be ~normal(0, 1.5) and ~normal(0,1), respectively.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Thinking About Hierarchical Variance Parameters"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-29_hierarchical-variance/index.html#actually-fitting-the-models.",
+    "href": "posts/2023/06/2023-06-29_hierarchical-variance/index.html#actually-fitting-the-models.",
+    "title": "Thinking About Hierarchical Variance Parameters",
+    "section": "Actually fitting the models.",
+    "text": "Actually fitting the models.\nBimodal population\nFirst, here’s the model for the population where individuals’ probabilities were squished out towards 0 and 1.\n\nlow_mod &lt;- brm(\n  y_prob_low ~ x + (1|individual),\n  data = sim_obs,\n  family = bernoulli(link = \"logit\"),\n  prior = c(\n    prior(normal(0,1.5), class = \"Intercept\"),\n    prior(normal(0,1), class = \"b\", coef = \"x\")\n  ),\n  cores = 4, \n  seed = seed,  \n  backend = \"cmdstanr\",\n  file = \"low_mod.RDS\"\n) \n\n\nsummary tablelow_mod |&gt; \n  gather_draws(\n    `sd_.*`,\n    `b_.*`,\n    regex = T\n  ) |&gt; \n  mean_hdci() |&gt; \n  select(.variable, .value, .lower, .upper) |&gt; \n  gt() |&gt; \n  fmt_number()\n\n\n\n\n\n.variable\n.value\n.lower\n.upper\n\n\n\nb_Intercept\n0.60\n−1.04\n2.13\n\n\nb_x\n3.01\n1.62\n4.36\n\n\nsd_individual__Intercept\n7.85\n5.85\n10.21\n\n\n\n\n\n\nThings have kind of clearly gone off the rails here. The intercepts and slopes are all over the place, but that’s maybe not surprising given the trade offs the model is making between the population level slopes and the individual level probabilities. It’s worth noting that this model had no diagnostic warnings and was well converged.\n\nplotting codelow_mod |&gt; \n  predictions(\n    newdata = datagrid(x = seq(-3, 3, length = 100)),\n    re_formula = NA\n  ) |&gt;\n  posterior_draws() |&gt; \n  ggplot(aes(x, draw)) +\n    stat_lineribbon(linewidth = 0.5)+\n    scale_fill_brewer() +\n    labs(\n      title = \"Bifurcated population\",\n      y = \"prob\"\n    )\n\n\n\n\n\n\nFigure 4: The posterior fitted values.\n\n\n\n\nIn fact, that posterior distribution for the between-speaker sd is very extreme at about 8. If we plot the kind of distribution of individuals it suggests when the population level probability = 0.5, we get those steep walls near 0 and 1 again.\n\nplotting codelow_mod |&gt; \n  gather_draws(\n    `sd_.*`,\n    regex = T\n  ) |&gt; \n  slice_sample(\n    n = 10\n  ) |&gt; \n  rowwise() |&gt; \n  mutate(\n    individuals = list(tibble(\n      individual = rnorm(1e5, mean = 0, sd=.value)\n    ))\n  ) |&gt; \n  unnest(individuals) |&gt; \n  ggplot(aes(plogis(individual)))+\n    stat_slab(\n      aes(group = factor(.value)),\n      linewidth = 0.5,\n      fill = NA,\n      color = ptol_red\n    ) +\n    scale_y_continuous(expand = expansion(mult = 0))+\n    labs(\n      title = \"Random intercepts distribution around 0.5\"\n    )+\n    theme_no_y()\n\n\n\n\n\n\nFigure 5: Implied distribution of individuals in the bifircated population.\n\n\n\n\nThe Unimodal Population\nLet’s do it all again, but now for the population where individuals’ probabilities were clustered around the population probability.\n\nhigh_mod &lt;- brm(\n  y_prob_high ~ x + (1|individual),\n  data = sim_obs,\n  family = bernoulli(link = \"logit\"),\n  prior = c(\n    prior(normal(0,1.5), class = \"Intercept\"),\n    prior(normal(0,1), class = \"b\", coef = \"x\")\n  ),\n  cores = 4,\n  adapt_delta = 0.9,\n  seed = seed,\n  backend = \"cmdstanr\",\n  file = \"high_mod.RDS\"\n) \n\n\nsummary tablehigh_mod |&gt; \n  gather_draws(\n    `sd_.*`,\n    `b_.*`,\n    regex = T\n  ) |&gt; \n  mean_hdci() |&gt; \n  select(\n    .variable, .value, .lower, .upper\n  ) |&gt; \n  gt() |&gt; \n   fmt_number(decimals = 2)\n\n\n\n\n\n.variable\n.value\n.lower\n.upper\n\n\n\nb_Intercept\n−0.06\n−0.23\n0.10\n\n\nb_x\n1.05\n0.87\n1.22\n\n\nsd_individual__Intercept\n0.77\n0.63\n0.91\n\n\n\n\n\n\nThe intercepts and slope posteriors are much more tight, and the inter-speaker sd posterior is &lt;1.\n\nplottng codehigh_mod |&gt; \n  predictions(\n    newdata = datagrid(x = seq(-3, 3, length = 100)),\n    re_formula = NA\n  ) |&gt; \n  posterior_draws() |&gt; \n  ggplot(aes(x, draw)) +\n    stat_lineribbon(linewidth = 0.5)+\n    scale_fill_brewer()+\n    labs(\n      title = \"Unimodal population\",\n      y = \"prob\"\n    )\n\n\n\n\n\n\nFigure 6: Posterior fitted values for the unimodal population.\n\n\n\n\nLet’s look at the implied individual level distribution around 0.5.\n\nplotting codehigh_mod |&gt; \n  gather_draws(\n    `sd_.*`,\n    regex = T\n  ) |&gt; \n  slice_sample(\n    n = 20\n  ) |&gt; \n  rowwise() |&gt; \n  mutate(\n    individuals = list(tibble(\n      individual = rnorm(1e5, mean = 0, sd=.value)\n    ))\n  ) |&gt; \n  unnest(individuals) |&gt; \n  ggplot(aes(plogis(individual)))+\n    stat_slab(\n      aes(group = factor(.value)),\n      linewidth = 0.5,\n      fill = NA,\n      color = ptol_red\n    ) +\n    scale_y_continuous(expand = expansion(mult = 0))+\n    labs(\n      title = \"Random intercepts distribution around 0.5\"\n    )+\n    theme_no_y()\n\n\n\n\n\n\nFigure 7: Implied distribution of individuals in the unimodal population.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Thinking About Hierarchical Variance Parameters"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-29_hierarchical-variance/index.html#the-upshot",
+    "href": "posts/2023/06/2023-06-29_hierarchical-variance/index.html#the-upshot",
+    "title": "Thinking About Hierarchical Variance Parameters",
+    "section": "The Upshot",
+    "text": "The Upshot\nEven though I’ve fit and looked at hierarchical logistic regressions before, I hadn’t stopped to think about how to interpret the standard deviation of the random intercepts before. If you’d asked me before what a large sd implied about the distribution of individuals in the probability space, I think I would have said they’d be more uniformly distributed, but actually it means they’re more bifurcated!\nAlso, if you’ve got a fairly bifurcated population, the population level estimates are going to get pretty wonky.\nAll food for thought moving forward.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Thinking About Hierarchical Variance Parameters"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-29_hierarchical-variance/index.html#footnotes",
+    "href": "posts/2023/06/2023-06-29_hierarchical-variance/index.html#footnotes",
+    "title": "Thinking About Hierarchical Variance Parameters",
+    "section": "Footnotes",
+    "text": "Footnotes\n\nI initially also tried simulating a case where individuals were strictly categorical based on the probability associated with their x, and things did not go well for the models.↩︎",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Thinking About Hierarchical Variance Parameters"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-16_changing_blog_defaults/index.html",
+    "href": "posts/2023/06/2023-06-16_changing_blog_defaults/index.html",
+    "title": "Changing Project Defaults",
+    "section": "",
+    "text": "I’ve moved a bunch of R defaults that I want for each post from .Rprofile into _defaults.R, and now run source(here::here(\"_defaults.R\")) in each post where I want them. That looks like more work, but it actually makes things run a bit faster with the way Quarto runs R and freezes outputs.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Changing Project Defaults"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-16_changing_blog_defaults/index.html#upshot",
+    "href": "posts/2023/06/2023-06-16_changing_blog_defaults/index.html#upshot",
+    "title": "Changing Project Defaults",
+    "section": "",
+    "text": "I’ve moved a bunch of R defaults that I want for each post from .Rprofile into _defaults.R, and now run source(here::here(\"_defaults.R\")) in each post where I want them. That looks like more work, but it actually makes things run a bit faster with the way Quarto runs R and freezes outputs.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Changing Project Defaults"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-16_changing_blog_defaults/index.html#initial-defaults",
+    "href": "posts/2023/06/2023-06-16_changing_blog_defaults/index.html#initial-defaults",
+    "title": "Changing Project Defaults",
+    "section": "Initial Defaults",
+    "text": "Initial Defaults\nAround when I was setting up this blog project, I decided that I wanted some consistent theming for the figures so that they would fit in nicely into the rest of the blog, but I didn’t want to have to include a megablock of code in every post that looked like this:\n\nlibrary(ggplot2)\nlibrary(khroma)\nlibrary(ggdark)\nlibrary(showtext)\nlibrary(colorspace)\n\n# get Fira Sans from google\nfont_add_google(name = \"Fira Sans\", family = \"Fira Sans\")\nshowtext_auto()\nbody_bg &lt;- \"#222222\"\nplot_bg &lt;- darken(\"#375a7f\", 0.50)\n\nmajor &lt;- lighten(\n  plot_bg,\n  amount = 0.25\n)\n\nminor &lt;- lighten(\n  plot_bg,\n  amount = 0.125\n)\n\nstrip_bg &lt;- lighten(plot_bg, 0.5)\n\ntheme_set(dark_theme_gray(base_size = 12) + \n            theme(text = element_text(family = \"Fira Sans\"),\n                  plot.background = element_rect(fill = plot_bg),\n                  panel.background = element_blank(),\n                  panel.grid.major = element_line(color = major, linewidth = 0.2),\n                  panel.grid.minor = element_line(color = minor, linewidth = 0.2),\n                  legend.key = element_blank(),\n                  strip.background = element_rect(fill = strip_bg),\n                  strip.text = element_text(color = body_bg),\n                  axis.ticks = element_blank(),\n                  legend.background = element_blank()))\n\noptions(\n  ggplot2.discrete.colour = khroma::scale_color_bright,\n  ggplot2.discrete.fill = khroma::scale_fill_bright,\n  ggplot2.continuous.colour = khroma::scale_color_batlow,\n  ggplot2.continuous.fill = khroma::scale_fill_batlow\n)\n\nAll that means I can just do some minimal ggplot2 code in each post and it’ll look something like this:\n\ndata(penguins, package = \"palmerpenguins\")\n\nggplot(\n  penguins, \n  aes(\n    x = bill_length_mm,\n    y = bill_depth_mm,\n    color = species\n  )\n)+\n  geom_point()\n\n\n\n\n\n\n\nSo, I stuck that big block of code into the .Rprofile for the blog project so that every time I opened the project, R would automatically source it. Nice, right?",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Changing Project Defaults"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-16_changing_blog_defaults/index.html#the-heaviness-of-.rprofile",
+    "href": "posts/2023/06/2023-06-16_changing_blog_defaults/index.html#the-heaviness-of-.rprofile",
+    "title": "Changing Project Defaults",
+    "section": "The heaviness of .Rprofile\n",
+    "text": "The heaviness of .Rprofile\n\nI started realizing this wasn’t optimal every time I re-rendered the blog for a new post. I have my quarto set to “freeze” each post after it’s rendered, meaning it won’t re-run all of the R code in a post unless I make a change to it, instead using the output of the previous time it ran. That’s a time saver, cause even with many very simple posts with code, it just takes a while to run everything.\nThe issue was, even with freeze: true, Quarto would still source .Rprofile on every post. Which means that big block of code, including the call to showtext::font_add_google() would run for every post when I re-rendered the blog. And that was starting to get tedious!",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Changing Project Defaults"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-16_changing_blog_defaults/index.html#moving-to-_defaults.r",
+    "href": "posts/2023/06/2023-06-16_changing_blog_defaults/index.html#moving-to-_defaults.r",
+    "title": "Changing Project Defaults",
+    "section": "Moving to _defaults.R\n",
+    "text": "Moving to _defaults.R\n\nSo, I moved all of the customization code from .Rprofile into _defaults.R file. I forget where I saw a _defaults.R first, but I think it was in some repository maintained by Hadley Wickham. The downside is that it’s not as automatic as .Rprofile, in that I need to source it at the start of every post. That would be annoying if I was going to write the path out by hand, but it’s a little easier with here::here().\n\nsource(\n  here::here(\"_defaults.R\")\n)\n\nThe major upside, though, is that sourcing code gets frozen along with all of the other code chunks in a post! So when I re-render the whole blog, Quarto won’t re-run all of the code in _defaults.R unless the code has changed in a post. Overall, it feels worth it!.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Changing Project Defaults"
+    ]
+  },
+  {
+    "objectID": "posts/2023/02/2023-02-12_dndroll/index.html",
+    "href": "posts/2023/02/2023-02-12_dndroll/index.html",
+    "title": "Simulating DND Rolls",
+    "section": "",
+    "text": "I’ve recently started playing Dungeons and Dragons, and have been really enjoying the campaign my sibling runs. I’m still getting a handle on the mechanics, especially in combat, where the sequence of events that are allowed, and keeping track of your what you roll when is still a little confusing to me. Even though it’s not playing out in real time, it feels urgent, and I don’t always keep track of things like “Am I rolling with advantage?”, “Do I have bardic inspiration” etc.\nBut in the time in between sessions, in addition to thinking through the mechanics to remember, I’ve also been thinking about the probabilities of it all. And what do you know! There’s an R package for that: {droll} !",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "02",
+      "Simulating DND Rolls"
+    ]
+  },
+  {
+    "objectID": "posts/2023/02/2023-02-12_dndroll/index.html#simulating-rolls",
+    "href": "posts/2023/02/2023-02-12_dndroll/index.html#simulating-rolls",
+    "title": "Simulating DND Rolls",
+    "section": "Simulating rolls",
+    "text": "Simulating rolls\n\nlibrary(tidyverse)\nlibrary(geomtextpath)\nlibrary(khroma)\nlibrary(droll)\n\nsource(here::here(\"_defaults.R\"))\n\nThe {droll} package works seems to be explicitly built to compatible with the DnD directions work. For example, you might roll a 20 sided die, or a “d20”, and add an ability “modifier” to the result. In droll commands, we’ll create a d20, set a dexterity modifier, then roll a random value then add that modifier:\n\nset.seed(12)\n\n\n# make a d20\nd20 &lt;- d(20)\n# low dex\ndex &lt;- 1\nd20 + dex\n\n[1] 3\n\n\nAnother thing you might do is roll multiple dice, then add the result together. For example “roll 3d8” means you roll three 8-sided dice, then add the result together for something to happen.\n\nd8 &lt;- d(8)\n3 * d8\n\n[1] 17",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "02",
+      "Simulating DND Rolls"
+    ]
+  },
+  {
+    "objectID": "posts/2023/02/2023-02-12_dndroll/index.html#distributions",
+    "href": "posts/2023/02/2023-02-12_dndroll/index.html#distributions",
+    "title": "Simulating DND Rolls",
+    "section": "Distributions",
+    "text": "Distributions\nIt also comes with a few probability distributions built to get the density, cumulative probability, and quantiles of die, which might already be familiar to some R users. Here’s the density distributions of rolling 1, 2, 3, and 4 d8s.\n\n## A function to make a tibble\n## of n rolls of a die.\nmake_roll_tibble &lt;- function(n, die){\n  nfaces &lt;- max(die@faces)\n  tibble(\n    rolls = n:(n*nfaces),\n    faces = nfaces,\n    density = droll(rolls, n*die)\n  )\n}\n\n\n## Constructing the roll densities\ntibble(n = 1:4) |&gt; \n  mutate(\n    roll_df = map(\n      n,\n      # new R anonymous function\n      \\(n) make_roll_tibble(n, d8)\n    )\n  ) |&gt; \n  unnest(roll_df) -&gt; \n  roll_densities\n\n\n## plotting the roll densities\nroll_densities |&gt; \n  mutate(\n    nd = str_c(n, \"d\", faces)\n  ) |&gt; \n  ggplot(aes(rolls, density))+\n    geom_area(fill = \"grey90\")+\n    expand_limits(x = 1)+\n    facet_wrap(\n      ~nd, \n      scales = \"free_x\"\n      )+\n  labs(\n    title = \"Density distributions of 1 through 4 d8 rolls\"\n  )\n\n\n\n\n\n\nFigure 1: Density distributions of nd8 rolls",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "02",
+      "Simulating DND Rolls"
+    ]
+  },
+  {
+    "objectID": "posts/2023/02/2023-02-12_dndroll/index.html#advantage-vs-disadvantage",
+    "href": "posts/2023/02/2023-02-12_dndroll/index.html#advantage-vs-disadvantage",
+    "title": "Simulating DND Rolls",
+    "section": "Advantage vs Disadvantage",
+    "text": "Advantage vs Disadvantage\nOne mechanic in DnD is rolling with “Advantage” vs rolling with “Disadvantage”. If you have advantage (say, because an enemy is restrained), you roll two d20s and take the highest value. If you roll with disadvantage (say, because you are restrained), you roll two d20s and take the lowest value.\nThere’s not a straightforward way to get the advantage vs disadvantage rolls, but I figured out a way to do with with some tidyverse tricks.\n\n## Set up the number of rolls\nnsims = 10000\nnrolls = nsims * 2\n\n## Initial tibble with \n## random rolls\ntibble(\n  roll_id = 0:(nrolls-1),\n  roll_value = rroll(nrolls, d20)\n) |&gt; \n  ## convert to roll groups\n  mutate(\n    roll_group = floor(roll_id/2)\n  ) |&gt; \n  ## group\n  group_by(roll_group) |&gt; \n  ## number the rolls\n  mutate(\n    roll_num = row_number()\n  ) |&gt; \n  ## Get advantage, \n  ## disadvantage\n  ## and first roll\n  summarise(\n    advantage = max(roll_value),\n    disadvantage = min(roll_value),\n    normal = roll_value[1]\n  ) -&gt; \n  simulated_rolls\n\nhead(simulated_rolls)\n\n# A tibble: 6 × 4\n  roll_group advantage disadvantage normal\n       &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt;\n1          0        12            3     12\n2          1        16            2     16\n3          2        17            5     17\n4          3        16           12     16\n5          4         8            2      2\n6          5        11            1      1\n\n\nNext step is to count up how many of each value we got, which requires pivoting.\n\nsimulated_rolls |&gt; \n  pivot_longer(\n    cols = advantage:normal,\n    names_to = \"roll_type\",\n    values_to = \"roll_value\"\n  ) -&gt;\n  rolls_long\n\nhead(rolls_long)\n\n# A tibble: 6 × 3\n  roll_group roll_type    roll_value\n       &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;\n1          0 advantage            12\n2          0 disadvantage          3\n3          0 normal               12\n4          1 advantage            16\n5          1 disadvantage          2\n6          1 normal               16\n\n\nAfter pivoting long, I’ll calculate the cumulative probability that a player will pass the skill check.\n\nrolls_long |&gt; \n  count(roll_type, roll_value) |&gt; \n  arrange(desc(roll_value)) |&gt; \n  mutate(\n    .by = roll_type,\n    prob = cumsum(n)/sum(n)\n  )  -&gt; \n  check_prob\nhead(check_prob)\n\n# A tibble: 6 × 4\n  roll_type    roll_value     n   prob\n  &lt;chr&gt;             &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt;\n1 advantage            20   979 0.0979\n2 disadvantage         20    31 0.0031\n3 normal               20   515 0.0515\n4 advantage            19   884 0.186 \n5 disadvantage         19    86 0.0117\n6 normal               19   503 0.102 \n\n\nLast thing to do is make a plot!\n\ncheck_prob |&gt; \n  ggplot(aes(roll_value, prob, color = roll_type))+\n    geom_textpath(\n      aes(label = roll_type),\n      linewidth = 2\n    )+\n    scale_x_continuous(\n      breaks = c(5, 10, 15, 20),\n      minor_breaks = c(\n        1:4,\n        6:9,\n        11:14,\n        16:19\n      )\n    )+\n    scale_color_manual(\n      values = c(\"#b59e54\", \"#AB6dac\",\"#c73032\" )\n    )+\n    guides(\n      color = \"none\"\n    )+\n    labs(\n      title = \"Probability of passing a skill check, no modifier\",\n      x = \"Difficulty class\"\n    )\n\n\n\n\n\n\nFigure 2: Cumulative probability density functions",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "02",
+      "Simulating DND Rolls"
+    ]
+  },
+  {
+    "objectID": "posts/2023/02/2023-02-12_dndroll/index.html#closing-thoughts",
+    "href": "posts/2023/02/2023-02-12_dndroll/index.html#closing-thoughts",
+    "title": "Simulating DND Rolls",
+    "section": "Closing thoughts",
+    "text": "Closing thoughts\nOne thought I had, while writing this post, was how the different reasons for doing these dice rolls in the game affected the kind probability plot I made. Most often you’ll be rolling 3d8 in order to calculate how much damage you’re going to do, so for that plot what you want to know what the point probabilities of each outcome is, hence the density functions.\nFor rolling d20s with advantage or disadvantage, you’re wanting to see what the probability is that you’ll pass the skill check, that is, that you’ll roll at least some value, hence the inverse cumulative probability distributions!",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "02",
+      "Simulating DND Rolls"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-29_starting-plotly/index.html",
+    "href": "posts/2023/01/2023-01-29_starting-plotly/index.html",
+    "title": "Making a Plotly Plot",
+    "section": "",
+    "text": "I’m a bit nervous about investing time into an interactive plotting framework after getting burned by Google Motion Charts.1 But, plotly seems to work even offline, which I think means once I’ve installed it, it doesn’t depend on a service or code hosted by the plotly company. That makes me feel a little more confident. I’d like to build some animations in it, but that means learning how it works, so here I go!\nlibrary(tidyverse)\nlibrary(plotly)\nlibrary(palmerpenguins)",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Making a Plotly Plot"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-29_starting-plotly/index.html#basic-scatter.",
+    "href": "posts/2023/01/2023-01-29_starting-plotly/index.html#basic-scatter.",
+    "title": "Making a Plotly Plot",
+    "section": "Basic scatter.",
+    "text": "Basic scatter.\nFollowing the book and the docs, it looks like if I were to take the “layers” analogy to building a plot, the most basic layer function is going to be plotly::add_trace(). Data gets mapped to plot aesthetics with function notation.\n\nplot_ly(\n  data = penguins,\n  x = ~bill_length_mm,\n  y = ~bill_depth_mm,\n  color = ~species\n) |&gt; \n  add_trace(\n    type = \"scatter\",\n    mode = \"markers\",\n    size = 4\n  )\n\n\n\n\n\nSome thoughts:\n\nI think the type argument defines the kind of “space” the plot is placed in? Putting in an unsupported type returns a pretty diverse set of options that’s leaving me a bit confused about the exact work this argument does.\nI think mode is how you go about defining the plotted geometry, with \"markers\" being points.\nIt’s nice how the points default to ColorBrewer Dark2 with a slight transparency for overplotting.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Making a Plotly Plot"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-29_starting-plotly/index.html#theming",
+    "href": "posts/2023/01/2023-01-29_starting-plotly/index.html#theming",
+    "title": "Making a Plotly Plot",
+    "section": "Theming",
+    "text": "Theming\nIt looks like the approach to theming is to just set everything by hand in plotly::layout(). This took a little bit of messing around with to find what all of the various parameters are called in plotly. My ggplot2::theme() translations are:\n\n\nggplot2\nplotly\n\n\n\nplot.background\npaper_bgcolor\n\n\npanel.background\nplot_bgcolor\n\n\npanel.grid.major.[x,y]\n[xy]axis\n\n\n\nAnother thing to note is that to get a transparent layer, you need to give it a hex code with 00 transparency at the end, rather than an NA or NULL value.\nI have a few of these colors defined in my blog .Rprofile.\n\nplot_bg\n\n[1] \"#122F4A\"\n\nmajor\n\n[1] \"#4C5D75\"\n\nminor\n\n[1] \"#31455E\"\n\n\nAlso, to get the right font family, you have to reference fonts you’ve imported in the html page, rather than fonts imported into R with showtext.\nHere it is in plotly.\n\nplot_ly() |&gt; \n  add_trace(\n    data = penguins,\n    x = ~bill_length_mm,\n    y = ~bill_depth_mm,\n    color = ~species,\n    type = \"scatter\",\n    mode = \"markers\"\n  ) |&gt; \n  layout(\n    plot_bgcolor = \"#ffffff00\",\n    paper_bgcolor = plot_bg,\n    font = list(\n      family = \"Fira Sans\",\n      color = \"#fff\"\n    ), \n    xaxis = list(\n      gridcolor = minor\n    ),\n    yaxis = list(\n      gridcolor = minor\n    )    \n  )",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Making a Plotly Plot"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-29_starting-plotly/index.html#ggplotly",
+    "href": "posts/2023/01/2023-01-29_starting-plotly/index.html#ggplotly",
+    "title": "Making a Plotly Plot",
+    "section": "ggplotly",
+    "text": "ggplotly\nplotly also has a the ability to convert ggplot2 plots into plotly plots, at least somewhat. Here’s how it does by default.\n\npenguin_plot &lt;- \n  ggplot(\n    data = penguins, \n    aes(x = bill_length_mm, \n        y = bill_depth_mm, \n        color = species\n      )\n  ) +\n  geom_point() +\n  scale_color_brewer(palette = \"Dark2\")\n\nggplotly(penguin_plot)\n\n\n\n\n\nSo, it looks like the panel.background = element_blank() I set in my blog theme doesn’t translate over in the conversion. Which is honestly a good illustration of why its probably worth learning a little bit about how the actual plotly system works, even if you’re going to mostly be interacting with it through plotly::ggplotly() like I am\n\nggplotly(penguin_plot) |&gt; \n  layout(\n    plot_bgcolor = \"#ffffff00\"\n  )",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Making a Plotly Plot"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-29_starting-plotly/index.html#footnotes",
+    "href": "posts/2023/01/2023-01-29_starting-plotly/index.html#footnotes",
+    "title": "Making a Plotly Plot",
+    "section": "Footnotes",
+    "text": "Footnotes\n\nReally, it’s the deprecation of Flash, but Google never updated how the motion charts work.↩︎",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Making a Plotly Plot"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-22_r-spect/index.html",
+    "href": "posts/2023/01/2023-01-22_r-spect/index.html",
+    "title": "Making a spectrogram in R",
+    "section": "",
+    "text": "I might flesh this out as a more detailed tutorial for LingMethodsHub, but for now this is going to be a rough-around-the-edges post about making spectrograms in R. My goal will be to get as close as possible to recreating a spectrogram like you might get from Praat.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Making a spectrogram in R"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-22_r-spect/index.html#pre-processing.",
+    "href": "posts/2023/01/2023-01-22_r-spect/index.html#pre-processing.",
+    "title": "Making a spectrogram in R",
+    "section": "Pre-processing.",
+    "text": "Pre-processing.\nTo keep things simple, I grabbed vowel audio clip from the Wikipedia IPA vowel chat with audio (audio info and license).\nYour browser does not support the audio element. \nExplanation of a hacky thing I had to do.\nI know {tuneR} package has a readWave() function, and I couldn’t figure out how to read in an Oog file, so step 1 was converting the Oog to a wav file. Since I’m writing this in a quarto notebook, I thought I should be able to drop in a ```{sh} code chunk, but it seems like doesn’t have access to my PATH. Long story short, that’s why I’ve got this kind of goofy R code chunk with system() and the full path to sox.\n\nlibrary(glue)\n\nsource(here::here(\"_defaults.R\"))\n\n\nogg_file &lt;- \"assets/Close_front_unrounded_vowel.ogg\"\nwav_file &lt;- \"assets/Close_front_unrounded_vowel.wav\"\nsystem(glue(\"/opt/homebrew/bin/sox {ogg_file} {wav_file}\"))",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Making a spectrogram in R"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-22_r-spect/index.html#loading-the-audio-file",
+    "href": "posts/2023/01/2023-01-22_r-spect/index.html#loading-the-audio-file",
+    "title": "Making a spectrogram in R",
+    "section": "Loading the audio file",
+    "text": "Loading the audio file\nThe seewave package, which I’m using to make the spectrogram, takes the sound objects created by {tuneR}, so that’s what I’ll use for reading in the audio file.\n\nlibrary(tuneR)\nlibrary(seewave)\n\n\ni_wav &lt;- readWave(\"assets/Close_front_unrounded_vowel.wav\")\n\nTo get a sense of what information is in the wav file, you can use str()\n\nstr(i_wav)\n\nFormal class 'Wave' [package \"tuneR\"] with 6 slots\n  ..@ left     : int [1:26524] -2 16 42 24 33 53 56 68 51 55 ...\n  ..@ right    : num(0) \n  ..@ stereo   : logi FALSE\n  ..@ samp.rate: int 44100\n  ..@ bit      : int 16\n  ..@ pcm      : logi TRUE\n\n\nSince I’m going to be zooming in to 0 to 5,000 Hz on the spectrogram, I’ll downsample the audio to 10000.\n\ni_wav_d &lt;- downsample(i_wav, 10000)",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Making a spectrogram in R"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-22_r-spect/index.html#computing-the-spectrogram",
+    "href": "posts/2023/01/2023-01-22_r-spect/index.html#computing-the-spectrogram",
+    "title": "Making a spectrogram in R",
+    "section": "Computing the spectrogram",
+    "text": "Computing the spectrogram\nThe function to compute the spectrogram is seewave::spectro(). Its argument names are formatted in a way I find a bit grating. A lot of them are compressed down to single characters or other abbreviations that require having the docs constantly open.\nAnyway, the arguments that seem most important are:\n\nwl\n\nwindow length in samples\n\nwn\n\nwindow function, defaulting to Hanning\n\novlp\n\nWindow overlap, in percentage. That is, a 25% overlap between analysis windows should be passed to ovlp as 25.\n\n\nPraat defaults\nLet’s have a look at the Praat spectrogram defaults\n\n\n\n\n\nFigure 2: Praat defaults for spectrograms\n\n\nHere’s a quick illustration of what these defaults correspond to. It takes an analysis window that’s 0.005 seconds long, and moves it over time by 0.002 second increments. Also, the data coming into the analysis window is weighted by a Gaussian distribution.\n\nlibrary(tidyverse)\n\n\nPlot Codewin_len &lt;- 0.005\ntime_step &lt;- 0.002\ntibble(\n  center = seq(win_len/2, 0.02, by = time_step),\n  left_edge = center - (win_len/2),\n  right_edge = center + (win_len/2),\n  win_num = seq_along(center)\n) -&gt; window_fig\nwindow_fig |&gt; \n  ggplot(aes(x = center, y = win_num))+\n    geom_pointrange(\n      aes(\n        xmin = left_edge,\n        xmax = right_edge\n      ),\n      size = 2,\n      linewidth = 2\n    )+\n  labs(x = \"time\",\n       y = NULL,\n       title = \"Overlapping spectrogram window illustration\")+\n  theme(axis.text.y = element_blank(),\n        panel.grid.major.y = element_blank(),\n        panel.grid.minor.y = element_blank())\n\n\n\n\n\n\nFigure 3: An illustration of overlapping analysis windows that produce a spectrogram\n\n\n\n\nThe seewave::spectro() function defines this same relationship, except instead of the time step or window hop length, we need to define by what % the windows overlap. We also need to express how wide the windows are in terms of audio sample, rather than in terms of time, but that just requires multiplying the desired time width by the sampling rate.\n\nwin_len &lt;- 0.005 * i_wav_d@samp.rate\nhop_len &lt;- 0.002 * i_wav_d@samp.rate\noverlap &lt;- ((win_len - hop_len) / win_len) * 100\n\nThe one thing that I can’t recreate for now is the Gaussian window function. seewave doesn’t have it implemented, so I’ll just stick with its default (Hamming)\nComputing the spectrogram\nNow, it’s a pretty straightforward call to spectro().\n\nspect &lt;-\n  i_wav_d |&gt;\n  spectro(\n    # window length, in terms of samples\n    wl = win_len,\n    # window overlap\n    ovlp = overlap,\n    # don't plot the result\n    plot = F\n    )\n\nThe spect object is a list with three named items\n\n$time\n\na vector corresponding to the time domain\n\n$freq\n\na vector corresponding to the frequency domain\n\n$amp\n\na matrix of amplitudes across the time and frequency domains\n\n\n\nglimpse(spect)\n\nList of 3\n $ time: num [1:299] 0 0.00202 0.00404 0.00606 0.00807 ...\n $ freq: num [1:25] 0 0.2 0.4 0.6 0.8 1 1.2 1.4 1.6 1.8 ...\n $ amp : num [1:25, 1:299] -35.1 -39.5 -51.3 -49.9 -51.7 ...\n\n\nTidying up\nIn order to make a plot of the spectrogram in ggplot2, we need to do some tidying up. I’ll go about this by setting the row and column names of the spect$amp matrix to the frequency and time domain values, converting it to a data frame, then doing some pivoting.\n\n# set the colnames and rownames\ncolnames(spect$amp) &lt;- spect$time\nrownames(spect$amp) &lt;- spect$freq\n\n\nspect_df &lt;-\n  spect$amp |&gt;\n  # coerce the row names to a column\n  as_tibble(rownames = \"freq\") |&gt;\n  # pivot to long format\n  pivot_longer(\n    # all columns except freq\n    -freq, \n    names_to = \"time\", \n    values_to = \"amp\"\n  ) |&gt;\n  # since they were names before,\n  # freq and time need conversion to numeric\n  mutate(\n    freq = as.numeric(freq),\n    time = as.numeric(time)\n  )\n\n\nsummary(spect_df)\n\n      freq          time             amp        \n Min.   :0.0   Min.   :0.0000   Min.   :-89.94  \n 1st Qu.:1.2   1st Qu.:0.1494   1st Qu.:-45.17  \n Median :2.4   Median :0.3008   Median :-35.85  \n Mean   :2.4   Mean   :0.3008   Mean   :-35.43  \n 3rd Qu.:3.6   3rd Qu.:0.4521   3rd Qu.:-26.69  \n Max.   :4.8   Max.   :0.6015   Max.   :  0.00  \n\n\n“Dynamic Range”\nFrequency data is represented in terms of kHz, which I’ll leave alone for now. One last thing we need to re-recreate from Praat is the “dynamic range”. All values below some cut off (by default, 50 below the maximum) are plotted with the same color. We can do that with some data frame operations here.\n\ndyn = -50\nspect_df_floor &lt;- \n  spect_df |&gt; \n  mutate(\n    amp_floor = case_when(\n      amp &lt; dyn ~ dyn,\n      TRUE ~ amp  \n    )\n  )",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Making a spectrogram in R"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-22_r-spect/index.html#plotting-the-spectrogram",
+    "href": "posts/2023/01/2023-01-22_r-spect/index.html#plotting-the-spectrogram",
+    "title": "Making a spectrogram in R",
+    "section": "Plotting the spectrogram",
+    "text": "Plotting the spectrogram\nNow what’s left is to plot the thing. I’ll load the khroma package in order to get some nice color scales.\n\nlibrary(khroma)\n\nBasic raster plot\nAs a first step, we can plot the time by frequency data as a raster plot, with little rectangles for each position filled in with their amplitude.\n\nspect_df_floor |&gt; \n  ggplot(aes(time, freq))+\n    geom_raster(aes(fill = amp_floor))+\n    guides(fill = \"none\")+\n    labs(\n      x = \"time (s)\",\n      y = \"frequency (kHz)\",\n      title = \"spectrogram raster plot\"\n    )\n\n\n\n\n\n\nFigure 4: A raster spectrogram plot\n\n\n\n\nSpectrogram contour plot\nTo get closer to the Praat output, though, we need to make a contour plot instead. Here’s where I’m getting a bit stymied. I wind up with these weird diagonal “shadows” on the right and left hand side of the spectrogram, which I think are a result of how the stat_contour() is being computed and plotted, rather than anything to do with the actual spectrogram.\n\nspect_df_floor |&gt; \n  ggplot(aes(time, freq))+\n    stat_contour(\n      aes(\n        z = amp_floor,\n        fill = after_stat(level)\n      ),\n      geom = \"polygon\",\n      bins = 300\n    )+\n    scale_fill_batlow()+\n    guides(fill = \"none\")+\n    labs(\n      x = \"time (s)\",\n      y = \"frequency (kHz)\",\n      title = \"spectrogram contour plot\"\n    )\n\n\n\n\n\n\nFigure 5: A contour spectrogram plot\n\n\n\n\nOne way around this I’ve found is to compute the spectrogram on the higher sampling rate audio, and then zoom into the frequency range you want.\n\nre-running the spectrogramwin_len &lt;- 0.005 * i_wav@samp.rate\nhop_len &lt;- 0.002 * i_wav@samp.rate\noverlap &lt;- ((win_len - hop_len) / win_len) * 100\n\nspect2 &lt;-\n  i_wav |&gt;\n  spectro(\n    # window length, in terms of samples\n    wl = win_len,\n    # window overlap\n    ovlp = overlap,\n    # don't plot the result\n    plot = F\n    )\n\n# set the colnames and rownames\ncolnames(spect2$amp) &lt;- spect2$time\nrownames(spect2$amp) &lt;- spect2$freq\n\nspect2_df &lt;-\n  spect2$amp |&gt;\n  # coerce the row names to a column\n  as_tibble(rownames = \"freq\") |&gt;\n  # pivot to long format\n  pivot_longer(\n    # all columns except freq\n    -freq, \n    names_to = \"time\", \n    values_to = \"amp\"\n  ) |&gt;\n  # since they were names before,\n  # freq and time need conversion to numeric\n  mutate(\n    freq = as.numeric(freq),\n    time = as.numeric(time)\n  )\n\ndyn = -50\nspect2_df_floor &lt;- \n  spect2_df |&gt; \n  mutate(\n    amp_floor = case_when(\n      amp &lt; dyn ~ dyn,\n      TRUE ~ amp  \n    )\n  )\n\n\n\nspect2_df_floor |&gt; \n  ggplot(aes(time, freq))+\n    stat_contour(\n      aes(\n        z = amp_floor,\n        fill = after_stat(level)\n      ),\n      geom = \"polygon\",\n      bins = 300\n    )+\n    scale_fill_batlow()+\n    guides(fill = \"none\")+\n    labs(\n      x = \"time (s)\",\n      y = \"frequency (kHz)\",\n      title = \"spectrogram contour plot\"\n    )+\n    coord_cartesian(ylim = c(0, 5))\n\n\n\n\n\n\nFigure 6: A contour spectrogram plot\n\n\n\n\nI think this might not be necessary if I had a better handle on stat_contour() but for now, it does the trick!",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Making a spectrogram in R"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-22_r-spect/index.html#update",
+    "href": "posts/2023/01/2023-01-22_r-spect/index.html#update",
+    "title": "Making a spectrogram in R",
+    "section": "Update",
+    "text": "Update\nDue to popular request, another attempt at showing the degree of window overlap.\n\n\n\nThis is fantastic, jo, thx! One quick q, I’m wondering if there might be a better way to visualize overlapping windows. The image maybe implies some y dimension (windows increasing in some vertical space). I’m just putting myself in a 1st yrs shoes in my speech class\n\n— Chandan (@GutStrings) January 22, 2023\n\nI’ve folded the code here, just because it’s medium gnarly. The short version is you can get the weights for the window functions from seewave::ftwindow(), and then I used geom_area() to plot it.\n\nthe data and plotting codewindow_fig |&gt; \n  group_by(win_num) |&gt; \n  nest() |&gt; \n  mutate(\n    dists = map(\n      data, \n      \\(df){\n        tibble(\n          time = seq(df$left_edge, df$right_edge, len = 512),\n          weight = ftwindow(512)\n        )\n      }\n    )\n  ) |&gt; \n  unnest(dists) -&gt; window_weights\n\nwindow_weights |&gt; \n  ggplot(aes(time, weight, group = win_num)) +\n    geom_area(\n      aes(\n        group = win_num, \n        fill = win_num,\n        color = win_num\n      ), \n      position = \"identity\", \n      alpha = 0.5)+\n    scale_fill_hawaii(guide = \"none\")+\n    scale_color_hawaii(guide = \"none\")+\n  labs(title = \"Hamming window functions\",\n       subtitle = \"window length = 0.005, time step =0.002\")\n\n\n\n\n\n\nFigure 7: Hamming window functions",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Making a spectrogram in R"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-01_wooder2/index.html",
+    "href": "posts/2023/01/2023-01-01_wooder2/index.html",
+    "title": "Rising Wooders: Part 2",
+    "section": "",
+    "text": "This is part 2 of my blog posts to accompany my ADS2023 Poster.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Rising Wooders: Part 2"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-01_wooder2/index.html#saying-wooder",
+    "href": "posts/2023/01/2023-01-01_wooder2/index.html#saying-wooder",
+    "title": "Rising Wooders: Part 2",
+    "section": "Saying Wooder",
+    "text": "Saying Wooder\nAs I said in the previous post, people seem to be very aware now that pronouncing “water” as [wʊɾɚ] is a feature of Philadelphia English, but the surge in written recognition from 2000 onwards isn’t an accurate indicator of when people started pronouncing it that way.\nThe order in which I actually approached this is a little different from how it’s laid out in the poster, but for the sake of blogginess, I’ll describe it in more chronological order. My bias was that this was a very old feature of Philadelphia English, so I started with the oldest records of Philadelphia speech I know of in the Linguistic Linguistic Atlas of the Middle and South Atlantic States (LAMSAS) (Kretzschmar et al. 1993).",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Rising Wooders: Part 2"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-01_wooder2/index.html#written-records",
+    "href": "posts/2023/01/2023-01-01_wooder2/index.html#written-records",
+    "title": "Rising Wooders: Part 2",
+    "section": "Written Records",
+    "text": "Written Records\nLAMSAS was a linguistic atlas project carried out between 1933 and 1974. The interviews had a heavy focus on regional and dialect words, and for the earliest interviews, the only records available are fieldworker transcriptions. In 1939, Guy Lowman interviewed 8 people in Philadelphia, and for one target item, transcribed how they pronounced “glass/tumbler of water.”\n\nLAMSAS Informant Demographics\n\nLAMSAS ID\nGender\nRace\nAge\nYear of Birth\n\n\n\nPA1G\nman\nwhite\n70\n1869\n\n\nPA1A\nman\nwhite\n68\n1871\n\n\nPA1C\nwoman\nwhite\n68\n1871\n\n\nPA1E\nman\nwhite\n68\n1871\n\n\nPA1D\nman\nwhite\n66\n1873\n\n\nPA1F\nman\nwhite\n62\n1877\n\n\nPA1H\nwoman\nwhite\n59\n1880\n\n\nPA1B\nman\nwhite\n43\n1896\n\n\n\nI’m not going to have much more to say about these LAMSAS speakers, though, because they were all transcribed as saying [wɔɾɚ], which would be the same vowel as in wall or walk, not as in wood. In fact, I’ve done some more combing through the LAMSAS records from counties surrounding Philadelphia in both Pennsylvania and New Jersey, and there are no records of [wʊɾɚ].\nWooderless?\nOn the one hand, I was really surprised by this, but I don’t know why I should have been. There’s really no reason why [wʊɾɚ] should have been a long-standing feature of the dialect as long as a century ago. Moreover, Tucker (1944) is often cited as the earliest description of the Philadelphia dialect,1 and he includes a few word-by-word descriptions that ring true based on my own Philly upbringing like:\n\n“spigot, pronounced spicket and commonly used for ‘faucet.’”\n“taffy ‘lollipop,’ known in some places as a ‘sucker.’”\n“yo […] used especially by children in calling one another”\n\nOthers must’ve fallen out of use before my time, and I’m completely unfamiliar with them, such as\n\n“yakers (or yakes or yacks), or yakers on it! ‘I claim it’; also Goods (on it)I ‘I claim a share.’”\n“this after, short for ‘this afternoon.’”\n\nThe point, though, is that he does not mention anything about the word “water” at all. So sometime around the early 1940s, the pronunciation [wʊɾɚ] was either non-existent or used too infrequently for either Tucker or Lowman to note it.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Rising Wooders: Part 2"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-01_wooder2/index.html#acoustics",
+    "href": "posts/2023/01/2023-01-01_wooder2/index.html#acoustics",
+    "title": "Rising Wooders: Part 2",
+    "section": "Acoustics",
+    "text": "Acoustics\nThis is where I would normally turn to acoustic data in the Philadelphia Neighborhood Corpus, but there are a few complications there. First and foremost, I really don’t trust any automated system to be able to place a firm boundary between where the /w/ ends and the vowel begins in a word like “water”, especially because I wouldn’t really trust myself to be able to do so. So, while I do have access to acoustic data for all tokens of “water”, I don’t have a high degree of trust in them as they are.\nThe exciting news is that the longest ago born person in the PNC (1890) overlaps with the latest born person in LAMSAS (1896), meaning we have some degree of data continuity in year of births ranging from 1869 through to 1990. But, the fact that the LAMSAS data only exists in transcription form means I need to do things the old fashioned way and listen to all of these tokens and impressionistically code them.\nSo that’s what I did, starting with the speaker born in 1890.\nWorder!\nI’ve really lucked out that the speaker born in 1890 (interviewed in 1973) talked about water a lot. And, to my surprise, l coded most of his pronunciations as [wɔɾɚ], just like Guy Lowman’s informants from 1939. However, while he never said [wʊɾɚ], there were a bunch of tokens where I could hear an [ɹ] before the flap, and could see a falling F3, characteristic of [ɹ]s as well. Here’s a representative spectrogram.\n\nlibrarieslibrary(tidyverse)\nlibrary(khroma)\nlibrary(scales)\nlibrary(geomtextpath)\nlibrary(ggnewscale)\n\nlibrary(tuneR)\nlibrary(seewave)\n\nlibrary(readtextgrid)\n\nsource(here::here(\"_defaults.R\"))\n\n\n\nloading datawater_wav &lt;- readWave(\"data/water.wav\")\nwater_formant &lt;- read_csv(\"data/water.csv\")\nwater_tg &lt;- read_textgrid(\"data/water.TextGrid\")\n\n\n\nspectrogram processingwater_wav |&gt; \n  spectro(\n    # window length, in terms of samples\n    wl = 0.005 * water_wav@samp.rate, \n    # window overlap\n    ovlp = 90, \n    plot = F\n    ) -&gt; spect\n\n# \"dynamic range\"\ndyn &lt;- -50\n\ncolnames(spect$amp) &lt;- spect$time\nrownames(spect$amp) &lt;- spect$freq\n\nspect_df &lt;- \n  spect$amp |&gt; \n  as_tibble(rownames = \"freq\") |&gt; \n  pivot_longer(-freq, names_to = \"time\", values_to = \"amp\") |&gt; \n  mutate(freq = as.numeric(freq),\n           time = as.numeric(time)) |&gt; \n  # floor at the dynamic range\n  mutate(amp = case_when(amp &lt;= dyn ~ dyn,\n                         TRUE ~ amp)) \n\n\n\ntextgrid processingwater_labels &lt;- \n  water_tg |&gt; \n  filter(tier_num == 1) |&gt; \n  mutate(ipa_label = case_when(text == \"W\" ~ \"wɔ(ɹ)\",\n                               text == \"AO1\" ~ \"wɔ(ɹ)\",\n                               text == \"T\" ~ \"ɾ\",\n                               text == \"ER0\" ~ \"ɚ\")) |&gt; \n  group_by(ipa_label) |&gt; \n  summarise(\n    xmin = min(xmin),\n    xmax = max(xmax)\n    ) |&gt; \n  arrange(xmin) |&gt; \n  rowwise() |&gt; \n  mutate(midpoint = median(c(xmin, xmax)))\n\nwater_boundaries &lt;- \n  water_labels |&gt; \n  select(-midpoint) |&gt; \n  pivot_longer(-ipa_label) |&gt; \n  select(value) |&gt; \n  distinct()\n\n\n\nformant track processingformant_df &lt;- \n  water_formant |&gt; \n  select(time, f1, f2, f3) |&gt; \n  pivot_longer(\n    -time, \n    names_to = \"formant\",\n    values_to = \"hz\"\n    ) |&gt; \n  mutate(\n    formant = toupper(formant),\n    formant_num = str_extract(formant, \"\\\\d\"),\n    formant_num = as.numeric(formant_num)\n    )\n\n\n\nplotting codespect_df |&gt; \n  ggplot(aes(time, freq*1000))+\n    stat_contour(\n      aes(z = amp, fill = after_stat(level)),\n      geom = \"polygon\",\n      bins = 500\n      )+\n    scale_fill_grayC(reverse = T, guide = \"none\")+\n    geom_vline(\n      data = water_boundaries, \n      aes(xintercept = value),\n      linetype = 2, \n      color = \"grey70\"\n      )+\n    geom_text(\n      data = water_labels,\n      aes(\n        x = midpoint, \n        label = ipa_label\n        ),\n      family = \"Fira Sans\",\n      y = 5000,\n      size = 6\n    )+\n    new_scale_fill()+\n    geom_labelline(\n      data = formant_df,\n      aes(\n        x = time,\n        y = hz,\n        fill = formant,\n        color = formant,\n        label = formant,\n        hjust = formant_num/10\n        ),\n      textcolor = \"white\",\n      linewidth = 1.5\n      )+\n    scale_fill_manual(\n      values = c(\"#33BBEE\", \"#EE3377\", \"#009988\"),\n      guide = \"none\"\n    )+\n    scale_color_manual(\n      values = c(\"#33BBEE\", \"#EE3377\", \"#009988\"),\n      guide = \"none\"\n    )+\n    scale_y_continuous(expand = expansion(mult = 0),\n                       labels = label_comma())+\n    coord_cartesian(ylim = c(0, 5500))+\n    labs(\n      x = \"time (s)\", \n      y = \"freq (hz)\",\n      title = '\"water\" spectrogram',\n      subtitle = str_wrap(\n        \"sample token from a speaker born in 1890\n        with a dropping F3 prior to the flap\",\n        width = 40\n        )\n      )+\n    theme(aspect.ratio = 5/8,\n          text = element_text(size = 16),\n          plot.subtitle = element_text(size = 10, color = \"grey80\"),\n          plot.caption = element_text(size = 10, color = \"grey80\"))\n\n\n\n\n\n\nFigure 1: Spectrogram of a token of ‘water’ from the PNC, illustrating a dropping F3 prior to the flap.\n\n\n\n\nThe coding scheme\nThis pronunciation with an [ɹ] hasn’t really been discussed by anyone, but it is reminiscent of how daughter is sometimes pronounced in Philly, as they recently (kinda2) portrayed in the SNL satirization of Mare of Easttown, Murder Durder.\nI had to take this variant into account in my coding. In fact, I think it’s actually key to understanding where wooder came from. So my coding scheme had the following values:\n\nʊ - any high, rounded realization without a [ɹ]\nɔɹ - any mid to high-ish rounded realization with a [ɹ]\nɔ - any lowish to mid rounded realization without an [ɹ]\nɑ - any low, unrounded realization\n\nThis unrounded variant mostly shows up when people are talking about the pronunciation of water, but not exclusively.\nThe model\nSince this is already getting to be a pretty long post, I’ll just skip to the model results! I fit a multilevel multinomial logistic regression model3 with these 4 variants as outcomes.\n\nlibrarieslibrary(brms)\nlibrary(tidybayes)\n\n\n\nload brms modelmodel &lt;- read_rds(\"data/multinomial_linear.rds\")\n\n\n\nget model estimatesnewdat &lt;- tibble(\n  dob = 1869:1990,\n  decade = (dob - 1950)/10\n  )\n\nests &lt;- \n  newdat |&gt; \n  add_epred_draws(model, re_formula = NA) |&gt; \n  group_by(dob, .category) |&gt; \n  median_hdci(.epred, .width = seq(0.2, 0.8, by = 0.1)) |&gt; \n  mutate(code = case_when(.category == \"0_a\" ~ \"ɑ\",\n                          .category == \"1_oh\" ~ \"ɔ\",\n                          .category == \"2_ohr\" ~ \"ɔr\",\n                          .category == \"3_u\" ~ \"ʊ\"), \n         code = as.factor(code) |&gt; fct_rev()) \n\n\n\nplot codeests |&gt; \n ggplot(aes(dob))+\n    geom_ribbon(\n      aes(\n        ymin = .lower, \n        ymax = .upper, \n        group = paste(.width, .category), \n        fill = .category\n        ),\n      alpha = 0.2)+\n    scale_fill_bright(guide = \"none\")+\n    facet_wrap(~code)+\n    scale_y_continuous(\n      expand = expansion(mult = 0), \n      limits = c(0,1), \n      breaks = c(0, 0.5, 1)\n      )+\n    labs(x = \"year of birth\",\n         y = \"vowel probability\",\n         title = \"variant probability\",\n         subtitle = str_wrap(\n           \"the probability of one of four vowel variants in water'\n           being used for different year of birth cohorts, as modeled by a\n           multinomial logistic regression\",\n           width = 60\n           )\n         )+\n    theme(aspect.ratio = 5/8,\n          text = element_text(size = 16),\n          plot.subtitle = element_text(size = 8, color = \"#ebebeb\"),\n         ) \n\n\n\n\n\n\nFigure 2: Modeled estimates of the probability of one of the 4 vowel variants being used in water.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Rising Wooders: Part 2"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-01_wooder2/index.html#wooder-on-the-rise",
+    "href": "posts/2023/01/2023-01-01_wooder2/index.html#wooder-on-the-rise",
+    "title": "Rising Wooders: Part 2",
+    "section": "Wooder on the rise",
+    "text": "Wooder on the rise\nSo it looks like the shift from [wɔɾɚ] to [wʊɾɚ] was shift that occurred in Philadelphia during the 20th century alongside many others. But it also seems like it was not as simple as a categorical pronunciation jump nor a gradual shift from [ɔ] to [ʊ] because we also have this rhotic variant [wɔɹɾɚ] in the mix.\nI actually think the [wɔɹɾɚ] variant is key to figuring out how we got from [wɔɾɚ] to [wʊɾɚ], specifically because of another pattern in Philadelphia English, r-dissimilation, which I’ll hopefully write up for a post tomorrow!",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Rising Wooders: Part 2"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-01_wooder2/index.html#footnotes",
+    "href": "posts/2023/01/2023-01-01_wooder2/index.html#footnotes",
+    "title": "Rising Wooders: Part 2",
+    "section": "Footnotes",
+    "text": "Footnotes\n\nAlthough, he offers no information for the basis of how he came to describe the dialect. As in, this is more like his collected observations, but he doesn’t even really say that either.↩︎\nWhat’s off about the SNL sketch is they pronounce the first syllable of daughter with the Nurse vowel, [ɚ], when it should be something ranging between [ɔɹ] to [ʊɹ].↩︎\n\nMore specifically, I fit the model using brms::brm like so\nbrm(\n    data = data,\n    family = categorical(\n      link = logit,\n      refcat = \"1_oh\"\n      ),\n    code_param ~ decade + (1|idstring),\n  )\n↩︎",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Rising Wooders: Part 2"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-21_github-onboarding/index.html",
+    "href": "posts/2022/12/2022-12-21_github-onboarding/index.html",
+    "title": "Github Onboarding with RStudio",
+    "section": "",
+    "text": "I’m writing this primarily for students I’ll be teaching in Spring 2023 who I want to use Git/Github with Posit Workbench.\n\nThis tutorial is appropriate for:\n\nAnyone using RStudio/RStudio Server/Posit Workbench/Posit Cloud\n\nI will assume:\n\n\nGit is already installed and available.\nYou have not already configured Git locally.\nYou cannot access the terminal.\n\n\n\nIf item number 1 is not correct, or you want more detail on using Git and Github with RStudio, you should check out Jennifer Bryan’s much more extensive Happy Git and GitHub for the useR.\nItem number 2 might be a strange assumption, but the Posit Workbench configuration I have access to actually does not allow opening a terminal.\nInstruction boxes with  should be done on github, and instruction boxes with  should be done in RStudio.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "Github Onboarding with RStudio"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-21_github-onboarding/index.html#the-target-audience",
+    "href": "posts/2022/12/2022-12-21_github-onboarding/index.html#the-target-audience",
+    "title": "Github Onboarding with RStudio",
+    "section": "",
+    "text": "I’m writing this primarily for students I’ll be teaching in Spring 2023 who I want to use Git/Github with Posit Workbench.\n\nThis tutorial is appropriate for:\n\nAnyone using RStudio/RStudio Server/Posit Workbench/Posit Cloud\n\nI will assume:\n\n\nGit is already installed and available.\nYou have not already configured Git locally.\nYou cannot access the terminal.\n\n\n\nIf item number 1 is not correct, or you want more detail on using Git and Github with RStudio, you should check out Jennifer Bryan’s much more extensive Happy Git and GitHub for the useR.\nItem number 2 might be a strange assumption, but the Posit Workbench configuration I have access to actually does not allow opening a terminal.\nInstruction boxes with  should be done on github, and instruction boxes with  should be done in RStudio.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "Github Onboarding with RStudio"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-21_github-onboarding/index.html#step-1-create-a-github-account",
+    "href": "posts/2022/12/2022-12-21_github-onboarding/index.html#step-1-create-a-github-account",
+    "title": "Github Onboarding with RStudio",
+    "section": "Step 1: Create a Github Account",
+    "text": "Step 1: Create a Github Account\nGo over to Github and create a free account.\n\n\n\n\n\n\n\n\n\n\n\nGo To\n\nhttps://github.com/\n\n\n\n\nAs suggested in Happy Git Chapter 4, it would make sense to register an account username that aligns with your professional identity.\nAfter you’ve created your free account, if you are affiliated with a university, I would also suggest applying for the education benefits here: https://education.github.com/. There are a few nice, but not mandatory, perks.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "Github Onboarding with RStudio"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-21_github-onboarding/index.html#step-2-configure-git-in-rstudio",
+    "href": "posts/2022/12/2022-12-21_github-onboarding/index.html#step-2-configure-git-in-rstudio",
+    "title": "Github Onboarding with RStudio",
+    "section": "Step 2: Configure Git in RStudio",
+    "text": "Step 2: Configure Git in RStudio\nNow, you need to tell Git a little bit about yourself on the computer/server you’re using RStudio on.\n\n\n\n\n\n\n\n\n\n\n\nGo To\n\nWherever you are using RStudio ( could be Posit Workbench, Posit Cloud, RStudio Server, or RStudio Desktop)\n\nThen Go To\n\nThe Console (a.k.a the R Prompt)\n\n\n\n\n\n\nThe Console in RStudio is here.\n\nNext, we need to tell the local version of Git who you are, specifically your username (which should match your Github username) and your email address (which should match the email address you registered for Github with).\n\n\n\n\n\n\n, \n\n\n\nIn the code below, USERNAME should be replaced with your Github username and EMAIL should be replaced with the email you registered your github account with.\n\n\n\nRun this in the R Console:\n\nsystem('git config --global user.name \"USERNAME\"')\nsystem('git config --global user.email \"EMAIL\"')",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "Github Onboarding with RStudio"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-21_github-onboarding/index.html#step-3-configure-rstudio-to-communicate-with-github",
+    "href": "posts/2022/12/2022-12-21_github-onboarding/index.html#step-3-configure-rstudio-to-communicate-with-github",
+    "title": "Github Onboarding with RStudio",
+    "section": "Step 3: Configure RStudio to Communicate with Github",
+    "text": "Step 3: Configure RStudio to Communicate with Github\nIn order to be able to push commits from RStudio to Github, you’ll need to set up secure communication between wherever you are using RStudio and Github. I’ll walk you through how to do this with SSH credentials. (See also Happy Git with R for personal access tokens via HTTPS).\nRStudio Configuration\n\n\n\n\n\n\n\n\n\n\n\nGo To:\n\nThe Tools menu, then Global Options\n\n\n\n\n\n\n\nThen Go To:\n\nGit/SVN from the left hand side option selector. Its icon is a cardboard box\n\n\n\n\n\n\n\nThen Go To\n\nCreate SSH Key\n\n\n\n\n\n\n\nThen\n\nThe default options should be fine to use. The passphrase here is for the ssh key. It should not be your Github password, or the password for logging into Posit Workbench or Posit Cloud. Once you’re ready, click Create.\n\nThen\n\nAfter creating the SSH key, you should see the option “View Public Key”. Click on it, and copy the text that appears.\n\n\n\n\nThis concludes everything necessary on the RStudio side of things. You should probably keep the session open so that you can come back to re-copy your public key.\nGithub Configuration\nNow, you’ll need to go over to github to add the public key to your profile.\n\n\n\n\n\n\n\n\n\n\n\nGo To\n\nYour Github Profile Settings\n\n\n\n\n\n\n\nThen Go To\n\nSSH and GPG keys from the left side menu\n\n\n\n\n\n\n\nThen\n\nClick on the New SSH key button\n\n\n\n\n\n\n\nThen\n\nGive this key an informative name so you can remember which computer it’s coming from.\n\nThen\n\nPaste the text you copied from RStudio into the Key box and click Add SSH Key.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "Github Onboarding with RStudio"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-21_github-onboarding/index.html#configured",
+    "href": "posts/2022/12/2022-12-21_github-onboarding/index.html#configured",
+    "title": "Github Onboarding with RStudio",
+    "section": "Configured",
+    "text": "Configured\nNow, wherever you are using RStudio from should be able to push commits to your Github account.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "Github Onboarding with RStudio"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-10/index.html",
+    "href": "posts/2022/12/2022-12-10/index.html",
+    "title": "A lesson in over-preparing",
+    "section": "",
+    "text": "One of the courses I taught in the Fall 2022 semester was Natural Language Processing (NLP). It was a fun course to teach, and I learned a lot since it’s not a topic in my core areas of research. At the same time, the amount of work I put into it has made me really start to rethink how I prepare for teaching.\nMy tendency, for a while, has been to prepare extensive course notes that I publish on my website (Exhibit A, Exhibit B). I’ve never really reflected on how much work that actually takes. Moreover, I don’t tend to consider it when I reflect on how much “writing” I get done (and inevitably get a bit discouraged about my productivity).\nBut, it occurred to me that I could quantify how much writing I really did this semester. I wrote all my course notes in Quarto, which generates a search index in a .json file. To get a total count of words that I wrote in course notes, I just need to parse that json file and tokenize it! I found a handy blog post about analyzing git repos that helped a lot in the process.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "A lesson in over-preparing"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-10/index.html#setup",
+    "href": "posts/2022/12/2022-12-10/index.html#setup",
+    "title": "A lesson in over-preparing",
+    "section": "Setup",
+    "text": "Setup\n\nlibrary(tidyverse)\nlibrary(tidyjson)\nlibrary(tidytext)\nlibrary(lubridate)\nlibrary(scales)\nlibrary(padr)\nlibrary(glue)\n\nsource(here::here(\"_defaults.R\"))\n\nThis block of code is just copied from the blog post I just mentioned.\n\n# Remote repository URL\nrepo_url &lt;- \"https://github.com/JoFrhwld/2022_lin517.git\"\n\n# Directory into which git repo will be cloned\nclone_dir &lt;- file.path(tempdir(), \"git_repo\")\n\n# Create command\nclone_cmd &lt;- glue(\"git clone {repo_url} {clone_dir}\")\n\n# Invoke command\nsystem(clone_cmd)\n\nThere’s a handful of R libraries for reading json files into R, but after searching around I went with tidyjson because I like using tidyverse things.\n\nsearch_file &lt;- file.path(clone_dir, \"_site\", \"search.json\")\nsite_search &lt;- read_json(search_file)\n\nI was really glad to find that the search.json file is relatively flat, so pulling out the metadata and text was not as complicated as it could have been.\n\nsite_search |&gt;\n  gather_array() |&gt;\n  hoist(..JSON,\n    \"title\",\n    \"section\",\n    \"text\"\n  )  |&gt;\n  as_tibble() |&gt;\n  select(array.index, title, section, text) |&gt;\n  unnest_tokens(input = text, output = \"words\") -&gt; tokens_table\n\nI noticed in the json file that there were multiple entries for a single page of course notes, one for each subsection, but there were also some entries with the subsection value set to blank. I just wanted to double check that the blank section entries weren’t the entire page of lecture notes, with additional entries duplicating the text by subsection.\n\ntokens_table |&gt;\n  mutate(has_section = section != \"\") |&gt;\n  group_by(title, has_section) |&gt;\n  count()\n\n# A tibble: 45 × 3\n# Groups:   title, has_section [45]\n   title                              has_section     n\n   &lt;chr&gt;                              &lt;lgl&gt;       &lt;int&gt;\n 1 Addendum                           FALSE          43\n 2 Addendum                           TRUE          100\n 3 Additional Neural Network Concepts FALSE         473\n 4 Additional Neural Network Concepts TRUE         1109\n 5 Comprehensions and Useful Things   FALSE        1116\n 6 Data Processing                    FALSE         654\n 7 Data Processing                    TRUE         1804\n 8 Data Sparsity                      FALSE         720\n 9 Data Sparsity                      TRUE         1724\n10 Evaluating models                  FALSE          42\n# ℹ 35 more rows\n\n\nLooks like no. The blank titled sections are probably cases where I had a paragraph or two that came before the first section header.\nSo how many words?\n\n\ntokens_table |&gt;\n  nrow()\n\n[1] 43637\n\n\nBased on the default tokenization from tidytext, it looks like I wrote just north of 40k words. I don’t have the best sense of how this compares to other kinds of genre writing, but apparently the goal of NaNoWriMo (National Novel Writing Month) is to write a novel that is 50k words.\nSo, I didn’t quite write a novel. But the amount of work that went into these 40k words was still considerable in terms of background research and trying to come to my own understanding of relatively complex mathematical formulae so that I could distill them into a comprehensible lesson. Also not accounted for was all the code I wrote and had to debug within the course notes!",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "A lesson in over-preparing"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-10/index.html#how-many-words-did-i-write-over-time",
+    "href": "posts/2022/12/2022-12-10/index.html#how-many-words-did-i-write-over-time",
+    "title": "A lesson in over-preparing",
+    "section": "How many words did I write over time?",
+    "text": "How many words did I write over time?\nSince I was publishing the course notes to github, that means I also have a preserved history of how my word count grew over time. All I have to do is apply the same procedures to the history of search.json.\n\ncode to get the git commit historylog_format_options &lt;- c(datetime = \"cd\", commit = \"h\", parents = \"p\", author = \"an\", subject = \"s\")\noption_delim &lt;- \"\\t\"\nlog_format   &lt;- glue(\"%{log_format_options}\") |&gt; glue_collapse(option_delim)\nlog_options  &lt;- glue('--pretty=format:\"{log_format}\" --date=format:\"%Y-%m-%d %H:%M:%S\"')\nlog_cmd      &lt;- glue('git -C {clone_dir} log {log_options}')\n\n\n\nsystem(log_cmd, intern = TRUE) |&gt;\n  str_split_fixed(option_delim, length(log_format_options)) |&gt;\n  as_tibble(.name_repair = \"minimal\") |&gt;\n  setNames(names(log_format_options))-&gt;commit_history\n\n\nget_length() function definitionget_length &lt;- function(commit, clone_dir){\n  search_file &lt;- file.path(clone_dir, \"_site\", \"search.json\")\n  checkout_cmd &lt;- glue(\"git -C {clone_dir} checkout {commit} {search_file}\")\n  system(checkout_cmd)\n  site_search &lt;- read_json(search_file)\n  site_search |&gt;\n    gather_array() |&gt;\n    hoist(..JSON,\n      \"title\",\n      \"section\",\n      \"text\"\n    )  |&gt;\n    as_tibble() |&gt;\n    select(array.index, title, section, text) |&gt;\n    unnest_tokens(input = text, output = \"words\") |&gt;\n    nrow() -&gt; word_count\n  return(word_count)\n}\n\n\nThe data frame commit_history contains metadata about each commit. What I’ll do next is apply the function I wrote in the collapsed code above to the list of commit hashes, and get the word count at each commit.\n\ncommit_history |&gt;\n  mutate(word_count = map(commit, ~get_length(.x, clone_dir)) |&gt;\n           simplify()) -&gt; word_history\n\nI often had many commits in a single day, so to simplify things a bit, I’ll just get the max number of words I had by the end of a given day. Fortunately, I did not stay up past midnight pushing commits this semester, so the data shouldn’t be messed up by work sessions overlapping across days.\n\nword_history |&gt;\n  mutate(datetime = ymd_hms(datetime)) |&gt;\n  thicken(\"day\") |&gt;\n  group_by(datetime_day) |&gt;\n  summarise(words = max(word_count)) |&gt;\n  arrange(datetime_day) -&gt; daily_words\n\nCumulative Wordcount\nHere’s the cumulative count of words over the course of the semester. I forget why, exactly, it starts out at 7,000 words. I think I might’ve been managing the course notes differently between the end of August and start of September, and then just copied them over. But it is a pretty continuous rise, with a few notable plateaus. Some of those plateaus occurred when I had actually prepared more than could be covered in a one or two class meetings, so we stayed with a set of lecture notes for a longer period of time.\n\nplotting codedaily_words |&gt;\n  pad(\"day\") |&gt;\n  fill(words) |&gt;\n  ggplot(aes(datetime_day, words))+\n    geom_ribbon(aes(ymin = 0, ymax = words), alpha = 0.2)+\n    geom_line(linewidth = 1,\n              lineend = \"round\")+\n    expand_limits(y = 0)+\n    scale_y_continuous(labels = label_comma(),\n                       expand = expansion(mult = c(0, 0.05)))+\n    scale_x_date(expand = expansion(mult = 0.01))+\n    labs(x = \"date\",\n         y = \"number of words\",\n         title = \"Cumulative number of words in course notes\")\n\n\n\n\n\n\nFigure 1: The number of words I wrote over the course of Fall 2022\n\n\n\n\nWhen was I writing?\nI can also double check when I was writing my course notes. I was teaching on a Monday-Wednesday-Friday schedule, and Fridays were usually given over to practical exercises (the text of which is largely absent from these counts…).\nIt was no surprise to me that I wrote most of the course notes on Sundays. The total number of Sunday words is about 17k, which comes out to about mean of about 1,300 words for Sundays this semester.\n\nplotting codedaily_words |&gt;\n  pad(\"day\") |&gt;\n  fill(words) |&gt;\n  mutate(daily_words = words - lag(words),\n         wday = wday(datetime_day, label = T)) |&gt;\n  drop_na() |&gt;\n  group_by(wday) |&gt;\n  summarise(word = sum(daily_words)) |&gt;\n  ggplot(aes(wday, word))+\n    geom_col(fill = \"grey90\")+\n    scale_y_continuous(labels = label_comma())+\n    labs(x = \"day of the week\",\n         y = \"total words\",\n         title = \"words written by day of week\")\n\n\n\n\n\n\nFigure 2: The total number of words I wrote per day of the week.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "A lesson in over-preparing"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-10/index.html#thoughts",
+    "href": "posts/2022/12/2022-12-10/index.html#thoughts",
+    "title": "A lesson in over-preparing",
+    "section": "Thoughts",
+    "text": "Thoughts\nWhile I feel pretty good about the material I produced, I really don’t think this way of doing things is tenable. The writing that I did do for these course notes was writing that I didn’t do for any other project. Moreover, you can almost see how much energy Sundays took out of me! And even though I wasn’t writing as many course notes Tuesday through Friday, those were full work days that I was doing all of my other work during.\nSo the upshot is: I’m already brainstorming on how to not prepare like this for a class again!",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "A lesson in over-preparing"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-10/index.html#sources",
+    "href": "posts/2022/12/2022-12-10/index.html#sources",
+    "title": "A lesson in over-preparing",
+    "section": "Sources",
+    "text": "Sources\n\nhttps://drsimonj.svbtle.com/embarking-on-a-tidy-git-analysis\nhttps://tidyr.tidyverse.org/reference/hoist.html",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "A lesson in over-preparing"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I’m an Assistant Professor of Linguistics at the university of Kentucky. You can find out more about me and my research on my homepage."
+  },
+  {
+    "objectID": "about.html#about-me",
+    "href": "about.html#about-me",
+    "title": "About",
+    "section": "",
+    "text": "I’m an Assistant Professor of Linguistics at the university of Kentucky. You can find out more about me and my research on my homepage."
+  },
+  {
+    "objectID": "about.html#about-the-title",
+    "href": "about.html#about-the-title",
+    "title": "About",
+    "section": "About the title",
+    "text": "About the title\nIn my variety of Philadelphia English, the diphthong /aw/ merges with /æː/ before /l/. So vowel and val both sound like [væːɫ], and sometimes vow gets into the mix as well.\nThroughout grad school and a few years after, I maintained a blog called Val Systems. It’s still there, but I got out of the habit of blogging there, and eventually came to feel a bit hampered by the drafting, posting & designing process there. So now, maybe I’ll maintain Væl Space."
+  },
+  {
+    "objectID": "about.html#site-fonts",
+    "href": "about.html#site-fonts",
+    "title": "About",
+    "section": "Site fonts",
+    "text": "Site fonts\n\nHeaders\n\nComfortaa\n\nBody\n\nAtkinson Hyperlegible\n\nFigures\n\nFira Sans\n\nCode\n\nFira code"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Væl Space",
+    "section": "",
+    "text": "Hello!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThinking About Hierarchical Variance Parameters\n\n\n\n\n\n\n\n\n\n\n\n2023-06-29\n\n\nJosef Fruehwald\n\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\n\nGetting a sense of priors for logistic regression\n\n\n\n\n\n\n\n\n\n\n\n2023-06-28\n\n\nJosef Fruehwald\n\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\n\nChanging Project Defaults\n\n\n\n\n\n\n\n\n\n\n\n2023-06-16\n\n\nJosef Fruehwald\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nUsing Quarto Blogs for Teaching\n\n\n\n\n\n\n\n\n\n\n\n2023-05-03\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nSimulating DND Rolls\n\n\n\n\n\n\n\n\n\n\n\n2023-02-12\n\n\nJosef Fruehwald\n\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\n\nA handy dplyr function for linguistics\n\n\n\n\n\n\n\n\n\n\n\n2023-02-05\n\n\nJosef Fruehwald\n\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\n\nMaking a Plotly Plot\n\n\n\n\n\n\nplotly\n\n\n\n\n\n\n\n\n\n2023-01-29\n\n\nJosef Fruehwald\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nR Package Exploration (Jan 2023)\n\n\n\n\n\n\nR\n\n\nR package exploration\n\n\n{ggforce}\n\n\n{geomtextpath}\n\n\n{ggdensity}\n\n\n\n\n\n\n\n\n\n2023-01-27\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nMaking a spectrogram in R\n\n\n\n\n\n\nhow-to\n\n\nr\n\n\n\n\n\n\n\n\n\n2023-01-22\n\n\nJosef Fruehwald\n\n\n11 min\n\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 3\n\n\nPart 3: The role of r-dissimilation\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-04\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 2\n\n\nPart 2: Saying Wooder\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-01\n\n\nJosef Fruehwald\n\n\n15 min\n\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders\n\n\nPart 1: Talking about Wooder\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2022-12-31\n\n\nJosef Fruehwald\n\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\n\nGithub Onboarding with RStudio\n\n\n\n\n\n\n\n\n\n\n\n2022-12-21\n\n\nJosef Fruehwald\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nWhat is R?\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\n2022-12-17\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nA lesson in over-preparing\n\n\n\n\n\n\n\n\n\n\n\n2022-12-10\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\nNo matching items\n\nReuseCC-BY-SA 4.0"
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-17/index.html",
+    "href": "posts/2022/12/2022-12-17/index.html",
+    "title": "What is R?",
+    "section": "",
+    "text": "In the Spring 2023 semester, I’m going to be teaching two R intensive courses: a statistics for linguists course, and an R for the Arts and Sciences course. For both, I’m going to have to do a “What is R” discussion during week 1, and given the breadth of tools I hope students come away with, I’ve been rethinking my usual answers.\nLoading Librarieslibrary(tidyverse)\nlibrary(crandep)\nlibrary(igraph)\nlibrary(ggnetwork)\nlibrary(ggrepel)\nlibrary(patchwork)\nlibrary(plotly)\nlibrary(khroma)\nlibrary(scales)\n\nsource(here::here(\"_defaults.R\"))",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "What *is* R?"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-17/index.html#a-programming-language",
+    "href": "posts/2022/12/2022-12-17/index.html#a-programming-language",
+    "title": "What is R?",
+    "section": "A programming language?",
+    "text": "A programming language?\nThe Wikipedia slug for R says\n\nR is a programming language for statistical computing and graphics supported by the R Core Team and the R Foundation for Statistical Computing\n\nAnd yeah, it is definitely a programming language. Here it is doing some programming language things:\n\n2+2\n\n[1] 4\n\n\n\n2+2 &lt; 5\n\n[1] TRUE\n\n\nAnd it can do statistical computing, like a linear model\n\ncars_model &lt;- lm(dist ~ speed, data = cars)\nsummary(cars_model)\n\n\nCall:\nlm(formula = dist ~ speed, data = cars)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-29.069  -9.525  -2.272   9.215  43.201 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) -17.5791     6.7584  -2.601   0.0123 *  \nspeed         3.9324     0.4155   9.464 1.49e-12 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 15.38 on 48 degrees of freedom\nMultiple R-squared:  0.6511,    Adjusted R-squared:  0.6438 \nF-statistic: 89.57 on 1 and 48 DF,  p-value: 1.49e-12\n\n\nAnd it can do graphics.\n\n# `PLOT_FONT &lt;- \"Fira Sans\"` in my .Rprofile\npar(family = PLOT_FONT)\nplot(cars)\n\n\n\n\n\n\nFigure 1: A plot\n\n\n\n\nObviously, none of these things are unique to R. In the other programming language I know best, Python, you can fit a linear model and make a scatter plot. What differentiates programming languages, in my experience, is what kinds of operations, data structures, and workflows it prioritizes.\nFor R, I think it’s uncontroversial to say it prioritizes rectangular data with mixed data-type rows & single data-type columns and also provides a lot of options for indexing column-wise. And a lot of the extensions to R have leaned into this prioritization hard.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "What *is* R?"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-17/index.html#an-ecosystem",
+    "href": "posts/2022/12/2022-12-17/index.html#an-ecosystem",
+    "title": "What is R?",
+    "section": "An ecosystem?",
+    "text": "An ecosystem?\nBut “R” isn’t just a programming language, it’s also an ecosystem of community created packages. “Learning R” involves learning about these packages, and how they’re interrelated. I grabbed the list of all packages on CRAN and the packages they import with the crandep package.\n\ncran_df &lt;- crandep::get_dep_all_packages()\n\n\n\n\n\n\n\n\nImport Summariescran_df |&gt; \n  filter(type == \"imports\", !reverse) |&gt; \n  count(to) |&gt; \n  arrange(desc(n)) |&gt; \n  mutate(rank = 1:n()) -&gt; imported\n\nimported_10 &lt;- imported |&gt; slice(1:10)\n\n\nIf you count up how often each package gets imported and rank them, you get the familiar power-law plot. I’ve plotted this one out a bit non standard-ly so that frequency is on the x axis for both the main plot and the inset, and so that I could include the package names in the inset with horizontal text.\n\nPlotting codeimported |&gt; \n  ggplot(aes(n, rank))+\n    geom_point()+\n    scale_x_log10(labels = label_comma())+\n    scale_y_log10(labels = label_comma())+\n    labs(title = \"Frequency by rank of imported R packages\") -&gt; mainplot\n\nimported_10 |&gt; \n  mutate(to = as.factor(to),\n          to = fct_reorder(to, rank)) |&gt; \n  ggplot(aes(n, to))+\n    geom_col(fill = \"white\")+\n    geom_text(aes(label = to,\n                  x = 0), \n              color = \"grey10\",\n              hjust = 0,\n              nudge_x = 100, \n              family = PLOT_FONT,\n              size = 4.5)+\n    scale_x_continuous(expand = expansion(mult = 0),\n                       labels = label_comma())+\n    theme(axis.text.y = element_blank(),\n          text = element_text(size = 10),\n          panel.grid.minor  = element_blank(),\n          panel.grid.major.y = element_blank())+\n    labs(y = NULL,\n         title = \"top10\") -&gt; inset\n \nmainplot + inset_element(inset, 0.05, 0.05, 0.5, 0.6)\n\n\n\n\n\n\nFigure 2: A log(rank) by log(frequency) plot of R imports\n\n\n\n\nHere’s a network visualization of these imports and dependencies. I color coded the nodes according to common R package naming trends\n\ngg* - Packages extending ggplot2\ntidy* - Packages declaring their adherence to tidy-data principles (and the tidyverse more generally)\n*r - Packages declaring that they are… R packages\n\n\nNetwork graph setupimported |&gt;\n  filter(n &gt;= 5) |&gt; \n  pull(to) -&gt; to_network\n\ncran_df |&gt;\n  filter(!reverse, type == \"imports\",\n         to %in% to_network) |&gt;\n  df_to_graph(nodelist = cran_df |&gt; rename(name = from)) -&gt; cran_network\n\nset.seed(300)\ncran_flat &lt;- ggnetwork(cran_network, layout = with_drl())\n\nxclip &lt;- quantile(cran_flat$x, c(0.0025, 0.9975))\nyclip &lt;- quantile(cran_flat$y, c(0.0025, 0.9975))\n\n\n\nNetwork graphcran_flat |&gt; \n  mutate(name_pattern = case_when(str_detect(name, \"[rR]$\") ~ \"thingr\",\n                                  str_detect(name, \"tidy\") ~ \"tidy\",\n                                  str_detect(name, \"^[Gg]g\") ~ \"gg\",\n                                  T ~ \"else\"),\n         name_pattern = factor(name_pattern, levels = c(\"tidy\", \"gg\", \"thingr\", \"else\"))) |&gt; \n  arrange(desc(name_pattern)) |&gt; \n  filter(x &gt;= xclip[1], x &lt;= xclip[2],\n         y &gt;= yclip[1], y &lt;= yclip[2]) |&gt; \nggplot(aes(x = x, y = y, xend = xend, yend = yend, color = name_pattern))+\n  #geom_nodes()+  \n  geom_nodes(aes(alpha = name_pattern))+\n  scale_color_bright(limits = c(\"tidy\", \"gg\", \"thingr\", \"else\"),\n                     labels = c(\"tidy*\", \"gg*\", \"*r\", \"else\"))+\n  dark_theme_void()+\n  scale_alpha_manual(values = c(0.5,0.3, 0.08, 0.02), \n                     limits = c(\"tidy\", \"gg\", \"thingr\", \"else\"),\n                     guide = \"none\")+\n  labs(color = NULL,\n       title = \"CRAN imports network visualization\")+\n  theme(legend.position = c(0.2,0.8), \n        legend.text = element_text(family = PLOT_FONT),\n        text = element_text(family = PLOT_FONT),\n        plot.title = element_text(hjust = 0.5))\n\n\n\n\n\n\nFigure 3: CRAN network graph",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "What *is* R?"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-17/index.html#a-communications-platform",
+    "href": "posts/2022/12/2022-12-17/index.html#a-communications-platform",
+    "title": "What is R?",
+    "section": "A communications platform?",
+    "text": "A communications platform?\nBut beyond just the R packages that implement specific analysis or process data in a specific way, there are also all of the tools built around R (and mostly around the RStudio IDE) that also make R what I might call a “communications platform.” From Sweave to knitr to rmarkdown and now Quarto, the kind of literate programming you can do in R has moved from ugly1 Beamer slides to, well, full on blogs.\nBut, it’s not just for the novelty or nerd appeal that I think it’s important to learn about R authoring tools available. They’ve also changed my own discovery and learning process about new packages. You can always find the documentation for a package on CRAN, but you should really try to find its pkgdown site.2",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "What *is* R?"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-17/index.html#what-does-it-mean-to-know-r",
+    "href": "posts/2022/12/2022-12-17/index.html#what-does-it-mean-to-know-r",
+    "title": "What is R?",
+    "section": "What does it mean to “know R”?",
+    "text": "What does it mean to “know R”?\nWhen I think about what it means to “know R”, and my goal for the kind of knowledge my students should start getting a handle on, it involves all of these components: the programming syntax, the social graph of the ecosystem, and the authoring tools to use and seek out.\nA lot of other programming languages have similar kinds of features, especially Python with pypi or conda keeping track of the ecosystem and Sphinx providing the authoring tools. There too I’d say that getting to “know Python” involves a lot more than learning its syntax.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "What *is* R?"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-17/index.html#footnotes",
+    "href": "posts/2022/12/2022-12-17/index.html#footnotes",
+    "title": "What is R?",
+    "section": "Footnotes",
+    "text": "Footnotes\n\nsorry, but they are↩︎\nMost often, click on the URL listed on CRAN, which takes you to the package’s github, which then probably has a link to the pkgdown site in its “about” box.↩︎",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "What *is* R?"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-31_wooder1/index.html",
+    "href": "posts/2022/12/2022-12-31_wooder1/index.html",
+    "title": "Rising Wooders",
+    "section": "",
+    "text": "This is a blog post to accompany my American Dialect Society poster.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "Rising Wooders"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-31_wooder1/index.html#wooder",
+    "href": "posts/2022/12/2022-12-31_wooder1/index.html#wooder",
+    "title": "Rising Wooders",
+    "section": "“Wooder”",
+    "text": "“Wooder”\nIf there’s one thing people know about the Philadelphia dialect, it’s that we say [wʊɾɚ], often spelled “wooder” for the word water. It was how the LA Times opened their story about Mare of Easttown.\n\nBarely 11 minutes into the first episode of “Mare of Easttown,” Kate Winslet goes where few actors have gone before.\nShe says the word “wooder.”\nAs in, what the good people of southeastern Pennsylvania call the stuff that comes out of the faucet.\n\nWhen accepting a Webby award in 2019, the NHL mascot Gritty held up a sign saying\n\nIt Pronounced Wooder, not Water.\n\n\n\nGritty (2019)\n\nThe fact that Philadelphians say “wooder” is also the number one thing anyone ever wants to talk to me about when they find out I study the Philadelphia dialect. Back in 2013, when the big paper about what we found in the Philadelphia Neighborhood Corpus came out (Labov, Rosenfelder, and Fruehwald 2013), we got interviewed by the local news, and they asked me “What about ‘wooder’”? I said “Philadelphians say wooder, and that’s that.”\nWhen I said it, I meant it almost apologetically. We hadn’t investigated anything about the word, mostly because we were focusing on larger structural shifts in the vowel system. As far as I knew, the “wooder” pronunciation was just a one off alteration to a single word, and I didn’t think there was anything too interesting to say about it. “That’s that.” The way it got edited into the final broadcast, it seemed like I was making more of a statement of finality, as if to say “Lots of other things are changing about the Philadelphia dialect, but not ‘wooder.’ And that’s that.”\nThis project is me circling back around to both of those possible messages behind “and that’s that” and asking “is it really?”",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "Rising Wooders"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-31_wooder1/index.html#when-did-people-notice-wooder",
+    "href": "posts/2022/12/2022-12-31_wooder1/index.html#when-did-people-notice-wooder",
+    "title": "Rising Wooders",
+    "section": "When did people notice “wooder”?",
+    "text": "When did people notice “wooder”?\nI start off the poster looking at what people have had to say about “wooder”. In part, this is inspired by a disagreement I’ve had with how the vowel ought to be described. With my own introspection, I think the eye-dialect version &lt;wooder&gt; is just right. I think the vowel in the first syllable is /ʊ/, or Foot class. However, Labov has suggested here and there that it’s more of an extremely raised and stereotyped realization of /ɔ/ or Thought class.\nI was explaining this to a friend, and she said “Well, you would think it was /ʊ/ growing up with the ‘wooder’ spelling in media and print.” To which I replied, “I don’t think &lt;wooder&gt; was a thing people wrote out when I was growing up.” So, that launched my first systematic exploration of ‘wooder.’\nWooder in print\nMy best approach, so far, to see how long the pronunciation [wʊɾɚ] has been represented as &lt;wooder&gt; is to do a NewsBank search for it in Philadelphia area newspapers. Those results are represented in the next figure.\n\n\n\n\nData Loadinglibrary(tidyverse)\nwooder &lt;- read_csv(\"data/wooder.csv\")\n\n\n\n\nplotting codeall_year &lt;- tibble(\n  year = seq(\n    min(wooder$year),\n    max(wooder$year),\n    by = 1\n  )\n)\n\nwooder |&gt;\n  full_join(all_year) |&gt; \n  replace_na(list(hits = 0)) |&gt; \n  ggplot(aes(year, hits))+\n    stat_smooth(method = \"gam\", \n                method.args = list(family = \"poisson\")) +\n    geom_point()+\n    labs(\n      title = str_wrap(\n        \"'wooder' in print\",\n        width = 30\n        ),\n      subtitle = str_wrap(\n        \"The number of hits for the word 'wooder'\n        in Philadelphia area newspapers by year\",\n        width = 40\n        ),\n      caption = \"Source: Newsbank\"\n      )+\n    theme(aspect.ratio = 5/8,\n          text = element_text(size = 16),\n          plot.subtitle = element_text(size = 10, color = \"grey80\"),\n          plot.caption = element_text(size = 10, color = \"grey80\"))\n\n\n\n\n\n\nFigure 1: Search results for &lt;wooder&gt; in print.\n\n\n\n\nIt won’t be surprising to Philly area people, but every hit prior to 1994 is from a single columnist, Clark DeLeon1. DeLeon wrote a popular column, and often had a keen ear for Philly area dialect features. But other than one columnist’s keen ear, there’s essentially nothing until about the year 2000 when a gradual increase begins. There’s a bit of a phase change in 2015, and when I looked at most of those stories, they were about Philadelphia Brewing Company’s “Holy Wooder,” a Belgian Tripel they released in honor of the papal visit to the city.\nIt’s worth saying I didn’t personally realize there was anything distinctive about the way I said water until I was 18 and in college, and someone did a double take when I said [wʊɾɚ]. That was in 2003, just before the &lt;wooder&gt; boom. Needless to say, I don’t think an 18 year old Philadelphian could repeat that experience today!\nTalking about wooder\nBy this point, I’ve gone through and listened to every token of water in the Philadelphia Neighborhood Corpus, and there are a number of points of “metalinguistic commentary”, or people talking about the word’s pronunciation. The earliest example is from 1974, when a young man said\n\nThat’s what a lot of people say, [wɑtʰɚ], cause [wʊɾɚ] sounds like W-O-O-D-D-E-R or something.\n\nThis is a really interesting comment, cause he’s specifically singling out the [ɑ] vowel pronunciation as something a lot of (presumably other) people say. In fact, two of the other instances of commentary about water only ever use the [ɑ] vowel version as something marked about New York City speech. He also combines [ɑ] with an aspirated [tʰ], which would seem to align use of [ɑ] with hyper- or hypercorrect- speech. While flapping the /t/ in water is nearly a North American standard, it seems to get almost just as much notice and attention as the vowel quality.\nAnd speaking of vowel quality! This comment also identifies the vowel category with /ʊ/, because he specifically spells it out “W-O-O-D”. So, there’s one point in my column!",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "Rising Wooders"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-31_wooder1/index.html#when-did-people-start-saying-wooder",
+    "href": "posts/2022/12/2022-12-31_wooder1/index.html#when-did-people-start-saying-wooder",
+    "title": "Rising Wooders",
+    "section": "When did people start saying “wooder”?",
+    "text": "When did people start saying “wooder”?\nNow, it’s possible for a linguistic feature to be part a community’s repertoire for a long time without it becoming noticed or commentable. Take the distinctively named Philly area dessert, “water ice,” as an example. This phrase contains two distinctively Philly area pronunciation features:\n\nThe pronunciation of “water” as [wʊɾɚ].\nThe pre-voiceless centralization of the onset of /ay/ to [ʌi] in “ice”.\n\nI’ve actually done a lot of research on this second feature, which is now a well established feature of the dialect. But I’m actually not aware of any public commentary about it, and when the whole phrase is rendered in eye dialect or printed on a tee-shirt, it comes out as just &lt;wooder ice&gt;, not &lt;wooder uhys&gt;\nThat is to say, just because the earliest time I can find anyone discussing “wooder” is 1974 doesn’t mean that’s when people started pronouncing it that way. In fact, it definitely means people starting pronouncing it that way well before! Figuring out the history here became the second part of the project, which I’ll write about in a second post.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "Rising Wooders"
+    ]
+  },
+  {
+    "objectID": "posts/2022/12/2022-12-31_wooder1/index.html#footnotes",
+    "href": "posts/2022/12/2022-12-31_wooder1/index.html#footnotes",
+    "title": "Rising Wooders",
+    "section": "Footnotes",
+    "text": "Footnotes\n\nIf you have access to NewsBank or the Inquirer Archives, the first &lt;wooder&gt; hit is from April 26, 1983 in DeLeon’s column The Scene with the lede “LANGUAGE: YO, BILL, WATCHES TAWKIN’ ABOUT?”. The “Bill” in question was William Safire.↩︎",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2022",
+      "12",
+      "Rising Wooders"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-04_wooder3/index.html",
+    "href": "posts/2023/01/2023-01-04_wooder3/index.html",
+    "title": "Rising Wooders: Part 3",
+    "section": "",
+    "text": "This is part 3 of my blog posts to accompany my ADS2023 Poster.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Rising Wooders: Part 3"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-04_wooder3/index.html#waughter-worder-wooder",
+    "href": "posts/2023/01/2023-01-04_wooder3/index.html#waughter-worder-wooder",
+    "title": "Rising Wooders: Part 3",
+    "section": "Waughter? Worder? Wooder?",
+    "text": "Waughter? Worder? Wooder?\nIn my first post, I talked about the timeline of when Philadelphians came to realize there was something distinctive about the way we say water, and the use of &lt;wooder&gt; in print. In my second post, I modelled the timeline of when Philadelphians started saying [wʊɾɚ], which seems to have been in variation with [wɔɾɚ] and [wɔɹɾɚ] for people born across the 20th century. Now there’s just the question of why any of this happened at all.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Rising Wooders: Part 3"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-04_wooder3/index.html#story-1-wɔɾɚ-raising",
+    "href": "posts/2023/01/2023-01-04_wooder3/index.html#story-1-wɔɾɚ-raising",
+    "title": "Rising Wooders: Part 3",
+    "section": "Story 1: [wɔɾɚ] raising",
+    "text": "Story 1: [wɔɾɚ] raising\nOne possibility is that changes in the pronunciation of /ɔ/ just naturally shifted the vowel’s pronunciation in water in particular. If you look at the &lt;ɔ&gt; symbol on an IPA chart, you’d probably describe it as a mid to low back vowel. However, /ɔ/ is pretty significantly raised in Philly so that for many speakers its more like a high back vowel.\n\n\n\n\n\n\n\n\n\n(a) “canonical” ɔ placement\n\n\n\n\n\n\n\n\n\n(b) Philly ɔ placement\n\n\n\n\n\n\nFigure 1: The “canonical” placement of /ɔ/ vs a typical Philadelphia /ɔ/\n\n\nIn fact, this is essentially the story we told in 100 Years of Sound Change. (“/oh/” and “open-o” are how we referred to this vowel).\n\nThe parallel back vowel is /oh/ in long open-o words talk, lost, off, and so on. Here the social stereotype is firmly fixed on one word, water, pronounced with a high back nucleus.\nLabov, Rosenfelder, and Fruehwald (2013)\n\nIn a lot of ways this story makes sense, since not only is /ɔ/ very high in Philadelphia, but with it coming immediately after a /w/, the coarticulatory effect could pull it even higher to [ʊ].\nSome shortcomings\nA shortcoming for me about this story is that there are other words with a /wɔ/ sequence that haven’t shifted to [wʊ]. For example, wall [wɔɫ] is very distinct from wool [wʊɫ] for me. Similarly, none of walk, Waldo, walnut, Walter, waltz have [ʊ] in them.\nThis is a classic kind of problem/debate in the study of sound change. Is it exceptionless? Does it happen all at once, or does it move word by word?1 This could be an example of “lexical diffusion”, where for some reason or another, change from [ɔ] ➡️ [ʊ] happened in just one word, water, and not in any of the other words that are similar.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Rising Wooders: Part 3"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-04_wooder3/index.html#story-2-passing-through-worder.",
+    "href": "posts/2023/01/2023-01-04_wooder3/index.html#story-2-passing-through-worder.",
+    "title": "Rising Wooders: Part 3",
+    "section": "Story 2: Passing through Worder.",
+    "text": "Story 2: Passing through Worder.\nAnother possibility here that recently occurred to me is that maybe the [wɔɹɾɚ] tokens I found in the PNC aren’t just some third variant in the mix, but are actually evidence of how water moved from [ɔ] to [ʊ]. But it has a few steps to it.\nr-dissimilation\nUnlike a lot of eastern seaboard cities in North America, like Boston, New York City and Charleston, Philadelphia has always been an /r/ pronouncing city. Where in Boston and NYC they might drop the /r/ in park [phaːk] and car [khaː], Philly has always pronounced that /r/: [phɒɹk] and [khɒɹ].2\nThe one exception to this rule is when there is more than one /r/ in the word, and if one of those /r/s is dropable, people are likely to drop it (Ellis, Groff, and Mead 2006). This tendency is maybe most notable in the name of a nearby suburb and college “Swarthmore”, which is usually pronounced [swɑθ.mɔɹ]. In fact, Swarthmore College recently capitalized on this variation in dueling billboards.3\n\n\n\n\n\n\n“Swathmore” with the first &lt;r&gt; dropped.\n\n\n\n\n\n“Swathmore”, with the first &lt;r&gt; present.\n\n\n\n\n\nFigure 2: Dueling enregisterments.\n\n\nBut, this /r/ dissimilation isn’t restricted to just the word “Swarthmore.” The first /r/ is usually dropped in words like “quarter” or “corner”.\nReinterpretation\nI think this /r/ dissimilation is what got “worder” in the door, which I’ll try to illustrate with an example. Let’s say you’re in Philadelphia and from Philadelphia, and some shows you this coin and says “Here’s a [kʰwɔ.ɾɚ].”\n\n\n\n\n\nFigure 3: A quarter\n\n\nThere are two possible ways you could decide to interpret the underlying form of this word. The first would be to take into account /r/ dissimulation, and stick the /r/ back in, for a /kʰwɔɹ.tɹ̩/ representation. The other would be to not take into account /r/ dissimilation, and decided on a /kʰwɔ.tɹ̩/representation.\n\n\n\n\n\nFigure 4: The possible re-interpretations of kʰwɔ.ɾɚ\n\n\nNow, let’s just take off the [kʰ] at the beginning, and we have a remarkably similar kind of interpretation pathways for water!\n\n\n\n\n\nFigure 5: Possible re-interpretations of wɔ.ɾɚ\n\n\nMerger\nSo, not only is the /wɔɹ.tɹ̩/ reinterpretation plausible, I heard a lot of [wɔɹɾɚ] when I was coding the data. The next thing to know about these vowels in Philly is that the vowels /ɔɹ/ (as in tore) and /uɹ/ tour have merged to a high back position. Perhaps the most noticeable aspect of this merger is that it’s dragged /aɹ/, as in tar, to a much higher and rounded position in Philly than many other varieties.\n\n\n\n\n\n\ntar, tore and tour prior to the merger\n\n\n\n\n\ntar, tore and tour after the merger\n\n\n\n\n\nFigure 6: Before and after the merger\n\n\nIf people were inserting an /ɹ/ into the middle of water, it would belong to this /ɔɹ/ vowel, and we would expect it to be merged into /uɹ/.\nSo, once you’ve put an /ɹ/ into the middle of water and merged it with /uɹ/, what do you get if you then do /r/ dissimilation on that?\nWooder!\n\n\n\n\n\nFigure 7: My proposed pathway of “wooder” development.\n\n\nShortcomings\nSo, a shortcoming of this story about how we got “wooder” is that it could seem a little convoluted. Like we decided to just stick an /ɹ/ in just to delete it later, and voilà! Wooder!\nBenefits\nOn the other hand, there are a bunch of [wɔɹɾɚ] tokens in the Philadelphia Neighborhood Corpus. It also would account for why non of the other /wɔ/ words had this shift to [ʊ]. It also captures a but of what’s going on with daughter as satirized by the SNL skit Murder Durder.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Rising Wooders: Part 3"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-04_wooder3/index.html#which-story-is-the-right-one",
+    "href": "posts/2023/01/2023-01-04_wooder3/index.html#which-story-is-the-right-one",
+    "title": "Rising Wooders: Part 3",
+    "section": "Which story is the right one?",
+    "text": "Which story is the right one?\nI’d say I need to do a bit more work, looking at the acoustic data more closely, looking at how individuals vary, as well as looking at daughter and the other /ɔɹ/ words that both have and don’t have /r/ dissimilation to really get closer to settling the issue.\nBut I think the way you react to each account could shed a little light on the kind of linguistic analyses you prefer. I really like Story 2. All the pieces that make it work are happening and have been described already, so I didn’t need to describe any new phenomenon to get “water” to turn into “wooder”. It just got pulled up in the interplay of different sound changes. It looks like a beautiful pattern, to me.\nHowever, maybe Story 2 looks overwrought to you. “Words just do things sometimes!” you might say. “The /ɔ/ was rising, and there’s a /w/ right there!” And you know what, fair enough! That was my own analysis until about a year ago as well.\nThe good news is that Story 2 has piqued my interest, which means I’m going to be digging into this more in the near future. And maybe as I go I’ll find the “passage through worder” account unsupported, but for right now it seems really plausible to me!",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Rising Wooders: Part 3"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-04_wooder3/index.html#footnotes",
+    "href": "posts/2023/01/2023-01-04_wooder3/index.html#footnotes",
+    "title": "Rising Wooders: Part 3",
+    "section": "Footnotes",
+    "text": "Footnotes\n\nLabov (1981), Bybee (2002), Phillips (2006), Fruehwald (2007), and many many others↩︎\nI’ll come back to that different vowel in a sec.↩︎\n\n\n\n\nHave you seen the new signs at the (SEPTA?) train station? 👀 pic.twitter.com/3DYfiGcRPs\n\n— Swarthmore College ((swarthmore?)) August 26, 2022\n\n↩︎",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "Rising Wooders: Part 3"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-27_jan-rpackages/index.html",
+    "href": "posts/2023/01/2023-01-27_jan-rpackages/index.html",
+    "title": "R Package Exploration (Jan 2023)",
+    "section": "",
+    "text": "As I scroll through my feeds, I often come across a really cool looking package, or a new feature of a package, that I think looks really cool, and then I forget to go back to really kick the tires to see how it works. So I’ve decided to try to set up a workflow where I send the docs or pkgdown pages for the package to a Trello board, and then come back maybe once a month and experiment with them in a blog post.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "R Package Exploration (Jan 2023)"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-27_jan-rpackages/index.html#ggforce-ggdensity-and-geomtextpath",
+    "href": "posts/2023/01/2023-01-27_jan-rpackages/index.html#ggforce-ggdensity-and-geomtextpath",
+    "title": "R Package Exploration (Jan 2023)",
+    "section": "\n{ggforce}, {ggdensity} and {geomtextpath}\n",
+    "text": "{ggforce}, {ggdensity} and {geomtextpath}\n\nThe packages I want to mess around with today are all extensions to ggplot2, so I’ll load up the palmerpenguins dataset for experimentation.\n\n## setup\nlibrary(tidyverse)\nlibrary(khroma)\nlibrary(palmerpenguins)\n\n## exploration packages\nlibrary(ggforce)\nlibrary(ggdensity)\nlibrary(geomtextpath)",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "R Package Exploration (Jan 2023)"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-27_jan-rpackages/index.html#ggforce-and-convex-hulls",
+    "href": "posts/2023/01/2023-01-27_jan-rpackages/index.html#ggforce-and-convex-hulls",
+    "title": "R Package Exploration (Jan 2023)",
+    "section": "\n{ggforce} and convex hulls",
+    "text": "{ggforce} and convex hulls\nThe ggforce package as the option to add a convex hull over your data (ggforce::geom_mark_hull()), kind of indicating where the data clusters are. Here’s my base plot.\n\nplot1 &lt;- \n  penguins |&gt; \n  drop_na() |&gt; \n  ggplot(aes(bill_length_mm, bill_depth_mm, color = species))+\n    geom_point()+\n    scale_color_brewer(palette = \"Dark2\")+\n    scale_fill_brewer(palette = \"Dark2\")\nplot1\n\n\n\n\n\n\nFigure 1: The base penguins scatterplot\n\n\n\n\nI’ll throw on the default convex hull.\n\nplot1 +\n  geom_mark_hull()\n\nWarning: Using the `size` aesthetic in this geom was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` in the `default_aes` field and elsewhere instead.\n\n\n\n\n\n\n\nFigure 2: Basic convex hull\n\n\n\n\nDefault is ok, but for this data set, the hulls are a bit jagged. That can be adjusted with the concavity argument. I’ll also throw in a fill color.\n\nplot1 +\n  geom_mark_hull(\n    concavity = 5,\n    aes(\n      fill = species\n    )\n  )\n\n\n\n\n\n\nFigure 3: Smoothed out and filled convex hulls\n\n\n\n\nThat’s better. It also comes with a mappable label and description aesthetics. Here, it seems a bit more touchy.\n\nplot1 +\n  geom_mark_hull(\n    concavity = 5,\n    aes(fill = species,\n        label = species,\n    ),\n    label.family = \"Fira Sans\"\n  )\n\n\n\n\n\n\nFigure 4: Attempted labelling of convex hulls\n\n\n\n\nThe labels actually appear in the RStudio IDE for me, but not in the rendered page here because it wants more headroom around the plot. I’ll add that in by setting the expand arguments to ggplot::scale_y_continuous() and ggplot::scale_x_continuous(), and I’ll drop the legend while I’m at it.\n\nplot1 +\n  geom_mark_hull(\n    concavity = 5,\n    aes(fill = species,\n        label = species,\n    ),\n    label.family = \"Fira Sans\"\n  )+\n  scale_y_continuous(\n    expand = expansion(\n      mult = c(0.25, 0.25)\n    )\n  )+\n  scale_x_continuous(\n    expand = expansion(\n      mult = c(0.25, 0.25)\n    )\n  ) +\n  guides(\n    color = \"none\",\n    fill = \"none\"\n  )\n\n\n\n\n\n\nFigure 5: Labelled convex hulls\n\n\n\n\nThoughts\nI like the convex hulls as a presentational aide. It probably shouldn’t be taken as a statistical statement about, for example the degree of overlap between these three species, but is useful for outlining data points of interest.\nI kind of wish this was separated out into a few different, more conventional, ggplot2 layers. It’s called a geom_ but the convex hulls are definitely stat_s. The convex hull statistic layer isn’t exposed to users, so you can’t mix-and-match convex hull estimation and the geom used to draw it. On the other hand, I can see that it’s much more souped up than a typical geom. For example, you can filter the data within the aes() mapping.\n\nplot1 +\n  geom_mark_hull(\n    concavity = 5,\n    aes(\n      filter = sex == \"female\"\n    )\n  )\n\n\n\n\n\n\nFigure 6: Filtered convex hulls",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "R Package Exploration (Jan 2023)"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-27_jan-rpackages/index.html#ggdensity",
+    "href": "posts/2023/01/2023-01-27_jan-rpackages/index.html#ggdensity",
+    "title": "R Package Exploration (Jan 2023)",
+    "section": "{ggdensity}",
+    "text": "{ggdensity}\nAs pointed out on the ggdensity readme, there’s already a stat+geom in ggplot2 to visualize 2d density plots.\n\nplot2 &lt;- \n  penguins |&gt; \n  drop_na() |&gt; \n  ggplot(aes(bill_length_mm, bill_depth_mm))\n\nplot2 +\n  stat_density_2d_filled()\n\n\n\n\n\n\nFigure 7: Density contour plot\n\n\n\n\nThose levels are a little hard to follow, though, which is what ggdensity::stat_hdr() is for. It will plot polygons/contours for given probability levels, of the data distribution\n\nplot2 +\n  stat_hdr()\n\n\n\n\n\n\nFigure 8: Highest density region contour plot\n\n\n\n\nThe probabilities are mapped to transparency by default, so you can map the fill color to a different dimension.\n\nplot2 +\n  stat_hdr(aes(fill = species))+\n  scale_fill_brewer(palette = \"Dark2\")\n\n\n\n\n\n\nFigure 9: Highest density region contour plot, filled by species\n\n\n\n\nThe package also has a ggdensity::stat_hdr_rug() to add density distribution rugs to plots.\n\nplot2 +\n  geom_point()+\n  stat_hdr_rug(fill = \"grey90\")\n\n\n\n\n\n\nFigure 10: HDR rug",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "R Package Exploration (Jan 2023)"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-27_jan-rpackages/index.html#geomtextpath",
+    "href": "posts/2023/01/2023-01-27_jan-rpackages/index.html#geomtextpath",
+    "title": "R Package Exploration (Jan 2023)",
+    "section": "{geomtextpath}",
+    "text": "{geomtextpath}\nI’ve actually been messing around with this for a bit, but geomtextpath allows you to place text along lines. There’s standalone geom_textpath() and geom_labelpath() functions, but just to stick with the penguins data, I’m going to match the textpath geom with a different stat.\n\nplot3 &lt;-\n  penguins |&gt; \n  drop_na() |&gt; \n  ggplot(aes(bill_length_mm, bill_depth_mm, color = species))+\n    scale_color_brewer(palette = \"Dark2\")\n\nplot3 +\n  stat_smooth(\n    geom = \"textpath\", \n    # you have to map a label aesthetic\n    aes(label = species),\n  ) +\n  guides(color = \"none\")\n\n\n\n\n\n\nFigure 11: Trendlines with text written along them\n\n\n\n\nYou can move the location of the text on the path back and forth by either setting or mapping hjust to a number between 0 and 1, and you can lift the text off the line with vjust.\n\nplot3 +\n  stat_smooth(\n    geom = \"textpath\", \n    # you have to map a label aesthetic\n    aes(label = species),\n    hjust = 0.1,\n    vjust = -1\n  ) +\n  guides(color = \"none\")\n\n\n\n\n\n\nFigure 12: Trendlines with text written along them\n\n\n\n\nMixing and matching statistics and these direct labels could get pretty powerful. For example, here’s the name of each species written around data ellipses.\n\nplot3 +\n  stat_ellipse(\n    geom = \"textpath\", \n    # you have to map a label aesthetic\n    aes(label = species),\n    hjust = 0.1  \n  ) +\n  guides(color = \"none\")\n\n\n\n\n\n\nFigure 13: Data ellipses text written along them",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "R Package Exploration (Jan 2023)"
+    ]
+  },
+  {
+    "objectID": "posts/2023/01/2023-01-27_jan-rpackages/index.html#combo-ggdensity-and-geomtextpath",
+    "href": "posts/2023/01/2023-01-27_jan-rpackages/index.html#combo-ggdensity-and-geomtextpath",
+    "title": "R Package Exploration (Jan 2023)",
+    "section": "Combo {ggdensity} and {geomtextpath}\n",
+    "text": "Combo {ggdensity} and {geomtextpath}\n\nSince the ggdensity statistics are ordinary stat_, we can also combine them with textpaths to label the probability levels directly.\n\nplot2 +\n  stat_hdr_lines(\n    aes(label = after_stat(probs)),\n    color = \"grey90\",\n    geom = \"textpath\"\n  ) +\n  guides(alpha = \"none\")\n\n\n\n\n\n\nFigure 14: Higest density region plot with direct labels",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "01",
+      "R Package Exploration (Jan 2023)"
+    ]
+  },
+  {
+    "objectID": "posts/2023/02/2023-02-05/index.html",
+    "href": "posts/2023/02/2023-02-05/index.html",
+    "title": "A handy dplyr function for linguistics",
+    "section": "",
+    "text": "One of the new functions in dplyr v1.1.0 is dplyr::consecutive_id(), which strikes me as having a few good use cases for linguistic data. The one I’ll illustrate here is for processing transcriptions.\nlibrary(tidyverse)\nlibrary(gt)\n\nsource(here::here(\"_defaults.R\"))\n\n# make sure its &gt;= v1.1.0\npackageVersion(\"dplyr\")\n\n[1] '1.1.2'\nI’ll use a sample transcription extract from LANCS, where the audio has been chunked into “breath groups” and transcribed, along with an identifier of who was speaking, and beginning and end times.\ntranscription &lt;- \n  read_csv(\"data/KY25A_1.csv\")\nspeaker\nstart\nend\ntranscript\n\n\n\nIVR\n192.110\n194.710\nwell uh, I have a number of uh\n\n\nIVR\n195.530\n198.620\nthings I'd like to ask you about. I wonder if you'd just mind uh.\n\n\nIVR\n199.110\n200.900\nanswering questions uh\n\n\nIVR\n202.130\n203.610\none after another if you\n\n\nKY25A\n203.295\n204.405\nyeah\n\n\nKY25A\n204.745\n205.225\nwell\n\n\nIVR\n204.740\n205.805\nif I remind you of a\n\n\nKY25A\n205.510\n207.930\nnow you might start that\n\n\nKY25A\n208.440\n209.570\nI was born in\n\n\nKY25A\n210.420\n212.120\neighteen sixty seven\n\n\nIVR\n213.350\n215.450\nmhm and that makes you how old?\n\n\nKY25A\n215.780\n216.600\nninety three\n\n\nIVR\n216.665\n217.455\nninety three\nOne thing we might want to do is indicate which sequences of transcription chunks belong to one speaker, corresponding roughly to their speaking turns. I’ve hacked my way through this kind of coding before, but now we can easily add turn numbers with dplyr::consecutive_id(), which will add a column of numbers that increment every time the value in the indicated column changes.\ntranscription |&gt; \n  mutate(\n    turn = consecutive_id(speaker)\n  )\nspeaker\nstart\nend\ntranscript\nturn\n\n\n\nIVR\n192.110\n194.710\nwell uh, I have a number of uh\n1\n\n\nIVR\n195.530\n198.620\nthings I'd like to ask you about. I wonder if you'd just mind uh.\n1\n\n\nIVR\n199.110\n200.900\nanswering questions uh\n1\n\n\nIVR\n202.130\n203.610\none after another if you\n1\n\n\nKY25A\n203.295\n204.405\nyeah\n2\n\n\nKY25A\n204.745\n205.225\nwell\n2\n\n\nIVR\n204.740\n205.805\nif I remind you of a\n3\n\n\nKY25A\n205.510\n207.930\nnow you might start that\n4\n\n\nKY25A\n208.440\n209.570\nI was born in\n4\n\n\nKY25A\n210.420\n212.120\neighteen sixty seven\n4\n\n\nIVR\n213.350\n215.450\nmhm and that makes you how old?\n5\n\n\nKY25A\n215.780\n216.600\nninety three\n6\n\n\nIVR\n216.665\n217.455\nninety three\n7\nNow we can do things like group the data by turn, and get a new dataframe summarized by turn.\ntranscription |&gt; \n  mutate(\n    turn = consecutive_id(speaker)\n  ) |&gt; \n  summarise(\n    .by = c(turn, speaker),\n    start = min(start),\n    end = max(end),\n    transcript = str_c(transcript, collapse = \" \"),\n  )\nturn\nspeaker\nstart\nend\ntranscript\n\n\n\n1\nIVR\n192.110\n203.610\nwell uh, I have a number of uh things I'd like to ask you about. I wonder if you'd just mind uh. answering questions uh one after another if you\n\n\n2\nKY25A\n203.295\n205.225\nyeah well\n\n\n3\nIVR\n204.740\n205.805\nif I remind you of a\n\n\n4\nKY25A\n205.510\n212.120\nnow you might start that I was born in eighteen sixty seven\n\n\n5\nIVR\n213.350\n215.450\nmhm and that makes you how old?\n\n\n6\nKY25A\n215.780\n216.600\nninety three\n\n\n7\nIVR\n216.665\n217.455\nninety three\nAnd then you can start moving onto other analyses, like what the lag was between one speaker’s end and the next’s beginning.\ntranscription |&gt; \n  mutate(\n    turn = consecutive_id(speaker)\n  ) |&gt; \n  summarise(\n    .by = c(turn, speaker),\n    start = min(start),\n    end = max(end),\n    transcript = str_c(transcript, collapse = \" \"),\n  ) |&gt; \n  mutate(overlapping = start &lt; lag(end))\nturn\nspeaker\nstart\nend\ntranscript\nlag\n\n\n\n1\nIVR\n192.110\n203.610\nwell uh, I have a number of uh things I'd like to ask you about. I wonder if you'd just mind uh. answering questions uh one after another if you\nNA\n\n\n2\nKY25A\n203.295\n205.225\nyeah well\n-0.315\n\n\n3\nIVR\n204.740\n205.805\nif I remind you of a\n-0.485\n\n\n4\nKY25A\n205.510\n212.120\nnow you might start that I was born in eighteen sixty seven\n-0.295\n\n\n5\nIVR\n213.350\n215.450\nmhm and that makes you how old?\n1.230\n\n\n6\nKY25A\n215.780\n216.600\nninety three\n0.330\n\n\n7\nIVR\n216.665\n217.455\nninety three\n0.065\nThis was just the first example that came to mind, but there’s probably a lot of data processing tasks that can be made a lot less annoying with dplyr::consecutive_id().",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "02",
+      "A handy dplyr function for linguistics"
+    ]
+  },
+  {
+    "objectID": "posts/2023/02/2023-02-05/index.html#extra",
+    "href": "posts/2023/02/2023-02-05/index.html#extra",
+    "title": "A handy dplyr function for linguistics",
+    "section": "Extra",
+    "text": "Extra\nI’ll throw the duration of within-turn pauses in there.\n\nlibrary(glue)\n\n\ntranscription |&gt; \n  mutate(\n    turn = consecutive_id(speaker)\n  ) |&gt; \n  mutate(\n    .by = turn,\n    pause_dur = start - lag(end),\n    transcript = case_when(\n      .default = transcript,\n      is.finite(pause_dur) ~ glue(\n        \"&lt;{round(pause_dur, digits = 2)} second pause&gt; {transcript}\"\n      )\n    )\n  ) |&gt; \n  summarise(\n    .by = c(turn, speaker),\n    start = min(start),\n    end = max(end),\n    transcript = str_c(transcript, collapse = \" \"),\n  ) |&gt; \n  mutate(lag = start - lag(end)) |&gt; \n  relocate(lag,  .before = start)\n\n\n\n\n\n\n\nturn\nspeaker\nlag\nstart\nend\ntranscript\n\n\n\n1\nIVR\nNA\n192.110\n203.610\nwell uh, I have a number of uh &lt;0.82 second pause&gt; things I'd like to ask you about. I wonder if you'd just mind uh. &lt;0.49 second pause&gt; answering questions uh &lt;1.23 second pause&gt; one after another if you\n\n\n2\nKY25A\n-0.315\n203.295\n205.225\nyeah &lt;0.34 second pause&gt; well\n\n\n3\nIVR\n-0.485\n204.740\n205.805\nif I remind you of a\n\n\n4\nKY25A\n-0.295\n205.510\n212.120\nnow you might start that &lt;0.51 second pause&gt; I was born in &lt;0.85 second pause&gt; eighteen sixty seven\n\n\n5\nIVR\n1.230\n213.350\n215.450\nmhm and that makes you how old?\n\n\n6\nKY25A\n0.330\n215.780\n216.600\nninety three\n\n\n7\nIVR\n0.065\n216.665\n217.455\nninety three",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "02",
+      "A handy dplyr function for linguistics"
+    ]
+  },
+  {
+    "objectID": "posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html",
+    "href": "posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html",
+    "title": "Using Quarto Blogs for Teaching",
+    "section": "",
+    "text": "This semester I was teaching two R intensive courses: Quantitative Investigations in the Social Sciences and Quantitative Methods in Linguistics. For both courses, I had students maintain Quarto blogs that they pushed to Github Classroom and I thought I’d write up my thoughts on what worked, what didn’t work, and what I wish I’d planned out in advance.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "05",
+      "Using Quarto Blogs for Teaching"
+    ]
+  },
+  {
+    "objectID": "posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html#github-classroom-basics",
+    "href": "posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html#github-classroom-basics",
+    "title": "Using Quarto Blogs for Teaching",
+    "section": "Github Classroom basics",
+    "text": "Github Classroom basics\nFirstly, I spent relatively little time on the actual Github Classroom site. There may be more functionality to it that’s useful, but largely I didn’t need it. Each “Classroom” creates a Github Organization from which you can access every student’s assignment repository.\nCreating assignments\nTo create an assignment, you first have to set up a template repository on Github (could be under your own account or under the classroom organization) that gets associated with the assignment. Github Classroom generates an invite link that you can post to Canvas/Blackboard/whatever that will auto-fork the template for the student in the organization, and name it {name-of-assignment}-{gh-username}.\n\n\n\n\n\n\nRepository Visibility\n\n\n\nThese repositories are, by default, private! In the example repo I show here, I went in and manually changed it to be public\n\n\nFor example, here’s the repository it created when I clicked the invite link to the mapping project:\nhttps://github.com/A-S500/maps-final-JoFrhwld\nThe repository isn’t under my personal account, it’s under the A-S500 organization.\nTip 1: Take your time on the templates\nFor a blog-type assignment that students will be updating across the entire semester, take your time on the template. Get your template blog to be exactly like you want it. Obviously, students can make changes to how the blog will render, but your initial settings will have a major inertia effect.\nHere’s one thing I spent time on in set up that I’ll do differently in the future: I created blank template posts for every post students were going to do that year. For one class, I was having them write weekly reflections, so I created a directory and index.qmd for every week. e.g.\nposts/01_week/index.qmd\nposts/02_week/index.qmd\n...\nposts/15_week/index.qmd\nFor the the other course, I had them write a post for each chapter of the textbook, and the setup was similar.\nI’d do that differently now for a few reasons. First, when looking at the source code and the rendered blog, it makes it harder to eyeball where the students have created new content. It might not seem like a lot, but it’s just a little extra bit of friction to click through to an index.qmd post to find that it’s still just the original template.\nSecond, it facilitated some poor metadata practices for the students. I really couldn’t get everyone to touch the yaml header to update the date of the post if there was already a date: there, so for some people all of their posts were dated January, when I created the template.\nThoughts: The feedback pull request isn’t worth it.\nGithub Classroom will give you the option of automatically creating a feedback branch and open a pull request to leave comments on the code. While this makes sense for some assignments, these quarto blogs with their rendered html are too unwieldy to bother.\nI just opened feedback issues on the blogs referencing the specific lines I was commenting on.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "05",
+      "Using Quarto Blogs for Teaching"
+    ]
+  },
+  {
+    "objectID": "posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html#quarto-things",
+    "href": "posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html#quarto-things",
+    "title": "Using Quarto Blogs for Teaching",
+    "section": "Quarto Things",
+    "text": "Quarto Things\nSome quarto things that I’d recommend:\nTip 2: Set up freeze: auto\n\nTo save yourself and your students’ time be sure to configure freezing in the _quarto.yml file.\nexecute: \n  freeze: auto\nThis means quarto will save the results of any executed R code, and won’t rerun the code when rendering the project unless the content of the file changes. This will save you and your students a lot of time when re-rendering blogs, especially later in the semester.\n\n\n\n\n\n\ncommit `_freeze/`\n\n\n\nBe sure to add and commit the _freeze/ directory though!\n\n\nTip 3: Encourage (enforce!) actual rendering of the blog.\nOne of the positives of any code notebook system in general is that they look nice while you’re writing, and interleave prose, code, & results. A downside for a Quarto blog, though, is that students may not realize that the code results they see in the notebook don’t get saved and committed. You (the reader/grader) will have to re-run all of the code chunks, or re-render the html blog.\nBut, as long as students click the “Render Project” button, the generated html pages will be viewable in _site, with all of the prose, code and code results… if they click “Render Project”.\nI didn’t pick up on the fact many students were just running the code in the notebook and never clicking “Render” until too late in the semester, and by that point we were very busy trying to get through the course content for me to turn that ship. That meant I had to re-render their blogs (takes time) and I had to deal with/fix any inconsistencies between our R environments (more time!)\nTip 4: Set error: true in the quarto project\nI think you should set error: true in _quarto.yml. Usually, if there’s an error in your R code, the project will fail to render. With error: true, the project will render, with the R errors included in the output.\nMaybe you’re thinking “But don’t you want to make sure that students fix the errors?” Well, yes I do, but if there’s errors in their code and they push it anyway, when you try to render the project, you’ll have to hunt down and fix the R errors before you can look at the rendered project!",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "05",
+      "Using Quarto Blogs for Teaching"
+    ]
+  },
+  {
+    "objectID": "posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html#rrstudio-things",
+    "href": "posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html#rrstudio-things",
+    "title": "Using Quarto Blogs for Teaching",
+    "section": "R/RStudio Things",
+    "text": "R/RStudio Things\nTip 5: Teach them about {here} early\nSo, no matter how many times I left comments about “please use relative paths”, I would still get posts with code that looked like\n\ndata &lt;- read_csv(\"~/usernamene/Documents/Courses/blog/data/data.csv\")\n\nWhen combined with the fact that many people weren’t clicking “Render” on their projects, this meant I had to go in and fix these global paths in order to read their posts.\nThe here package works within RStudio projects to help construct reproducible paths. here::here() returns the path to the main project directory, and will concatenate any further arguments to that path. So rewriting the example above would look like:\n\nlibrary(here)\ndata &lt;- read_csv(here(\"data\", \"data.csv\"))\n\nOn the one hand, using here in this way does bypass needing to come to grips with paths, which is a crucial component of scientific computing. But on the other, you need to make a decision about where your class time is spent.\nIf you go all in on *nix-style paths and their navigation, you will burn a lot of class time and your own creative energy on a topic that is increasingly conceptually difficult for students before you even get to course content. Moreover, students won’t neatly delimit course content like “paths are utility background information, stats are a collection of theories and methods, R code is an implementation of those theories and methods.” Rather, it’ll all get dumped into one big bucket of “stats is hard.”\nOr, you could teach them to use here.\nTip 6: Figure out {renv}.\nThis is more of a “to-do”. I’m relatively new to using renv and am still trying to work out the kinks of making it work in distributed assignments like this.\nI think step one would be to make sure they’ve installed renv globally, before opening any given project. Then, in your template, commit your renv.lock file, but not the .Rprofile. Then, once they’ve created the project in RStudio, run renv::init() once, restore from the lock file.\nI think…\nTip 7: Remind them to save!\nRemind them that this is not like Google Docs or Word! The document is not auto-saving as you go along! Save save save!",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "05",
+      "Using Quarto Blogs for Teaching"
+    ]
+  },
+  {
+    "objectID": "posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html#gitgrading-things",
+    "href": "posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html#gitgrading-things",
+    "title": "Using Quarto Blogs for Teaching",
+    "section": "Git/Grading Things",
+    "text": "Git/Grading Things\nOn the reading/grading side of things, I worked out a git workflow that worked pretty well.\nTip 8: Add the student blogs as git submodules\nI originally had a grand idea of adding every student’s blog to one larger quarto project I would render, and look at all of their posts in one place, but that didn’t work out great. Instead, I created a bare bones RStudio project, and added each student’s blog repository as a submodule in a `blogs/` directory:\ngit submodule add git@github.com:...\nAfter initial setup, this meant I could pull all student’s new posts with\ngit submodule update --remote\nTip 9: Make use of RStudio’s project navigation.\nThe way I’d read and grade the blog posts was by navigating to a student’s blog repository in RStudio’s file browser, then clicking on the blog.Rproj file. This will auto open the student’s blog as an RStudio project which you can render and browse in isolation from all other students’ projects (especially if you’ve initialized renv inside).\nTip 10: Always commit all changes, but don’t push, after grading\n\n\n\n\n\n\nCommit Changes!\n\n\n\nI’m saying the same thing twice because it’s important.\n\n\nAfter re-rendering and reading the student’s blog, be sure to commit all changes, but don’t push them. This is because of a detail of how both quarto and git submodules work.\nEvery time you re-render a project, the “last modified” metadata in the rendered html files gets updated. Meaning even if you just changed one page, all of the html pages get modified.\nAdditionally, if there are uncommitted changes within the git submodule, when you run git submodule update --remote, git won’t pull down the new commits until you’ve committed those changes within then submodule.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "05",
+      "Using Quarto Blogs for Teaching"
+    ]
+  },
+  {
+    "objectID": "posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html#final-thoughts",
+    "href": "posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html#final-thoughts",
+    "title": "Using Quarto Blogs for Teaching",
+    "section": "Final Thoughts",
+    "text": "Final Thoughts\nOverall, I was pretty happy with the outcomes! The blog format worked well for incremental logging of course progress, and it started socializing students into the practices of collaborative coding projects.\nI should note that both classes were relatively small, roughly seminar size, so I’m not sure how this would scale up to 25+ students.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "05",
+      "Using Quarto Blogs for Teaching"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-19_getting-a-sense-of-priors/index.html",
+    "href": "posts/2023/06/2023-06-19_getting-a-sense-of-priors/index.html",
+    "title": "Getting a sense of priors for logistic regression",
+    "section": "",
+    "text": "This summer, I’ve been spending some time getting more familiar with the nitty-gritty of Bayesian models, and I’m working on some modelling in Stan for logistic regression. Setting up the basic model formula in Stan for logistic regression is pretty straightforward:\nAnd then you “just” need to set a prior for for the intercept and slope terms. But I hadn’t thought about how my impulses for setting priors for ordinary linear models could be pathological for logistic regression!\nlibrary(tidyverse)\nlibrary(ggdist)\nlibrary(gt)\nsource(here::here(\"_defaults.R\"))",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Getting a sense of priors for logistic regression"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-19_getting-a-sense-of-priors/index.html#simulating-some-intercepts",
+    "href": "posts/2023/06/2023-06-19_getting-a-sense-of-priors/index.html#simulating-some-intercepts",
+    "title": "Getting a sense of priors for logistic regression",
+    "section": "Simulating some intercepts",
+    "text": "Simulating some intercepts\nLet’s start by assuming that the intercept value should be about 0, which corresponds to a probability of 0.5.\n\nzero_intercept &lt;- 0\n\n## inverse logit\nplogis(zero_intercept)\n\n[1] 0.5\n\n\nSo, I’ll normal distribution with a mean of 0, but what should its standard deviation be? My impulse from gaussian models is that I don’t want to set the standard deviation too small, cause then I’d be using an overly informative prior. Let’s simulate some intercepts from normal distributions with sds of 1, 3, and 5.\n\ntibble(\n  sd = c(1, 3, 5)\n) |&gt; \n  rowwise() |&gt; \n  mutate(\n    intercepts = list(tibble(\n      intercept = rnorm(\n        1e6, \n        mean = 0, \n        sd = sd)\n    ))\n  ) |&gt; \n  unnest(intercepts)-&gt;\n  intercept_samples\n\nAnd we can visualize these samples from the prior like so.\n\nintercept_samples |&gt; \n  ggplot(\n    aes(\n      intercept, \n      fill = factor(sd)\n    )\n  )+\n    stat_slab(normalize = \"panels\")+\n    facet_wrap(~sd)+\n    theme_no_y()+\n    theme(\n      legend.position = \"none\"\n    )\n\n\n\n\n\n\nFigure 1: Samples from normal priors.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Getting a sense of priors for logistic regression"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-19_getting-a-sense-of-priors/index.html#how-it-looks-in-the-probability-space",
+    "href": "posts/2023/06/2023-06-19_getting-a-sense-of-priors/index.html#how-it-looks-in-the-probability-space",
+    "title": "Getting a sense of priors for logistic regression",
+    "section": "How it looks in the probability space",
+    "text": "How it looks in the probability space\nSo, maybe we should go with the ~normal(0,5) prior, so as to not to be overly informative. Real quick, though, let’s plot these distributions in the probablity space.\n\nintercept_samples |&gt; \n  ggplot(\n    aes(\n      plogis(intercept), \n      fill = factor(sd)\n    )\n  )+\n    stat_slab(normalize = \"panels\")+\n    facet_wrap(~sd)+\n    theme_no_y()+\n    theme(\n      legend.position = \"none\"\n    )\n\n\n\n\n\n\nFigure 2: Inverse logit samples from normal priors.\n\n\n\n\nWait! My uninformative ~normal(0,5) prior is suddenly looking pretty informative. The probability mass for the priors with larger standard deviations is ammassed closer to 0 and 1, rather than mostly toward the middle at 0.5! If we just roughly look at roughly how much probability mass each prior puts below 0.1 versus the middle 0.1, it’s pretty clear.\n\nCodeintercept_samples |&gt; \n  mutate(\n    prob_intercept = plogis(intercept)\n  ) |&gt; \n  group_by(sd) |&gt; \n  summarise(\n    under_5 = mean(\n      prob_intercept &lt; 0.1\n    ),\n    middling = mean(\n      prob_intercept &gt; 0.45 &\n        prob_intercept &lt; 0.55\n    )\n  ) |&gt; \n  gt() |&gt; \n    fmt_number(\n      decimals = 3, \n      columns = 2:3\n    ) |&gt; \n    cols_label(\n      under_5=\"bottom 0.1\",\n      middling = \"middle 0.1\"\n      \n    )\n\n\n\n\n\nsd\nbottom 0.1\nmiddle 0.1\n\n\n\n1\n0.014\n0.159\n\n\n3\n0.231\n0.053\n\n\n5\n0.330\n0.032",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Getting a sense of priors for logistic regression"
+    ]
+  },
+  {
+    "objectID": "posts/2023/06/2023-06-19_getting-a-sense-of-priors/index.html#the-upshot",
+    "href": "posts/2023/06/2023-06-19_getting-a-sense-of-priors/index.html#the-upshot",
+    "title": "Getting a sense of priors for logistic regression",
+    "section": "The Upshot",
+    "text": "The Upshot\nThe reason the symmetric and spread out distributions in the logit space turn into sharp bimodal distributions in the probability space is because the (inverse) logit transform is non linear. Basically every value below about -4.5 is going to get squished to 0, and basically every value above 4.5 is going to get squished to 1. If I want the probability distribution over the intercept to be roughly unimodal in the probability space, then the standard deviation in the logit space should be relatively small to avoid extreme values!\nIf we take 0.01 and 0.99 as about most extreme values, in the probability space, that the intercept could be, we can convert that to logit, and divide by 3 to get a good standard deviation for the prior, since almost all data falls within 3sds of the mean.\n\nqlogis(0.99)/3\n\n[1] 1.531707\n\n\nThe prior I had just above, with sd=1, has a slightly narrower range in the probability space.\n\nplogis(1*3)\n\n[1] 0.9525741\n\n\n\nCodetibble(\n  sd = c(1, 1.5)\n) |&gt; \n  rowwise() |&gt; \n  mutate(\n    intercepts = list(tibble(\n      intercept = rnorm(\n        1e6, \n        mean = 0, \n        sd = sd)\n    ))\n  ) |&gt; \n  unnest(intercepts)-&gt;\n  new_intercept_samples\n\n\nThe ~normal(0, 1.5) prior looks almost like a uniform distribution in the probability space.\n\nCodenew_intercept_samples |&gt; \n  ggplot(\n    aes(\n      plogis(intercept), \n      fill = factor(sd)\n    )\n  )+\n    stat_slab(normalize = \"panels\")+\n    facet_wrap(~sd)+\n    theme_no_y()+\n    theme(\n      legend.position = \"none\"\n    )\n\n\n\n\n\n\nFigure 3: Inverse logit samples from normal priors.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2023",
+      "06",
+      "Getting a sense of priors for logistic regression"
+    ]
+  }
+]

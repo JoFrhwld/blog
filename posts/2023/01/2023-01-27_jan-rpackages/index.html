@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Josef Fruehwald">
+<meta name="dcterms.date" content="2023-01-27">
+<title>Væl Space - R Package Exploration (Jan 2023)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<link href="../../../../posts/2023/01/2023-01-29_starting-plotly/index.html" rel="next">
+<link href="../../../../posts/2023/01/2023-01-22_r-spect/index.html" rel="prev">
+<script src="../../../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SS6YYGWPPL"></script><script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-SS6YYGWPPL', { 'anonymize_ip': true});
+</script><script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"express",
+  "palette":"dark",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script><style>html{ scroll-behavior: smooth; }</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@300;400;500;600;700&amp;family=Fira+Code:wght@300;400;500;600;700&amp;family=Fira+Sans:ital,wght@0,100;0,400;1,100;1,400&amp;display=swap" rel="stylesheet">
+<meta property="og:title" content="Væl Space - R Package Exploration (Jan 2023)">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull4-1.png">
+<meta property="og:site_name" content="Væl Space">
+<meta property="og:image:height" content="1152">
+<meta property="og:image:width" content="1536">
+<meta name="twitter:title" content="Væl Space - R Package Exploration (Jan 2023)">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull4-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image-height" content="1152">
+<meta name="twitter:image-width" content="1536">
+</head>
+<body class="nav-sidebar docked nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../../index.html">
+    <span class="navbar-title">Væl Space</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="https://jofrhwld.github.io/"> 
+<span class="menu-text">Homepage</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item">
+    <a class="nav-link" href="https://jofrhwld.github.io/rethinking-workthrough/"> 
+<span class="menu-text">Statistical Rethinking Workthrough</span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <a class="flex-grow-1 no-decor" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+          <h1 class="quarto-secondary-nav-title">R Package Exploration (Jan 2023)</h1>
+        </a>     
+    </div>
+  </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title d-none d-lg-block">R Package Exploration (Jan 2023)</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">R package exploration</div>
+                <div class="quarto-category"><a href="https://ggforce.data-imaginist.com">ggforce</a></div>
+                <div class="quarto-category"><a href="https://allancameron.github.io/geomtextpath/">geomtextpath</a></div>
+                <div class="quarto-category"><a href="https://jamesotto852.github.io/ggdensity/">ggdensity</a></div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Josef Fruehwald </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 27, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Posts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">2022</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">12</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2022/12/2022-12-10/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A lesson in over-preparing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2022/12/2022-12-17/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What <em>is</em> R?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2022/12/2022-12-21_github-onboarding/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Github Onboarding with RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2022/12/2022-12-31_wooder1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rising Wooders</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+      </ul>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">2023</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">01</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2023/01/2023-01-01_wooder2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rising Wooders: Part 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2023/01/2023-01-04_wooder3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Rising Wooders: Part 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2023/01/2023-01-22_r-spect/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Making a spectrogram in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2023/01/2023-01-27_jan-rpackages/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">R Package Exploration (Jan 2023)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2023/01/2023-01-29_starting-plotly/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Making a Plotly Plot</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">02</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth3 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2023/02/2023-02-05/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A handy dplyr function for linguistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2023/02/2023-02-12_dndroll/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Simulating DND Rolls</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text">05</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth3 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Using Quarto Blogs for Teaching</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text">06</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2023/06/2023-06-16_changing_blog_defaults/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Changing Project Defaults</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2023/06/2023-06-19_getting-a-sense-of-priors/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting a sense of priors for logistic regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2023/06/2023-06-29_hierarchical-variance/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Thinking About Hierarchical Variance Parameters</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+      </ul>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#ggforce-ggdensity-and-geomtextpath" id="toc-ggforce-ggdensity-and-geomtextpath" class="nav-link active" data-scroll-target="#ggforce-ggdensity-and-geomtextpath"><code>{ggforce}</code>, <code>{ggdensity}</code> and <code>{geomtextpath}</code></a></li>
+  <li>
+<a href="#ggforce-and-convex-hulls" id="toc-ggforce-and-convex-hulls" class="nav-link" data-scroll-target="#ggforce-and-convex-hulls"><code>{ggforce}</code> and convex hulls</a>
+  <ul class="collapse">
+<li><a href="#thoughts" id="toc-thoughts" class="nav-link" data-scroll-target="#thoughts">Thoughts</a></li>
+  </ul>
+</li>
+  <li><a href="#ggdensity" id="toc-ggdensity" class="nav-link" data-scroll-target="#ggdensity"><code>{ggdensity}</code></a></li>
+  <li><a href="#geomtextpath" id="toc-geomtextpath" class="nav-link" data-scroll-target="#geomtextpath"><code>{geomtextpath}</code></a></li>
+  <li><a href="#combo-ggdensity-and-geomtextpath" id="toc-combo-ggdensity-and-geomtextpath" class="nav-link" data-scroll-target="#combo-ggdensity-and-geomtextpath">Combo <code>{ggdensity}</code> and <code>{geomtextpath}</code></a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content"><p>As I scroll through my feeds, I often come across a really cool looking package, or a new feature of a package, that I think looks really cool, and then I forget to go back to really kick the tires to see how it works. So I’ve decided to try to set up a workflow where I send the docs or <a href="https://pkgdown.r-lib.org">pkgdown</a> pages for the package to a Trello board, and then come back maybe once a month and experiment with them in a blog post.</p>
+<section id="ggforce-ggdensity-and-geomtextpath" class="level2"><h2 class="anchored" data-anchor-id="ggforce-ggdensity-and-geomtextpath">
+<code>{ggforce}</code>, <code>{ggdensity}</code> and <code>{geomtextpath}</code>
+</h2>
+<p>The packages I want to mess around with today are all extensions to <a href="https://ggplot2.tidyverse.org">ggplot2</a>, so I’ll load up the <a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a> dataset for experimentation.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## setup</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://packages.tesselle.org/khroma/">khroma</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## exploration packages</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggforce.data-imaginist.com">ggforce</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jamesotto852.github.io/ggdensity/">ggdensity</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allancameron.github.io/geomtextpath/">geomtextpath</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="ggforce-and-convex-hulls" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="ggforce-and-convex-hulls">
+<code>{ggforce}</code> and convex hulls</h2>
+<p>The <a href="https://ggforce.data-imaginist.com">ggforce</a> package as the option to add a convex hull over your data (<code>ggforce::geom_mark_hull()</code>), kind of indicating where the data clusters are. Here’s my base plot.</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot1</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">penguins</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">bill_depth_mm</span>, color <span class="op">=</span> <span class="va">species</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_color_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_fill_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span></span>
+<span><span class="va">plot1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin1" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo" width="576">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The base penguins scatterplot
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>I’ll throw on the default convex hull.</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot1</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_mark_hull</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using the `size` aesthetic in this geom was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` in the `default_aes` field and elsewhere instead.</code></pre>
+</div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin_hull1" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin_hull1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged." width="576">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin_hull1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Basic convex hull
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>Default is <em>ok</em>, but for this data set, the hulls are a bit jagged. That can be adjusted with the <code>concavity</code> argument. I’ll also throw in a fill color.</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot1</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_mark_hull</span><span class="op">(</span></span>
+<span>    concavity <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>      fill <span class="op">=</span> <span class="va">species</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin_hull2" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin_hull2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species." width="576">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin_hull2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Smoothed out and filled convex hulls
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>That’s better. It also comes with a mappable <code>label</code> and <code>description</code> aesthetics. Here, it seems a bit more touchy.</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot1</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_mark_hull</span><span class="op">(</span></span>
+<span>    concavity <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">species</span>,</span>
+<span>        label <span class="op">=</span> <span class="va">species</span>,</span>
+<span>    <span class="op">)</span>,</span>
+<span>    label.family <span class="op">=</span> <span class="st">"Fira Sans"</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin_hull3" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="The scatter plot with the sme convex hull, but no labels actually present.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin_hull3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The scatter plot with the sme convex hull, but no labels actually present." width="576">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin_hull3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: <em>Attempted</em> labelling of convex hulls
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>The labels actually appear in the RStudio IDE for me, but not in the rendered page here because it wants more headroom around the plot. I’ll add that in by setting the <code>expand</code> arguments to <code>ggplot::scale_y_continuous()</code> and <code>ggplot::scale_x_continuous()</code>, and I’ll drop the legend while I’m at it.</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot1</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_mark_hull</span><span class="op">(</span></span>
+<span>    concavity <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">species</span>,</span>
+<span>        label <span class="op">=</span> <span class="va">species</span>,</span>
+<span>    <span class="op">)</span>,</span>
+<span>    label.family <span class="op">=</span> <span class="st">"Fira Sans"</span></span>
+<span>  <span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span></span>
+<span>    expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html">expansion</a></span><span class="op">(</span></span>
+<span>      mult <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span></span>
+<span>    expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html">expansion</a></span><span class="op">(</span></span>
+<span>      mult <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.25</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span></span>
+<span>    color <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"none"</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin-hull4" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin-hull4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin-hull4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull" width="768">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin-hull4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Labelled convex hulls
+</figcaption></figure>
+</div>
+</div>
+</div>
+<section id="thoughts" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="thoughts">Thoughts</h3>
+<p>I like the convex hulls as a presentational aide. It probably shouldn’t be taken as a <em>statistical</em> statement about, for example the degree of overlap between these three species, but is useful for outlining data points of interest.</p>
+<p>I kind of wish this was separated out into a few different, more conventional, ggplot2 layers. It’s called a <code>geom_</code> but the convex hulls are definitely <code>stat_</code>s. The convex hull statistic layer isn’t exposed to users, so you can’t mix-and-match convex hull estimation and the geom used to draw it. On the other hand, I can see that it’s much more souped up than a typical geom. For example, you can filter the data within the <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> mapping.</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot1</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_mark_hull</span><span class="op">(</span></span>
+<span>    concavity <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>      filter <span class="op">=</span> <span class="va">sex</span> <span class="op">==</span> <span class="st">"female"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin-hull-filter" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin-hull-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin-hull-filter-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data." width="576">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin-hull-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Filtered convex hulls
+</figcaption></figure>
+</div>
+</div>
+</div>
+</section></section><section id="ggdensity" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="ggdensity"><code>{ggdensity}</code></h2>
+<p>As pointed out on the <a href="https://jamesotto852.github.io/ggdensity/">ggdensity</a> readme, there’s already a stat+geom in ggplot2 to visualize 2d density plots.</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot2</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">penguins</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">bill_depth_mm</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plot2</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html">stat_density_2d_filled</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin_dens" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_dens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin_dens-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution" width="576">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin_dens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Density contour plot
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>Those levels are a <em>little</em> hard to follow, though, which is what <code>ggdensity::stat_hdr()</code> is for. It will plot polygons/contours for given probability levels, of the data distribution</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot2</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_hdr</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin_hdr" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin_hdr-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%" width="576">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin_hdr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Highest density region contour plot
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>The probabilities are mapped to transparency by default, so you can map the fill color to a different dimension.</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot2</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_hdr</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">species</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_fill_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin_hdr2" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin_hdr2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species" width="576">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin_hdr2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Highest density region contour plot, filled by species
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>The package also has a <code>ggdensity::stat_hdr_rug()</code> to add density distribution rugs to plots.</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot2</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">stat_hdr_rug</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"grey90"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin_hdr_rug" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="A scatter plot with a data distribution rug indicating the density of the data distribution.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr_rug-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin_hdr_rug-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot with a data distribution rug indicating the density of the data distribution." width="576">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin_hdr_rug-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: HDR rug
+</figcaption></figure>
+</div>
+</div>
+</div>
+</section><section id="geomtextpath" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="geomtextpath"><code>{geomtextpath}</code></h2>
+<p>I’ve actually been messing around with this for a bit, but <a href="https://allancameron.github.io/geomtextpath/">geomtextpath</a> allows you to place text along lines. There’s standalone <code><a href="https://allancameron.github.io/geomtextpath/reference/geom_textpath.html">geom_textpath()</a></code> and <code><a href="https://allancameron.github.io/geomtextpath/reference/geom_textpath.html">geom_labelpath()</a></code> functions, but just to stick with the penguins data, I’m going to match the <code>textpath</code> geom with a different stat.</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot3</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">penguins</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">bill_depth_mm</span>, color <span class="op">=</span> <span class="va">species</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_color_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plot3</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">stat_smooth</a></span><span class="op">(</span></span>
+<span>    geom <span class="op">=</span> <span class="st">"textpath"</span>, </span>
+<span>    <span class="co"># you have to map a label aesthetic</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">species</span><span class="op">)</span>,</span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin_textsmooth" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="A plot with one trend line for each species with the species name written along the line.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin_textsmooth-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one trend line for each species with the species name written along the line." width="576">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin_textsmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11: Trendlines with text written along them
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>You can move the location of the text on the path back and forth by either setting or mapping <code>hjust</code> to a number between 0 and 1, and you can lift the text off the line with <code>vjust</code>.</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot3</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">stat_smooth</a></span><span class="op">(</span></span>
+<span>    geom <span class="op">=</span> <span class="st">"textpath"</span>, </span>
+<span>    <span class="co"># you have to map a label aesthetic</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">species</span><span class="op">)</span>,</span>
+<span>    hjust <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>    vjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin_textsmooth2" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="A plot with one trend line for each species with the species name written just above line.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin_textsmooth2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one trend line for each species with the species name written just above line." width="576">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin_textsmooth2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: Trendlines with text written along them
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>Mixing and matching statistics and these direct labels could get pretty powerful. For example, here’s the name of each species written around data ellipses.</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot3</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_ellipse.html">stat_ellipse</a></span><span class="op">(</span></span>
+<span>    geom <span class="op">=</span> <span class="st">"textpath"</span>, </span>
+<span>    <span class="co"># you have to map a label aesthetic</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">species</span><span class="op">)</span>,</span>
+<span>    hjust <span class="op">=</span> <span class="fl">0.1</span>  </span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin_textsmooth3" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it.">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin_textsmooth3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it." width="576">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin_textsmooth3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13: Data ellipses text written along them
+</figcaption></figure>
+</div>
+</div>
+</div>
+</section><section id="combo-ggdensity-and-geomtextpath" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="combo-ggdensity-and-geomtextpath">Combo <code>{ggdensity}</code> and <code>{geomtextpath}</code>
+</h2>
+<p>Since the <a href="https://jamesotto852.github.io/ggdensity/">ggdensity</a> statistics are ordinary <code>stat_</code>, we can also combine them with textpaths to label the probability levels directly.</p>
+<div class="cell page-columns page-full" data-layout-align="center">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">plot2</span> <span class="op">+</span></span>
+<span>  <span class="fu">stat_hdr_lines</span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">after_stat</a></span><span class="op">(</span><span class="va">probs</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"grey90"</span>,</span>
+<span>    geom <span class="op">=</span> <span class="st">"textpath"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-penguin_hdr-text" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" data-fig-align="center" alt="A highest density region plot with the probability levels written along the contours">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr-text-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-penguin_hdr-text-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A highest density region plot with the probability levels written along the contours" width="576">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-penguin_hdr-text-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14: Higest density region plot with direct labels
+</figcaption></figure>
+</div>
+</div>
+</div>
+
+
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
+  author = {Fruehwald, Josef},
+  title = {R {Package} {Exploration} {(Jan} 2023)},
+  series = {Væl Space},
+  date = {2023-01-27},
+  url = {https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2023" class="csl-entry quarto-appendix-citeas" role="listitem">
+Fruehwald, Josef. 2023. <span>“R Package Exploration (Jan 2023).”</span>
+Væl Space. January 27, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages">https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages</a>.
+</div></div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><script src="https://giscus.app/client.js" data-repo="JoFrhwld/blog" data-repo-id="MDEwOlJlcG9zaXRvcnkxNjU0MzIyNg==" data-category="General" data-category-id="DIC_kwDOAPxt-s4CTI5W" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="transparent_dark" data-lang="en" crossorigin="anonymous" async="">
+</script><input type="hidden" id="giscus-base-theme" value="transparent_dark"><input type="hidden" id="giscus-alt-theme" value="transparent_dark"><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../../../../posts/2023/01/2023-01-22_r-spect/index.html" class="pagination-link  aria-label=" making="" a="" spectrogram="" in="" r="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Making a spectrogram in R</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../../posts/2023/01/2023-01-29_starting-plotly/index.html" class="pagination-link" aria-label="Making a Plotly Plot">
+        <span class="nav-page-text">Making a Plotly Plot</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+<script src="../../../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

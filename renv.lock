@@ -9,9 +9,9 @@
     ]
   },
   "Python": {
-    "Version": "3.9.14",
+    "Version": "3.11.4",
     "Type": "virtualenv",
-    "Name": "./renv/python/virtualenvs/renv-python-3.9"
+    "Name": "./renv/python/virtualenvs/renv-python-3.11"
   },
   "Packages": {
     "BH": {

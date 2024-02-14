@@ -25,9 +25,6 @@ website:
         text: About
       - icon: rss
         href: index.xml
-    # right: 
-    #   - href: https://jofrhwld.github.io/rethinking-workthrough/
-    #     text: Statistical Rethinking Workthrough
   sidebar:
     logo: assets/logo.svg  
     collapse-level: 0

@@ -119,16 +119,6 @@
         "Rcpp"
       ]
     },
-    "RcppGSL": {
-      "Package": "RcppGSL",
-      "Version": "0.3.13",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "e8fc7310d256a7b6c4de8e57ab76c55d",
-      "Requirements": [
-        "Rcpp"
-      ]
-    },
     "RcppParallel": {
       "Package": "RcppParallel",
       "Version": "5.1.7",
@@ -507,14 +497,13 @@
     },
     "crandep": {
       "Package": "crandep",
-      "Version": "0.3.1",
+      "Version": "0.3.5",
       "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "95aaad10bed8103123a840fe9ae19d30",
+      "Repository": "RSPM",
+      "Hash": "df636db6d2845cf0139716a829dfdb26",
       "Requirements": [
         "Rcpp",
         "RcppArmadillo",
-        "RcppGSL",
         "dplyr",
         "igraph",
         "rvest",

@@ -80,6 +80,8 @@ library(gt)
 library(reticulate)
 library(khroma)
 library(geomtextpath)
+library(downlit)
+library(xml2)
 ```
 
 ```{r}

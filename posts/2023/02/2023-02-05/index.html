@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,10 +76,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -440,6 +440,12 @@ cookieconsent.run({
  <span class="menu-text">Some lessons in using Github Classroom and Codespaces</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2024/02/2024-02-16_fs-atg/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Using FastTrackPy and aligned-textgrid</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -490,6 +496,7 @@ cookieconsent.run({
 </div>
 <div class="cell">
 <div class="cell-output-display">
+<div>
 <div id="xkjbegqepi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#xkjbegqepi table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1025,6 +1032,7 @@ cookieconsent.run({
 </div>
 </div>
 </div>
+</div>
 <p>One thing we might want to do is indicate which <em>sequences</em> of transcription chunks belong to one speaker, corresponding roughly to their speaking turns. I’ve hacked my way through this kind of coding before, but now we can easily add turn numbers with <code>dplyr::consecutive_id()</code>, which will add a column of numbers that increment every time the value in the indicated column changes.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>transcription <span class="sc">|&gt;</span> </span>
@@ -1034,6 +1042,7 @@ cookieconsent.run({
 </div>
 <div class="cell">
 <div class="cell-output-display">
+<div>
 <div id="wcmfxrejqi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#wcmfxrejqi table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1583,6 +1592,7 @@ cookieconsent.run({
 </div>
 </div>
 </div>
+</div>
 <p>Now we can do things like group the data by turn, and get a new dataframe summarized by turn.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>transcription <span class="sc">|&gt;</span> </span>
@@ -1598,6 +1608,7 @@ cookieconsent.run({
 </div>
 <div class="cell">
 <div class="cell-output-display">
+<div>
 <div id="jtdbbekdtz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#jtdbbekdtz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -2105,6 +2116,7 @@ cookieconsent.run({
 </div>
 </div>
 </div>
+</div>
 <p>And then you can start moving onto other analyses, like what the lag was between one speaker’s end and the next’s beginning.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>transcription <span class="sc">|&gt;</span> </span>
@@ -2121,6 +2133,7 @@ cookieconsent.run({
 </div>
 <div class="cell">
 <div class="cell-output-display">
+<div>
 <div id="fkhagboxno" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#fkhagboxno table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -2636,6 +2649,7 @@ cookieconsent.run({
 </div>
 </div>
 </div>
+</div>
 <p>This was just the first example that came to mind, but there’s probably a lot of data processing tasks that can be made a lot less annoying with <code>dplyr::consecutive_id()</code>.</p>
 <section id="extra" class="level2">
 <h2 class="anchored" data-anchor-id="extra">Extra</h2>
@@ -2669,6 +2683,7 @@ cookieconsent.run({
 </div>
 <div class="cell">
 <div class="cell-output-display">
+<div>
 <div id="cgicyzsanl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#cgicyzsanl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -3184,6 +3199,7 @@ cookieconsent.run({
 </div>
 </div>
 </div>
+</div>
 
 
 </section>
@@ -3593,7 +3609,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <input type="hidden" id="giscus-alt-theme" value="transparent_dark">
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../../../posts/2023/01/2023-01-29_starting-plotly/index.html" class="pagination-link  aria-label=" making="" a="" plotly="" plot"="">
+      <a href="../../../../posts/2023/01/2023-01-29_starting-plotly/index.html" class="pagination-link" aria-label="Making a Plotly Plot">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Making a Plotly Plot</span>
       </a>          
   </div>

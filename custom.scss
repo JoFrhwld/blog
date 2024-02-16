@@ -9,3 +9,10 @@ h1, h2, h3, h4, h5, h5 {
 code:not(pre *){
   color: $purple;
 }
+
+.cell:not(.page-full):has(.cell-output){
+   background-color: $gray-100;
+   padding: 2%;
+   border-radius: 10px;
+   margin-bottom: 1em;
+}

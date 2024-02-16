@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.4.550">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2023-01-22">
-
 <title>Væl Space - Making a spectrogram in R</title>
 <style>
 code{white-space: pre-wrap;}
@@ -58,7 +55,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-
 <script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
@@ -79,8 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -106,18 +101,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SS6YYGWPPL"></script>
-
-<script type="text/plain" cookie-consent="tracking">
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SS6YYGWPPL"></script><script type="text/plain" cookie-consent="tracking">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-SS6YYGWPPL', { 'anonymize_ip': true});
-</script>
-
-<script type="text/javascript" charset="UTF-8">
+</script><script type="text/javascript" charset="UTF-8">
 document.addEventListener('DOMContentLoaded', function () {
 cookieconsent.run({
   "notice_banner_type":"simple",
@@ -132,14 +122,10 @@ cookieconsent.run({
 "language":"en"
   });
 });
-</script> 
-  
-<style>html{ scroll-behavior: smooth; }</style>
+</script><style>html{ scroll-behavior: smooth; }</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@300;400;500;600;700&amp;family=Fira+Code:wght@300;400;500;600;700&amp;family=Fira+Sans:ital,wght@0,100;0,400;1,100;1,400&amp;display=swap" rel="stylesheet">
-
-
 <meta property="og:title" content="Væl Space - Making a spectrogram in R">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/index_files/figure-html/fig-countour2-1.png">
@@ -153,13 +139,10 @@ cookieconsent.run({
 <meta name="twitter:image-height" content="768">
 <meta name="twitter:image-width" content="1152">
 </head>
-
 <body class="nav-sidebar floating nav-fixed slimcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Væl Space</span>
@@ -171,7 +154,7 @@ cookieconsent.run({
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
+<li class="nav-item">
     <a class="nav-link" href="https://jofrhwld.github.io/"> 
 <span class="menu-text">Homepage</span></a>
   </li>  
@@ -185,13 +168,11 @@ cookieconsent.run({
 <span class="menu-text"></span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
+</div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
-    </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -199,11 +180,7 @@ cookieconsent.run({
           <h1 class="quarto-secondary-nav-title">Making a spectrogram in R</h1>
         </a>     
     </div>
-  </nav>
-</header>
-<!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
+  </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title d-none d-lg-block">Making a spectrogram in R</h1>
                                 <div class="quarto-categories">
@@ -236,15 +213,13 @@ cookieconsent.run({
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../../../../index.html" class="sidebar-logo-link">
-      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
-      </a>
+      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item sidebar-item-section">
+<li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
  <span class="menu-text">Posts</span></a>
@@ -252,8 +227,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item sidebar-item-section">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
  <span class="menu-text">2022</span></a>
@@ -261,8 +236,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item sidebar-item-section">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">
+<li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
  <span class="menu-text">12</span></a>
@@ -270,8 +245,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2022/12/2022-12-10/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A lesson in over-preparing</span></a>
@@ -296,9 +271,9 @@ cookieconsent.run({
   </div>
 </li>
       </ul>
-  </li>
+</li>
       </ul>
-  </li>
+</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
@@ -307,8 +282,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">  
-          <li class="sidebar-item sidebar-item-section">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">
+<li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
  <span class="menu-text">01</span></a>
@@ -316,8 +291,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2023/01/2023-01-01_wooder2/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rising Wooders: Part 2</span></a>
@@ -348,7 +323,7 @@ cookieconsent.run({
   </div>
 </li>
       </ul>
-  </li>
+</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
@@ -357,8 +332,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2023/02/2023-02-05/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A handy dplyr function for linguistics</span></a>
@@ -371,7 +346,7 @@ cookieconsent.run({
   </div>
 </li>
       </ul>
-  </li>
+</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false">
@@ -380,15 +355,15 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Using Quarto Blogs for Teaching</span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="false">
@@ -397,8 +372,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2023/06/2023-06-16_changing_blog_defaults/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Changing Project Defaults</span></a>
@@ -417,9 +392,9 @@ cookieconsent.run({
   </div>
 </li>
       </ul>
-  </li>
+</li>
       </ul>
-  </li>
+</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="false">
@@ -428,8 +403,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item sidebar-item-section">
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 ">
+<li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="false">
  <span class="menu-text">02</span></a>
@@ -437,8 +412,8 @@ cookieconsent.run({
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2024/02/2024-02-14_gh-classroom/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Some lessons in using Github Classroom and Codespaces</span></a>
@@ -451,94 +426,77 @@ cookieconsent.run({
   </div>
 </li>
       </ul>
-  </li>
+</li>
       </ul>
-  </li>
+</li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#pre-processing." id="toc-pre-processing." class="nav-link active" data-scroll-target="#pre-processing.">Pre-processing.</a></li>
+<li><a href="#pre-processing." id="toc-pre-processing." class="nav-link active" data-scroll-target="#pre-processing.">Pre-processing.</a></li>
   <li><a href="#loading-the-audio-file" id="toc-loading-the-audio-file" class="nav-link" data-scroll-target="#loading-the-audio-file">Loading the audio file</a></li>
-  <li><a href="#computing-the-spectrogram" id="toc-computing-the-spectrogram" class="nav-link" data-scroll-target="#computing-the-spectrogram">Computing the spectrogram</a>
+  <li>
+<a href="#computing-the-spectrogram" id="toc-computing-the-spectrogram" class="nav-link" data-scroll-target="#computing-the-spectrogram">Computing the spectrogram</a>
   <ul class="collapse">
-  <li><a href="#praat-defaults" id="toc-praat-defaults" class="nav-link" data-scroll-target="#praat-defaults">Praat defaults</a></li>
+<li><a href="#praat-defaults" id="toc-praat-defaults" class="nav-link" data-scroll-target="#praat-defaults">Praat defaults</a></li>
   <li><a href="#computing-the-spectrogram-1" id="toc-computing-the-spectrogram-1" class="nav-link" data-scroll-target="#computing-the-spectrogram-1">Computing the spectrogram</a></li>
   <li><a href="#tidying-up" id="toc-tidying-up" class="nav-link" data-scroll-target="#tidying-up">Tidying up</a></li>
   <li><a href="#dynamic-range" id="toc-dynamic-range" class="nav-link" data-scroll-target="#dynamic-range">“Dynamic Range”</a></li>
-  </ul></li>
-  <li><a href="#plotting-the-spectrogram" id="toc-plotting-the-spectrogram" class="nav-link" data-scroll-target="#plotting-the-spectrogram">Plotting the spectrogram</a>
-  <ul class="collapse">
-  <li><a href="#basic-raster-plot" id="toc-basic-raster-plot" class="nav-link" data-scroll-target="#basic-raster-plot">Basic raster plot</a></li>
-  <li><a href="#spectrogram-contour-plot" id="toc-spectrogram-contour-plot" class="nav-link" data-scroll-target="#spectrogram-contour-plot">Spectrogram contour plot</a></li>
-  </ul></li>
-  <li><a href="#update" id="toc-update" class="nav-link" data-scroll-target="#update">Update</a></li>
   </ul>
-</nav>
+</li>
+  <li>
+<a href="#plotting-the-spectrogram" id="toc-plotting-the-spectrogram" class="nav-link" data-scroll-target="#plotting-the-spectrogram">Plotting the spectrogram</a>
+  <ul class="collapse">
+<li><a href="#basic-raster-plot" id="toc-basic-raster-plot" class="nav-link" data-scroll-target="#basic-raster-plot">Basic raster plot</a></li>
+  <li><a href="#spectrogram-contour-plot" id="toc-spectrogram-contour-plot" class="nav-link" data-scroll-target="#spectrogram-contour-plot">Spectrogram contour plot</a></li>
+  </ul>
+</li>
+  <li><a href="#update" id="toc-update" class="nav-link" data-scroll-target="#update">Update</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
-
-
-
-
-
-<p>I might flesh this out as a more detailed tutorial for <a href="https://lingmethodshub.github.io/content/">LingMethodsHub</a>, but for now this is going to be a rough-around-the-edges post about making spectrograms in R. My goal will be to get as close as possible to recreating a spectrogram like you might get from Praat.</p>
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content"><p>I might flesh this out as a more detailed tutorial for <a href="https://lingmethodshub.github.io/content/">LingMethodsHub</a>, but for now this is going to be a rough-around-the-edges post about making spectrograms in R. My goal will be to get as close as possible to recreating a spectrogram like you might get from Praat.</p>
 <div id="fig-praat-spect" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" alt="A spectrogram of the vowel /i/ generated by praat." data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full">
-<div aria-describedby="fig-praat-spect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-praat-spect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="assets/praat.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A spectrogram of the vowel /i/ generated by praat.">
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-praat-spect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: A spectrogram of the vowel /i/ generated by praat.
-</figcaption>
-</figure>
+</figcaption></figure>
 </div>
-<section id="pre-processing." class="level2">
-<h2 class="anchored" data-anchor-id="pre-processing.">Pre-processing.</h2>
+<section id="pre-processing." class="level2"><h2 class="anchored" data-anchor-id="pre-processing.">Pre-processing.</h2>
 <p>To keep things simple, I grabbed vowel audio clip from the <a href="https://en.wikipedia.org/wiki/IPA_vowel_chart_with_audio">Wikipedia IPA vowel chat with audio</a> (<a href="https://en.wikipedia.org/wiki/File:Close_front_unrounded_vowel.ogg">audio info and license</a>).</p>
-<audio controls="">
-<source src="assets/Close_front_unrounded_vowel.ogg" type="audio/ogg">
-<source src="assets/Close_front_unrounded_vowel.wav" type="audio/wav">
-<p>Your browser does not support the audio element. </p>
-<details>
-<summary>
+<audio controls=""><source src="assets/Close_front_unrounded_vowel.ogg" type="audio/ogg"><source src="assets/Close_front_unrounded_vowel.wav" type="audio/wav"><p>Your browser does not support the audio element. </p></audio><details><summary>
 Explanation of a hacky thing I had to do.
-</summary>
-<p>I know <code>{tuneR}</code> package has a <code>readWave()</code> function, and I couldn’t figure out how to read in an <a href="https://en.wikipedia.org/wiki/Ogg">Oog</a> file, so step 1 was converting the Oog to a wav file. Since I’m writing this in a quarto notebook, I thought I <em>should</em> be able to drop in a <code>```{sh}</code> code chunk, but it seems like doesn’t have access to my <code>PATH</code>. Long story short, that’s why I’ve got this kind of goofy R code chunk with <code>system()</code> and the full path to sox.</p>
+</summary><p>I know <code>{tuneR}</code> package has a <code><a href="https://rdrr.io/pkg/tuneR/man/readWave.html">readWave()</a></code> function, and I couldn’t figure out how to read in an <a href="https://en.wikipedia.org/wiki/Ogg">Oog</a> file, so step 1 was converting the Oog to a wav file. Since I’m writing this in a quarto notebook, I thought I <em>should</em> be able to drop in a <code>```{sh}</code> code chunk, but it seems like doesn’t have access to my <code>PATH</code>. Long story short, that’s why I’ve got this kind of goofy R code chunk with <code><a href="https://rdrr.io/r/base/system.html">system()</a></code> and the full path to sox.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"_defaults.R"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://glue.tidyverse.org/">glue</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"_defaults.R"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ogg_file <span class="ot">&lt;-</span> <span class="st">"assets/Close_front_unrounded_vowel.ogg"</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>wav_file <span class="ot">&lt;-</span> <span class="st">"assets/Close_front_unrounded_vowel.wav"</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"/opt/homebrew/bin/sox {ogg_file} {wav_file}"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ogg_file</span> <span class="op">&lt;-</span> <span class="st">"assets/Close_front_unrounded_vowel.ogg"</span></span>
+<span><span class="va">wav_file</span> <span class="op">&lt;-</span> <span class="st">"assets/Close_front_unrounded_vowel.wav"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"/opt/homebrew/bin/sox {ogg_file} {wav_file}"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
-</audio></section>
-<section id="loading-the-audio-file" class="level2">
-<h2 class="anchored" data-anchor-id="loading-the-audio-file">Loading the audio file</h2>
-<p>The <code>{seewave}</code> package, which I’m using to make the spectrogram, takes the sound objects created by <code>{tuneR}</code>, so that’s what I’ll use for reading in the audio file.</p>
+</details></section><section id="loading-the-audio-file" class="level2"><h2 class="anchored" data-anchor-id="loading-the-audio-file">Loading the audio file</h2>
+<p>The <a href="https://rug.mnhn.fr/seewave/">seewave</a> package, which I’m using to make the spectrogram, takes the sound objects created by <code>{tuneR}</code>, so that’s what I’ll use for reading in the audio file.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tuneR)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(seewave)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tuneR</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rug.mnhn.fr/seewave/">seewave</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>i_wav <span class="ot">&lt;-</span> <span class="fu">readWave</span>(<span class="st">"assets/Close_front_unrounded_vowel.wav"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">i_wav</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/readWave.html">readWave</a></span><span class="op">(</span><span class="st">"assets/Close_front_unrounded_vowel.wav"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>To get a sense of what information is in the wav file, you can use <code>str()</code></p>
+<p>To get a sense of what information is in the wav file, you can use <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(i_wav)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">i_wav</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Formal class 'Wave' [package "tuneR"] with 6 slots
   ..@ left     : int [1:26524] -2 16 42 24 33 53 56 68 51 55 ...
@@ -551,12 +509,10 @@ Explanation of a hacky thing I had to do.
 </div>
 <p>Since I’m going to be zooming in to 0 to 5,000 Hz on the spectrogram, I’ll downsample the audio to 10000.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>i_wav_d <span class="ot">&lt;-</span> <span class="fu">downsample</span>(i_wav, <span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">i_wav_d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/downsample.html">downsample</a></span><span class="op">(</span><span class="va">i_wav</span>, <span class="fl">10000</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="computing-the-spectrogram" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="computing-the-spectrogram">Computing the spectrogram</h2>
-<p>The function to compute the spectrogram is <code>seewave::spectro()</code>. Its argument names are formatted in a way I find a bit grating. A lot of them are compressed down to single characters or other abbreviations that require having the docs constantly open.</p>
+</section><section id="computing-the-spectrogram" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="computing-the-spectrogram">Computing the spectrogram</h2>
+<p>The function to compute the spectrogram is <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html">seewave::spectro()</a></code>. Its argument names are formatted in a way I find a bit grating. A lot of them are compressed down to single characters or other abbreviations that require having the docs constantly open.</p>
 <p>Anyway, the arguments that seem most important are:</p>
 <dl>
 <dt><code>wl</code></dt>
@@ -572,86 +528,76 @@ Explanation of a hacky thing I had to do.
 <p>Window overlap, in percentage. That is, a 25% overlap between analysis windows should be passed to <code>ovlp</code> as <code>25</code>.</p>
 </dd>
 </dl>
-<section id="praat-defaults" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="praat-defaults">Praat defaults</h3>
+<section id="praat-defaults" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="praat-defaults">Praat defaults</h3>
 <p>Let’s have a look at the Praat spectrogram defaults</p>
 <div id="fig-praat-defaults" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" alt="A screenshot of the default spectrogram settings for Praat." data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full">
-<div aria-describedby="fig-praat-defaults-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-praat-defaults-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="assets/praat_defaults.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A screenshot of the default spectrogram settings for Praat.">
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-praat-defaults-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Praat defaults for spectrograms
-</figcaption>
-</figure>
+</figcaption></figure>
 </div>
 <p>Here’s a quick illustration of what these defaults correspond to. It takes an analysis window that’s 0.005 seconds long, and moves it over time by 0.002 second increments. Also, the data coming into the analysis window is weighted by a Gaussian distribution.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell page-columns page-full">
-<details class="code-fold">
-<summary>Plot Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>win_len <span class="ot">&lt;-</span> <span class="fl">0.005</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>time_step <span class="ot">&lt;-</span> <span class="fl">0.002</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">center =</span> <span class="fu">seq</span>(win_len<span class="sc">/</span><span class="dv">2</span>, <span class="fl">0.02</span>, <span class="at">by =</span> time_step),</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">left_edge =</span> center <span class="sc">-</span> (win_len<span class="sc">/</span><span class="dv">2</span>),</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">right_edge =</span> center <span class="sc">+</span> (win_len<span class="sc">/</span><span class="dv">2</span>),</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">win_num =</span> <span class="fu">seq_along</span>(center)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>) <span class="ot">-&gt;</span> window_fig</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>window_fig <span class="sc">|&gt;</span> </span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> center, <span class="at">y =</span> win_num))<span class="sc">+</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_pointrange</span>(</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">xmin =</span> left_edge,</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">xmax =</span> right_edge</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">2</span>,</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">linewidth =</span> <span class="dv">2</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    )<span class="sc">+</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"time"</span>,</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>,</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Overlapping spectrogram window illustration"</span>)<span class="sc">+</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display page-columns page-full">
+<details class="code-fold"><summary>Plot Code</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">win_len</span> <span class="op">&lt;-</span> <span class="fl">0.005</span></span>
+<span><span class="va">time_step</span> <span class="op">&lt;-</span> <span class="fl">0.002</span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>  center <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="va">win_len</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">0.02</span>, by <span class="op">=</span> <span class="va">time_step</span><span class="op">)</span>,</span>
+<span>  left_edge <span class="op">=</span> <span class="va">center</span> <span class="op">-</span> <span class="op">(</span><span class="va">win_len</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>  right_edge <span class="op">=</span> <span class="va">center</span> <span class="op">+</span> <span class="op">(</span><span class="va">win_len</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>  win_num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">center</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">window_fig</span></span>
+<span><span class="va">window_fig</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">center</span>, y <span class="op">=</span> <span class="va">win_num</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_pointrange</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>        xmin <span class="op">=</span> <span class="va">left_edge</span>,</span>
+<span>        xmax <span class="op">=</span> <span class="va">right_edge</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      size <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>      linewidth <span class="op">=</span> <span class="fl">2</span></span>
+<span>    <span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"time"</span>,</span>
+<span>       y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Overlapping spectrogram window illustration"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        panel.grid.major.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        panel.grid.minor.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display page-columns page-full">
 <div id="fig-windows" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" alt="A figure with point ranges illustrating the overlap of spectrogram analysis windows. Each successive window overlaps by slightly more than 50">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full">
-<div aria-describedby="fig-windows-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-windows-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="index_files/figure-html/fig-windows-1.png" class="img-fluid figure-img" alt="A figure with point ranges illustrating the overlap of spectrogram analysis windows. Each successive window overlaps by slightly more than 50" width="768">
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-windows-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: An illustration of overlapping analysis windows that produce a spectrogram
-</figcaption>
-</figure>
+</figcaption></figure>
 </div>
 </div>
 </div>
-<p>The <code>seewave::spectro()</code> function defines this same relationship, except instead of the time step or window hop length, we need to define by what % the windows overlap. We also need to express how wide the windows are in terms of audio sample, rather than in terms of time, but that just requires multiplying the desired time width by the sampling rate.</p>
+<p>The <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html">seewave::spectro()</a></code> function defines this same relationship, except instead of the time step or window hop length, we need to define by what % the windows overlap. We also need to express how wide the windows are in terms of audio sample, rather than in terms of time, but that just requires multiplying the desired time width by the sampling rate.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>win_len <span class="ot">&lt;-</span> <span class="fl">0.005</span> <span class="sc">*</span> i_wav_d<span class="sc">@</span>samp.rate</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>hop_len <span class="ot">&lt;-</span> <span class="fl">0.002</span> <span class="sc">*</span> i_wav_d<span class="sc">@</span>samp.rate</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>overlap <span class="ot">&lt;-</span> ((win_len <span class="sc">-</span> hop_len) <span class="sc">/</span> win_len) <span class="sc">*</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">win_len</span> <span class="op">&lt;-</span> <span class="fl">0.005</span> <span class="op">*</span> <span class="va">i_wav_d</span><span class="op">@</span><span class="va">samp.rate</span></span>
+<span><span class="va">hop_len</span> <span class="op">&lt;-</span> <span class="fl">0.002</span> <span class="op">*</span> <span class="va">i_wav_d</span><span class="op">@</span><span class="va">samp.rate</span></span>
+<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">(</span><span class="va">win_len</span> <span class="op">-</span> <span class="va">hop_len</span><span class="op">)</span> <span class="op">/</span> <span class="va">win_len</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The one thing that I can’t recreate for now is the Gaussian window function. <code>{seewave}</code> doesn’t have it implemented, so I’ll just stick with its default (Hamming)</p>
-</section>
-<section id="computing-the-spectrogram-1" class="level3">
-<h3 class="anchored" data-anchor-id="computing-the-spectrogram-1">Computing the spectrogram</h3>
-<p>Now, it’s a pretty straightforward call to <code>spectro()</code>.</p>
+<p>The one thing that I can’t recreate for now is the Gaussian window function. <a href="https://rug.mnhn.fr/seewave/">seewave</a> doesn’t have it implemented, so I’ll just stick with its default (Hamming)</p>
+</section><section id="computing-the-spectrogram-1" class="level3"><h3 class="anchored" data-anchor-id="computing-the-spectrogram-1">Computing the spectrogram</h3>
+<p>Now, it’s a pretty straightforward call to <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html">spectro()</a></code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>spect <span class="ot">&lt;-</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  i_wav_d <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spectro</span>(</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># window length, in terms of samples</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">wl =</span> win_len,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># window overlap</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ovlp =</span> overlap,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># don't plot the result</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot =</span> F</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">i_wav_d</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/seewave/man/spectro.html">spectro</a></span><span class="op">(</span></span>
+<span>    <span class="co"># window length, in terms of samples</span></span>
+<span>    wl <span class="op">=</span> <span class="va">win_len</span>,</span>
+<span>    <span class="co"># window overlap</span></span>
+<span>    ovlp <span class="op">=</span> <span class="va">overlap</span>,</span>
+<span>    <span class="co"># don't plot the result</span></span>
+<span>    plot <span class="op">=</span> <span class="cn">F</span></span>
+<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <code>spect</code> object is a list with three named items</p>
 <dl>
@@ -669,7 +615,7 @@ Figure&nbsp;3: An illustration of overlapping analysis windows that produce a sp
 </dd>
 </dl>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(spect)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">spect</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 3
  $ time: num [1:299] 0 0.00202 0.00404 0.00606 0.00807 ...
@@ -677,36 +623,34 @@ Figure&nbsp;3: An illustration of overlapping analysis windows that produce a sp
  $ amp : num [1:25, 1:299] -35.1 -39.5 -51.3 -49.9 -51.7 ...</code></pre>
 </div>
 </div>
-</section>
-<section id="tidying-up" class="level3">
-<h3 class="anchored" data-anchor-id="tidying-up">Tidying up</h3>
-<p>In order to make a plot of the spectrogram in <code>{ggplot2}</code>, we need to do some tidying up. I’ll go about this by setting the row and column names of the <code>spect$amp</code> matrix to the frequency and time domain values, converting it to a data frame, then doing some pivoting.</p>
+</section><section id="tidying-up" class="level3"><h3 class="anchored" data-anchor-id="tidying-up">Tidying up</h3>
+<p>In order to make a plot of the spectrogram in <a href="https://ggplot2.tidyverse.org">ggplot2</a>, we need to do some tidying up. I’ll go about this by setting the row and column names of the <code>spect$amp</code> matrix to the frequency and time domain values, converting it to a data frame, then doing some pivoting.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set the colnames and rownames</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(spect<span class="sc">$</span>amp) <span class="ot">&lt;-</span> spect<span class="sc">$</span>time</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(spect<span class="sc">$</span>amp) <span class="ot">&lt;-</span> spect<span class="sc">$</span>freq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set the colnames and rownames</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">spect</span><span class="op">$</span><span class="va">amp</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">spect</span><span class="op">$</span><span class="va">time</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">spect</span><span class="op">$</span><span class="va">amp</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">spect</span><span class="op">$</span><span class="va">freq</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>spect_df <span class="ot">&lt;-</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  spect<span class="sc">$</span>amp <span class="sc">|&gt;</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># coerce the row names to a column</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="st">"freq"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot to long format</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># all columns except freq</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>freq, </span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"time"</span>, </span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"amp"</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># since they were names before,</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># freq and time need conversion to numeric</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">freq =</span> <span class="fu">as.numeric</span>(freq),</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">as.numeric</span>(time)</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect_df</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">spect</span><span class="op">$</span><span class="va">amp</span> <span class="op">|&gt;</span></span>
+<span>  <span class="co"># coerce the row names to a column</span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span>rownames <span class="op">=</span> <span class="st">"freq"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="co"># pivot to long format</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
+<span>    <span class="co"># all columns except freq</span></span>
+<span>    <span class="op">-</span><span class="va">freq</span>, </span>
+<span>    names_to <span class="op">=</span> <span class="st">"time"</span>, </span>
+<span>    values_to <span class="op">=</span> <span class="st">"amp"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="co"># since they were names before,</span></span>
+<span>  <span class="co"># freq and time need conversion to numeric</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    freq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">freq</span><span class="op">)</span>,</span>
+<span>    time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(spect_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">spect_df</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      freq          time             amp        
  Min.   :0.0   Min.   :0.0000   Min.   :-89.94  
@@ -717,240 +661,214 @@ Figure&nbsp;3: An illustration of overlapping analysis windows that produce a sp
  Max.   :4.8   Max.   :0.6015   Max.   :  0.00  </code></pre>
 </div>
 </div>
-</section>
-<section id="dynamic-range" class="level3">
-<h3 class="anchored" data-anchor-id="dynamic-range">“Dynamic Range”</h3>
+</section><section id="dynamic-range" class="level3"><h3 class="anchored" data-anchor-id="dynamic-range">“Dynamic Range”</h3>
 <p>Frequency data is represented in terms of kHz, which I’ll leave alone for now. One last thing we need to re-recreate from Praat is the “dynamic range”. All values below some cut off (by default, 50 below the maximum) are plotted with the same color. We can do that with some data frame operations here.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dyn <span class="ot">=</span> <span class="sc">-</span><span class="dv">50</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>spect_df_floor <span class="ot">&lt;-</span> </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  spect_df <span class="sc">|&gt;</span> </span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">amp_floor =</span> <span class="fu">case_when</span>(</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>      amp <span class="sc">&lt;</span> dyn <span class="sc">~</span> dyn,</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> amp  </span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dyn</span> <span class="op">=</span> <span class="op">-</span><span class="fl">50</span></span>
+<span><span class="va">spect_df_floor</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">spect_df</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    amp_floor <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">amp</span> <span class="op">&lt;</span> <span class="va">dyn</span> <span class="op">~</span> <span class="va">dyn</span>,</span>
+<span>      <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">amp</span>  </span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-</section>
-<section id="plotting-the-spectrogram" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="plotting-the-spectrogram">Plotting the spectrogram</h2>
-<p>Now what’s left is to plot the thing. I’ll load the <code>{khroma}</code> package in order to get some nice color scales.</p>
+</section></section><section id="plotting-the-spectrogram" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="plotting-the-spectrogram">Plotting the spectrogram</h2>
+<p>Now what’s left is to plot the thing. I’ll load the <a href="https://packages.tesselle.org/khroma/">khroma</a> package in order to get some nice color scales.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(khroma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://packages.tesselle.org/khroma/">khroma</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="basic-raster-plot" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="basic-raster-plot">Basic raster plot</h3>
+<section id="basic-raster-plot" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="basic-raster-plot">Basic raster plot</h3>
 <p>As a first step, we can plot the time by frequency data as a raster plot, with little rectangles for each position filled in with their amplitude.</p>
 <div class="cell page-columns page-full">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>spect_df_floor <span class="sc">|&gt;</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, freq))<span class="sc">+</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_raster</span>(<span class="fu">aes</span>(<span class="at">fill =</span> amp_floor))<span class="sc">+</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"time (s)"</span>,</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"frequency (kHz)"</span>,</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"spectrogram raster plot"</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect_df_floor</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">freq</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_raster</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">amp_floor</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="st">"time (s)"</span>,</span>
+<span>      y <span class="op">=</span> <span class="st">"frequency (kHz)"</span>,</span>
+<span>      title <span class="op">=</span> <span class="st">"spectrogram raster plot"</span></span>
+<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display page-columns page-full">
 <div id="fig-raster" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" alt="A spectrogram, drawn as a raster plot">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full">
-<div aria-describedby="fig-raster-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-raster-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="index_files/figure-html/fig-raster-1.png" class="img-fluid figure-img" alt="A spectrogram, drawn as a raster plot" width="576">
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-raster-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: A raster spectrogram plot
-</figcaption>
-</figure>
+</figcaption></figure>
 </div>
 </div>
 </div>
-</section>
-<section id="spectrogram-contour-plot" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="spectrogram-contour-plot">Spectrogram contour plot</h3>
-<p>To get closer to the Praat output, though, we need to make a contour plot instead. Here’s where I’m getting a bit stymied. I wind up with these weird diagonal “shadows” on the right and left hand side of the spectrogram, which I think are a result of how the <code>stat_contour()</code> is being computed and plotted, rather than anything to do with the actual spectrogram.</p>
+</section><section id="spectrogram-contour-plot" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="spectrogram-contour-plot">Spectrogram contour plot</h3>
+<p>To get closer to the Praat output, though, we need to make a contour plot instead. Here’s where I’m getting a bit stymied. I wind up with these weird diagonal “shadows” on the right and left hand side of the spectrogram, which I think are a result of how the <code><a href="https://ggplot2.tidyverse.org/reference/geom_contour.html">stat_contour()</a></code> is being computed and plotted, rather than anything to do with the actual spectrogram.</p>
 <div class="cell page-columns page-full">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>spect_df_floor <span class="sc">|&gt;</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, freq))<span class="sc">+</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_contour</span>(</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">z =</span> amp_floor,</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> <span class="fu">after_stat</span>(level)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">geom =</span> <span class="st">"polygon"</span>,</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">bins =</span> <span class="dv">300</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    )<span class="sc">+</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_batlow</span>()<span class="sc">+</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"time (s)"</span>,</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"frequency (kHz)"</span>,</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"spectrogram contour plot"</span></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect_df_floor</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">freq</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_contour.html">stat_contour</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>        z <span class="op">=</span> <span class="va">amp_floor</span>,</span>
+<span>        fill <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">after_stat</a></span><span class="op">(</span><span class="va">level</span><span class="op">)</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      geom <span class="op">=</span> <span class="st">"polygon"</span>,</span>
+<span>      bins <span class="op">=</span> <span class="fl">300</span></span>
+<span>    <span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_batlow.html">scale_fill_batlow</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="st">"time (s)"</span>,</span>
+<span>      y <span class="op">=</span> <span class="st">"frequency (kHz)"</span>,</span>
+<span>      title <span class="op">=</span> <span class="st">"spectrogram contour plot"</span></span>
+<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display page-columns page-full">
 <div id="fig-countour1" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" alt="A spectrogram, drawn with contours">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full">
-<div aria-describedby="fig-countour1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-countour1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="index_files/figure-html/fig-countour1-1.png" class="img-fluid figure-img" alt="A spectrogram, drawn with contours" width="576">
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-countour1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: A contour spectrogram plot
-</figcaption>
-</figure>
+</figcaption></figure>
 </div>
 </div>
 </div>
 <p>One way around this I’ve found is to compute the spectrogram on the higher sampling rate audio, and then zoom into the frequency range you want.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>re-running the spectrogram</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>win_len <span class="ot">&lt;-</span> <span class="fl">0.005</span> <span class="sc">*</span> i_wav<span class="sc">@</span>samp.rate</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>hop_len <span class="ot">&lt;-</span> <span class="fl">0.002</span> <span class="sc">*</span> i_wav<span class="sc">@</span>samp.rate</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>overlap <span class="ot">&lt;-</span> ((win_len <span class="sc">-</span> hop_len) <span class="sc">/</span> win_len) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>spect2 <span class="ot">&lt;-</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  i_wav <span class="sc">|&gt;</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spectro</span>(</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># window length, in terms of samples</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">wl =</span> win_len,</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># window overlap</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">ovlp =</span> overlap,</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># don't plot the result</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot =</span> F</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co"># set the colnames and rownames</span></span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(spect2<span class="sc">$</span>amp) <span class="ot">&lt;-</span> spect2<span class="sc">$</span>time</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(spect2<span class="sc">$</span>amp) <span class="ot">&lt;-</span> spect2<span class="sc">$</span>freq</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>spect2_df <span class="ot">&lt;-</span></span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  spect2<span class="sc">$</span>amp <span class="sc">|&gt;</span></span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># coerce the row names to a column</span></span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="st">"freq"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot to long format</span></span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># all columns except freq</span></span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>freq, </span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"time"</span>, </span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"amp"</span></span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># since they were names before,</span></span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># freq and time need conversion to numeric</span></span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">freq =</span> <span class="fu">as.numeric</span>(freq),</span>
-<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">as.numeric</span>(time)</span>
-<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>dyn <span class="ot">=</span> <span class="sc">-</span><span class="dv">50</span></span>
-<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>spect2_df_floor <span class="ot">&lt;-</span> </span>
-<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>  spect2_df <span class="sc">|&gt;</span> </span>
-<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">amp_floor =</span> <span class="fu">case_when</span>(</span>
-<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>      amp <span class="sc">&lt;</span> dyn <span class="sc">~</span> dyn,</span>
-<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> amp  </span>
-<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>re-running the spectrogram</summary><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">win_len</span> <span class="op">&lt;-</span> <span class="fl">0.005</span> <span class="op">*</span> <span class="va">i_wav</span><span class="op">@</span><span class="va">samp.rate</span></span>
+<span><span class="va">hop_len</span> <span class="op">&lt;-</span> <span class="fl">0.002</span> <span class="op">*</span> <span class="va">i_wav</span><span class="op">@</span><span class="va">samp.rate</span></span>
+<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">(</span><span class="va">win_len</span> <span class="op">-</span> <span class="va">hop_len</span><span class="op">)</span> <span class="op">/</span> <span class="va">win_len</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span>
+<span></span>
+<span><span class="va">spect2</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">i_wav</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/seewave/man/spectro.html">spectro</a></span><span class="op">(</span></span>
+<span>    <span class="co"># window length, in terms of samples</span></span>
+<span>    wl <span class="op">=</span> <span class="va">win_len</span>,</span>
+<span>    <span class="co"># window overlap</span></span>
+<span>    ovlp <span class="op">=</span> <span class="va">overlap</span>,</span>
+<span>    <span class="co"># don't plot the result</span></span>
+<span>    plot <span class="op">=</span> <span class="cn">F</span></span>
+<span>    <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># set the colnames and rownames</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">spect2</span><span class="op">$</span><span class="va">amp</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">spect2</span><span class="op">$</span><span class="va">time</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">spect2</span><span class="op">$</span><span class="va">amp</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">spect2</span><span class="op">$</span><span class="va">freq</span></span>
+<span></span>
+<span><span class="va">spect2_df</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">spect2</span><span class="op">$</span><span class="va">amp</span> <span class="op">|&gt;</span></span>
+<span>  <span class="co"># coerce the row names to a column</span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span>rownames <span class="op">=</span> <span class="st">"freq"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="co"># pivot to long format</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
+<span>    <span class="co"># all columns except freq</span></span>
+<span>    <span class="op">-</span><span class="va">freq</span>, </span>
+<span>    names_to <span class="op">=</span> <span class="st">"time"</span>, </span>
+<span>    values_to <span class="op">=</span> <span class="st">"amp"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="co"># since they were names before,</span></span>
+<span>  <span class="co"># freq and time need conversion to numeric</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    freq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">freq</span><span class="op">)</span>,</span>
+<span>    time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">dyn</span> <span class="op">=</span> <span class="op">-</span><span class="fl">50</span></span>
+<span><span class="va">spect2_df_floor</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">spect2_df</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    amp_floor <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">amp</span> <span class="op">&lt;</span> <span class="va">dyn</span> <span class="op">~</span> <span class="va">dyn</span>,</span>
+<span>      <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">amp</span>  </span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell page-columns page-full">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>spect2_df_floor <span class="sc">|&gt;</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, freq))<span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_contour</span>(</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">z =</span> amp_floor,</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> <span class="fu">after_stat</span>(level)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">geom =</span> <span class="st">"polygon"</span>,</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">bins =</span> <span class="dv">300</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    )<span class="sc">+</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_batlow</span>()<span class="sc">+</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"time (s)"</span>,</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"frequency (kHz)"</span>,</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"spectrogram contour plot"</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    )<span class="sc">+</span></span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect2_df_floor</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">freq</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_contour.html">stat_contour</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>        z <span class="op">=</span> <span class="va">amp_floor</span>,</span>
+<span>        fill <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">after_stat</a></span><span class="op">(</span><span class="va">level</span><span class="op">)</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      geom <span class="op">=</span> <span class="st">"polygon"</span>,</span>
+<span>      bins <span class="op">=</span> <span class="fl">300</span></span>
+<span>    <span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_batlow.html">scale_fill_batlow</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="st">"time (s)"</span>,</span>
+<span>      y <span class="op">=</span> <span class="st">"frequency (kHz)"</span>,</span>
+<span>      title <span class="op">=</span> <span class="st">"spectrogram contour plot"</span></span>
+<span>    <span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display page-columns page-full">
 <div id="fig-countour2" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" alt="A spectrogram, drawn with contours">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full">
-<div aria-describedby="fig-countour2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-countour2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="index_files/figure-html/fig-countour2-1.png" class="img-fluid figure-img" alt="A spectrogram, drawn with contours" width="576">
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-countour2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: A contour spectrogram plot
-</figcaption>
-</figure>
+</figcaption></figure>
 </div>
 </div>
 </div>
-<p>I think this might not be necessary if I had a better handle on <code>stat_contour()</code> but for now, it does the trick!</p>
-</section>
-</section>
-<section id="update" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="update">Update</h2>
+<p>I think this might not be necessary if I had a better handle on <code><a href="https://ggplot2.tidyverse.org/reference/geom_contour.html">stat_contour()</a></code> but for now, it does the trick!</p>
+</section></section><section id="update" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="update">Update</h2>
 <p>Due to popular request, another attempt at showing the degree of window overlap.</p>
 <blockquote class="twitter-tweet blockquote" data-conversation="none" data-dnt="true" data-theme="dark">
 <p lang="en" dir="ltr">
-</p><p>This is fantastic, jo, thx! One quick q, I’m wondering if there might be a better way to visualize overlapping windows. The image maybe implies some y dimension (windows increasing in some vertical space). I’m just putting myself in a 1st yrs shoes in my speech class</p>
-<p></p>
+</p>
+<p>This is fantastic, jo, thx! One quick q, I’m wondering if there might be a better way to visualize overlapping windows. The image maybe implies some y dimension (windows increasing in some vertical space). I’m just putting myself in a 1st yrs shoes in my speech class</p>
+
 <p>— Chandan (<span class="citation" data-cites="GutStrings">@GutStrings</span>) <a href="https://twitter.com/GutStrings/status/1617251839749279745?ref_src=twsrc%5Etfw">January 22, 2023</a></p>
 </blockquote>
-<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<p>I’ve folded the code here, just because it’s medium gnarly. The short version is you can get the weights for the window functions from <code>seewave::ftwindow()</code>, and then I used <code>geom_area()</code> to plot it.</p>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><p>I’ve folded the code here, just because it’s medium gnarly. The short version is you can get the weights for the window functions from <code><a href="https://rdrr.io/pkg/seewave/man/ftwindow.html">seewave::ftwindow()</a></code>, and then I used <code><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area()</a></code> to plot it.</p>
 <div class="cell page-columns page-full">
-<details class="code-fold">
-<summary>the data and plotting code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>window_fig <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(win_num) <span class="sc">|&gt;</span> </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">dists =</span> <span class="fu">map</span>(</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>      data, </span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>      \(df){</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">tibble</span>(</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">time =</span> <span class="fu">seq</span>(df<span class="sc">$</span>left_edge, df<span class="sc">$</span>right_edge, <span class="at">len =</span> <span class="dv">512</span>),</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">weight =</span> <span class="fu">ftwindow</span>(<span class="dv">512</span>)</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(dists) <span class="ot">-&gt;</span> window_weights</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>window_weights <span class="sc">|&gt;</span> </span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, weight, <span class="at">group =</span> win_num)) <span class="sc">+</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_area</span>(</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">group =</span> win_num, </span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> win_num,</span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> win_num</span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>      ), </span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">position =</span> <span class="st">"identity"</span>, </span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha =</span> <span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_hawaii</span>(<span class="at">guide =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
-<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_hawaii</span>(<span class="at">guide =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
-<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Hamming window functions"</span>,</span>
-<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"window length = 0.005, time step =0.002"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display page-columns page-full">
+<details class="code-fold"><summary>the data and plotting code</summary><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">window_fig</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">win_num</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">nest</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    dists <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span></span>
+<span>      <span class="va">data</span>, </span>
+<span>      \<span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">{</span></span>
+<span>        <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<span>          time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">left_edge</span>, <span class="va">df</span><span class="op">$</span><span class="va">right_edge</span>, len <span class="op">=</span> <span class="fl">512</span><span class="op">)</span>,</span>
+<span>          weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/seewave/man/ftwindow.html">ftwindow</a></span><span class="op">(</span><span class="fl">512</span><span class="op">)</span></span>
+<span>        <span class="op">)</span></span>
+<span>      <span class="op">}</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">dists</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">window_weights</span></span>
+<span></span>
+<span><span class="va">window_weights</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">weight</span>, group <span class="op">=</span> <span class="va">win_num</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>        group <span class="op">=</span> <span class="va">win_num</span>, </span>
+<span>        fill <span class="op">=</span> <span class="va">win_num</span>,</span>
+<span>        color <span class="op">=</span> <span class="va">win_num</span></span>
+<span>      <span class="op">)</span>, </span>
+<span>      position <span class="op">=</span> <span class="st">"identity"</span>, </span>
+<span>      alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_hawaii.html">scale_fill_hawaii</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_hawaii.html">scale_color_hawaii</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Hamming window functions"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"window length = 0.005, time step =0.002"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display page-columns page-full">
 <div id="fig-window-dist" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full" alt="A sequence of Hamming window functions across the time domain, each overlapping with the previous by 60%">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full">
-<div aria-describedby="fig-window-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-window-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="index_files/figure-html/fig-window-dist-1.png" class="img-fluid figure-img" alt="A sequence of Hamming window functions across the time domain, each overlapping with the previous by 60%" width="768">
 </div>
 <figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-window-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: Hamming window functions
-</figcaption>
-</figure>
+</figcaption></figure>
 </div>
 </div>
 </div>
 
 
-</section>
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
   author = {Fruehwald, Josef},
   title = {Making a Spectrogram in {R}},
   series = {Væl Space},
@@ -961,8 +879,7 @@ Figure&nbsp;7: Hamming window functions
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2023" class="csl-entry quarto-appendix-citeas" role="listitem">
 Fruehwald, Josef. 2023. <span>“Making a Spectrogram in R.”</span> Væl
 Space. January 22, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect">https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect</a>.
-</div></div></section></div></main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</div></div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -1348,13 +1265,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<script src="https://giscus.app/client.js" data-repo="JoFrhwld/blog" data-repo-id="MDEwOlJlcG9zaXRvcnkxNjU0MzIyNg==" data-category="General" data-category-id="DIC_kwDOAPxt-s4CTI5W" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="transparent_dark" data-lang="en" crossorigin="anonymous" async="">
-</script>
-<input type="hidden" id="giscus-base-theme" value="transparent_dark">
-<input type="hidden" id="giscus-alt-theme" value="transparent_dark">
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+</script><script src="https://giscus.app/client.js" data-repo="JoFrhwld/blog" data-repo-id="MDEwOlJlcG9zaXRvcnkxNjU0MzIyNg==" data-category="General" data-category-id="DIC_kwDOAPxt-s4CTI5W" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="transparent_dark" data-lang="en" crossorigin="anonymous" async="">
+</script><input type="hidden" id="giscus-base-theme" value="transparent_dark"><input type="hidden" id="giscus-alt-theme" value="transparent_dark"><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="../../../../posts/2023/01/2023-01-04_wooder3/index.html" class="pagination-link" aria-label="Rising Wooders: Part 3">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Rising Wooders: Part 3</span>
       </a>          
@@ -1366,8 +1278,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
       &nbsp;
     </div>   
@@ -1379,8 +1290,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-
-
 
 
 <script src="../../../../site_libs/quarto-html/zenscroll-min.js"></script>

@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.4.550">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2024-02-14">
-
 <title>Væl Space - Some lessons in using Github Classroom and Codespaces</title>
 <style>
 code{white-space: pre-wrap;}
@@ -58,7 +55,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-
 <script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
@@ -80,8 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="../../../../site_libs/quarto-contrib/codenamelabel/codeblocklabel.css" rel="stylesheet">
-<script id="quarto-search-options" type="application/json">{
+<link href="../../../../site_libs/quarto-contrib/codenamelabel/codeblocklabel.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -107,18 +102,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SS6YYGWPPL"></script>
-
-<script type="text/plain" cookie-consent="tracking">
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-SS6YYGWPPL"></script><script type="text/plain" cookie-consent="tracking">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-SS6YYGWPPL', { 'anonymize_ip': true});
-</script>
-
-<script type="text/javascript" charset="UTF-8">
+</script><script type="text/javascript" charset="UTF-8">
 document.addEventListener('DOMContentLoaded', function () {
 cookieconsent.run({
   "notice_banner_type":"simple",
@@ -133,17 +123,11 @@ cookieconsent.run({
 "language":"en"
   });
 });
-</script> 
-  
-<style>html{ scroll-behavior: smooth; }</style>
+</script><style>html{ scroll-behavior: smooth; }</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&amp;family=Comfortaa:wght@300;400;500;600;700&amp;family=Fira+Code:wght@300;400;500;600;700&amp;family=Fira+Sans:ital,wght@0,100;0,400;1,100;1,400&amp;display=swap" rel="stylesheet">
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -169,15 +153,11 @@ window.Quarto = {
   typesetMath
 };
 </script>
-
 </head>
-
 <body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Væl Space</span>
@@ -189,7 +169,7 @@ window.Quarto = {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
+<li class="nav-item">
     <a class="nav-link" href="https://jofrhwld.github.io/"> 
 <span class="menu-text">Homepage</span></a>
   </li>  
@@ -203,13 +183,11 @@ window.Quarto = {
 <span class="menu-text"></span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
+</div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
-    </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -217,11 +195,7 @@ window.Quarto = {
           <h1 class="quarto-secondary-nav-title">Some lessons in using Github Classroom and Codespaces</h1>
         </a>     
     </div>
-  </nav>
-</header>
-<!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
+  </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title d-none d-lg-block">Some lessons in using Github Classroom and Codespaces</h1>
                       </div>
@@ -250,15 +224,13 @@ window.Quarto = {
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../../../../index.html" class="sidebar-logo-link">
-      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
-      </a>
+      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item sidebar-item-section">
+<li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
  <span class="menu-text">Posts</span></a>
@@ -266,8 +238,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item sidebar-item-section">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
  <span class="menu-text">2022</span></a>
@@ -275,8 +247,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item sidebar-item-section">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">
+<li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
  <span class="menu-text">12</span></a>
@@ -284,8 +256,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2022/12/2022-12-10/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A lesson in over-preparing</span></a>
@@ -310,9 +282,9 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
       </ul>
-  </li>
+</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
@@ -321,8 +293,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item sidebar-item-section">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">
+<li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
  <span class="menu-text">01</span></a>
@@ -330,8 +302,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2023/01/2023-01-01_wooder2/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rising Wooders: Part 2</span></a>
@@ -362,7 +334,7 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
@@ -371,8 +343,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2023/02/2023-02-05/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A handy dplyr function for linguistics</span></a>
@@ -385,7 +357,7 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false">
@@ -394,15 +366,15 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Using Quarto Blogs for Teaching</span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="false">
@@ -411,8 +383,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2023/06/2023-06-16_changing_blog_defaults/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Changing Project Defaults</span></a>
@@ -431,9 +403,9 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
       </ul>
-  </li>
+</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
@@ -442,8 +414,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 show">  
-          <li class="sidebar-item sidebar-item-section">
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 show">
+<li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="true">
  <span class="menu-text">02</span></a>
@@ -451,8 +423,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth3 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth3 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2024/02/2024-02-14_gh-classroom/index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Some lessons in using Github Classroom and Codespaces</span></a>
@@ -465,50 +437,43 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
       </ul>
-  </li>
+</li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#github-codespaces" id="toc-github-codespaces" class="nav-link active" data-scroll-target="#github-codespaces">Github Codespaces</a>
+<li>
+<a href="#github-codespaces" id="toc-github-codespaces" class="nav-link active" data-scroll-target="#github-codespaces">Github Codespaces</a>
   <ul class="collapse">
-  <li><a href="#why-codespaces" id="toc-why-codespaces" class="nav-link" data-scroll-target="#why-codespaces">Why Codespaces?</a></li>
-  </ul></li>
-  <li><a href="#how-ive-customized-the-codespaces" id="toc-how-ive-customized-the-codespaces" class="nav-link" data-scroll-target="#how-ive-customized-the-codespaces">How I’ve customized the Codespaces</a>
-  <ul class="collapse">
-  <li><a href="#the-postcreatecommand" id="toc-the-postcreatecommand" class="nav-link" data-scroll-target="#the-postcreatecommand">The <code>postCreateCommand</code></a></li>
-  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
-  </ul></li>
-  <li><a href="#shouldnt-debugging-be-part-of-the-learning-process" id="toc-shouldnt-debugging-be-part-of-the-learning-process" class="nav-link" data-scroll-target="#shouldnt-debugging-be-part-of-the-learning-process">Shouldn’t debugging be part of the learning process?</a></li>
+<li><a href="#why-codespaces" id="toc-why-codespaces" class="nav-link" data-scroll-target="#why-codespaces">Why Codespaces?</a></li>
   </ul>
-</nav>
+</li>
+  <li>
+<a href="#how-ive-customized-the-codespaces" id="toc-how-ive-customized-the-codespaces" class="nav-link" data-scroll-target="#how-ive-customized-the-codespaces">How I’ve customized the Codespaces</a>
+  <ul class="collapse">
+<li><a href="#the-postcreatecommand" id="toc-the-postcreatecommand" class="nav-link" data-scroll-target="#the-postcreatecommand">The <code>postCreateCommand</code></a></li>
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
+  </ul>
+</li>
+  <li><a href="#shouldnt-debugging-be-part-of-the-learning-process" id="toc-shouldnt-debugging-be-part-of-the-learning-process" class="nav-link" data-scroll-target="#shouldnt-debugging-be-part-of-the-learning-process">Shouldn’t debugging be part of the learning process?</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
-
-
-
-
-
-<div class="cell">
+<main class="content quarto-banner-title-block" id="quarto-document-content"><div class="cell">
 
 </div>
 <p>I’m currently teaching <a href="https://lin511-2024.github.io/notes/">a computational linguistics course</a>, and for just the second time, I’m using <a href="https://classroom.github.com/">Github Classroom</a> to manage assignments. I might make a few posts about what I’ve learned in the process, but for now, I think I’ll focus on what’s gone right, and what’s been more challenging in using Github Codespaces.</p>
-<section id="github-codespaces" class="level2">
-<h2 class="anchored" data-anchor-id="github-codespaces">Github Codespaces</h2>
+<section id="github-codespaces" class="level2"><h2 class="anchored" data-anchor-id="github-codespaces">Github Codespaces</h2>
 <p>A Github Codespace is basically a virtual machine hosted by Github with VS Code as the default interface. First of all, since running a codespace involves data storage and running computation, they usually cost extra money, but you can get an educational discount to $0, <a href="https://docs.github.com/en/education/manage-coursework-with-github-classroom/integrate-github-classroom-with-an-ide/using-github-codespaces-with-github-classroom">as described here</a>.</p>
-<section id="why-codespaces" class="level3">
-<h3 class="anchored" data-anchor-id="why-codespaces">Why Codespaces?</h3>
+<section id="why-codespaces" class="level3"><h3 class="anchored" data-anchor-id="why-codespaces">Why Codespaces?</h3>
 <p>The number 1 reason to use some kind of cloud computing environment for teaching a computational course is to avoid the development environment paradox I’ve experienced:</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -525,13 +490,10 @@ The development environment paradox
 </div>
 <p>When I previously taught an NLP course, we used replit, but I increasingly felt the goals of the platform were inappropriate for an educational context (e.g.&nbsp;they have “bounties” with dollar amounts attached to them), and they’re <a href="https://blog.replit.com/update-on-teams-for-education">sunsetting their educational program anyway</a>.</p>
 <p>With Codespaces, I’m still getting the benefits of having full control over the students’ development environment, but the way they interact with it will be very similar to what it’s like to interact with programming in a local environment.</p>
-</section>
-</section>
-<section id="how-ive-customized-the-codespaces" class="level2">
-<h2 class="anchored" data-anchor-id="how-ive-customized-the-codespaces">How I’ve customized the Codespaces</h2>
+</section></section><section id="how-ive-customized-the-codespaces" class="level2"><h2 class="anchored" data-anchor-id="how-ive-customized-the-codespaces">How I’ve customized the Codespaces</h2>
 <p>When you launch a codespace, the instructions for how it should be configured are located in <code>.devcontainer/devcontainer.json</code>. You can check out how I’ve customized <a href="https://github.com/Lin511-2024/assignment_template/">my assignment template repository here</a>. I’ve left most of the configuration options at their default values, but here’s what I’ve customized.</p>
-<section id="the-postcreatecommand" class="level3">
-<h3 class="anchored" data-anchor-id="the-postcreatecommand">The <code>postCreateCommand</code></h3>
+<section id="the-postcreatecommand" class="level3"><h3 class="anchored" data-anchor-id="the-postcreatecommand">The <code>postCreateCommand</code>
+</h3>
 <p>After initially setting up the codespace, you can have it run shell commands, like installing any python dependencies. I wound up wanting it to do so many things that I’ve moved them into a separate <code>config.sh</code>, which gets run like this</p>
 <div class="langname">
 <pre class="langname">json</pre>
@@ -539,17 +501,14 @@ The development environment paradox
 <div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> <span class="dt">"postCreateCommand"</span><span class="fu">:</span> <span class="st">"sh .devcontainer/config.sh"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="installing-python-requirements" class="level4">
-<h4 class="anchored" data-anchor-id="installing-python-requirements">Installing python requirements</h4>
+<section id="installing-python-requirements" class="level4"><h4 class="anchored" data-anchor-id="installing-python-requirements">Installing python requirements</h4>
 <p>First, I need the codespace install any python requirements for the assignment:</p>
 <div class="langname">
 <pre class="langname">sh</pre>
 </div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Installing Developer Requirements"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> install <span class="at">--user</span> <span class="at">-r</span> requirements/requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="configure-merge-commits" class="level4">
-<h4 class="anchored" data-anchor-id="configure-merge-commits">Configure merge commits</h4>
+</section><section id="configure-merge-commits" class="level4"><h4 class="anchored" data-anchor-id="configure-merge-commits">Configure merge commits</h4>
 <p>We ran into a problem where, if I made some changes to which tests should run for the autograder, it resulted in a divergent history between the remote git repo and the student’s local repo, which VS Code <a href="https://lin511-2024.github.io/notes/concepts/04_git_errors.html">does not present in the most user friendly way</a>.</p>
 <p>So, in my post-creation config file, I’ve added merge commit configuration</p>
 <div class="langname">
@@ -557,11 +516,8 @@ The development environment paradox
 </div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Merge Commits Only"</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config pull.rebase false</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="a-pre-commit-hook" class="level4">
-<h4 class="anchored" data-anchor-id="a-pre-commit-hook">A <code>pre-commit</code> hook</h4>
-<p>We also ran into a problem where I didn’t always remember to run <code>pip freeze</code> after writing an assignment. When students tried to run the code that I said would just work, it didn’t. While learning “module not found” means you should just run <code>pip install</code> is a valuable lesson, I decided to add a <code>pre-commit</code> git hook to run <code>pip freeze</code> and add it to the commit. This also has the benefit that if students install a package and use it, tests should still all pass.<br>
-</p>
+</section><section id="a-pre-commit-hook" class="level4"><h4 class="anchored" data-anchor-id="a-pre-commit-hook">A <code>pre-commit</code> hook</h4>
+<p>We also ran into a problem where I didn’t always remember to run <code>pip freeze</code> after writing an assignment. When students tried to run the code that I said would just work, it didn’t. While learning “module not found” means you should just run <code>pip install</code> is a valuable lesson, I decided to add a <code>pre-commit</code> git hook to run <code>pip freeze</code> and add it to the commit. This also has the benefit that if students install a package and use it, tests should still all pass.<br></p>
 <p>I saved this hook to <code>.devcontainer/pre-commit</code>:</p>
 <div class="langname">
 <pre class="langname">sh</pre>
@@ -576,10 +532,7 @@ The development environment paradox
 <div class="sourceCode" id="cb5"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"pip freeze pre commit"</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> .devcontainer/pre-commit .git/hooks/</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x .git/hooks/pre-commit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="testing" class="level3">
-<h3 class="anchored" data-anchor-id="testing">Testing</h3>
+</section></section><section id="testing" class="level3"><h3 class="anchored" data-anchor-id="testing">Testing</h3>
 <p>Github Classroms lets you write unit tests that will “autograde” submissions. I wanted students to be able to run these tests locally, so they could tell where things weren’t going right. So I added the following VC Code customizations to <code>devcontainer.json</code>.</p>
 <div class="langname">
 <pre class="langname">json</pre>
@@ -596,15 +549,11 @@ The development environment paradox
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This sets up the testing pane in their VS Code automatically.</p>
-</section>
-</section>
-<section id="shouldnt-debugging-be-part-of-the-learning-process" class="level2">
-<h2 class="anchored" data-anchor-id="shouldnt-debugging-be-part-of-the-learning-process">Shouldn’t debugging be part of the learning process?</h2>
+</section></section><section id="shouldnt-debugging-be-part-of-the-learning-process" class="level2"><h2 class="anchored" data-anchor-id="shouldnt-debugging-be-part-of-the-learning-process">Shouldn’t debugging be part of the learning process?</h2>
 <p>Most of these customizations are me trying to foresee and forestall buggy problems students are going to run into. It’s worth asking whether that’s counterproductive. Maybe students <em>should</em> run into these problems and figure out how to fix them, since that’s more realistic to what it’s like to do computational work.</p>
 <p>To that, I’d say <em>maybe</em>, depending on the level of the course. But if both programming and the course content are all new to many students in the class, I think they just need to experience things working first. When first starting out, you’re faced with a real problem of how to attribute errors. If you click the git Sync button in VS Code and this error pops up:</p>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="assets/git_error.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+<figure class="figure"><p><img src="assets/git_error.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
 </figure>
 </div>
 <p>You have no idea whether:</p>
@@ -623,9 +572,7 @@ The development environment paradox
 <p>Without a baseline framework for understanding how things are working, you can’t process and accommodate error messages like this, so, honestly, better for me, as the instructor, to try to make things just <em>work</em>, and present errors and bugs in a planned and structured way.</p>
 
 
-</section>
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2024,
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2024,
   author = {Fruehwald, Josef},
   title = {Some Lessons in Using {Github} {Classroom} and {Codespaces}},
   series = {Væl Space},
@@ -636,8 +583,7 @@ The development environment paradox
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2024" class="csl-entry quarto-appendix-citeas" role="listitem">
 Fruehwald, Josef. 2024. <span>“Some Lessons in Using Github Classroom
 and Codespaces.”</span> Væl Space. February 14, 2024. <a href="https://jofrhwld.github.io/blog/posts/2024/02/2024-02-14_gh-classroom">https://jofrhwld.github.io/blog/posts/2024/02/2024-02-14_gh-classroom</a>.
-</div></div></section></div></main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</div></div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -1023,13 +969,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<script src="https://giscus.app/client.js" data-repo="JoFrhwld/blog" data-repo-id="MDEwOlJlcG9zaXRvcnkxNjU0MzIyNg==" data-category="General" data-category-id="DIC_kwDOAPxt-s4CTI5W" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="transparent_dark" data-lang="en" crossorigin="anonymous" async="">
-</script>
-<input type="hidden" id="giscus-base-theme" value="transparent_dark">
-<input type="hidden" id="giscus-alt-theme" value="transparent_dark">
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+</script><script src="https://giscus.app/client.js" data-repo="JoFrhwld/blog" data-repo-id="MDEwOlJlcG9zaXRvcnkxNjU0MzIyNg==" data-category="General" data-category-id="DIC_kwDOAPxt-s4CTI5W" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="transparent_dark" data-lang="en" crossorigin="anonymous" async="">
+</script><input type="hidden" id="giscus-base-theme" value="transparent_dark"><input type="hidden" id="giscus-alt-theme" value="transparent_dark"><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="../../../../posts/2023/06/2023-06-29_hierarchical-variance/index.html" class="pagination-link" aria-label="Thinking About Hierarchical Variance Parameters">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Thinking About Hierarchical Variance Parameters</span>
       </a>          
@@ -1041,8 +982,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
       &nbsp;
     </div>   
@@ -1054,8 +994,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-
-
 
 
 <script src="../../../../site_libs/quarto-html/zenscroll-min.js"></script>

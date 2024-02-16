@@ -1,0 +1,11 @@
+corpus: data/corpus/
+output: data/results/formants.csv
+entry-classes: "Word|Phone"
+target-tier: Phone
+target-labels: "[AEIOU]"
+min-duration: 0.05
+min-max-formant: 4000
+max-max-formant: 7000
+nstep: 20
+which-output: winner
+data-output: formants

@@ -1,0 +1,424 @@
+---
+title: "Using FastTrackPy and aligned-textgrid"
+date: 2024-02-16
+order: 2
+filters:
+  - codeblocklabel
+bibliography: references.bib
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+---
+
+Last semester, I spent time co-developing some python packages:
+
+-   [aligned-textgrid](https://forced-alignment-and-vowel-extraction.github.io/alignedTextGrid/) with [Christian Brickhouse](https://christianbrickhouse.com/)
+
+-   [fasttrackpy](https://fasttrackiverse.github.io/fasttrackpy) with [Santiago Barreda](https://santiagobarreda.com/)
+
+So, I thought I'd share a little walkthrough of a cool way to use them. They can both be installed with pip.
+
+``` bash
+pip install fastttrackpy
+pip install aligned-textgrid
+```
+
+## FastTrackPy
+
+fasttrackpy [@fruehwald2023] is a python implementation of [Santiago Barreda's Praat plugin](https://github.com/santiagobarreda/FastTrack) [@barreda2021]. Right now, its design is really geared towards command line usage, and has three different subcommands
+
+-   `fasttrack audio`
+
+    -   This will run fasttrack on a single audio file or a directory of audio files
+
+-   `fasttrack audio-textgrid`
+
+    -   This will run fasttrack on an (audio, textgrid) tuple
+
+-   `fasttrack corpus`
+
+    -   This will run fasttrack on a corpus of paired audio + textgrid files
+
+You can check out the docs for all of [the processing options](https://fasttrackiverse.github.io/fasttrackpy/usage/all_arguments.html). I'll be using a config file that looks like this:
+
+``` yaml
+# config.yml
+corpus: data/corpus/
+output: data/results/formants.csv
+entry-classes: "Word|Phone"
+target-tier: Phone
+target-labels: "[AEIOU]"
+min-duration: 0.05
+min-max-formant: 4000
+max-max-formant: 7000
+nstep: 20
+which-output: winner
+data-output: formants
+```
+
+Some of these settings are just the defaults, but I'm just illustrating the kind of things you could do. To run it:
+
+``` bash
+fasttrack corpus --config config.yml
+```
+
+On my laptop, it got formant estimates for 339 vowels in about 18 seconds.
+
+## Looking at the data
+
+Let's get R up and running
+
+```{r}
+#| code-fold: true
+#| code-summary: "Setup libraries"
+source(here::here("_defaults.R"))
+library(tidyverse)
+library(mgcv)
+library(marginaleffects)
+library(gt)
+library(reticulate)
+library(khroma)
+library(geomtextpath)
+```
+
+```{r}
+vowel_data <- read_csv("data/results/formants.csv")
+```
+
+Just to skim over some data columns of interest
+
+```{r}
+vowel_data |> 
+ colnames()
+```
+
+::: callout-note
+## Useful Columns
+
+F1, F2, F3, F4
+
+:   The formant tracks as estimated by the LPC analysis
+
+F1_s, F2_s, F3_s, F4_s
+
+:   Smoothed formant tracks, using discrete cosine transform
+
+file_name
+
+:   The basename for each file in the corpus
+
+group
+
+:   If there were multiple talkers annotated in a file, which talker
+
+id
+
+:   A unique ID for each phone
+:::
+
+I'm going to zoom in on my favorite vowel, "AY", and fit a quick model.
+
+```{r}
+#| label: getting_ay_data
+# Getting the ay data
+vowel_data |> 
+  filter(
+    group %in% c("KY25A", "group_0"),
+    str_detect(label, "AY")
+  ) |> 
+  select(
+    file_name,
+    id,
+    group,
+    label,
+    F1_s, F2_s,
+    time
+  ) |> 
+  mutate(
+    rel_time = time - min(time),
+    prop_time = rel_time / max(rel_time),
+    .by = c(file_name, id)
+  )->
+  ay_data
+```
+
+```{r}
+#| label: fitting_ay_model
+#| code-fold: true
+#| code-summary: "Model fitting (not the main point)"
+ay_data |> 
+  group_by(
+    file_name
+  ) |> 
+  nest() |> 
+  mutate(
+    model = map(
+      data, 
+      ~gam(
+        list(F1_s ~ s(prop_time),
+             F2_s ~ s(prop_time)),
+        data = .x,
+        family = mvn(d = 2)
+      )
+    ),
+    pred = map(
+      model,
+      ~predictions(
+        .x, 
+        newdata = datagrid(
+          prop_time = seq(0,1,length = 100)
+        )
+      )
+    )
+  ) |> 
+  select(file_name, pred) |> 
+  unnest(pred) |> 
+  select(file_name, rowid, group, estimate, prop_time) |> 
+  mutate(
+    group = str_glue("F{group}")
+  ) |> 
+  pivot_wider(
+    names_from = group,
+    values_from = estimate
+  )->
+  ay_predictions
+```
+
+```{r}
+#| label: fig-first-ay
+#| code-fold: true
+#| code-summary: "Plotting code"
+#| crop: true
+#| fig-width: 8
+#| fig-height: 8
+#| out-width: 80%
+#| fig-cap: "/ay/ trajectories"
+library(scales)
+log_rev_trans = trans_new(
+  name = "log_rev",
+  transform = \(x) -log(x),
+  inverse = \(x) exp(-x)
+)
+
+ay_predictions |> 
+  ggplot(
+    aes(
+      F2, 
+      F1
+    )
+  )+
+    geom_path(
+      arrow = arrow(type = "closed"),
+      linewidth = 1
+    ) +
+    scale_x_continuous(trans = log_rev_trans)+
+    scale_y_continuous(trans = log_rev_trans)+
+    coord_fixed()+
+    facet_wrap(~file_name)
+```
+
+Cool! Except... One of the most important factors for /ay/ is missing: whether or not the following segment is voiced or voiceless! Since fasttrackpy is designed to be very general purpose, (and not too feature laden) this kind of info isn't added to the output. But. we can easily get it with aligned-textgrid.
+
+## Working with aligned-textgrid
+
+Right now, aligned-textgrid [@fruehwald2023a] mostly designed to be worked with either in scripts, or interactively, so we're going to switch over to python code. I'll work over just one TextGrid for clarity.
+
+```{python}
+from aligned_textgrid import AlignedTextGrid, Word, Phone
+from pathlib import Path
+import pandas as pd
+```
+
+```{python}
+tg1_path = Path(
+  "data", 
+  "corpus",
+  "josef-fruehwald_speaker.TextGrid"
+  )
+  
+tg1 = AlignedTextGrid(
+  textgrid_path = tg1_path,
+  entry_classes = [Word, Phone]
+)
+
+tg1
+```
+
+I want to grab out enriched data for each phone for the `group_0` speaker, which we can do with the dynamically created accessors for each speaker group and tier class like so.
+
+```{python}
+phone_tier = tg1.group_0.Phone
+phone_tier
+```
+
+We can grab individual phones via indexing.
+
+```{python}
+phone_tier[30]
+```
+
+But I want to focus in on just the phones with an `AY` label, which I'll do with a list comprehension.
+
+```{python}
+ays = [p for p in phone_tier if "AY" in p.label]
+```
+
+To grab the following segment for each /ay/, we can use the `.fol` accessor.
+
+```{python}
+# a single example
+ays[0].fol.label
+```
+
+```{python}
+# for all /ays/
+[p.fol.label for p in ays]
+```
+
+You can see that some /ay/ tokens have a `#` following segment, meaning a word boundary. If we wanted to get the following segment tier-wise, we can do so to.
+
+```{python}
+[p.get_tierwise(1).label for p in ays]
+```
+
+Let's pop this all into a pandas dataframe
+
+```{python}
+ays_context = pd.DataFrame({
+  "id":       [p.id for p in ays],
+  "fol":      [p.fol.label for p in ays],
+  "fol_abs":  [p.get_tierwise(1).label for p in ays],
+  "word":     [p.within.label for p in ays],
+  "fol_word": [p.within.fol.label for p in ays ]
+})
+
+ays_context
+```
+
+With the way aligned-textgrid links intervals and relates their hierarchical structure, I'm able to quickly able to navigate up, down, and over between intervals using straightforwardly named accessors.
+
+We can get pretty silly, like: what is the second to last phoneme in the word following the word this vowel is in?
+
+```{python}
+[
+  ays[0].label,
+  ays[0].within.label,
+  ays[0].within.fol.label,
+  ays[0].within.fol.last.label,
+  ays[0].within.fol.last.prev.label
+]
+```
+
+## Joining together
+
+Back to the /ays/ data, we can quickly join this enriched data onto the formant data, because the `id` column is the same between the two.
+
+```{r}
+ay_data |> 
+  left_join(
+    py$ays_context |> 
+      mutate(file_name = "josef-fruehwald_speaker")
+  ) |> 
+  filter(
+    !is.na(fol)
+  ) |> 
+  mutate(
+    voicing = case_when(
+      fol %in% c("P", "T", "K") ~ "vless",
+      fol == "#" ~ "final",
+      .default = "vced"
+    )
+  )->
+  ays_enriched
+
+ays_enriched |> 
+  head() |> 
+  rmarkdown::paged_table()
+```
+
+And now I can refit the model and plot.
+
+```{r}
+#| code-fold: true
+#| code-summary: "Modelling code"
+
+# gam is annoying and needs
+# voicing to explicitly be a factor
+ays_enriched |> 
+  mutate(voicing = factor(voicing)) ->
+  ays_enriched
+
+ays_enriched_model <- gam(
+  list(
+    F1_s ~ voicing + s(prop_time, by = voicing),
+    F2_s ~ voicing + s(prop_time, by = voicing)
+  ),
+  data = ays_enriched,
+  family = mvn(d = 2) 
+)
+
+
+ays_enriched_model |> 
+  predictions(
+    newdata = datagrid(
+      prop_time = seq(0, 1, length = 100),
+      voicing = unique
+    )
+  ) |> 
+  as_tibble() |> 
+  select(
+    rowid, group,
+    estimate, prop_time, voicing
+  ) |> 
+  mutate(
+    group = str_glue("F{group}")
+  ) |> 
+  pivot_wider(
+    names_from = group,
+    values_from = estimate
+  ) ->
+  ays_enriched_pred
+```
+
+```{r}
+#| label: fig-voicing-plot
+#| fig-width: 5
+#| fig-height: 6
+#| crop: true
+#| fig-cap: "enriched /ays/ data"
+#| code-fold: true
+#| code-summary: "plotting code"
+#| out-width: 60%
+ays_enriched_pred |> 
+  ggplot(
+    aes(
+      F2,
+      F1,
+      color = voicing
+    )
+  )+
+    geom_textpath(
+      aes(label = voicing),
+      linewidth = 1,
+      arrow = arrow(type = "closed")
+    )+
+    scale_x_continuous(
+      trans = log_rev_trans
+    )+
+    scale_y_continuous(
+      trans = log_rev_trans
+    )+
+    scale_color_bright(
+      guide = "none"
+    )+
+    coord_fixed()
+```
+
+## Let me know how it goes! 
+
+If you start using either fasttrackpy or aligned-textgrid for any purpose, I'd love to know how it's going! For any feature requests, or bug reports, checkout their respective github repositories.
+
+-   [aligned-textgrid Github](https://github.com/Forced-Alignment-and-Vowel-Extraction/alignedTextGrid)
+
+-   [fasttrackpy Github](https://github.com/FastTrackiverse/fasttrackpy)

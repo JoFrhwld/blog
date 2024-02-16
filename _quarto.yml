@@ -41,7 +41,7 @@ website:
 format:
   html:
     theme: 
-      - "darkly"
+      - "flatly"
       - custom.scss
     include-in-header: font_import.html
     monofont: Fira Code

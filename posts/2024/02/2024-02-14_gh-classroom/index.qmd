@@ -92,14 +92,14 @@ Github Classroms lets you write unit tests that will "autograde" submissions. I 
 ``` json
 {
   "customizations": {
-		"vscode": {
-			"settings": {"python.testing.pytestArgs": [
-				"tests"
-			],
-			"python.testing.unittestEnabled": false,
-			"python.testing.pytestEnabled": true}
-		}
-	}
+        "vscode": {
+            "settings": {"python.testing.pytestArgs": [
+                "tests"
+            ],
+            "python.testing.unittestEnabled": false,
+            "python.testing.pytestEnabled": true}
+        }
+    }
 }
 ```
 

@@ -173,6 +173,17 @@
       ],
       "Hash": "a45594a00f5dbb073d5ec9f48592a08a"
     },
+    "RcppTOML": {
+      "Package": "RcppTOML",
+      "Version": "0.2.2",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "Rcpp"
+      ],
+      "Hash": "c232938949fcd8126034419cc529333a"
+    },
     "Ryacas": {
       "Package": "Ryacas",
       "Version": "1.1.5",
@@ -1954,6 +1965,16 @@
       ],
       "Hash": "6b8177fd19982f0020743fadbfdbd933"
     },
+    "png": {
+      "Package": "png",
+      "Version": "0.1-8",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "bd54ba8a0a5faded999a7aab6e46b374"
+    },
     "polyclip": {
       "Package": "polyclip",
       "Version": "1.10-6",
@@ -2237,6 +2258,28 @@
         "stringr"
       ],
       "Hash": "bb5996d0bd962d214a11140d77589917"
+    },
+    "reticulate": {
+      "Package": "reticulate",
+      "Version": "1.35.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "Matrix",
+        "R",
+        "Rcpp",
+        "RcppTOML",
+        "graphics",
+        "here",
+        "jsonlite",
+        "methods",
+        "png",
+        "rappdirs",
+        "rlang",
+        "utils",
+        "withr"
+      ],
+      "Hash": "90be16b53b955990db4aa355c03d85eb"
     },
     "rlang": {
       "Package": "rlang",

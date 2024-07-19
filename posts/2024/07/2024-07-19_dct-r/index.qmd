@@ -1,0 +1,417 @@
+---
+title: "Working with the Discrete Cosine Transform in R"
+author: "Josef Fruehwald"
+date: 2024-07-19
+code-annotations: true
+filters:
+  - codeblocklabel
+---
+
+I've been working a lot with the Discrete Cosine Transform in python, specifically as it's implemented in [scipy](https://docs.scipy.org/doc/scipy/reference/generated/scipy.fft.dct.html#scipy.fft.dct). But, I really prefer doing my data munging and stats in R.[^1] What to do!
+
+[^1]: [polars](https://pola.rs/) *is* growing on me, but I don't think in it yet.
+
+I knew the answer rested in using the [reticulate](https://rstudio.github.io/reticulate/) package, which lets you communicate back and forth between python and R, but I hadn't appreciated *how* cool reticulate was, which is why I'm making this blog post.
+
+## Setup
+
+```{r}
+#| code-fold: true
+#| code-summary: "Irrelevant R setup"
+#| message: false
+library(tidyverse)
+library(geomtextpath)
+library(gt)
+source(here::here("_defaults.R"))
+```
+
+In order to communicated back and forth, I'll need to load the reticulate package.
+
+```{r}
+library(reticulate)
+```
+
+I'll also need to make sure that I've got scipy installed for python, which you can do with `reticulate::py_install()`.
+
+```{r}
+#| eval: false
+reticulate::py_install("scipy")
+```
+
+::: {.callout-note collapse="true"}
+## Python environments
+
+Python environments are kind of [notorious](https://xkcd.com/1987/) for being confusing to keep straight, which is why a whole host of tools for managing how python is installed have cropped up. Inside all of my R projects, I already use [`renv`](https://rstudio.github.io/renv/), which has an option to also manage your python environment for a project like so:
+
+``` r
+renv::use_python()
+```
+
+If we pull up the python configuration for reticulate, we can see it's installed in the local renv project.
+
+```{r}
+reticulate::py_config()$python
+```
+
+But, if you have a favorite other way of managing your python environments, [there are ways to point reticulate at those too](https://rstudio.github.io/reticulate/reference/use_python.html).
+:::
+
+## Background: What is the DCT?
+
+The Discrete Cosine Transform is very similar to the Fourier Transform (if that helps). It takes in a signal of wiggly data, and re-describes it in terms of weights on cosine functions of increasing frequency. @fig-dct-funcs plots the first DCT functions as they're defined by a particular set of options in `scipy.fft.dct`.
+
+```{python}
+#| echo: false
+from scipy.fft import dct, idct
+import numpy as np
+```
+
+```{python}
+#| echo: false
+full_basis = dct(
+    np.eye(100), 
+    orthogonalize=True, 
+    norm = "backward"
+)
+```
+
+```{r}
+#| label: fig-dct-funcs
+#| echo: false
+#| fig-width: 8
+#| fig-height: 2
+#| fig-format: svg
+#| fig-cap: The first 5 cosine functions of the DCT. 
+
+data.frame(py$full_basis) |> 
+  mutate(time = row_number()) |> 
+  pivot_longer(
+    starts_with("X")
+  ) |> 
+  mutate(
+    param = str_remove(name, "X") |> 
+      as.numeric() - 1
+  ) |> 
+  filter(
+    param <= 4
+  ) |> 
+  ggplot(
+    aes(time, value)
+  )+
+    geom_line(aes(color = factor(param)), linewidth = 1)+
+    facet_wrap(~param, labeller = label_both, nrow = 1)+
+    guides(color = "none")+
+    theme_no_x()+
+    labs(
+      y = NULL
+    )+
+    theme(aspect.ratio = 1)
+```
+
+If you use the same number of cosine functions as you had data points in the original signal, you can fully reconstruct the original signal. Or, if you use just a few (like 5 in this figure), it has the effect of smoothing the signal when you invert the DCT.
+
+## Option 1: Passing Data back and forth
+
+So, the [fasttrackpy](https://fasttrackiverse.github.io/fasttrackpy/) gives you the option of saving DCT parameters to a csv file. I'll load an example into R, and grab the rows for one example vowel so we can see what it looks like.
+
+```{r}
+# Reading in the data
+dct_params <- read_csv(                      
+  "data/josef-fruehwald_speaker_param.csv",  
+  col_types = cols()                         
+)                                            
+
+# getting the first token's id
+first_id <- dct_params$id[1]                 
+
+# subsetting to get just
+# the first token's parameters
+first_df <- dct_params |>                    
+  filter(                                    
+    id == first_id                           
+  )                                          
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: Table Code
+first_df |> 
+  select(
+    label,
+    word,
+    param,
+    F1:F3
+  ) |> 
+  gt() |> 
+  fmt_number(
+    columns = F1:F3
+  )
+```
+
+These DCT parameters don't look like much on their own. That's even clearer if we plot them.
+
+```{r}
+#| label: fig-first-params
+#| code-fold: true
+#| code-summary: Plotting code
+#| fig-width: 6
+#| fig-height: 3
+#| fig-format: svg
+#| fig-cap: "DCT parameters for one vowel token"
+
+first_df |> 
+  pivot_longer(
+    F1:F3
+  ) |> 
+  ggplot(
+    aes(param, value)
+  )+
+    geom_hline(
+      yintercept = 0
+    )+
+    geom_point(
+      aes(color = factor(param)),
+      size = 3
+    )+
+    guides(
+      color = "none"
+    )+
+    labs(
+      y = NULL
+    )+
+    facet_wrap(~name)+
+    theme(
+      aspect.ratio = 1
+    )
+```
+
+To get these values back into something interpretable, we need to apply the inverse discrete cosine transform. To do that, we can
+
+1.  pass these parameter values over to python,
+2.  apply `scipy.fft.idct` to them to get back formant-like values
+3.  pass the results back to R.
+
+### Passing data to python
+
+To do this, first I'm going to assign each set of parameters to a variable in R.
+
+```{r}
+F1_param <- first_df$F1
+F2_param <- first_df$F2
+F3_param <- first_df$F3
+```
+
+Having loaded reticulate before, any variable we've created in R are available in Python within an `r` object.
+
+```{python}
+r.F1_param
+```
+
+Now, we just need to import the `idct` function and apply it to each of these sets of parameters.
+
+### Applying idct
+
+```{python}
+from scipy.fft import idct
+```
+
+```{python}
+F1_expanded = idct(
+  r.F1_param,
+  n = 100,
+  orthogonalize = True,
+  norm = "forward"
+)
+
+F2_expanded = idct(
+  r.F2_param,
+  n = 100,
+  orthogonalize = True,
+  norm = "forward"
+)
+
+F3_expanded = idct(
+  r.F3_param,
+  n = 100,
+  orthogonalize = True,
+  norm = "forward"
+)
+```
+
+### Passing data back to R
+
+Now, we can get these expanded values back in R from an object called `py`.
+
+```{r}
+head(
+  py$F1_expanded
+)
+```
+
+I'll pop these all into a tibble.
+
+```{r}
+first_expanded <- tibble(
+  F1 = py$F1_expanded,
+  F2 = py$F2_expanded,
+  F3 = py$F3_expanded
+) |> 
+  mutate(
+    prop_time = (row_number() - 1)/(n()-1)
+  )
+```
+
+```{r}
+#| label: fig-formant-expanded
+#| code-fold: true
+#| code-summary: "Plotting code"
+#| fig-format: svg
+#| fig-cap: "Inverse DCT formant results"
+#| fig-width: 8
+#| fig-height: 5
+
+first_expanded |> 
+  pivot_longer(
+    F1:F3,
+    names_to = "formant",
+    values_to = "frequency"
+  ) |> 
+  ggplot(
+    aes(prop_time, frequency, color = formant)
+  )+
+    geom_textpath(
+      aes(label = formant),
+      linewidth = 1
+    )+
+    guides(
+      color = "none"
+    )+
+    labs(
+      x = "proportional time"
+    )+
+    expand_limits(y = 0)
+```
+
+### Shortcomings
+
+1.  That was a *lot* of code to get back the formant-like values for just one token!
+2.  It's not taking advantage of the really cool averaging properties of the DCT.
+3.  It didn't fit into my nice tidyverse workflows at all!
+
+## Option 2: Using Python functions *inside* R
+
+Rather than passing data back and forth directly, instead, I'll import the scipy function directly into R.
+
+```{r}
+scipy <- reticulate::import("scipy")
+idct <- scipy$fft$idct
+```
+
+Now, we can use `idct()` (almost) like an R function. Here's how it looks on one of the variables we created before.
+
+```{r}
+new_F1_expanded <- idct(
+  F1_param,
+  n = 100L,
+  orthogonalize = TRUE,
+  norm = "forward"
+)
+  
+head(new_F1_expanded)
+```
+
+I'll combine this with the handy-dandy tidyverse functions [across](https://dplyr.tidyverse.org/reference/across.html) and [reframe](https://dplyr.tidyverse.org/reference/reframe.html) to get average formant trajectories.
+
+### Step 1: Getting the average of the DCT parameters by token.
+
+With`summarise()` and `across()`, we'll get the mean of the parameter values for F1, F2 and F3, grouped by label and parameter.
+
+```{r}
+dct_params |> 
+  summarise(
+    across(
+      F1:F3, mean
+    ),
+    .by = c(label, param)
+  )->
+  dct_averages
+
+head(dct_averages)
+```
+
+### Step 2: Apply `idct` to the averages
+
+Now, I'll use `reframe()` and `across()` to get the formant-like values from these averages
+
+```{r}
+dct_averages |> 
+  reframe(
+    across(
+      F1:F3,
+      ~idct(
+        .x, 
+        n = 100L,
+        orthogonalize = T, 
+        norm = "forward"
+      )
+    ),
+    .by = label
+  ) |> 
+  mutate(
+    prop_time = (row_number()-1)/(n()-1),
+    .by = label
+  )->
+  average_smooths
+
+head(average_smooths)
+```
+
+### Step 3: Make some good plots
+
+Here's a plot of the expanded formant trajectories for some of the more dynamic vowels.
+
+```{r}
+#| label: fig-trajectories
+#| code-fold: true
+#| code-summary: "Plotting code"
+#| fig-width: 4
+#| fig-height: 4
+#| fig-format: svg
+#| fig-cap: "Average formant trajectories"
+average_smooths |> 
+  filter(
+    label %in% c(
+      "iy",
+      "ey",
+      "ay",
+      "ay0",
+      "aw",
+      "Tuw",
+      "owL"
+    )
+  ) |> 
+  ggplot(
+    aes(F2, F1, color = label)
+  )+
+    geom_textpath(
+      aes(
+        group = label,
+        label = label
+      ),
+      arrow = arrow(
+        type = "closed",
+        length = unit(0.2, "cm")
+      ),
+      linewidth = 1
+    )+
+    scale_y_reverse()+
+    scale_x_reverse()+
+    guides(
+      color = "none"
+    )+
+    theme(aspect.ratio = 1)
+```
+
+## A note
+
+*Usually* when you see a plot like @fig-trajectories, it's the result of some fairly complicated model fitting. But take a look through the source code here! Not a gam in sight! Just averaging, and the application of the idct!

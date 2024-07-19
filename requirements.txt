@@ -1,2 +1,7 @@
-numpy==2.0.0
+aligned_textgrid==0.7.4
+cloudpickle==3.0.0
+numpy==1.26.4
+polars==0.20.31
+praatio==6.2.0
 scipy==1.14.0
+typing_extensions==4.12.2

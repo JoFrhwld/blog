@@ -25,7 +25,7 @@ library(gt)
 source(here::here("_defaults.R"))
 ```
 
-In order to communicated back and forth, I'll need to load the reticulate package.
+In order to communicate back and forth, I'll need to load the reticulate package.
 
 ```{r}
 library(reticulate)
@@ -112,7 +112,7 @@ If you use the same number of cosine functions as you had data points in the ori
 
 ## Option 1: Passing Data back and forth
 
-So, the [fasttrackpy](https://fasttrackiverse.github.io/fasttrackpy/) gives you the option of saving DCT parameters to a csv file. I'll load an example into R, and grab the rows for one example vowel so we can see what it looks like.
+So, the [fasttrackpy](https://fasttrackiverse.github.io/fasttrackpy/) package gives you the option of saving DCT parameters to a csv file. I'll load an example into R, and grab the rows for one example vowel so we can see what it looks like.
 
 ```{r}
 # Reading in the data

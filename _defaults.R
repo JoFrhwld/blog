@@ -33,8 +33,7 @@ theme_set(theme_minimal(base_size = 20) +
             theme(text = element_text(family = "Fira Sans"),
                   #plot.background = element_rect(fill = plot_bg),
                   panel.background = element_blank(),
-                  #panel.grid.major = element_line(color = major, linewidth = 0.2),
-                  panel.grid.minor = element_blank(),
+                  panel.grid = element_blank(),
                   legend.key = element_blank(),
                   #strip.background = element_rect(fill = strip_bg),
                   #strip.text = element_text(color = "white"),
@@ -49,11 +48,19 @@ theme_no_y <- function(){
   )
 }
 
+theme_no_x <- function(){
+  theme(
+    axis.text.x = element_blank(),
+    axis.title.x = element_blank(),
+    panel.grid.major.x = element_blank()
+  )
+}
+
 options(
-  ggplot2.discrete.colour = khroma::scale_color_bright,
-  ggplot2.discrete.fill = khroma::scale_fill_bright,
-  ggplot2.continuous.colour = khroma::scale_color_batlow,
-  ggplot2.continuous.fill = khroma::scale_fill_batlow
+  ggplot2.discrete.colour = khroma::color("bright")(7),
+  ggplot2.discrete.fill = khroma::color("bright")(7),
+  ggplot2.continuous.colour = \(...) scico::scale_color_scico(palette = "batlow", ...),
+  ggplot2.continuous.fill = \(...) scico::scale_fill_scico(palette = "batlow", ...)
 )
 
 # set a crop: true hook

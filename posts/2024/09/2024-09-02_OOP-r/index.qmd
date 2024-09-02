@@ -1,6 +1,6 @@
 ---
 title: Experimenting with Object Oriented Programming in R
-draft: true
+draft: false
 date: 2024-09-02
 draft-mode: unlinked
 code-link: false

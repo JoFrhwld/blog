@@ -9,8 +9,813 @@
 <link>https://jofrhwld.github.io/blog/</link>
 <atom:link href="https://jofrhwld.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.5.55</generator>
-<lastBuildDate>Fri, 19 Jul 2024 00:00:00 GMT</lastBuildDate>
+<generator>quarto-1.5.57</generator>
+<lastBuildDate>Mon, 02 Sep 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Experimenting with Object Oriented Programming in R</title>
+  <dc:creator>Josef Fruehwald</dc:creator>
+  <link>https://jofrhwld.github.io/blog/posts/2024/09/2024-09-02_OOP-r/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>I’ve been doing a <em>lot</em> of python development recently, and really leaning into object oriented programming for my projects. For example, in the <a href="https://forced-alignment-and-vowel-extraction.github.io/alignedTextGrid/">aligned-textgrid package</a>, I started off by defining a class to represent intervals, which at their core have start and end times, and a label. Each interval also points to the interval objects preceding and following, as well as any intervals it contains or is contained in.</p>
+<section id="doing-it-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="doing-it-in-r">Doing it in R?</h2>
+<p>I don’t exactly <em>want</em> to replicate the entire package inside R, and for a while I wasn’t even sure how I could, because of R’s <a href="https://adv-r.hadley.nz/names-values.html#copy-on-modify">copy-on-modify behavior</a>.</p>
+<p>Let’s say we had the following sequence of intervals:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="assets/intervals.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://jofrhwld.github.io/blog/posts/2024/09/2024-09-02_OOP-r/assets/intervals.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+<p>We could represent the basic information (start, end, and label) in lists. I’ll also set up a reference to <code>interval_b</code> as following <code>interval_a</code>.</p>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1">interval_a <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="cb1-2">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">start =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,</span>
+<span id="cb1-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">end   =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>,</span>
+<span id="cb1-4">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"a"</span></span>
+<span id="cb1-5">)</span>
+<span id="cb1-6"></span>
+<span id="cb1-7">interval_b <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="cb1-8">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">start =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>,</span>
+<span id="cb1-9">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">end   =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>,</span>
+<span id="cb1-10">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"b"</span></span>
+<span id="cb1-11">)</span>
+<span id="cb1-12"></span>
+<span id="cb1-13">interval_a<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fol <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> interval_b</span></code></pre></div>
+</div>
+<p>We can double check that the <code>fol</code> reference is working with <code>identical()</code> .</p>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">identical</span>(interval_a<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fol, interval_b)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>identical()</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><em>This</em> took me a while to find. Python has a commonly used <code>is</code> operator for checking whether two variables refer to the same object, rather than just being equal.</p>
+<div class="cell">
+<div class="langname">
+<pre class="langname">python</pre>
+</div>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">a <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span></span>
+<span id="cb4-2">b <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span>
+<span id="cb4-3"></span>
+<span id="cb4-4">a <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">is</span> b</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="langname">
+<pre class="langname">python</pre>
+</div>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">a <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> b</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>True</code></pre>
+</div>
+</div>
+<p>But I’ve never used R’s <code>identical()</code> before, and it doesn’t usually show up in intros to the language like python’s <code>is</code>.</p>
+</div>
+</div>
+</div>
+<section id="copy-on-modify" class="level3">
+<h3 class="anchored" data-anchor-id="copy-on-modify">Copy-on-modify</h3>
+<p>Things become a problem if we want to make changes to <code>interval_b</code>, though. One of the core tasks I wanted aligned-textgrid to make easy is the modification of interval labels. But in R, if we change the value of <code>interval_b$label</code>, that change <em>won’t</em> be reflected in the values in <code>interval_a$fol</code>, and the reference between the two objects will be broken.</p>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">interval_b<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>label <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"new B"</span></span>
+<span id="cb8-2"></span>
+<span id="cb8-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># this is now false</span></span>
+<span id="cb8-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">identical</span>(interval_a<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fol, interval_b)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># this is the original label</span></span>
+<span id="cb10-2">interval_a<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fol<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>label</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "b"</code></pre>
+</div>
+</div>
+<p>To understand what’s going on here, I’d recommend checking out Hadley Wickham’s <a href="https://adv-r.hadley.nz/"><em>Advanced R</em></a> chapter on <a href="https://adv-r.hadley.nz/names-values.html">Names and Values</a>, especially the section on <a href="https://adv-r.hadley.nz/names-values.html#copy-on-modify">Copy-on-modify</a>.</p>
+</section>
+</section>
+<section id="oop-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="oop-in-r">OOP in R</h2>
+<p>One of these days, there’s going to be a new R package called <code>yaoop</code> for Yet Another Object Oriented Paradigm. The class systems that ship with R are called <code>S3</code> and <code>S4</code>, and there are two new-ish class packages <a href="https://r6.r-lib.org/">R6</a> and <a href="https://rconsortium.github.io/S7/">S7</a>. These two new packages both have pretty interesting properties, but as pointed out in <a href="https://adv-r.hadley.nz/r6.html"><em>Advanced R</em></a></p>
+<blockquote class="blockquote">
+<p>R6 objects are <strong>mutable</strong>, which means that they are modified in place, and hence have reference semantics.</p>
+</blockquote>
+<p>S7 is the newer package, but I’ve double checked, and it also follows copy-on-modify, which means R6 is the way to go for this kind of use case.</p>
+<section id="trying-out-r6" class="level3">
+<h3 class="anchored" data-anchor-id="trying-out-r6">Trying out <img src="https://jofrhwld.github.io/blog/posts/2024/09/2024-09-02_OOP-r/assets/R6-logo.svg" style="height:1.2em" alt="R6"></h3>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(R6)</span></code></pre></div>
+</div>
+<p>Following the intro in the <a href="https://r6.r-lib.org/articles/Introduction.html">R6 documentation</a>, the most basic SequenceInterval class would be something like this.</p>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="2" data-code-annotation="1">The name of the class you want to be returned when you use <code>class()</code> .</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="2">Any generally available class properties and methods are declared in a list passed to the <code>public</code> argument.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="4,5,6,7,8" data-code-annotation="3">I believe a any properties you want to use or set through the rest of the class definition need to be declared here first.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="10,11,12,13,14,15,16,17,18" data-code-annotation="4"><code>initialize</code> is a special method that’s called when you use <code>SequenceInterval$new()</code></span>
+</dd>
+</dl>
+</div>
+<div class="sourceCode cell-code" id="annotated-cell-6" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-6-1">SequenceInterval <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">R6Class</span>(</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-2" class="code-annotation-target">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">classname =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"SequenceInterval"</span>,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-3" class="code-annotation-target">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">public =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-4" class="code-annotation-target">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">start =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">numeric</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="annotated-cell-6-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">end   =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">numeric</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="annotated-cell-6-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">character</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="annotated-cell-6-7">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">prev  =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span>,</span>
+<span id="annotated-cell-6-8">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fol   =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span>,</span>
+<span id="annotated-cell-6-9">                                    </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="4">4</button><span id="annotated-cell-6-10" class="code-annotation-target">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">initialize =</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(</span>
+<span id="annotated-cell-6-11">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">start =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">numeric</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="annotated-cell-6-12">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">end   =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">numeric</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="annotated-cell-6-13">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">character</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="annotated-cell-6-14">    ){</span>
+<span id="annotated-cell-6-15">      self<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>start <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> start</span>
+<span id="annotated-cell-6-16">      self<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>end   <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> end</span>
+<span id="annotated-cell-6-17">      self<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>label <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> label</span>
+<span id="annotated-cell-6-18">    }</span>
+<span id="annotated-cell-6-19">    </span>
+<span id="annotated-cell-6-20">  )                               </span>
+<span id="annotated-cell-6-21">)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<p>My two sequence objects would then be:</p>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1">interval_a <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> SequenceInterval<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">new</span>(</span>
+<span id="cb13-2">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">start =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,</span>
+<span id="cb13-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">end   =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>,</span>
+<span id="cb13-4">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"a"</span></span>
+<span id="cb13-5">)</span>
+<span id="cb13-6"></span>
+<span id="cb13-7">interval_b <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> SequenceInterval<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">new</span>(</span>
+<span id="cb13-8">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">start =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>,</span>
+<span id="cb13-9">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">end   =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>,</span>
+<span id="cb13-10">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"b"</span></span>
+<span id="cb13-11">)</span>
+<span id="cb13-12"></span>
+<span id="cb13-13">interval_a<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fol <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> interval_b</span></code></pre></div>
+</div>
+<p>Let’s double check that <code>sequence_b</code> is appropriately following <code>sequence_a</code>.</p>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">identical</span>(interval_a<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fol, interval_b)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Now, for the moment of truth, we’ll change the label on <code>interval_b</code> and see if it breaks things.</p>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1">interval_b<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>label <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"new B"</span></span>
+<span id="cb16-2"></span>
+<span id="cb16-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">identical</span>(interval_a<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fol, interval_b)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1">interval_a<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fol<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>label</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "new B"</code></pre>
+</div>
+</div>
+<p>Success!</p>
+</section>
+</section>
+<section id="getting-more-complicated" class="level2">
+<h2 class="anchored" data-anchor-id="getting-more-complicated">Getting more complicated</h2>
+<p>I’m going to try to make things a little more complicated with respect to the<code>fol</code> and <code>prev</code> properties. I want</p>
+<ul>
+<li><p>When <code>fol</code> is set, <code>prev</code> is automatically set.</p></li>
+<li><p>When <code>prev</code> is set, <code>fol</code> is automatically set.</p></li>
+</ul>
+<p>These aren’t just nice quality of life features, but also capture the necessary logical properties of following and preceding.</p>
+<p>I think the way to go about this will be</p>
+<ul>
+<li><p>to lock off <code>fol</code> and <code>prev</code> from being directly settable. I think the best way to do this is to move them to <a href="https://r6.r-lib.org/articles/Introduction.html#active-bindings">active bindings</a>, which seems a lot like using the python <code>@property</code> decorator on a method.</p></li>
+<li><p>Add private <code>.fol</code> and <code>.prev</code> properties.</p></li>
+<li><p>Define setter functions that will update the <code>_fol</code> and <code>_prev</code> properties, being careful to avoid infinite recursion!</p></li>
+</ul>
+<p>I’ve described each new piece in the code annotations.</p>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="4,5,6,7" data-code-annotation="1">Defining private properties. Convention in python is for the name of these properties to start with and underscore, but that’s not allowed in R, so I’m going with dots.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="9,10,11,12,13,14,15,16" data-code-annotation="2">These are the getter functions to return the actual <code>.fol</code> and <code>.prev</code> objects.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="18,19,20,21,22,23,24,25,26,27,28,29,30,31" data-code-annotation="3">Same as the original class definition above.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="33,34" data-code-annotation="4">This is the setter function for the following interval.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="36,37,38" data-code-annotation="5"><strong>SUPER IMPORTANT.</strong> The <code>set_fol()</code> method is calling <code>set_prev()</code>, and the <code>set_prev()</code> method is calling <code>set_fol()</code>. To avoid infinite recursion, the function should stop here if it’s <em>already</em> the preceding interval to its following interval.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="40" data-code-annotation="6">A kind of interesting thing is I <em>have</em> to use the public <code>set_prev()</code> method here, because the method won’t be able to dig into the private <code>.prev</code> property of <code>interval</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="44,45,46,47,48,49,50,51,52" data-code-annotation="7">Same logic as <code>set_fol()</code>.</span>
+</dd>
+</dl>
+</div>
+<div class="sourceCode cell-code" id="annotated-cell-11" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-11-1">SequenceInterval <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">R6Class</span>(</span>
+<span id="annotated-cell-11-2">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">classname =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"SequenceInterval"</span>,</span>
+<span id="annotated-cell-11-3">  </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1">1</button><span id="annotated-cell-11-4" class="code-annotation-target">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">private =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="annotated-cell-11-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">.fol =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span>,</span>
+<span id="annotated-cell-11-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">.prev =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span></span>
+<span id="annotated-cell-11-7">  ),</span>
+<span id="annotated-cell-11-8"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2">2</button><span id="annotated-cell-11-9" class="code-annotation-target">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">active =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="annotated-cell-11-10">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fol =</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(){</span>
+<span id="annotated-cell-11-11">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">return</span>(private<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>.fol)</span>
+<span id="annotated-cell-11-12">    },</span>
+<span id="annotated-cell-11-13">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">prev =</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(){</span>
+<span id="annotated-cell-11-14">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">return</span>(private<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>.prev)</span>
+<span id="annotated-cell-11-15">    }</span>
+<span id="annotated-cell-11-16">  ),</span>
+<span id="annotated-cell-11-17"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="3">3</button><span id="annotated-cell-11-18" class="code-annotation-target">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">public =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="annotated-cell-11-19">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">start =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">numeric</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="annotated-cell-11-20">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">end   =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">numeric</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="annotated-cell-11-21">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">character</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="annotated-cell-11-22"></span>
+<span id="annotated-cell-11-23">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">initialize =</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(</span>
+<span id="annotated-cell-11-24">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">start =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">numeric</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="annotated-cell-11-25">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">end   =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">numeric</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="annotated-cell-11-26">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">character</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="annotated-cell-11-27">    ){</span>
+<span id="annotated-cell-11-28">      self<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>start <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> start</span>
+<span id="annotated-cell-11-29">      self<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>end   <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> end</span>
+<span id="annotated-cell-11-30">      self<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>label <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> label</span>
+<span id="annotated-cell-11-31">    },</span>
+<span id="annotated-cell-11-32"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="4">4</button><span id="annotated-cell-11-33" class="code-annotation-target">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">set_fol =</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(interval){</span>
+<span id="annotated-cell-11-34">      private<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>.fol <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> interval</span>
+<span id="annotated-cell-11-35"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="5">5</button><span id="annotated-cell-11-36" class="code-annotation-target">      <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">identical</span>(self<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fol<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>prev, self)){</span>
+<span id="annotated-cell-11-37">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">return</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">invisible</span>(self))</span>
+<span id="annotated-cell-11-38">      }</span>
+<span id="annotated-cell-11-39"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="6">6</button><span id="annotated-cell-11-40" class="code-annotation-target">      self<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fol<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">set_prev</span>(self)</span>
+<span id="annotated-cell-11-41"></span>
+<span id="annotated-cell-11-42">    },</span>
+<span id="annotated-cell-11-43"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="7">7</button><span id="annotated-cell-11-44" class="code-annotation-target">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">set_prev =</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(interval){</span>
+<span id="annotated-cell-11-45">      private<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>.prev <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> interval</span>
+<span id="annotated-cell-11-46"></span>
+<span id="annotated-cell-11-47">      <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">identical</span>(self<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>prev<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fol, self)){</span>
+<span id="annotated-cell-11-48">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">return</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">invisible</span>(self))</span>
+<span id="annotated-cell-11-49">      }</span>
+<span id="annotated-cell-11-50"></span>
+<span id="annotated-cell-11-51">      self<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>prev<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">set_fol</span>(self)</span>
+<span id="annotated-cell-11-52">    }</span>
+<span id="annotated-cell-11-53"></span>
+<span id="annotated-cell-11-54">  )</span>
+<span id="annotated-cell-11-55">)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<p>We can still create intervals the same way as above.</p>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">interval_a <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> SequenceInterval<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">new</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"a"</span>)</span>
+<span id="cb20-2">interval_b <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> SequenceInterval<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">new</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"b"</span>)</span></code></pre></div>
+</div>
+<p>But to set up <code>interval_b</code> as the interval following <code>interval_a</code>, you’ve got to use the <code>set_fol()</code> setter function.</p>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1">interval_a<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">set_fol</span>(interval_b)</span>
+<span id="cb21-2"></span>
+<span id="cb21-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">identical</span>(interval_a<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fol, interval_b)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>But now, <code>interval_a</code> has been automatically set as preceding <code>interval_b</code>!</p>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">identical</span>(interval_b<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>prev, interval_a)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>The major defect here is that if I, or a user, didn’t know about the setter functions, we’ll get a very inscrutable error message when trying to directly set <code>fol</code> or <code>prev</code>.</p>
+<div class="cell">
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1">interval_a<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fol <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> interval_b</span></code></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in (function () : unused argument (base::quote(&lt;environment&gt;))</code></pre>
+</div>
+</div>
+<p>I might want to figure out if it’s possible to get a better error here, or even better, some way to short circuit this assignment attempt to <code>set_fol()</code>, but I think that’s a bit beyond my patience and time for right now.</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="ref-wickhamAdvanced2019" class="csl-entry">
+Wickham, Hadley. 2019. <em>Advanced r</em>. Second edition. CRC Press/Taylor; Francis Group.
+</div>
+</div></section><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2024,
+  author = {Fruehwald, Josef},
+  title = {Experimenting with {Object} {Oriented} {Programming} in {R}},
+  series = {Væl Space},
+  date = {2024-09-02},
+  url = {https://jofrhwld.github.io/blog/posts/2024/09/2024-09-02_OOP-r/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2024" class="csl-entry quarto-appendix-citeas">
+Fruehwald, Josef. 2024. <span>“Experimenting with Object Oriented
+Programming in R.”</span> Væl Space. September 2, 2024. <a href="https://jofrhwld.github.io/blog/posts/2024/09/2024-09-02_OOP-r/">https://jofrhwld.github.io/blog/posts/2024/09/2024-09-02_OOP-r/</a>.
+</div></div></section></div> ]]></description>
+  <guid>https://jofrhwld.github.io/blog/posts/2024/09/2024-09-02_OOP-r/</guid>
+  <pubDate>Mon, 02 Sep 2024 00:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Working with the Discrete Cosine Transform in R</title>
   <dc:creator>Josef Fruehwald</dc:creator>
@@ -74,7 +879,7 @@ background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </details>
 </div>
-<p>In order to communicated back and forth, I’ll need to load the reticulate package.</p>
+<p>In order to communicate back and forth, I’ll need to load the reticulate package.</p>
 <div class="cell">
 <div class="langname">
 <pre class="langname">r</pre>
@@ -180,7 +985,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
 </div>
 <p>If you use the same number of cosine functions as you had data points in the original signal, you can fully reconstruct the original signal. Or, if you use just a few (like 5 in this figure), it has the effect of smoothing the signal when you invert the DCT.</p>
 </section><section id="option-1-passing-data-back-and-forth" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="option-1-passing-data-back-and-forth">Option 1: Passing Data back and forth</h2>
-<p>So, the <a href="https://fasttrackiverse.github.io/fasttrackpy/">fasttrackpy</a> gives you the option of saving DCT parameters to a csv file. I’ll load an example into R, and grab the rows for one example vowel so we can see what it looks like.</p>
+<p>So, the <a href="https://fasttrackiverse.github.io/fasttrackpy/">fasttrackpy</a> package gives you the option of saving DCT parameters to a csv file. I’ll load an example into R, and grab the rows for one example vowel so we can see what it looks like.</p>
 <div class="cell">
 <div class="langname">
 <pre class="langname">r</pre>
@@ -327,23 +1132,23 @@ font-style: inherit;">F3</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </details><div class="cell-output-display">
-<div id="fcgvxhbrhd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#fcgvxhbrhd table {
+<div id="zbvlkabvwt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zbvlkabvwt table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#fcgvxhbrhd thead, #fcgvxhbrhd tbody, #fcgvxhbrhd tfoot, #fcgvxhbrhd tr, #fcgvxhbrhd td, #fcgvxhbrhd th {
+#zbvlkabvwt thead, #zbvlkabvwt tbody, #zbvlkabvwt tfoot, #zbvlkabvwt tr, #zbvlkabvwt td, #zbvlkabvwt th {
   border-style: none;
 }
 
-#fcgvxhbrhd p {
+#zbvlkabvwt p {
   margin: 0;
   padding: 0;
 }
 
-#fcgvxhbrhd .gt_table {
+#zbvlkabvwt .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -369,12 +1174,12 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-left-color: #D3D3D3;
 }
 
-#fcgvxhbrhd .gt_caption {
+#zbvlkabvwt .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#fcgvxhbrhd .gt_title {
+#zbvlkabvwt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -386,7 +1191,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-width: 0;
 }
 
-#fcgvxhbrhd .gt_subtitle {
+#zbvlkabvwt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -398,7 +1203,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-width: 0;
 }
 
-#fcgvxhbrhd .gt_heading {
+#zbvlkabvwt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -410,13 +1215,13 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#fcgvxhbrhd .gt_bottom_border {
+#zbvlkabvwt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#fcgvxhbrhd .gt_col_headings {
+#zbvlkabvwt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -431,7 +1236,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#fcgvxhbrhd .gt_col_heading {
+#zbvlkabvwt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -451,7 +1256,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#fcgvxhbrhd .gt_column_spanner_outer {
+#zbvlkabvwt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -463,15 +1268,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 4px;
 }
 
-#fcgvxhbrhd .gt_column_spanner_outer:first-child {
+#zbvlkabvwt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#fcgvxhbrhd .gt_column_spanner_outer:last-child {
+#zbvlkabvwt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#fcgvxhbrhd .gt_column_spanner {
+#zbvlkabvwt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -483,11 +1288,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   width: 100%;
 }
 
-#fcgvxhbrhd .gt_spanner_row {
+#zbvlkabvwt .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#fcgvxhbrhd .gt_group_heading {
+#zbvlkabvwt .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -513,7 +1318,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   text-align: left;
 }
 
-#fcgvxhbrhd .gt_empty_group_heading {
+#zbvlkabvwt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -528,15 +1333,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: middle;
 }
 
-#fcgvxhbrhd .gt_from_md > :first-child {
+#zbvlkabvwt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#fcgvxhbrhd .gt_from_md > :last-child {
+#zbvlkabvwt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#fcgvxhbrhd .gt_row {
+#zbvlkabvwt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -555,7 +1360,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#fcgvxhbrhd .gt_stub {
+#zbvlkabvwt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -568,7 +1373,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#fcgvxhbrhd .gt_stub_row_group {
+#zbvlkabvwt .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -582,15 +1387,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: top;
 }
 
-#fcgvxhbrhd .gt_row_group_first td {
+#zbvlkabvwt .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#fcgvxhbrhd .gt_row_group_first th {
+#zbvlkabvwt .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#fcgvxhbrhd .gt_summary_row {
+#zbvlkabvwt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -600,16 +1405,16 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#fcgvxhbrhd .gt_first_summary_row {
+#zbvlkabvwt .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#fcgvxhbrhd .gt_first_summary_row.thick {
+#zbvlkabvwt .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#fcgvxhbrhd .gt_last_summary_row {
+#zbvlkabvwt .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -619,7 +1424,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#fcgvxhbrhd .gt_grand_summary_row {
+#zbvlkabvwt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -629,7 +1434,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#fcgvxhbrhd .gt_first_grand_summary_row {
+#zbvlkabvwt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -639,7 +1444,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-color: #D3D3D3;
 }
 
-#fcgvxhbrhd .gt_last_grand_summary_row_top {
+#zbvlkabvwt .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -649,11 +1454,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#fcgvxhbrhd .gt_striped {
+#zbvlkabvwt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#fcgvxhbrhd .gt_table_body {
+#zbvlkabvwt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -662,7 +1467,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#fcgvxhbrhd .gt_footnotes {
+#zbvlkabvwt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -676,7 +1481,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#fcgvxhbrhd .gt_footnote {
+#zbvlkabvwt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -685,7 +1490,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#fcgvxhbrhd .gt_sourcenotes {
+#zbvlkabvwt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -699,7 +1504,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#fcgvxhbrhd .gt_sourcenote {
+#zbvlkabvwt .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -707,72 +1512,72 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#fcgvxhbrhd .gt_left {
+#zbvlkabvwt .gt_left {
   text-align: left;
 }
 
-#fcgvxhbrhd .gt_center {
+#zbvlkabvwt .gt_center {
   text-align: center;
 }
 
-#fcgvxhbrhd .gt_right {
+#zbvlkabvwt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#fcgvxhbrhd .gt_font_normal {
+#zbvlkabvwt .gt_font_normal {
   font-weight: normal;
 }
 
-#fcgvxhbrhd .gt_font_bold {
+#zbvlkabvwt .gt_font_bold {
   font-weight: bold;
 }
 
-#fcgvxhbrhd .gt_font_italic {
+#zbvlkabvwt .gt_font_italic {
   font-style: italic;
 }
 
-#fcgvxhbrhd .gt_super {
+#zbvlkabvwt .gt_super {
   font-size: 65%;
 }
 
-#fcgvxhbrhd .gt_footnote_marks {
+#zbvlkabvwt .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#fcgvxhbrhd .gt_asterisk {
+#zbvlkabvwt .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#fcgvxhbrhd .gt_indent_1 {
+#zbvlkabvwt .gt_indent_1 {
   text-indent: 5px;
 }
 
-#fcgvxhbrhd .gt_indent_2 {
+#zbvlkabvwt .gt_indent_2 {
   text-indent: 10px;
 }
 
-#fcgvxhbrhd .gt_indent_3 {
+#zbvlkabvwt .gt_indent_3 {
   text-indent: 15px;
 }
 
-#fcgvxhbrhd .gt_indent_4 {
+#zbvlkabvwt .gt_indent_4 {
   text-indent: 20px;
 }
 
-#fcgvxhbrhd .gt_indent_5 {
+#zbvlkabvwt .gt_indent_5 {
   text-indent: 25px;
 }
 
-#fcgvxhbrhd .katex-display {
+#zbvlkabvwt .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#fcgvxhbrhd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#zbvlkabvwt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -19556,7 +20361,7 @@ font-style: inherit;">cars</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-carsplot" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A base graphics scatter plot showing the relationship between speed and distance from the cars default data frame." data-fig-align="center">
+<div id="fig-carsplot" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A base graphics scatter plot showing the relationship between speed and distance from the cars default data frame.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-carsplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-carsplot-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: A plot"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index_files/figure-html/fig-carsplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A base graphics scatter plot showing the relationship between speed and distance from the cars default data frame." width="576"></a>
 </div>
@@ -20011,7 +20816,7 @@ font-style: inherit;">0.6</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </details><div class="cell-output-display page-columns page-full">
-<div id="fig-rank" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The main figure shows the linear decreasing relationship between log(frequency) and log(rank). The inset is a bar graph showing the import frequency of the top 10 packages, which are stats, utils, methods, dplyr, ggplot2, Rcpp, graphics, magrittr, rlang, stringr" data-fig-align="center">
+<div id="fig-rank" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The main figure shows the linear decreasing relationship between log(frequency) and log(rank). The inset is a bar graph showing the import frequency of the top 10 packages, which are stats, utils, methods, dplyr, ggplot2, Rcpp, graphics, magrittr, rlang, stringr">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-rank-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-rank-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: A log(rank) by log(frequency) plot of R imports"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index_files/figure-html/fig-rank-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The main figure shows the linear decreasing relationship between log(frequency) and log(rank). The inset is a bar graph showing the import frequency of the top 10 packages, which are stats, utils, methods, dplyr, ggplot2, Rcpp, graphics, magrittr, rlang, stringr" width="768"></a>
 </div>
@@ -20616,7 +21421,7 @@ font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </details><div class="cell-output-display page-columns page-full">
-<div id="fig-network" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A network diagram displaying just the nodes, color coded according to their name pattern: beginning with tidy, beginning with gg, ending with r, and else" data-fig-align="center">
+<div id="fig-network" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A network diagram displaying just the nodes, color coded according to their name pattern: beginning with tidy, beginning with gg, ending with r, and else">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-network-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-network-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: CRAN network graph"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index_files/figure-html/fig-network-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A network diagram displaying just the nodes, color coded according to their name pattern: beginning with tidy, beginning with gg, ending with r, and else" width="480"></a>
 </div>
@@ -21676,7 +22481,7 @@ font-style: inherit;">"Cumulative number of words in course notes"</span><span c
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </details><div class="cell-output-display page-columns page-full">
-<div id="fig-total" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A line graph showing a continuous increase from about 7,000 words to over 40,000 words between September and December">
+<div id="fig-total" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A line graph showing a continuous increase from about 7,000 words to over 40,000 words between September and December" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-total-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-total-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: The number of words I wrote over the course of Fall 2022"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10/index_files/figure-html/fig-total-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A line graph showing a continuous increase from about 7,000 words to over 40,000 words between September and December" width="576"></a>
 </div>

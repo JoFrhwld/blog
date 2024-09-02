@@ -13,8 +13,9 @@ about:
       href: https://github.com/JoFrhwld
     - icon: mastodon
       href: https://lingo.lol/@JoFrhwld
-    - icon: twitter
-      href: https://twitter.com/JoFrhwld
+    - icon: cloud-sun
+      text: bsky
+      href: https://bsky.app/profile/jofrhwld.bsky.social
 ---
 
 ## About Me
@@ -35,7 +36,7 @@ Headers
 
 Body
 
-:   [Atkinson Hyperlegible](https://fonts.google.com/specimen/Atkinson+Hyperlegible)
+:   [Public Sans](https://fonts.google.com/specimen/Public+Sans)
 
 Figures
 

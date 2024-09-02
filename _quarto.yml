@@ -2,7 +2,9 @@ project:
   type: website
   render:
     - "*.qmd"
-    - "!old_posts/"  
+    - "!old_posts/"
+  preview:
+    port: 7776
 
 execute:
   freeze: auto
@@ -10,6 +12,10 @@ execute:
 website:
   title: "Væl Space"
   favicon: assets/logo.svg
+  twitter-card:
+    image: assets/logo.svg
+  open-graph: 
+    image: assets/logo.svg    
   bread-crumbs: false
   site-url: "https://jofrhwld.github.io/blog"
   google-analytics: "G-SS6YYGWPPL"
@@ -27,9 +33,10 @@ website:
         href: index.xml
   sidebar:
     logo: assets/logo.svg  
-    collapse-level: 0
     style: floating
     contents: posts
+    collapse-level: 0
+    
       
   # sidebar: 
   #   style: "floating"
@@ -40,12 +47,17 @@ website:
 
 format:
   html:
-    theme: 
-      - "flatly"
-      - custom.scss
-    include-in-header: font_import.html
+    theme:
+      light: 
+        - flatly
+        - styles/custom.scss
+        - styles/light.scss
+      dark: 
+        - darkly
+        - styles/custom.scss
+        - styles/dark.scss
     monofont: Fira Code
-    mainfont: Atkinson Hyperlegible
+    mainfont: Public Sans
     toc: true
     fig-width: 6
     fig-height: 5

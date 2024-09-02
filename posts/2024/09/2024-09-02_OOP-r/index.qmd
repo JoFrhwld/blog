@@ -1,0 +1,289 @@
+---
+title: Experimenting with Object Oriented Programming in R
+draft: true
+date: 2024-09-02
+draft-mode: unlinked
+code-link: false
+code-annotations: select
+filters:
+  - codeblocklabel
+bibliography: references.bib
+nocite: |
+  @wickhamAdvanced2019
+---
+
+```{r}
+#| echo: false
+source(here::here("_defaults.R")) 
+library(reticulate)
+```
+
+I've been doing a *lot* of python development recently, and really leaning into object oriented programming for my projects. For example, in the [aligned-textgrid package](https://forced-alignment-and-vowel-extraction.github.io/alignedTextGrid/), I started off by defining a class to represent intervals, which at their core have start and end times, and a label. Each interval also points to the interval objects preceding and following, as well as any intervals it contains or is contained in.
+
+## Doing it in R?
+
+I don't exactly *want* to replicate the entire package inside R, and for a while I wasn't even sure how I could, because of R's [copy-on-modify behavior](https://adv-r.hadley.nz/names-values.html#copy-on-modify).
+
+Let's say we had the following sequence of intervals:
+
+![](assets/intervals.png){fig-align="center"}
+
+We could represent the basic information (start, end, and label) in lists. I'll also set up a reference to `interval_b` as following `interval_a`.
+
+```{r}
+interval_a <- list(
+  start = 1,
+  end   = 2,
+  label = "a"
+)
+
+interval_b <- list(
+  start = 3,
+  end   = 4,
+  label = "b"
+)
+
+interval_a$fol <- interval_b
+```
+
+We can double check that the `fol` reference is working with `identical()` .
+
+```{r}
+identical(interval_a$fol, interval_b)
+```
+
+::: {.callout-note collapse="true"}
+## `identical()`
+
+*This* took me a while to find. Python has a commonly used `is` operator for checking whether two variables refer to the same object, rather than just being equal.
+
+```{python}
+a = 1.0
+b = 2/2
+
+a is b
+```
+
+```{python}
+a == b
+```
+
+But I've never used R's `identical()` before, and it doesn't usually show up in intros to the language like python's `is`.
+:::
+
+### Copy-on-modify
+
+Things become a problem if we want to make changes to `interval_b`, though. One of the core tasks I wanted aligned-textgrid to make easy is the modification of interval labels. But in R, if we change the value of `interval_b$label`, that change *won't* be reflected in the values in `interval_a$fol`, and the reference between the two objects will be broken.
+
+```{r}
+interval_b$label <- "new B"
+
+# this is now false
+identical(interval_a$fol, interval_b)
+```
+
+```{r}
+# this is the original label
+interval_a$fol$label
+```
+
+To understand what's going on here, I'd recommend checking out Hadley Wickham's [*Advanced R*](https://adv-r.hadley.nz/) chapter on [Names and Values](https://adv-r.hadley.nz/names-values.html), especially the section on [Copy-on-modify](https://adv-r.hadley.nz/names-values.html#copy-on-modify).
+
+## OOP in R
+
+One of these days, there's going to be a new R package called `yaoop` for Yet Another Object Oriented Paradigm. The class systems that ship with R are called `S3` and `S4`, and there are two new-ish class packages [R6](https://r6.r-lib.org/) and [S7](https://rconsortium.github.io/S7/). These two new packages both have pretty interesting properties, but as pointed out in [*Advanced R*](https://adv-r.hadley.nz/r6.html)
+
+> R6 objects are **mutable**, which means that they are modified in place, and hence have reference semantics.
+
+S7 is the newer package, but I've double checked, and it also follows copy-on-modify, which means R6 is the way to go for this kind of use case.
+
+### Trying out ![R6](assets/R6-logo.svg){height="1.2em"}
+
+```{r}
+library(R6)
+```
+
+Following the intro in the [R6 documentation](https://r6.r-lib.org/articles/Introduction.html), the most basic SequenceInterval class would be something like this.
+
+```{r}
+SequenceInterval <- R6Class(
+  classname = "SequenceInterval",   # <1>
+  public = list(                    # <2>
+    start = numeric(0),             # <3>
+    end   = numeric(0),             # <3>
+    label = character(0),           # <3>
+    prev  = NULL,                   # <3>
+    fol   = NULL,                   # <3>
+                                    
+    initialize = function(          # <4>
+      start = numeric(0),           # <4>
+      end   = numeric(0),           # <4>
+      label = character(0)          # <4>
+    ){                              # <4>
+      self$start = start            # <4>
+      self$end   = end              # <4>
+      self$label = label            # <4>
+    }                               # <4>
+    
+  )                               
+)
+```
+
+1.  The name of the class you want to be returned when you use `class()` .
+2.  Any generally available class properties and methods are declared in a list passed to the `public` argument.
+3.  I believe a any properties you want to use or set through the rest of the class definition need to be declared here first.
+4.  `initialize` is a special method that's called when you use `SequenceInterval$new()`
+
+My two sequence objects would then be:
+
+```{r}
+interval_a <- SequenceInterval$new(
+  start = 1,
+  end   = 2,
+  label = "a"
+)
+
+interval_b <- SequenceInterval$new(
+  start = 2,
+  end   = 3,
+  label = "b"
+)
+
+interval_a$fol <- interval_b
+```
+
+Let's double check that `sequence_b` is appropriately following `sequence_a`.
+
+```{r}
+identical(interval_a$fol, interval_b)
+```
+
+Now, for the moment of truth, we'll change the label on `interval_b` and see if it breaks things.
+
+```{r}
+interval_b$label <- "new B"
+
+identical(interval_a$fol, interval_b)
+```
+
+```{r}
+interval_a$fol$label
+```
+
+Success!
+
+## Getting more complicated
+
+I'm going to try to make things a little more complicated with respect to the`fol` and `prev` properties. I want
+
+-   When `fol` is set, `prev` is automatically set.
+
+-   When `prev` is set, `fol` is automatically set.
+
+These aren't just nice quality of life features, but also capture the necessary logical properties of following and preceding.
+
+I think the way to go about this will be
+
+-   to lock off `fol` and `prev` from being directly settable. I think the best way to do this is to move them to [active bindings](https://r6.r-lib.org/articles/Introduction.html#active-bindings), which seems a lot like using the python `@property` decorator on a method.
+
+-   Add private `.fol` and `.prev` properties.
+
+-   Define setter functions that will update the `_fol` and `_prev` properties, being careful to avoid infinite recursion!
+
+I've described each new piece in the code annotations.
+
+```{r}
+SequenceInterval <- R6Class(
+  classname = "SequenceInterval",
+  
+  private = list(                           # <1>
+    .fol = NULL,                            # <1>
+    .prev = NULL                            # <1>
+  ),                                        # <1>
+
+  active = list(                            # <2>
+    fol = function(){                       # <2>
+      return(private$.fol)                  # <2>
+    },                                      # <2>
+    prev = function(){                      # <2>
+      return(private$.prev)                 # <2>
+    }                                       # <2>
+  ),                                        # <2>
+
+  public = list(                            # <3>
+    start = numeric(0),                     # <3>
+    end   = numeric(0),                     # <3>
+    label = character(0),                   # <3>
+                                            # <3>
+    initialize = function(                  # <3>
+      start = numeric(0),                   # <3>
+      end   = numeric(0),                   # <3>
+      label = character(0)                  # <3>
+    ){                                      # <3>
+      self$start = start                    # <3>
+      self$end   = end                      # <3>
+      self$label = label                    # <3>
+    },                                      # <3>
+
+    set_fol = function(interval){           # <4>
+      private$.fol = interval               # <4>
+
+      if(identical(self$fol$prev, self)){   # <5>
+        return(invisible(self))             # <5>
+      }                                     # <5>
+
+      self$fol$set_prev(self)               # <6>
+
+    },
+
+    set_prev = function(interval){          # <7>
+      private$.prev = interval              # <7>
+                                            # <7>
+      if(identical(self$prev$fol, self)){   # <7>
+        return(invisible(self))             # <7>
+      }                                     # <7>
+                                            # <7>
+      self$prev$set_fol(self)               # <7>
+    }                                       # <7>
+
+  )
+)
+```
+
+1.  Defining private properties. Convention in python is for the name of these properties to start with and underscore, but that's not allowed in R, so I'm going with dots.
+2.  These are the getter functions to return the actual `.fol` and `.prev` objects.
+3.  Same as the original class definition above.
+4.  This is the setter function for the following interval.
+5.  **SUPER IMPORTANT.** The `set_fol()` method is calling `set_prev()`, and the `set_prev()` method is calling `set_fol()`. To avoid infinite recursion, the function should stop here if it's *already* the preceding interval to its following interval.
+6.  A kind of interesting thing is I *have* to use the public `set_prev()` method here, because the method won't be able to dig into the private `.prev` property of `interval`.
+7.  Same logic as `set_fol()`.
+
+We can still create intervals the same way as above.
+
+```{r}
+interval_a <- SequenceInterval$new(1, 2, "a")
+interval_b <- SequenceInterval$new(1, 2, "b")
+```
+
+But to set up `interval_b` as the interval following `interval_a`, you've got to use the `set_fol()` setter function.
+
+```{r}
+interval_a$set_fol(interval_b)
+
+identical(interval_a$fol, interval_b)
+```
+
+But now, `interval_a` has been automatically set as preceding `interval_b`!
+
+```{r}
+identical(interval_b$prev, interval_a)
+```
+
+The major defect here is that if I, or a user, didn't know about the setter functions, we'll get a very inscrutable error message when trying to directly set `fol` or `prev`.
+
+```{r}
+#| error: true
+interval_a$fol <- interval_b
+```
+
+I might want to figure out if it's possible to get a better error here, or even better, some way to short circuit this assignment attempt to `set_fol()`, but I think that's a bit beyond my patience and time for right now.

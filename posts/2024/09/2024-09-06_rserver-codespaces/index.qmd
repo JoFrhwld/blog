@@ -1,0 +1,239 @@
+---
+title: "Troubleshooting RStudio for GitHub Classrom and Codespaces"
+subtitle: "A living document"
+date: 2024-09-06
+date-modified: last-modified
+draft: false
+filters: 
+  - codeblocklabel
+---
+
+I'm teaching a class on quantitative methods in linguistics, and after getting tired, over the years, of debugging everyone's computer before we could get to the *content* of learning R (much less quantitative methods), I decided to seize control. I'm running the course through GitHub Classroom which comes with an educational allowance for using GitHub codespaces. There have been pros and cons to running things through there:
+
+Pro
+
+:   I don't have to troubleshoot an entire class's worth of computers.
+
+Con
+
+:   I *really* have to troubleshoot the one configuration for everyone.
+
+After working through some issues today, I thought I'd start a running document of decisions I've already made, leaving space for updates down the line. This is for my own sake, to refer back to, but also for any other poor souls out there.
+
+# Problems
+
+## Problem: Devcontainers can take a long time to load.
+
+Launching a codespace can take a long time, especially if you are doing a lot of configuration at the creation time. My solution was to create my own devcontainer image, which should speed some things up.
+
+-   I forked the [rocker-org/devcontainer-images](https://github.com/rocker-org/devcontainer-images) repo
+
+-   I made some tweaks to the to the [build/args.json](https://github.com/Lin611-2024/devcontainer-images/blob/main/build/args.json) file and the [build/matrix.json](https://github.com/Lin611-2024/devcontainer-images/blob/main/build/matrix.json) file, which mostly have the effect of changing the name of the resulting devcontainer image, and the paths to source files used to generate it.
+
+I also put in a text file [called `.rpackages` in a sensible place in the devcontainer repo](https://github.com/Lin611-2024/devcontainer-images/blob/main/src/rstudio/assets/.rpackages) and added the following lines to the dockerfile to get them installed on the image.
+
+``` dockerfile
+COPY assets/.rpackages /home/rstudio/.rpackages
+RUN install2.r --error --skipinstalled $(cat /home/rstudio/.rpackages)
+```
+
+## Problem: I don't want a login screen to Rstudio
+
+By default, if you just launch `rserver` from the devcontainer image (which has RStudio Server installed), you'll get a login screen when you visit the forwarded port. I could have left this, but needing to explain "It looks like a login screen, but the username and password are just rstudio/rstudio" is too sharp an edge.
+
+Fortunately, there's an rstudio server devcontainer feature I can add to the template assignment that enables single sign on mode, and even updates the default working directory to be the workspace, rather than `~`.
+
+``` json
+{
+  "image": "ghcr.io/lin611-2024/devcontainer/bayesdevcontainer:4",
+  "features": {
+    "ghcr.io/rocker-org/devcontainer-features/rstudio-server": {
+      "singleUser": true
+    }
+  }
+}
+```
+
+## Problem: On launch, RStudio doesn't open a project
+
+Even if the default working directory has an `.Rproj` file in it, RStudio doesn't default open it as a project on launch, which also means the git pane isn't available. This was another sharp edge that I knew would cause me problems.
+
+I found a hook I could add to the system `.Rprofile` to fix this
+
+``` r
+setHook(
+  "rstudio.sessionInit",
+  function(newSession){
+    if (newSession && is.null(rstudioapi::getActiveProject())) {
+      rstudioapi::openProject(".")
+    }
+  },
+  action = "append"
+)
+```
+
+I added this to [a sensible place in the devcontainer](https://github.com/Lin611-2024/devcontainer-images/blob/main/src/rstudio/assets/.Rprofile) repository, then I had to make sure to copy it to the image in the Dockerfile.
+
+``` dockerfile
+COPY --chown=rstudio:rstudio assets/.Rprofile /home/rstudio/
+```
+
+## Problem: There were no git credentials in RStudio git pane
+
+If you use the VS Code interface in a codespace, you can push and pull to the original repo, no problem. But I couldn't do it inside the RStudio Server session. I could have had students go back to VS Code for this, but, again, another sharp edge.
+
+The necessary evironment variables that are available in the VS Code interface are `GITHUB_USER` and `GITHUB_TOKEN`, but they weren't available to R. This is something that needs to be dealt with *after* the codespace has built (not in the devcontainer image), so I added the following to assingment template's `devcontainer.json`.
+
+``` json
+ "postAttachCommand": {
+   "github_user": "echo \"GITHUB_USER=$GITHUB_USER\">>~/.Renviron && echo \"GITHUB_TOKEN=$GITHUB_TOKEN\">>~/.Renviron"
+}
+```
+
+This just copies the values in the environment variables to R's environment variables.
+
+## Problem: I wanted the most up-to-date Quarto
+
+We're going to be talking a bit about authoring, sometimes using typst, and [the newest update that styles tables from `gt`](https://quarto.org/docs/blog/posts/2024-07-02-beautiful-tables-in-typst/) was too good to not have. This required going back to the dockerfile.
+
+``` dockerfile
+ARG QUARTOVERSION=1.5.56
+
+# stuff
+
+ARG QUARTOVERSION
+
+RUN cd /usr/share/ \
+  && wget https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTOVERSION}/quarto-${QUARTOVERSION}-linux-amd64.tar.gz \
+  && tar -xvzf quarto-${QUARTOVERSION}-linux-amd64.tar.gz \
+  && mv quarto-${QUARTOVERSION} .quarto \
+  && rm /usr/local/bin/quarto \
+  && ln -s .quarto quarto
+
+ENV PATH "$PATH:/usr/share/quarto/bin"
+```
+
+## Problem: The `.Rproj` file name didn't match the repository name
+
+This might not have mattered too much, but GitHub classroom creates a new repository for each student called `{assignment-name}-{username}`. I thought it would be not quite the same as using RStudio projects locally if the project file was called `assignment-template.Rproj` in all cases.
+
+This was another case for adding a post-attach command in the assignment template `devcontainer.json`.
+
+``` json
+"postAttachCommand": {
+  ...
+  "project-rename": "(mv *.Rproj $(basename $(pwd)).Rproj || echo 'moved' )",
+  ...
+}
+```
+
+## Problem: A GitHub Classroom race condition
+
+So, when github classroom creates the student's assignment repo, it adds two buttons to the `README.md`. *But*, if the student is quick on the draw and launch their codespace before the bot commits the change to the readme, their codespace will be a commit behind the remote, but they won't necessarilly realize this.
+
+Then, if they keep working and commit, they've got a divergent branch from the remote, and they'll need to reconcile it, which the RStudio git gui interface doesn't really have capacity for.
+
+This is another item for the `devcontainer.json`
+
+``` json
+"postAttachCommand": {
+  ...
+  "git-config": "git config pull.rebase false && git pull",
+  ...
+}
+```
+
+## Problem: Codespaces going idle too quickly
+
+I'm still trying to debug this issue (I've opened an issue with GH, waiting to hear back). Students' codespaces seem to be going idle very quickly when we're working on an in-class assignment. This results in their RStudio session starting to return mysterious 400 errors.
+
+Some things I've already done:
+
+-   New codespaces in the organization are owned by the organization.
+
+-   I've set a custom timeout policy for codespaces within the organization.
+
+This didn't seem to fix things. A few more hypotheses I have are:
+
+-   Because we're working in RStudio, largely in Quarto notebooks, and not in the VS Code interface, [the codespace isn't registering any activity](https://docs.github.com/en/codespaces/setting-your-user-preferences/setting-your-timeout-period-for-github-codespaces?tool=webui#inactivity-defined).
+
+-   There *might* be some kind of browser specific memory saving thing going on, but that I'm not 100% on.
+
+To try to deal with this, I've added an `awake.sh` shell script to the `.devcontainer` directory.
+
+``` sh
+#!/bin/sh
+while true
+do
+  echo "Stay Awake" 
+  sleep 20
+done
+```
+
+Then added the following to my `devcontainer.json`
+
+``` json
+ "postAttachCommand": {
+   ...
+   "awake": "timeout --foreground 90m sh .devcontainer/awake.sh"
+...
+}
+```
+
+This will print `Stay Awake` every 20 seconds for 90 minutes... hopefully keeping our RStudio sessions active long enough for a class meeting.
+
+# Customizations
+
+There were a few customizations to RStudio that I wanted to make available to students. We *could* configure these within the codespace through the RStudio GUI, but since the codespaces is created anew for each assignment, we'd have to make these changes every time.
+
+## RStudio Prefs
+
+Some rstudio preferences I wanted to set were:
+
+-   Rainbow parentheses
+
+-   Use of the native pipe operator
+
+-   Use of the Menlo font in the editor.
+
+To get these working, I added the following to the default `rstudio-prefs.json` which I included in the devcontainer repository
+
+``` json
+{
+  "save_workspace": "never",
+  "always_save_history": false,
+  "reuse_sessions_for_project_links": true,
+  "posix_terminal_shell": "bash",
+  "initial_working_directory": "/workspaces",
+  "visual_markdown_editing_is_default": true,
+  "editor_theme": "Tomorrow",
+  "rainbow_parentheses": true,
+  "insert_native_pipe_operator": true,
+  "server_editor_font_enabled": true,
+  "server_editor_font": "Menlo"	
+}
+```
+
+Then added this to the dockerfile
+
+``` dockerfile
+COPY --chown=rstudio:rstudio assets/rstudio-prefs.json /home/rstudio/.config/rstudio/
+```
+
+## Keybindings
+
+There's really just one custom keybinding that I really like, which is {{< kbd mac=Cmd+. win=Cmd+. linux=Cmd+. >}} for inserting the pipe.\
+
+To make this work, I created a `keybindings` directory in the devcontainer repo with empty `addins.json` and `editor_bindings.json` files, and a `rstudio_bindings.json` with the following:
+
+``` json
+{
+  "insertPipeOperator": "Cmd+."
+}
+```
+
+Then added the following to the dockerfile
+
+``` dockerfile
+COPY --chown=rstudio:rstudio assets/keybindings/ /home/rstudio/.config/rstudio/keybindings/
+```

@@ -10,7 +10,615 @@
 <atom:link href="https://jofrhwld.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.5.57</generator>
-<lastBuildDate>Mon, 02 Sep 2024 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 06 Sep 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Troubleshooting RStudio for GitHub Classrom and Codespaces</title>
+  <dc:creator>Josef Fruehwald</dc:creator>
+  <link>https://jofrhwld.github.io/blog/posts/2024/09/2024-09-06_rserver-codespaces/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>I’m teaching a class on quantitative methods in linguistics, and after getting tired, over the years, of debugging everyone’s computer before we could get to the <em>content</em> of learning R (much less quantitative methods), I decided to seize control. I’m running the course through GitHub Classroom which comes with an educational allowance for using GitHub codespaces. There have been pros and cons to running things through there:</p>
+<dl>
+<dt>Pro</dt>
+<dd>
+<p>I don’t have to troubleshoot an entire class’s worth of computers.</p>
+</dd>
+<dt>Con</dt>
+<dd>
+<p>I <em>really</em> have to troubleshoot the one configuration for everyone.</p>
+</dd>
+</dl>
+<p>After working through some issues today, I thought I’d start a running document of decisions I’ve already made, leaving space for updates down the line. This is for my own sake, to refer back to, but also for any other poor souls out there.</p>
+<section id="problems" class="level1">
+<h1>Problems</h1>
+<section id="problem-devcontainers-can-take-a-long-time-to-load." class="level2">
+<h2 class="anchored" data-anchor-id="problem-devcontainers-can-take-a-long-time-to-load.">Problem: Devcontainers can take a long time to load.</h2>
+<p>Launching a codespace can take a long time, especially if you are doing a lot of configuration at the creation time. My solution was to create my own devcontainer image, which should speed some things up.</p>
+<ul>
+<li><p>I forked the <a href="https://github.com/rocker-org/devcontainer-images">rocker-org/devcontainer-images</a> repo</p></li>
+<li><p>I made some tweaks to the to the <a href="https://github.com/Lin611-2024/devcontainer-images/blob/main/build/args.json">build/args.json</a> file and the <a href="https://github.com/Lin611-2024/devcontainer-images/blob/main/build/matrix.json">build/matrix.json</a> file, which mostly have the effect of changing the name of the resulting devcontainer image, and the paths to source files used to generate it.</p></li>
+</ul>
+<p>I also put in a text file <a href="https://github.com/Lin611-2024/devcontainer-images/blob/main/src/rstudio/assets/.rpackages">called <code>.rpackages</code> in a sensible place in the devcontainer repo</a> and added the following lines to the dockerfile to get them installed on the image.</p>
+<div class="langname">
+<pre class="langname">dockerfile</pre>
+</div>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb1-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">COPY</span> assets/.rpackages /home/rstudio/.rpackages</span>
+<span id="cb1-2"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">RUN</span> <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">install2.r</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--error</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--skipinstalled</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">$(</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">cat</span> /home/rstudio/.rpackages<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+</section>
+<section id="problem-i-dont-want-a-login-screen-to-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="problem-i-dont-want-a-login-screen-to-rstudio">Problem: I don’t want a login screen to Rstudio</h2>
+<p>By default, if you just launch <code>rserver</code> from the devcontainer image (which has RStudio Server installed), you’ll get a login screen when you visit the forwarded port. I could have left this, but needing to explain “It looks like a login screen, but the username and password are just rstudio/rstudio” is too sharp an edge.</p>
+<p>Fortunately, there’s an rstudio server devcontainer feature I can add to the template assignment that enables single sign on mode, and even updates the default working directory to be the workspace, rather than <code>~</code>.</p>
+<div class="langname">
+<pre class="langname">json</pre>
+</div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb2-2">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"image"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ghcr.io/lin611-2024/devcontainer/bayesdevcontainer:4"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb2-3">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"features"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb2-4">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"ghcr.io/rocker-org/devcontainer-features/rstudio-server"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb2-5">      <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"singleUser"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">true</span></span>
+<span id="cb2-6">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb2-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb2-8"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+</section>
+<section id="problem-on-launch-rstudio-doesnt-open-a-project" class="level2">
+<h2 class="anchored" data-anchor-id="problem-on-launch-rstudio-doesnt-open-a-project">Problem: On launch, RStudio doesn’t open a project</h2>
+<p>Even if the default working directory has an <code>.Rproj</code> file in it, RStudio doesn’t default open it as a project on launch, which also means the git pane isn’t available. This was another sharp edge that I knew would cause me problems.</p>
+<p>I found a hook I could add to the system <code>.Rprofile</code> to fix this</p>
+<div class="langname">
+<pre class="langname">r</pre>
+</div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">setHook</span>(</span>
+<span id="cb3-2">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"rstudio.sessionInit"</span>,</span>
+<span id="cb3-3">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span>(newSession){</span>
+<span id="cb3-4">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> (newSession <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">is.null</span>(rstudioapi<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">getActiveProject</span>())) {</span>
+<span id="cb3-5">      rstudioapi<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">openProject</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"."</span>)</span>
+<span id="cb3-6">    }</span>
+<span id="cb3-7">  },</span>
+<span id="cb3-8">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">action =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"append"</span></span>
+<span id="cb3-9">)</span></code></pre></div>
+<p>I added this to <a href="https://github.com/Lin611-2024/devcontainer-images/blob/main/src/rstudio/assets/.Rprofile">a sensible place in the devcontainer</a> repository, then I had to make sure to copy it to the image in the Dockerfile.</p>
+<div class="langname">
+<pre class="langname">dockerfile</pre>
+</div>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb4-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">COPY</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">--chown=rstudio:rstudio</span> assets/.Rprofile /home/rstudio/</span></code></pre></div>
+</section>
+<section id="problem-there-were-no-git-credentials-in-rstudio-git-pane" class="level2">
+<h2 class="anchored" data-anchor-id="problem-there-were-no-git-credentials-in-rstudio-git-pane">Problem: There were no git credentials in RStudio git pane</h2>
+<p>If you use the VS Code interface in a codespace, you can push and pull to the original repo, no problem. But I couldn’t do it inside the RStudio Server session. I could have had students go back to VS Code for this, but, again, another sharp edge.</p>
+<p>The necessary evironment variables that are available in the VS Code interface are <code>GITHUB_USER</code> and <code>GITHUB_TOKEN</code>, but they weren’t available to R. This is something that needs to be dealt with <em>after</em> the codespace has built (not in the devcontainer image), so I added the following to assingment template’s <code>devcontainer.json</code>.</p>
+<div class="langname">
+<pre class="langname">json</pre>
+</div>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"> <span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"postAttachCommand":</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb5-2">   <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"github_user"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"echo </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\"</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">GITHUB_USER=$GITHUB_USER</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\"</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">&gt;&gt;~/.Renviron &amp;&amp; echo </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\"</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">GITHUB_TOKEN=$GITHUB_TOKEN</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\"</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">&gt;&gt;~/.Renviron"</span></span>
+<span id="cb5-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+<p>This just copies the values in the environment variables to R’s environment variables.</p>
+</section>
+<section id="problem-i-wanted-the-most-up-to-date-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="problem-i-wanted-the-most-up-to-date-quarto">Problem: I wanted the most up-to-date Quarto</h2>
+<p>We’re going to be talking a bit about authoring, sometimes using typst, and <a href="https://quarto.org/docs/blog/posts/2024-07-02-beautiful-tables-in-typst/">the newest update that styles tables from <code>gt</code></a> was too good to not have. This required going back to the dockerfile.</p>
+<div class="langname">
+<pre class="langname">dockerfile</pre>
+</div>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb6-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">ARG</span> QUARTOVERSION=1.5.56</span>
+<span id="cb6-2"></span>
+<span id="cb6-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># stuff</span></span>
+<span id="cb6-4"></span>
+<span id="cb6-5"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">ARG</span> QUARTOVERSION</span>
+<span id="cb6-6"></span>
+<span id="cb6-7"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">RUN</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">cd</span> /usr/share/ <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb6-8">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">&amp;&amp;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">wget</span> https://github.com/quarto-dev/quarto-cli/releases/download/v<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${QUARTOVERSION}</span>/quarto-<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${QUARTOVERSION}</span>-linux-amd64.tar.gz <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb6-9">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">&amp;&amp;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tar</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-xvzf</span> quarto-<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${QUARTOVERSION}</span>-linux-amd64.tar.gz <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb6-10">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">&amp;&amp;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mv</span> quarto-<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${QUARTOVERSION}</span> .quarto <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb6-11">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">&amp;&amp;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rm</span> /usr/local/bin/quarto <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb6-12">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">&amp;&amp;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ln</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-s</span> .quarto quarto</span>
+<span id="cb6-13"></span>
+<span id="cb6-14"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">ENV</span> PATH <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"$PATH:/usr/share/quarto/bin"</span></span></code></pre></div>
+</section>
+<section id="problem-the-.rproj-file-name-didnt-match-the-repository-name" class="level2">
+<h2 class="anchored" data-anchor-id="problem-the-.rproj-file-name-didnt-match-the-repository-name">Problem: The <code>.Rproj</code> file name didn’t match the repository name</h2>
+<p>This might not have mattered too much, but GitHub classroom creates a new repository for each student called <code>{assignment-name}-{username}</code>. I thought it would be not quite the same as using RStudio projects locally if the project file was called <code>assignment-template.Rproj</code> in all cases.</p>
+<p>This was another case for adding a post-attach command in the assignment template <code>devcontainer.json</code>.</p>
+<div class="langname">
+<pre class="langname">json</pre>
+</div>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb7-1"><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"postAttachCommand":</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb7-2">  <span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span id="cb7-3">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"project-rename"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"(mv *.Rproj $(basename $(pwd)).Rproj || echo 'moved' )"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb7-4">  <span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span id="cb7-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+</section>
+<section id="problem-a-github-classroom-race-condition" class="level2">
+<h2 class="anchored" data-anchor-id="problem-a-github-classroom-race-condition">Problem: A GitHub Classroom race condition</h2>
+<p>So, when github classroom creates the student’s assignment repo, it adds two buttons to the <code>README.md</code>. <em>But</em>, if the student is quick on the draw and launch their codespace before the bot commits the change to the readme, their codespace will be a commit behind the remote, but they won’t necessarilly realize this.</p>
+<p>Then, if they keep working and commit, they’ve got a divergent branch from the remote, and they’ll need to reconcile it, which the RStudio git gui interface doesn’t really have capacity for.</p>
+<p>This is another item for the <code>devcontainer.json</code></p>
+<div class="langname">
+<pre class="langname">json</pre>
+</div>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb8-1"><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"postAttachCommand":</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb8-2">  <span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span id="cb8-3">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"git-config"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"git config pull.rebase false &amp;&amp; git pull"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb8-4">  <span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span id="cb8-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+</section>
+<section id="problem-codespaces-going-idle-too-quickly" class="level2">
+<h2 class="anchored" data-anchor-id="problem-codespaces-going-idle-too-quickly">Problem: Codespaces going idle too quickly</h2>
+<p>I’m still trying to debug this issue (I’ve opened an issue with GH, waiting to hear back). Students’ codespaces seem to be going idle very quickly when we’re working on an in-class assignment. This results in their RStudio session starting to return mysterious 400 errors.</p>
+<p>Some things I’ve already done:</p>
+<ul>
+<li><p>New codespaces in the organization are owned by the organization.</p></li>
+<li><p>I’ve set a custom timeout policy for codespaces within the organization.</p></li>
+</ul>
+<p>This didn’t seem to fix things. A few more hypotheses I have are:</p>
+<ul>
+<li><p>Because we’re working in RStudio, largely in Quarto notebooks, and not in the VS Code interface, <a href="https://docs.github.com/en/codespaces/setting-your-user-preferences/setting-your-timeout-period-for-github-codespaces?tool=webui#inactivity-defined">the codespace isn’t registering any activity</a>.</p></li>
+<li><p>There <em>might</em> be some kind of browser specific memory saving thing going on, but that I’m not 100% on.</p></li>
+</ul>
+<p>To try to deal with this, I’ve added an <code>awake.sh</code> shell script to the <code>.devcontainer</code> directory.</p>
+<div class="langname">
+<pre class="langname">sh</pre>
+</div>
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#!/bin/sh</span></span>
+<span id="cb9-2"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">while</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">true</span></span>
+<span id="cb9-3"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">do</span></span>
+<span id="cb9-4">  <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">echo</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Stay Awake"</span> </span>
+<span id="cb9-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sleep</span> 20</span>
+<span id="cb9-6"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">done</span></span></code></pre></div>
+<p>Then added the following to my <code>devcontainer.json</code></p>
+<div class="langname">
+<pre class="langname">json</pre>
+</div>
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb10-1"> <span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"postAttachCommand":</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb10-2">   <span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span id="cb10-3">   <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"awake"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"timeout --foreground 90m sh .devcontainer/awake.sh"</span></span>
+<span id="cb10-4"><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span id="cb10-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+<p>This will print <code>Stay Awake</code> every 20 seconds for 90 minutes… hopefully keeping our RStudio sessions active long enough for a class meeting.</p>
+</section>
+</section>
+<section id="customizations" class="level1">
+<h1>Customizations</h1>
+<p>There were a few customizations to RStudio that I wanted to make available to students. We <em>could</em> configure these within the codespace through the RStudio GUI, but since the codespaces is created anew for each assignment, we’d have to make these changes every time.</p>
+<section id="rstudio-prefs" class="level2">
+<h2 class="anchored" data-anchor-id="rstudio-prefs">RStudio Prefs</h2>
+<p>Some rstudio preferences I wanted to set were:</p>
+<ul>
+<li><p>Rainbow parentheses</p></li>
+<li><p>Use of the native pipe operator</p></li>
+<li><p>Use of the Menlo font in the editor.</p></li>
+</ul>
+<p>To get these working, I added the following to the default <code>rstudio-prefs.json</code> which I included in the devcontainer repository</p>
+<div class="langname">
+<pre class="langname">json</pre>
+</div>
+<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb11-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb11-2">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"save_workspace"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"never"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-3">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"always_save_history"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-4">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"reuse_sessions_for_project_links"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">true</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-5">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"posix_terminal_shell"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bash"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-6">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"initial_working_directory"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/workspaces"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-7">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"visual_markdown_editing_is_default"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">true</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-8">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"editor_theme"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tomorrow"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-9">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"rainbow_parentheses"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">true</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-10">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"insert_native_pipe_operator"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">true</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-11">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"server_editor_font_enabled"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">true</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-12">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"server_editor_font"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Menlo"</span> </span>
+<span id="cb11-13"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+<p>Then added this to the dockerfile</p>
+<div class="langname">
+<pre class="langname">dockerfile</pre>
+</div>
+<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb12-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">COPY</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">--chown=rstudio:rstudio</span> assets/rstudio-prefs.json /home/rstudio/.config/rstudio/</span></code></pre></div>
+</section>
+<section id="keybindings" class="level2">
+<h2 class="anchored" data-anchor-id="keybindings">Keybindings</h2>
+<p>There’s really just one custom keybinding that I really like, which is <span class="visually-hidden"></span> for inserting the pipe.<br>
+</p>
+<p>To make this work, I created a <code>keybindings</code> directory in the devcontainer repo with empty <code>addins.json</code> and <code>editor_bindings.json</code> files, and a <code>rstudio_bindings.json</code> with the following:</p>
+<div class="langname">
+<pre class="langname">json</pre>
+</div>
+<div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb13-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb13-2">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"insertPipeOperator"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Cmd+."</span></span>
+<span id="cb13-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+<p>Then added the following to the dockerfile</p>
+<div class="langname">
+<pre class="langname">dockerfile</pre>
+</div>
+<div class="sourceCode" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb14-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">COPY</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">--chown=rstudio:rstudio</span> assets/keybindings/ /home/rstudio/.config/rstudio/keybindings/</span></code></pre></div>
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2024,
+  author = {Fruehwald, Josef},
+  title = {Troubleshooting {RStudio} for {GitHub} {Classrom} and
+    {Codespaces}},
+  series = {Væl Space},
+  date = {2024-09-06},
+  url = {https://jofrhwld.github.io/blog/posts/2024/09/2024-09-06_rserver-codespaces/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2024" class="csl-entry quarto-appendix-citeas">
+Fruehwald, Josef. 2024. <span>“Troubleshooting RStudio for GitHub
+Classrom and Codespaces.”</span> Væl Space. September 6, 2024. <a href="https://jofrhwld.github.io/blog/posts/2024/09/2024-09-06_rserver-codespaces/">https://jofrhwld.github.io/blog/posts/2024/09/2024-09-06_rserver-codespaces/</a>.
+</div></div></section></div> ]]></description>
+  <guid>https://jofrhwld.github.io/blog/posts/2024/09/2024-09-06_rserver-codespaces/</guid>
+  <pubDate>Fri, 06 Sep 2024 00:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Experimenting with Object Oriented Programming in R</title>
   <dc:creator>Josef Fruehwald</dc:creator>
@@ -14858,7 +15466,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">plot1</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo" data-fig-align="center">
+<div id="fig-penguin1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: The base penguins scatterplot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo" width="576"></a>
 </div>
@@ -14887,7 +15495,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 ℹ Please use `linewidth` in the `default_aes` field and elsewhere instead.</code></pre>
 </div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged." data-fig-align="center">
+<div id="fig-penguin_hull1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Basic convex hull"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged." width="576"></a>
 </div>
@@ -14931,7 +15539,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species." data-fig-align="center">
+<div id="fig-penguin_hull2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Smoothed out and filled convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species." width="576"></a>
 </div>
@@ -14984,7 +15592,7 @@ font-style: inherit;">"Fira Sans"</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The scatter plot with the sme convex hull, but no labels actually present." data-fig-align="center">
+<div id="fig-penguin_hull3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The scatter plot with the sme convex hull, but no labels actually present.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Attempted labelling of convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The scatter plot with the sme convex hull, but no labels actually present." width="576"></a>
 </div>
@@ -15123,7 +15731,7 @@ font-style: inherit;">"none"</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin-hull4" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull" data-fig-align="center">
+<div id="fig-penguin-hull4" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin-hull4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin-hull4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Labelled convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull" width="768"></a>
 </div>
@@ -15173,7 +15781,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin-hull-filter" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data." data-fig-align="center">
+<div id="fig-penguin-hull-filter" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin-hull-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin-hull-filter-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: Filtered convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull-filter-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data." width="576"></a>
 </div>
@@ -15236,7 +15844,7 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_dens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution" data-fig-align="center">
+<div id="fig-penguin_dens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_dens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_dens-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: Density contour plot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_dens-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution" width="576"></a>
 </div>
@@ -15261,7 +15869,7 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%" data-fig-align="center">
+<div id="fig-penguin_hdr" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: Highest density region contour plot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%" width="576"></a>
 </div>
@@ -15309,7 +15917,7 @@ font-style: inherit;">"Dark2"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species" data-fig-align="center">
+<div id="fig-penguin_hdr2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: Highest density region contour plot, filled by species"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species" width="576"></a>
 </div>
@@ -15347,7 +15955,7 @@ font-style: inherit;">"grey90"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr_rug" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot with a data distribution rug indicating the density of the data distribution." data-fig-align="center">
+<div id="fig-penguin_hdr_rug" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot with a data distribution rug indicating the density of the data distribution.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr_rug-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr_rug-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: HDR rug"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr_rug-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot with a data distribution rug indicating the density of the data distribution." width="576"></a>
 </div>
@@ -15460,7 +16068,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one trend line for each species with the species name written along the line." data-fig-align="center">
+<div id="fig-penguin_textsmooth" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one trend line for each species with the species name written along the line.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;11: Trendlines with text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one trend line for each species with the species name written along the line." width="576"></a>
 </div>
@@ -15530,7 +16138,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one trend line for each species with the species name written just above line." data-fig-align="center">
+<div id="fig-penguin_textsmooth2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one trend line for each species with the species name written just above line.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;12: Trendlines with text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one trend line for each species with the species name written just above line." width="576"></a>
 </div>
@@ -15593,7 +16201,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it." data-fig-align="center">
+<div id="fig-penguin_textsmooth3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;13: Data ellipses text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it." width="576"></a>
 </div>
@@ -15661,7 +16269,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr-text" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A highest density region plot with the probability levels written along the contours" data-fig-align="center">
+<div id="fig-penguin_hdr-text" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A highest density region plot with the probability levels written along the contours">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr-text-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr-text-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;14: Higest density region plot with direct labels"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr-text-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A highest density region plot with the probability levels written along the contours" width="576"></a>
 </div>
@@ -15699,7 +16307,7 @@ Væl Space. January 27, 2023. <a href="https://jofrhwld.github.io/blog/posts/202
   <dc:creator>Josef Fruehwald</dc:creator>
   <link>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/</link>
   <description><![CDATA[ <p>I might flesh this out as a more detailed tutorial for <a href="https://lingmethodshub.github.io/content/">LingMethodsHub</a>, but for now this is going to be a rough-around-the-edges post about making spectrograms in R. My goal will be to get as close as possible to recreating a spectrogram like you might get from Praat.</p>
-<div id="fig-praat-spect" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A spectrogram of the vowel /i/ generated by praat." data-fig-align="center">
+<div id="fig-praat-spect" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A spectrogram of the vowel /i/ generated by praat.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-praat-spect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/praat.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: A spectrogram of the vowel /i/ generated by praat."><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/assets/praat.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A spectrogram of the vowel /i/ generated by praat."></a>
 </div>
@@ -15873,7 +16481,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 </dl>
 <section id="praat-defaults" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="praat-defaults">Praat defaults</h3>
 <p>Let’s have a look at the Praat spectrogram defaults</p>
-<div id="fig-praat-defaults" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A screenshot of the default spectrogram settings for Praat." data-fig-align="center">
+<div id="fig-praat-defaults" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A screenshot of the default spectrogram settings for Praat.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-praat-defaults-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/praat_defaults.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Praat defaults for spectrograms"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/assets/praat_defaults.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A screenshot of the default spectrogram settings for Praat."></a>
 </div>
@@ -17457,7 +18065,7 @@ Space. January 22, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/01/
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-oh-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-oh" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-oh1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="An illustration of a triangular vowel space with ɔ placed mid-low and back.">
+<div id="fig-oh1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="An illustration of a triangular vowel space with ɔ placed mid-low and back." data-fig-align="center">
 <figure class="quarto-float quarto-subfloat-fig figure"><div aria-describedby="fig-oh1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/oh_1.png" class="lightbox" data-gallery="fig-oh" title="Figure&nbsp;1&nbsp;(a): “canonical” ɔ placement"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/oh_1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:25.0%" data-ref-parent="fig-oh" alt="An illustration of a triangular vowel space with ɔ placed mid-low and back."></a>
 </div>
@@ -17467,7 +18075,7 @@ Space. January 22, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/01/
 </div>
 </div>
 <div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-oh" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-oh2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="An illustration of a triangular vowel space with ɔ placed high and back.">
+<div id="fig-oh2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="An illustration of a triangular vowel space with ɔ placed high and back." data-fig-align="center">
 <figure class="quarto-float quarto-subfloat-fig figure"><div aria-describedby="fig-oh2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/oh_2.png" class="lightbox" data-gallery="fig-oh" title="Figure&nbsp;1&nbsp;(b): Philly ɔ placement"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/oh_2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:25.0%" data-ref-parent="fig-oh" alt="An illustration of a triangular vowel space with ɔ placed high and back."></a>
 </div>
@@ -17526,7 +18134,7 @@ Figure&nbsp;2: Dueling enregisterments.
 <p>But, this /r/ dissimilation isn’t restricted to just the word “Swarthmore.” The first /r/ is usually dropped in words like “quarter” or “corner”.</p>
 </section><section id="reinterpretation" class="level3"><h3 class="anchored" data-anchor-id="reinterpretation">Reinterpretation</h3>
 <p>I think this /r/ dissimilation is what got “worder” in the door, which I’ll try to illustrate with an example. Let’s say you’re in Philadelphia and from Philadelphia, and some shows you this coin and says “Here’s a [kʰwɔ.ɾɚ].”</p>
-<div id="fig-coin" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="The face side of a quarter.">
+<div id="fig-coin" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The face side of a quarter." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-coin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/coin.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;3: A quarter"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/coin.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:25.0%" alt="The face side of a quarter."></a>
 </div>
@@ -17535,7 +18143,7 @@ Figure&nbsp;3: A quarter
 </figcaption></figure>
 </div>
 <p>There are two possible ways you could decide to interpret the underlying form of this word. The first would be to take into account /r/ dissimulation, and stick the /r/ back in, for a /kʰwɔɹ.tɹ̩/ representation. The other would be to <em>not</em> take into account /r/ dissimilation, and decided on a /kʰwɔ.tɹ̩/representation.</p>
-<div id="fig-quarter" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="A diagram showing how kʰwɔ.ɾɚ could be interpreted as being underlyingly kʰwɔɹ.tɹ̩ or kʰwɔ.tɹ̩">
+<div id="fig-quarter" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A diagram showing how kʰwɔ.ɾɚ could be interpreted as being underlyingly kʰwɔɹ.tɹ̩ or kʰwɔ.tɹ̩" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-quarter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/quarter.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;4: The possible re-interpretations of kʰwɔ.ɾɚ"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/quarter.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A diagram showing how kʰwɔ.ɾɚ could be interpreted as being underlyingly kʰwɔɹ.tɹ̩ or kʰwɔ.tɹ̩"></a>
 </div>
@@ -17544,7 +18152,7 @@ Figure&nbsp;4: The possible re-interpretations of kʰwɔ.ɾɚ
 </figcaption></figure>
 </div>
 <p>Now, let’s just take off the [kʰ] at the beginning, and we have a remarkably similar kind of interpretation pathways for <em>water</em>!</p>
-<div id="fig-water-interp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="A diagram showing wɔ.ɾɚ being reinterpreted as wɔɹ.tɹ̩ or as wɔ.tɹ̩">
+<div id="fig-water-interp" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A diagram showing wɔ.ɾɚ being reinterpreted as wɔɹ.tɹ̩ or as wɔ.tɹ̩" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-water-interp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/water_interp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;5: Possible re-interpretations of wɔ.ɾɚ"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/water_interp.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A diagram showing wɔ.ɾɚ being reinterpreted as wɔɹ.tɹ̩ or as wɔ.tɹ̩"></a>
 </div>

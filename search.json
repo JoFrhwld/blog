@@ -770,6 +770,13 @@
     ]
   },
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Væl Space",
+    "section": "",
+    "text": "Hello!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTroubleshooting RStudio for GitHub Classrom and Codespaces\n\n\nA living document\n\n\n\n\n\n\n\n\n2024-09-06\n\n\nJosef Fruehwald\n\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\n\nExperimenting with Object Oriented Programming in R\n\n\n\n\n\n\n\n\n\n\n\n2024-09-02\n\n\nJosef Fruehwald\n\n\n14 min\n\n\n\n\n\n\n\n\n\n\n\n\nWorking with the Discrete Cosine Transform in R\n\n\n\n\n\n\n\n\n\n\n\n2024-07-19\n\n\nJosef Fruehwald\n\n\n10 min\n\n\n\n\n\n\n\n\n\n\n\n\nUsing FastTrackPy and aligned-textgrid\n\n\n\n\n\n\n\n\n\n\n\n2024-02-16\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nSome lessons in using Github Classroom and Codespaces\n\n\n\n\n\n\n\n\n\n\n\n2024-02-14\n\n\nJosef Fruehwald\n\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\n\nThinking About Hierarchical Variance Parameters\n\n\n\n\n\n\n\n\n\n\n\n2023-06-29\n\n\nJosef Fruehwald\n\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\n\nGetting a sense of priors for logistic regression\n\n\n\n\n\n\n\n\n\n\n\n2023-06-28\n\n\nJosef Fruehwald\n\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\n\nChanging Project Defaults\n\n\n\n\n\n\n\n\n\n\n\n2023-06-16\n\n\nJosef Fruehwald\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nUsing Quarto Blogs for Teaching\n\n\n\n\n\n\n\n\n\n\n\n2023-05-03\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nSimulating DND Rolls\n\n\n\n\n\n\n\n\n\n\n\n2023-02-12\n\n\nJosef Fruehwald\n\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\n\nA handy dplyr function for linguistics\n\n\n\n\n\n\n\n\n\n\n\n2023-02-05\n\n\nJosef Fruehwald\n\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\n\nMaking a Plotly Plot\n\n\n\n\n\n\nplotly\n\n\n\n\n\n\n\n\n\n2023-01-29\n\n\nJosef Fruehwald\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nR Package Exploration (Jan 2023)\n\n\n\n\n\n\nR\n\n\nR package exploration\n\n\n{ggforce}\n\n\n{geomtextpath}\n\n\n{ggdensity}\n\n\n\n\n\n\n\n\n\n2023-01-27\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nMaking a spectrogram in R\n\n\n\n\n\n\nhow-to\n\n\nr\n\n\n\n\n\n\n\n\n\n2023-01-22\n\n\nJosef Fruehwald\n\n\n11 min\n\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 3\n\n\nPart 3: The role of r-dissimilation\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-04\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 2\n\n\nPart 2: Saying Wooder\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-01\n\n\nJosef Fruehwald\n\n\n15 min\n\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders\n\n\nPart 1: Talking about Wooder\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2022-12-31\n\n\nJosef Fruehwald\n\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\n\nGithub Onboarding with RStudio\n\n\n\n\n\n\n\n\n\n\n\n2022-12-21\n\n\nJosef Fruehwald\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nWhat is R?\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\n2022-12-17\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nA lesson in over-preparing\n\n\n\n\n\n\n\n\n\n\n\n2022-12-10\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\nNo matching items\n\nReuseCC-BY-SA 4.0"
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -798,11 +805,158 @@
     "text": "Site fonts\n\nHeaders\n\nComfortaa\n\nBody\n\nPublic Sans\n\nFigures\n\nFira Sans\n\nCode\n\nFira code"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Væl Space",
+    "objectID": "posts/2024/09/2024-09-06_rserver-codespaces/index.html",
+    "href": "posts/2024/09/2024-09-06_rserver-codespaces/index.html",
+    "title": "Troubleshooting RStudio for GitHub Classrom and Codespaces",
     "section": "",
-    "text": "Hello!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExperimenting with Object Oriented Programming in R\n\n\n\n\n\n\n\n\n\n\n\n2024-09-02\n\n\nJosef Fruehwald\n\n\n14 min\n\n\n\n\n\n\n\n\n\n\n\n\nWorking with the Discrete Cosine Transform in R\n\n\n\n\n\n\n\n\n\n\n\n2024-07-19\n\n\nJosef Fruehwald\n\n\n10 min\n\n\n\n\n\n\n\n\n\n\n\n\nUsing FastTrackPy and aligned-textgrid\n\n\n\n\n\n\n\n\n\n\n\n2024-02-16\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nSome lessons in using Github Classroom and Codespaces\n\n\n\n\n\n\n\n\n\n\n\n2024-02-14\n\n\nJosef Fruehwald\n\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\n\nThinking About Hierarchical Variance Parameters\n\n\n\n\n\n\n\n\n\n\n\n2023-06-29\n\n\nJosef Fruehwald\n\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\n\nGetting a sense of priors for logistic regression\n\n\n\n\n\n\n\n\n\n\n\n2023-06-28\n\n\nJosef Fruehwald\n\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\n\nChanging Project Defaults\n\n\n\n\n\n\n\n\n\n\n\n2023-06-16\n\n\nJosef Fruehwald\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nUsing Quarto Blogs for Teaching\n\n\n\n\n\n\n\n\n\n\n\n2023-05-03\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nSimulating DND Rolls\n\n\n\n\n\n\n\n\n\n\n\n2023-02-12\n\n\nJosef Fruehwald\n\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\n\nA handy dplyr function for linguistics\n\n\n\n\n\n\n\n\n\n\n\n2023-02-05\n\n\nJosef Fruehwald\n\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\n\nMaking a Plotly Plot\n\n\n\n\n\n\nplotly\n\n\n\n\n\n\n\n\n\n2023-01-29\n\n\nJosef Fruehwald\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nR Package Exploration (Jan 2023)\n\n\n\n\n\n\nR\n\n\nR package exploration\n\n\n{ggforce}\n\n\n{geomtextpath}\n\n\n{ggdensity}\n\n\n\n\n\n\n\n\n\n2023-01-27\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nMaking a spectrogram in R\n\n\n\n\n\n\nhow-to\n\n\nr\n\n\n\n\n\n\n\n\n\n2023-01-22\n\n\nJosef Fruehwald\n\n\n11 min\n\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 3\n\n\nPart 3: The role of r-dissimilation\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-04\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 2\n\n\nPart 2: Saying Wooder\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-01\n\n\nJosef Fruehwald\n\n\n15 min\n\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders\n\n\nPart 1: Talking about Wooder\n\n\n\nresearch\n\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2022-12-31\n\n\nJosef Fruehwald\n\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\n\nGithub Onboarding with RStudio\n\n\n\n\n\n\n\n\n\n\n\n2022-12-21\n\n\nJosef Fruehwald\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nWhat is R?\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\n2022-12-17\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nA lesson in over-preparing\n\n\n\n\n\n\n\n\n\n\n\n2022-12-10\n\n\nJosef Fruehwald\n\n\n8 min\n\n\n\n\n\n\nNo matching items\n\nReuseCC-BY-SA 4.0"
+    "text": "I’m teaching a class on quantitative methods in linguistics, and after getting tired, over the years, of debugging everyone’s computer before we could get to the content of learning R (much less quantitative methods), I decided to seize control. I’m running the course through GitHub Classroom which comes with an educational allowance for using GitHub codespaces. There have been pros and cons to running things through there:\nAfter working through some issues today, I thought I’d start a running document of decisions I’ve already made, leaving space for updates down the line. This is for my own sake, to refer back to, but also for any other poor souls out there.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2024",
+      "09",
+      "Troubleshooting RStudio for GitHub Classrom and Codespaces"
+    ]
+  },
+  {
+    "objectID": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-devcontainers-can-take-a-long-time-to-load.",
+    "href": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-devcontainers-can-take-a-long-time-to-load.",
+    "title": "Troubleshooting RStudio for GitHub Classrom and Codespaces",
+    "section": "Problem: Devcontainers can take a long time to load.",
+    "text": "Problem: Devcontainers can take a long time to load.\nLaunching a codespace can take a long time, especially if you are doing a lot of configuration at the creation time. My solution was to create my own devcontainer image, which should speed some things up.\n\nI forked the rocker-org/devcontainer-images repo\nI made some tweaks to the to the build/args.json file and the build/matrix.json file, which mostly have the effect of changing the name of the resulting devcontainer image, and the paths to source files used to generate it.\n\nI also put in a text file called .rpackages in a sensible place in the devcontainer repo and added the following lines to the dockerfile to get them installed on the image.\n\ndockerfile\n\nCOPY assets/.rpackages /home/rstudio/.rpackages\nRUN install2.r --error --skipinstalled $(cat /home/rstudio/.rpackages)",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2024",
+      "09",
+      "Troubleshooting RStudio for GitHub Classrom and Codespaces"
+    ]
+  },
+  {
+    "objectID": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-i-dont-want-a-login-screen-to-rstudio",
+    "href": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-i-dont-want-a-login-screen-to-rstudio",
+    "title": "Troubleshooting RStudio for GitHub Classrom and Codespaces",
+    "section": "Problem: I don’t want a login screen to Rstudio",
+    "text": "Problem: I don’t want a login screen to Rstudio\nBy default, if you just launch rserver from the devcontainer image (which has RStudio Server installed), you’ll get a login screen when you visit the forwarded port. I could have left this, but needing to explain “It looks like a login screen, but the username and password are just rstudio/rstudio” is too sharp an edge.\nFortunately, there’s an rstudio server devcontainer feature I can add to the template assignment that enables single sign on mode, and even updates the default working directory to be the workspace, rather than ~.\n\njson\n\n{\n  \"image\": \"ghcr.io/lin611-2024/devcontainer/bayesdevcontainer:4\",\n  \"features\": {\n    \"ghcr.io/rocker-org/devcontainer-features/rstudio-server\": {\n      \"singleUser\": true\n    }\n  }\n}",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2024",
+      "09",
+      "Troubleshooting RStudio for GitHub Classrom and Codespaces"
+    ]
+  },
+  {
+    "objectID": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-on-launch-rstudio-doesnt-open-a-project",
+    "href": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-on-launch-rstudio-doesnt-open-a-project",
+    "title": "Troubleshooting RStudio for GitHub Classrom and Codespaces",
+    "section": "Problem: On launch, RStudio doesn’t open a project",
+    "text": "Problem: On launch, RStudio doesn’t open a project\nEven if the default working directory has an .Rproj file in it, RStudio doesn’t default open it as a project on launch, which also means the git pane isn’t available. This was another sharp edge that I knew would cause me problems.\nI found a hook I could add to the system .Rprofile to fix this\n\nr\n\nsetHook(\n  \"rstudio.sessionInit\",\n  function(newSession){\n    if (newSession && is.null(rstudioapi::getActiveProject())) {\n      rstudioapi::openProject(\".\")\n    }\n  },\n  action = \"append\"\n)\nI added this to a sensible place in the devcontainer repository, then I had to make sure to copy it to the image in the Dockerfile.\n\ndockerfile\n\nCOPY --chown=rstudio:rstudio assets/.Rprofile /home/rstudio/",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2024",
+      "09",
+      "Troubleshooting RStudio for GitHub Classrom and Codespaces"
+    ]
+  },
+  {
+    "objectID": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-there-were-no-git-credentials-in-rstudio-git-pane",
+    "href": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-there-were-no-git-credentials-in-rstudio-git-pane",
+    "title": "Troubleshooting RStudio for GitHub Classrom and Codespaces",
+    "section": "Problem: There were no git credentials in RStudio git pane",
+    "text": "Problem: There were no git credentials in RStudio git pane\nIf you use the VS Code interface in a codespace, you can push and pull to the original repo, no problem. But I couldn’t do it inside the RStudio Server session. I could have had students go back to VS Code for this, but, again, another sharp edge.\nThe necessary evironment variables that are available in the VS Code interface are GITHUB_USER and GITHUB_TOKEN, but they weren’t available to R. This is something that needs to be dealt with after the codespace has built (not in the devcontainer image), so I added the following to assingment template’s devcontainer.json.\n\njson\n\n \"postAttachCommand\": {\n   \"github_user\": \"echo \\\"GITHUB_USER=$GITHUB_USER\\\"&gt;&gt;~/.Renviron && echo \\\"GITHUB_TOKEN=$GITHUB_TOKEN\\\"&gt;&gt;~/.Renviron\"\n}\nThis just copies the values in the environment variables to R’s environment variables.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2024",
+      "09",
+      "Troubleshooting RStudio for GitHub Classrom and Codespaces"
+    ]
+  },
+  {
+    "objectID": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-i-wanted-the-most-up-to-date-quarto",
+    "href": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-i-wanted-the-most-up-to-date-quarto",
+    "title": "Troubleshooting RStudio for GitHub Classrom and Codespaces",
+    "section": "Problem: I wanted the most up-to-date Quarto",
+    "text": "Problem: I wanted the most up-to-date Quarto\nWe’re going to be talking a bit about authoring, sometimes using typst, and the newest update that styles tables from gt was too good to not have. This required going back to the dockerfile.\n\ndockerfile\n\nARG QUARTOVERSION=1.5.56\n\n# stuff\n\nARG QUARTOVERSION\n\nRUN cd /usr/share/ \\\n  && wget https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTOVERSION}/quarto-${QUARTOVERSION}-linux-amd64.tar.gz \\\n  && tar -xvzf quarto-${QUARTOVERSION}-linux-amd64.tar.gz \\\n  && mv quarto-${QUARTOVERSION} .quarto \\\n  && rm /usr/local/bin/quarto \\\n  && ln -s .quarto quarto\n\nENV PATH \"$PATH:/usr/share/quarto/bin\"",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2024",
+      "09",
+      "Troubleshooting RStudio for GitHub Classrom and Codespaces"
+    ]
+  },
+  {
+    "objectID": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-the-.rproj-file-name-didnt-match-the-repository-name",
+    "href": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-the-.rproj-file-name-didnt-match-the-repository-name",
+    "title": "Troubleshooting RStudio for GitHub Classrom and Codespaces",
+    "section": "Problem: The .Rproj file name didn’t match the repository name",
+    "text": "Problem: The .Rproj file name didn’t match the repository name\nThis might not have mattered too much, but GitHub classroom creates a new repository for each student called {assignment-name}-{username}. I thought it would be not quite the same as using RStudio projects locally if the project file was called assignment-template.Rproj in all cases.\nThis was another case for adding a post-attach command in the assignment template devcontainer.json.\n\njson\n\n\"postAttachCommand\": {\n  ...\n  \"project-rename\": \"(mv *.Rproj $(basename $(pwd)).Rproj || echo 'moved' )\",\n  ...\n}",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2024",
+      "09",
+      "Troubleshooting RStudio for GitHub Classrom and Codespaces"
+    ]
+  },
+  {
+    "objectID": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-a-github-classroom-race-condition",
+    "href": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-a-github-classroom-race-condition",
+    "title": "Troubleshooting RStudio for GitHub Classrom and Codespaces",
+    "section": "Problem: A GitHub Classroom race condition",
+    "text": "Problem: A GitHub Classroom race condition\nSo, when github classroom creates the student’s assignment repo, it adds two buttons to the README.md. But, if the student is quick on the draw and launch their codespace before the bot commits the change to the readme, their codespace will be a commit behind the remote, but they won’t necessarilly realize this.\nThen, if they keep working and commit, they’ve got a divergent branch from the remote, and they’ll need to reconcile it, which the RStudio git gui interface doesn’t really have capacity for.\nThis is another item for the devcontainer.json\n\njson\n\n\"postAttachCommand\": {\n  ...\n  \"git-config\": \"git config pull.rebase false && git pull\",\n  ...\n}",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2024",
+      "09",
+      "Troubleshooting RStudio for GitHub Classrom and Codespaces"
+    ]
+  },
+  {
+    "objectID": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-codespaces-going-idle-too-quickly",
+    "href": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#problem-codespaces-going-idle-too-quickly",
+    "title": "Troubleshooting RStudio for GitHub Classrom and Codespaces",
+    "section": "Problem: Codespaces going idle too quickly",
+    "text": "Problem: Codespaces going idle too quickly\nI’m still trying to debug this issue (I’ve opened an issue with GH, waiting to hear back). Students’ codespaces seem to be going idle very quickly when we’re working on an in-class assignment. This results in their RStudio session starting to return mysterious 400 errors.\nSome things I’ve already done:\n\nNew codespaces in the organization are owned by the organization.\nI’ve set a custom timeout policy for codespaces within the organization.\n\nThis didn’t seem to fix things. A few more hypotheses I have are:\n\nBecause we’re working in RStudio, largely in Quarto notebooks, and not in the VS Code interface, the codespace isn’t registering any activity.\nThere might be some kind of browser specific memory saving thing going on, but that I’m not 100% on.\n\nTo try to deal with this, I’ve added an awake.sh shell script to the .devcontainer directory.\n\nsh\n\n#!/bin/sh\nwhile true\ndo\n  echo \"Stay Awake\" \n  sleep 20\ndone\nThen added the following to my devcontainer.json\n\njson\n\n \"postAttachCommand\": {\n   ...\n   \"awake\": \"timeout --foreground 90m sh .devcontainer/awake.sh\"\n...\n}\nThis will print Stay Awake every 20 seconds for 90 minutes… hopefully keeping our RStudio sessions active long enough for a class meeting.",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2024",
+      "09",
+      "Troubleshooting RStudio for GitHub Classrom and Codespaces"
+    ]
+  },
+  {
+    "objectID": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#rstudio-prefs",
+    "href": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#rstudio-prefs",
+    "title": "Troubleshooting RStudio for GitHub Classrom and Codespaces",
+    "section": "RStudio Prefs",
+    "text": "RStudio Prefs\nSome rstudio preferences I wanted to set were:\n\nRainbow parentheses\nUse of the native pipe operator\nUse of the Menlo font in the editor.\n\nTo get these working, I added the following to the default rstudio-prefs.json which I included in the devcontainer repository\n\njson\n\n{\n  \"save_workspace\": \"never\",\n  \"always_save_history\": false,\n  \"reuse_sessions_for_project_links\": true,\n  \"posix_terminal_shell\": \"bash\",\n  \"initial_working_directory\": \"/workspaces\",\n  \"visual_markdown_editing_is_default\": true,\n  \"editor_theme\": \"Tomorrow\",\n  \"rainbow_parentheses\": true,\n  \"insert_native_pipe_operator\": true,\n  \"server_editor_font_enabled\": true,\n  \"server_editor_font\": \"Menlo\" \n}\nThen added this to the dockerfile\n\ndockerfile\n\nCOPY --chown=rstudio:rstudio assets/rstudio-prefs.json /home/rstudio/.config/rstudio/",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2024",
+      "09",
+      "Troubleshooting RStudio for GitHub Classrom and Codespaces"
+    ]
+  },
+  {
+    "objectID": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#keybindings",
+    "href": "posts/2024/09/2024-09-06_rserver-codespaces/index.html#keybindings",
+    "title": "Troubleshooting RStudio for GitHub Classrom and Codespaces",
+    "section": "Keybindings",
+    "text": "Keybindings\nThere’s really just one custom keybinding that I really like, which is  for inserting the pipe.\n\nTo make this work, I created a keybindings directory in the devcontainer repo with empty addins.json and editor_bindings.json files, and a rstudio_bindings.json with the following:\n\njson\n\n{\n  \"insertPipeOperator\": \"Cmd+.\"\n}\nThen added the following to the dockerfile\n\ndockerfile\n\nCOPY --chown=rstudio:rstudio assets/keybindings/ /home/rstudio/.config/rstudio/keybindings/",
+    "crumbs": [
+      "Homepage",
+      "Posts",
+      "2024",
+      "09",
+      "Troubleshooting RStudio for GitHub Classrom and Codespaces"
+    ]
   },
   {
     "objectID": "posts/2022/12/2022-12-21_github-onboarding/index.html",

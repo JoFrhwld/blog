@@ -10,7 +10,1152 @@
 <atom:link href="https://jofrhwld.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.5.57</generator>
-<lastBuildDate>Fri, 06 Sep 2024 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 08 Sep 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Rolling for Damage with the Central Limit Theorem</title>
+  <dc:creator>Josef Fruehwald</dc:creator>
+  <link>https://jofrhwld.github.io/blog/posts/2024/09/2024-09-08_roll-clt/</link>
+  <description><![CDATA[ <p>I’ve been playing a <em>lot</em> of Baldur’s Gate 3 lately. My party has gotten to max level, and we’re running around, casting spells and taking names.</p>
+<p>One of the spells my wizard has is called <em>Disintegrate</em>, which gets summarized like this</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Disintegrate
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Shoot a thin green ray from your finger. If the spell reduces the target to 0 hit points, it disintegrates into a crumbly ash.</p>
+<section id="damage" class="level3"><h3 class="anchored" data-anchor-id="damage">Damage</h3>
+<p>🎲 10d6 + 40 (50~100)</p>
+</section>
+</div>
+</div>
+<p>The line of information under “Damage” means that to calculate how much damage you do when you cast the spell, you need to roll 10 6-sided dice (“d6”), then add 40. The “(50~100)” part summarizes the worst vs best outcomes.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Best and worst
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<dl>
+<dt>Worst</dt>
+<dd>
+<p>You roll 10 d6, and they all come up 1: <span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>. This sums to 10, then you add 40 to get a total of 60.</p>
+</dd>
+<dt>Best</dt>
+<dd>
+<p>You roll 10 d6, and they all come up 6: <span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>. This sums up to 60, then you add 40 to get a total of 100.</p>
+</dd>
+</dl>
+</div>
+</div>
+<p>If you just glance at the description saying that the spell will do between 50 and 100 damage, you might think that you’re equally likely to roll any amount of damage between these two values.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://jofrhwld.github.io/blog/posts/2024/09/2024-09-08_roll-clt/index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" style="width:80.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>But, as you play, you’ll find that hitting something right in the middle, like 75, is very likely, and that hitting either 50 or 100 is vanishingly rare. The distribution of rolls wind up looking like this:</p>
+<div class="cell preview-image">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://jofrhwld.github.io/blog/posts/2024/09/2024-09-08_roll-clt/index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" style="width:80.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In fact, 95% of the rolls are going to be between 64 and 86. The rest of this post is about these two questions:</p>
+<ol type="1">
+<li>Why is that?</li>
+<li>Is that a normal distribution?</li>
+</ol>
+<section id="why-is-that" class="level1"><h1>Why is that?</h1>
+<section id="d6" class="level2"><h2 class="anchored" data-anchor-id="d6">1d6</h2>
+<p>We should start things off easy, and look at what happens when we roll 1d6. As long as the die is fair, any value between 1 and 6 is possible. And for each value between 1 and 6, there’s only 1 possible way to get that value.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="evtngiqbdb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#evtngiqbdb table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#evtngiqbdb thead, #evtngiqbdb tbody, #evtngiqbdb tfoot, #evtngiqbdb tr, #evtngiqbdb td, #evtngiqbdb th {
+  border-style: none;
+}
+
+#evtngiqbdb p {
+  margin: 0;
+  padding: 0;
+}
+
+#evtngiqbdb .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#evtngiqbdb .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#evtngiqbdb .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#evtngiqbdb .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#evtngiqbdb .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#evtngiqbdb .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#evtngiqbdb .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#evtngiqbdb .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#evtngiqbdb .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#evtngiqbdb .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#evtngiqbdb .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#evtngiqbdb .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#evtngiqbdb .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#evtngiqbdb .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#evtngiqbdb .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#evtngiqbdb .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#evtngiqbdb .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#evtngiqbdb .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#evtngiqbdb .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#evtngiqbdb .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#evtngiqbdb .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#evtngiqbdb .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#evtngiqbdb .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#evtngiqbdb .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#evtngiqbdb .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#evtngiqbdb .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#evtngiqbdb .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#evtngiqbdb .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#evtngiqbdb .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#evtngiqbdb .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#evtngiqbdb .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#evtngiqbdb .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#evtngiqbdb .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#evtngiqbdb .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#evtngiqbdb .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#evtngiqbdb .gt_left {
+  text-align: left;
+}
+
+#evtngiqbdb .gt_center {
+  text-align: center;
+}
+
+#evtngiqbdb .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#evtngiqbdb .gt_font_normal {
+  font-weight: normal;
+}
+
+#evtngiqbdb .gt_font_bold {
+  font-weight: bold;
+}
+
+#evtngiqbdb .gt_font_italic {
+  font-style: italic;
+}
+
+#evtngiqbdb .gt_super {
+  font-size: 65%;
+}
+
+#evtngiqbdb .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#evtngiqbdb .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#evtngiqbdb .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#evtngiqbdb .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#evtngiqbdb .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#evtngiqbdb .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#evtngiqbdb .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#evtngiqbdb .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#evtngiqbdb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="header gt_col_headings">
+<th id="total" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">total</th>
+<th id="rolls" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">rolls</th>
+<th id="n" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">n</th>
+</tr></thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="total" style="background-color: #6BAED6; color: #000000">1</td>
+<td class="gt_row gt_right" headers="rolls" style="background-color: #6BAED6; color: #000000; font-weight: bold; font-family: Dice">1</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #6BAED6; color: #000000">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="total" style="background-color: #6BAED6; color: #000000">2</td>
+<td class="gt_row gt_right" headers="rolls" style="background-color: #6BAED6; color: #000000; font-weight: bold; font-family: Dice">2</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #6BAED6; color: #000000">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="total" style="background-color: #6BAED6; color: #000000">3</td>
+<td class="gt_row gt_right" headers="rolls" style="background-color: #6BAED6; color: #000000; font-weight: bold; font-family: Dice">3</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #6BAED6; color: #000000">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="total" style="background-color: #6BAED6; color: #000000">4</td>
+<td class="gt_row gt_right" headers="rolls" style="background-color: #6BAED6; color: #000000; font-weight: bold; font-family: Dice">4</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #6BAED6; color: #000000">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="total" style="background-color: #6BAED6; color: #000000">5</td>
+<td class="gt_row gt_right" headers="rolls" style="background-color: #6BAED6; color: #000000; font-weight: bold; font-family: Dice">5</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #6BAED6; color: #000000">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="total" style="background-color: #6BAED6; color: #000000">6</td>
+<td class="gt_row gt_right" headers="rolls" style="background-color: #6BAED6; color: #000000; font-weight: bold; font-family: Dice">6</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #6BAED6; color: #000000">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section><section id="d6-1" class="level2"><h2 class="anchored" data-anchor-id="d6-1">2d6</h2>
+<p>Things are more complicated when we start rolling 2d6 and summing them together. Let’s name each of our die “Alpha” and “Beta” to keep them straight.</p>
+<p>There’s only one way for us to get a total roll of 2: both Alpha and Beta need to come up <span class="dice">1</span>. Same thing for a total roll of 12: both Alpha and Beta need to come up <span class="dice">6</span>.</p>
+<p>But to roll a value of 3, there are two ways.</p>
+<ul>
+<li><p>Alpha rolls <span class="dice">1</span>, and Beta rolls <span class="dice">2</span>.</p></li>
+<li><p>Alpha rolls <span class="dice">2</span>, and Beta rolls <span class="dice">1</span>.</p></li>
+</ul>
+<p>If we expand this out to look at all possible values between 2 and 12, we’ll find that there’s six unique ways to roll 7, with each value above and below having fewer unique ways.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="nqvtyhwhpp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nqvtyhwhpp table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#nqvtyhwhpp thead, #nqvtyhwhpp tbody, #nqvtyhwhpp tfoot, #nqvtyhwhpp tr, #nqvtyhwhpp td, #nqvtyhwhpp th {
+  border-style: none;
+}
+
+#nqvtyhwhpp p {
+  margin: 0;
+  padding: 0;
+}
+
+#nqvtyhwhpp .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#nqvtyhwhpp .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#nqvtyhwhpp .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#nqvtyhwhpp .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#nqvtyhwhpp .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nqvtyhwhpp .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nqvtyhwhpp .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nqvtyhwhpp .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#nqvtyhwhpp .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#nqvtyhwhpp .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#nqvtyhwhpp .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#nqvtyhwhpp .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#nqvtyhwhpp .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#nqvtyhwhpp .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#nqvtyhwhpp .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#nqvtyhwhpp .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#nqvtyhwhpp .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#nqvtyhwhpp .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#nqvtyhwhpp .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nqvtyhwhpp .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#nqvtyhwhpp .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#nqvtyhwhpp .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#nqvtyhwhpp .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nqvtyhwhpp .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#nqvtyhwhpp .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#nqvtyhwhpp .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nqvtyhwhpp .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nqvtyhwhpp .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#nqvtyhwhpp .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nqvtyhwhpp .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#nqvtyhwhpp .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nqvtyhwhpp .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nqvtyhwhpp .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nqvtyhwhpp .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nqvtyhwhpp .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nqvtyhwhpp .gt_left {
+  text-align: left;
+}
+
+#nqvtyhwhpp .gt_center {
+  text-align: center;
+}
+
+#nqvtyhwhpp .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#nqvtyhwhpp .gt_font_normal {
+  font-weight: normal;
+}
+
+#nqvtyhwhpp .gt_font_bold {
+  font-weight: bold;
+}
+
+#nqvtyhwhpp .gt_font_italic {
+  font-style: italic;
+}
+
+#nqvtyhwhpp .gt_super {
+  font-size: 65%;
+}
+
+#nqvtyhwhpp .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#nqvtyhwhpp .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#nqvtyhwhpp .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#nqvtyhwhpp .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#nqvtyhwhpp .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#nqvtyhwhpp .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#nqvtyhwhpp .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#nqvtyhwhpp .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#nqvtyhwhpp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="header gt_col_headings">
+<th id="total" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">total</th>
+<th id="rolls" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">rolls</th>
+<th id="n" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">n</th>
+</tr></thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="total" style="background-color: #F7FBFF; color: #000000">2</td>
+<td class="gt_row gt_left" headers="rolls" style="background-color: #F7FBFF; color: #000000; font-weight: bold; font-family: Dice">1 1</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #F7FBFF; color: #000000">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="total" style="background-color: #D0E1F2; color: #000000">3</td>
+<td class="gt_row gt_left" headers="rolls" style="background-color: #D0E1F2; color: #000000; font-weight: bold; font-family: Dice">1 2; 2 1</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #D0E1F2; color: #000000">2</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="total" style="background-color: #94C4DF; color: #000000">4</td>
+<td class="gt_row gt_left" headers="rolls" style="background-color: #94C4DF; color: #000000; font-weight: bold; font-family: Dice">1 3; 2 2; 3 1</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #94C4DF; color: #000000">3</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="total" style="background-color: #4B98C9; color: #FFFFFF">5</td>
+<td class="gt_row gt_left" headers="rolls" style="background-color: #4B98C9; color: #FFFFFF; font-weight: bold; font-family: Dice">1 4; 2 3; 3 2; 4 1</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #4B98C9; color: #FFFFFF">4</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="total" style="background-color: #1964AB; color: #FFFFFF">6</td>
+<td class="gt_row gt_left" headers="rolls" style="background-color: #1964AB; color: #FFFFFF; font-weight: bold; font-family: Dice">1 5; 2 4; 3 3; 4 2; 5 1</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #1964AB; color: #FFFFFF">5</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="total" style="background-color: #08306B; color: #FFFFFF">7</td>
+<td class="gt_row gt_left" headers="rolls" style="background-color: #08306B; color: #FFFFFF; font-weight: bold; font-family: Dice">1 6; 2 5; 3 4; 4 3; 5 2; 6 1</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #08306B; color: #FFFFFF">6</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="total" style="background-color: #1964AB; color: #FFFFFF">8</td>
+<td class="gt_row gt_left" headers="rolls" style="background-color: #1964AB; color: #FFFFFF; font-weight: bold; font-family: Dice">2 6; 3 5; 4 4; 5 3; 6 2</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #1964AB; color: #FFFFFF">5</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="total" style="background-color: #4B98C9; color: #FFFFFF">9</td>
+<td class="gt_row gt_left" headers="rolls" style="background-color: #4B98C9; color: #FFFFFF; font-weight: bold; font-family: Dice">3 6; 4 5; 5 4; 6 3</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #4B98C9; color: #FFFFFF">4</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="total" style="background-color: #94C4DF; color: #000000">10</td>
+<td class="gt_row gt_left" headers="rolls" style="background-color: #94C4DF; color: #000000; font-weight: bold; font-family: Dice">4 6; 5 5; 6 4</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #94C4DF; color: #000000">3</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="total" style="background-color: #D0E1F2; color: #000000">11</td>
+<td class="gt_row gt_left" headers="rolls" style="background-color: #D0E1F2; color: #000000; font-weight: bold; font-family: Dice">5 6; 6 5</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #D0E1F2; color: #000000">2</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="total" style="background-color: #F7FBFF; color: #000000">12</td>
+<td class="gt_row gt_left" headers="rolls" style="background-color: #F7FBFF; color: #000000; font-weight: bold; font-family: Dice">6 6</td>
+<td class="gt_row gt_right" headers="n" style="background-color: #F7FBFF; color: #000000">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>There’s just more different ways for a very large roll on Alpha to get balanced out by a smaller roll on Beta.</p>
+</section><section id="d6-2" class="level2"><h2 class="anchored" data-anchor-id="d6-2">10d6</h2>
+<p>If we expand this out to the 10d6 situation, where there’s only one way to roll 10 (all six die roll <span class="dice">1</span>), there are 4,395,456 different ways to roll 35. The massively larger number of ways to get 35 results in it showing up that much more often than 10 (or 60).</p>
+</section></section><section id="is-that-a-normal-distribution" class="level1"><h1>Is that a Normal Distribution?</h1>
+<p>Yes, or, at least it’s approximating one. This is, in fact, a demonstration of the “Central Limit Theorem”. The Central Limit Theorem states that if we take a bunch of samples from a single distribution and average them together, and we keep doing that, the distribution of the averages will approach a normal distribution.</p>
+<p>An average is the sum of a list of numbers, divided by now many numbers there are. When we roll for damage in D&amp;D, we just do the summing part, but the result is still going to approximate the Normal Distribution.</p>
+<section id="unfair-dice" class="level2"><h2 class="anchored" data-anchor-id="unfair-dice">Unfair dice</h2>
+<p>The nifty thing about the Central Limit Theorem is that it works no matter what the shape of the original distribution was. Let’s say we had a 10 sided die, but 3 of the sides have “1” painted, 3 of the sides have “6” painted on them, and the rest have 2 through 5. With this die, we’re a lot more likely to roll a 1 or a 6.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-10-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://jofrhwld.github.io/blog/posts/2024/09/2024-09-08_roll-clt/index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" style="width:80.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>If we used this unfair die, to roll damage for the Disintegrate spell, how will that affect the outcome?</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-11-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://jofrhwld.github.io/blog/posts/2024/09/2024-09-08_roll-clt/index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" style="width:80.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>It might be hard to <em>see</em> the difference, but this unfair die is slightly more spread out than the fair d6</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-13-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://jofrhwld.github.io/blog/posts/2024/09/2024-09-08_roll-clt/index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" style="width:80.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p><em>But</em>, even though it’s more spread out, it’s still approximating a normal distribution!</p>
+
+
+<!-- -->
+
+</section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2024,
+  author = {Fruehwald, Josef},
+  title = {Rolling for {Damage} with the {Central} {Limit} {Theorem}},
+  series = {Væl Space},
+  date = {2024-09-08},
+  url = {https://jofrhwld.github.io/blog/posts/2024/09/2024-09-08_roll-clt/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2024" class="csl-entry quarto-appendix-citeas">
+Fruehwald, Josef. 2024. <span>“Rolling for Damage with the Central Limit
+Theorem.”</span> Væl Space. September 8, 2024. <a href="https://jofrhwld.github.io/blog/posts/2024/09/2024-09-08_roll-clt/">https://jofrhwld.github.io/blog/posts/2024/09/2024-09-08_roll-clt/</a>.
+</div></div></section></div> ]]></description>
+  <guid>https://jofrhwld.github.io/blog/posts/2024/09/2024-09-08_roll-clt/</guid>
+  <pubDate>Sun, 08 Sep 2024 00:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Troubleshooting RStudio for GitHub Classrom and Codespaces</title>
   <dc:creator>Josef Fruehwald</dc:creator>
@@ -11158,7 +12303,7 @@ font-style: inherit;">"Density distributions of 1 through 4 d8 rolls"</span></sp
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-rolldens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="Density plots of 1, 2, 3 and 4 d8 rolls. 1d8 is a uniform distribution, while 4d8 is approaching a normal distribution" data-fig-align="center">
+<div id="fig-rolldens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="Density plots of 1, 2, 3 and 4 d8 rolls. 1d8 is a uniform distribution, while 4d8 is approaching a normal distribution">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-rolldens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-rolldens-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Density distributions of nd8 rolls"><img src="https://jofrhwld.github.io/blog/posts/2023/02/2023-02-12_dndroll/index_files/figure-html/fig-rolldens-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Density plots of 1, 2, 3 and 4 d8 rolls. 1d8 is a uniform distribution, while 4d8 is approaching a normal distribution" width="576"></a>
 </div>
@@ -11719,7 +12864,7 @@ font-style: inherit;">"Difficulty class"</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-rollprob" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A line graph showing the inverse cumulative density distributions of rolling a d20 normally, with advantage, and with disadvantage. Normal rolls are a straight, decreasing line. Advantage arcs over the normal rolls, while disadvantage arcs underneath it." data-fig-align="center">
+<div id="fig-rollprob" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A line graph showing the inverse cumulative density distributions of rolling a d20 normally, with advantage, and with disadvantage. Normal rolls are a straight, decreasing line. Advantage arcs over the normal rolls, while disadvantage arcs underneath it.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-rollprob-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-rollprob-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Cumulative probability density functions"><img src="https://jofrhwld.github.io/blog/posts/2023/02/2023-02-12_dndroll/index_files/figure-html/fig-rollprob-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A line graph showing the inverse cumulative density distributions of rolling a d20 normally, with advantage, and with disadvantage. Normal rolls are a straight, decreasing line. Advantage arcs over the normal rolls, while disadvantage arcs underneath it." width="576"></a>
 </div>
@@ -15466,7 +16611,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">plot1</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo">
+<div id="fig-penguin1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: The base penguins scatterplot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo" width="576"></a>
 </div>
@@ -15495,7 +16640,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 ℹ Please use `linewidth` in the `default_aes` field and elsewhere instead.</code></pre>
 </div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged.">
+<div id="fig-penguin_hull1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Basic convex hull"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged." width="576"></a>
 </div>
@@ -15539,7 +16684,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species.">
+<div id="fig-penguin_hull2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Smoothed out and filled convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species." width="576"></a>
 </div>
@@ -15592,7 +16737,7 @@ font-style: inherit;">"Fira Sans"</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The scatter plot with the sme convex hull, but no labels actually present.">
+<div id="fig-penguin_hull3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The scatter plot with the sme convex hull, but no labels actually present." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Attempted labelling of convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The scatter plot with the sme convex hull, but no labels actually present." width="576"></a>
 </div>
@@ -15731,7 +16876,7 @@ font-style: inherit;">"none"</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin-hull4" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull">
+<div id="fig-penguin-hull4" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin-hull4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin-hull4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Labelled convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull" width="768"></a>
 </div>
@@ -15781,7 +16926,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin-hull-filter" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data.">
+<div id="fig-penguin-hull-filter" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin-hull-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin-hull-filter-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: Filtered convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull-filter-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data." width="576"></a>
 </div>
@@ -15844,7 +16989,7 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_dens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution">
+<div id="fig-penguin_dens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_dens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_dens-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: Density contour plot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_dens-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution" width="576"></a>
 </div>
@@ -15869,7 +17014,7 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%">
+<div id="fig-penguin_hdr" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: Highest density region contour plot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%" width="576"></a>
 </div>
@@ -15917,7 +17062,7 @@ font-style: inherit;">"Dark2"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species">
+<div id="fig-penguin_hdr2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: Highest density region contour plot, filled by species"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species" width="576"></a>
 </div>
@@ -15955,7 +17100,7 @@ font-style: inherit;">"grey90"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr_rug" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot with a data distribution rug indicating the density of the data distribution.">
+<div id="fig-penguin_hdr_rug" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot with a data distribution rug indicating the density of the data distribution." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr_rug-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr_rug-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: HDR rug"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr_rug-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot with a data distribution rug indicating the density of the data distribution." width="576"></a>
 </div>
@@ -16068,7 +17213,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one trend line for each species with the species name written along the line.">
+<div id="fig-penguin_textsmooth" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one trend line for each species with the species name written along the line." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;11: Trendlines with text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one trend line for each species with the species name written along the line." width="576"></a>
 </div>
@@ -16138,7 +17283,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one trend line for each species with the species name written just above line.">
+<div id="fig-penguin_textsmooth2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one trend line for each species with the species name written just above line." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;12: Trendlines with text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one trend line for each species with the species name written just above line." width="576"></a>
 </div>
@@ -16201,7 +17346,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it.">
+<div id="fig-penguin_textsmooth3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;13: Data ellipses text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it." width="576"></a>
 </div>
@@ -16269,7 +17414,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr-text" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A highest density region plot with the probability levels written along the contours">
+<div id="fig-penguin_hdr-text" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A highest density region plot with the probability levels written along the contours" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr-text-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr-text-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;14: Higest density region plot with direct labels"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr-text-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A highest density region plot with the probability levels written along the contours" width="576"></a>
 </div>
@@ -20969,7 +22114,7 @@ font-style: inherit;">cars</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-carsplot" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A base graphics scatter plot showing the relationship between speed and distance from the cars default data frame." data-fig-align="center">
+<div id="fig-carsplot" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A base graphics scatter plot showing the relationship between speed and distance from the cars default data frame.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-carsplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-carsplot-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: A plot"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index_files/figure-html/fig-carsplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A base graphics scatter plot showing the relationship between speed and distance from the cars default data frame." width="576"></a>
 </div>
@@ -21424,7 +22569,7 @@ font-style: inherit;">0.6</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </details><div class="cell-output-display page-columns page-full">
-<div id="fig-rank" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The main figure shows the linear decreasing relationship between log(frequency) and log(rank). The inset is a bar graph showing the import frequency of the top 10 packages, which are stats, utils, methods, dplyr, ggplot2, Rcpp, graphics, magrittr, rlang, stringr" data-fig-align="center">
+<div id="fig-rank" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The main figure shows the linear decreasing relationship between log(frequency) and log(rank). The inset is a bar graph showing the import frequency of the top 10 packages, which are stats, utils, methods, dplyr, ggplot2, Rcpp, graphics, magrittr, rlang, stringr">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-rank-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-rank-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: A log(rank) by log(frequency) plot of R imports"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index_files/figure-html/fig-rank-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The main figure shows the linear decreasing relationship between log(frequency) and log(rank). The inset is a bar graph showing the import frequency of the top 10 packages, which are stats, utils, methods, dplyr, ggplot2, Rcpp, graphics, magrittr, rlang, stringr" width="768"></a>
 </div>
@@ -22029,7 +23174,7 @@ font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </details><div class="cell-output-display page-columns page-full">
-<div id="fig-network" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A network diagram displaying just the nodes, color coded according to their name pattern: beginning with tidy, beginning with gg, ending with r, and else" data-fig-align="center">
+<div id="fig-network" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A network diagram displaying just the nodes, color coded according to their name pattern: beginning with tidy, beginning with gg, ending with r, and else">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-network-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-network-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: CRAN network graph"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index_files/figure-html/fig-network-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A network diagram displaying just the nodes, color coded according to their name pattern: beginning with tidy, beginning with gg, ending with r, and else" width="480"></a>
 </div>
@@ -22067,1252 +23212,6 @@ Fruehwald, Josef. 2022. <span>“What *Is* R?”</span> Væl Space. December
   <guid>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/</guid>
   <pubDate>Sat, 17 Dec 2022 00:00:00 GMT</pubDate>
   <media:content url="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index_files/figure-html/fig-network-1.png" medium="image" type="image/png"/>
-</item>
-<item>
-  <title>A lesson in over-preparing</title>
-  <dc:creator>Josef Fruehwald</dc:creator>
-  <link>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10/</link>
-  <description><![CDATA[ <p>One of the courses I taught in the Fall 2022 semester was Natural Language Processing (NLP). It was a fun course to teach, and I learned a lot since it’s not a topic in my core areas of research. At the same time, the amount of work I put into it has made me really start to rethink how I prepare for teaching.</p>
-<p>My tendency, for a while, has been to prepare extensive course notes that I publish on my website (<a href="https://jofrhwld.github.io/teaching/courses/2017_lsa/">Exhibit A</a>, <a href="https://jofrhwld.github.io/teaching/courses/2022_lin517/">Exhibit B</a>). I’ve never really reflected on how much work that actually takes. Moreover, I don’t tend to consider it when I reflect on how much “writing” I get done (and inevitably get a bit discouraged about my productivity).</p>
-<p>But, it occurred to me that I could quantify how much writing I really did this semester. I wrote all my course notes in Quarto, which <a href="https://quarto.org/docs/websites/website-search.html">generates a search index</a> in a .json file. To get a total count of words that I wrote in course notes, I just need to parse that json file and tokenize it! I found <a href="https://drsimonj.svbtle.com/embarking-on-a-tidy-git-analysis">a handy blog post about analyzing git repos</a> that helped a lot in the process.</p>
-<section id="setup" class="level2"><h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<div class="cell">
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;"><a href="https://github.com/colearendt/tidyjson">tidyjson</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;"><a href="https://juliasilge.github.io/tidytext/">tidytext</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;"><a href="https://scales.r-lib.org">scales</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;"><a href="https://github.com/EdwinTh/padr">padr</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;"><a href="https://glue.tidyverse.org/">glue</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span></span>
-<span><span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">here</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"_defaults.R"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span></code></pre></div>
-</div>
-<p>This block of code is just copied from the blog post I just mentioned.</p>
-<div class="cell">
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Remote repository URL</span></span>
-<span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">repo_url</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"https://github.com/JoFrhwld/2022_lin517.git"</span></span>
-<span></span>
-<span><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Directory into which git repo will be cloned</span></span>
-<span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">clone_dir</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"git_repo"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span></span>
-<span><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Create command</span></span>
-<span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">clone_cmd</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"git clone {repo_url} {clone_dir}"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span></span>
-<span><span class="co" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;"># Invoke command</span></span>
-<span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">clone_cmd</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span></code></pre></div>
-</div>
-<p>There’s a handful of R libraries for reading json files into R, but after searching around I went with <code>tidyjson</code> because I like using tidyverse things.</p>
-<div class="cell">
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">search_file</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">clone_dir</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"_site"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"search.json"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">site_search</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">read_json</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">search_file</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span></code></pre></div>
-</div>
-<p>I was really glad to find that the <code>search.json</code> file is relatively flat, so pulling out the metadata and text was not as complicated as it could have been.</p>
-<div class="cell">
-<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">site_search</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/tidyjson/man/gather_array.html">gather_array</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://tidyr.tidyverse.org/reference/hoist.html">hoist</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">..JSON</span>,</span>
-<span>    <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"title"</span>,</span>
-<span>    <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"section"</span>,</span>
-<span>    <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"text"</span></span>
-<span>  <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span>  <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">array.index</span>, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">title</span>, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">section</span>, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">text</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://juliasilge.github.io/tidytext/reference/unnest_tokens.html">unnest_tokens</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>input <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">text</span>, output <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"words"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-&gt;</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">tokens_table</span></span></code></pre></div>
-</div>
-<p>I noticed in the json file that there were multiple entries for a single page of course notes, one for each subsection, but there were also some entries with the subsection value set to blank. I just wanted to double check that the blank section entries weren’t the <em>entire</em> page of lecture notes, with additional entries duplicating the text by subsection.</p>
-<div class="cell">
-<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">tokens_table</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>has_section <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">section</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">!=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">""</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">title</span>, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">has_section</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 45 × 3
-# Groups:   title, has_section [45]
-   title                              has_section     n
-   &lt;chr&gt;                              &lt;lgl&gt;       &lt;int&gt;
- 1 Addendum                           FALSE          43
- 2 Addendum                           TRUE          100
- 3 Additional Neural Network Concepts FALSE         473
- 4 Additional Neural Network Concepts TRUE         1109
- 5 Comprehensions and Useful Things   FALSE        1116
- 6 Data Processing                    FALSE         654
- 7 Data Processing                    TRUE         1804
- 8 Data Sparsity                      FALSE         720
- 9 Data Sparsity                      TRUE         1724
-10 Evaluating models                  FALSE          42
-# ℹ 35 more rows</code></pre>
-</div>
-</div>
-<p>Looks like no. The blank titled sections are <em>probably</em> cases where I had a paragraph or two that came before the first section header.</p>
-<section id="so-how-many-words" class="level3"><h3 class="anchored" data-anchor-id="so-how-many-words">So <em>how many words?</em>
-</h3>
-<div class="cell">
-<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">tokens_table</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span></code></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 43637</code></pre>
-</div>
-</div>
-<p>Based on the default tokenization from <code>tidytext</code>, it looks like I wrote just north of 40k words. I don’t have the best sense of how this compares to other kinds of genre writing, but apparently the goal of NaNoWriMo (National Novel Writing Month) is to <a href="https://nanowrimo.org/about-nano">write a novel that is 50k words</a>.</p>
-<p>So, I didn’t quite write a novel. But the amount of work that went into these 40k words was still considerable in terms of background research and trying to come to my own understanding of relatively complex mathematical formulae so that I could distill them into a comprehensible lesson. Also not accounted for was all the code I wrote and had to debug <em>within</em> the course notes!</p>
-</section></section><section id="how-many-words-did-i-write-over-time" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="how-many-words-did-i-write-over-time">How many words did I write over time?</h2>
-<p>Since I was publishing the course notes to github, that means I also have a preserved history of how my word count grew over time. All I have to do is apply the same procedures to the history of <code>search.json</code>.</p>
-<div class="cell">
-<details class="code-fold"><summary>code to get the git commit history</summary><div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">log_format_options</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>datetime <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"cd"</span>, commit <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"h"</span>, parents <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"p"</span>, author <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"an"</span>, subject <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"s"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">option_delim</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"\t"</span></span>
-<span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">log_format</span>   <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"%{log_format_options}"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://glue.tidyverse.org/reference/glue_collapse.html">glue_collapse</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">option_delim</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">log_options</span>  <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'--pretty=format:"{log_format}" --date=format:"%Y-%m-%d %H:%M:%S"'</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">log_cmd</span>      <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'git -C {clone_dir} log {log_options}'</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span></code></pre></div>
-</details>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">log_cmd</span>, intern <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="cn" style="color: #8f5902;
-background-color: null;
-font-style: inherit;">TRUE</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://stringr.tidyverse.org/reference/str_split.html">str_split_fixed</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">option_delim</span>, <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">log_format_options</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>.name_repair <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"minimal"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">log_format_options</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-&gt;</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">commit_history</span></span></code></pre></div>
-</div>
-<div class="cell">
-<details class="code-fold"><summary><code>get_length()</code> function definition</summary><div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">get_length</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">function</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">commit</span>, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">clone_dir</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">{</span></span>
-<span>  <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">search_file</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">clone_dir</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"_site"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"search.json"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span>  <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">checkout_cmd</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"git -C {clone_dir} checkout {commit} {search_file}"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">checkout_cmd</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span>  <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">site_search</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">read_json</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">search_file</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span>  <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">site_search</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/tidyjson/man/gather_array.html">gather_array</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://tidyr.tidyverse.org/reference/hoist.html">hoist</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">..JSON</span>,</span>
-<span>      <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"title"</span>,</span>
-<span>      <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"section"</span>,</span>
-<span>      <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"text"</span></span>
-<span>    <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span>  <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">array.index</span>, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">title</span>, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">section</span>, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">text</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://juliasilge.github.io/tidytext/reference/unnest_tokens.html">unnest_tokens</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>input <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">text</span>, output <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"words"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-&gt;</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">word_count</span></span>
-<span>  <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">word_count</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">}</span></span></code></pre></div>
-</details>
-</div>
-<p>The data frame <code>commit_history</code> contains metadata about each commit. What I’ll do next is apply the function I wrote in the collapsed code above to the list of commit hashes, and get the word count at each commit.</p>
-<div class="cell">
-<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">commit_history</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>word_count <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">commit</span>, <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">~</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">get_length</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">.x</span>, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">clone_dir</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>           <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://purrr.tidyverse.org/reference/as_vector.html">simplify</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-&gt;</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">word_history</span></span></code></pre></div>
-</div>
-<p>I often had many commits in a single day, so to simplify things a bit, I’ll just get the max number of words I had by the end of a given day. Fortunately, I did not stay up past midnight pushing commits this semester, so the data shouldn’t be messed up by work sessions overlapping across days.</p>
-<div class="cell">
-<div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">word_history</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>datetime <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://lubridate.tidyverse.org/reference/ymd_hms.html">ymd_hms</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">datetime</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/padr/man/thicken.html">thicken</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"day"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">datetime_day</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>words <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">word_count</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">datetime_day</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-&gt;</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">daily_words</span></span></code></pre></div>
-</div>
-<section id="cumulative-wordcount" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="cumulative-wordcount">Cumulative Wordcount</h3>
-<p>Here’s the cumulative count of words over the course of the semester. I forget why, exactly, it starts out at 7,000 words. I think I might’ve been managing the course notes differently between the end of August and start of September, and then just copied them over. But it is a pretty continuous rise, with a few notable plateaus. Some of those plateaus occurred when I had actually prepared more than could be covered in a one or two class meetings, so we stayed with a set of lecture notes for a longer period of time.</p>
-<div class="cell page-columns page-full" data-layout-align="center">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb14" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">daily_words</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/padr/man/pad.html">pad</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"day"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://tidyr.tidyverse.org/reference/fill.html">fill</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">words</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">datetime_day</span>, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">words</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>ymin <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>, ymax <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">words</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span>, alpha <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.2</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>linewidth <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>,</span>
-<span>              lineend <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"round"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/expand_limits.html">expand_limits</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>y <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>labels <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://scales.r-lib.org/reference/label_number.html">label_comma</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span>,</span>
-<span>                       expand <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/expansion.html">expansion</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>mult <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>, <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.05</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/scale_date.html">scale_x_date</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>expand <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/expansion.html">expansion</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>mult <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.01</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>x <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"date"</span>,</span>
-<span>         y <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"number of words"</span>,</span>
-<span>         title <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Cumulative number of words in course notes"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output-display page-columns page-full">
-<div id="fig-total" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A line graph showing a continuous increase from about 7,000 words to over 40,000 words between September and December" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-total-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-total-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: The number of words I wrote over the course of Fall 2022"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10/index_files/figure-html/fig-total-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A line graph showing a continuous increase from about 7,000 words to over 40,000 words between September and December" width="576"></a>
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-total-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: The number of words I wrote over the course of Fall 2022
-</figcaption></figure>
-</div>
-</div>
-</div>
-</section><section id="when-was-i-writing" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="when-was-i-writing">When was I writing?</h3>
-<p>I can also double check <em>when</em> I was writing my course notes. I was teaching on a Monday-Wednesday-Friday schedule, and Fridays were usually given over to practical exercises (the text of which is largely absent from these counts…).</p>
-<p>It was no surprise to me that I wrote most of the course notes on Sundays. The total number of Sunday words is about 17k, which comes out to about mean of about 1,300 words for Sundays this semester.</p>
-<div class="cell page-columns page-full" data-layout-align="center">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb15" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">daily_words</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/padr/man/pad.html">pad</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"day"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://tidyr.tidyverse.org/reference/fill.html">fill</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">words</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>daily_words <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">words</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html">lag</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">words</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span>,</span>
-<span>         wday <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://lubridate.tidyverse.org/reference/day.html">wday</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">datetime_day</span>, label <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="cn" style="color: #8f5902;
-background-color: null;
-font-style: inherit;">T</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">wday</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>word <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">daily_words</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">|&gt;</span></span>
-<span>  <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">wday</span>, <span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">word</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>fill <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"grey90"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>labels <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://scales.r-lib.org/reference/label_number.html">label_comma</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">+</span></span>
-<span>    <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span>x <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"day of the week"</span>,</span>
-<span>         y <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"total words"</span>,</span>
-<span>         title <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"words written by day of week"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span></code></pre></div>
-</details><div class="cell-output-display page-columns page-full">
-<div id="fig-byday" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-byday-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-byday-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: The total number of words I wrote per day of the week."><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10/index_files/figure-html/fig-byday-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></a>
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-byday-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: The total number of words I wrote per day of the week.
-</figcaption></figure>
-</div>
-</div>
-</div>
-</section></section><section id="thoughts" class="level2"><h2 class="anchored" data-anchor-id="thoughts">Thoughts</h2>
-<p>While I feel pretty good about the material I produced, I really don’t think this way of doing things is tenable. The writing that I <em>did</em> do for these course notes was writing that I <em>didn’t</em> do for any other project. Moreover, you can almost see how much energy Sundays took out of me! And even though I wasn’t writing as many <em>course notes</em> Tuesday through Friday, those <em>were</em> full work days that I was doing all of my other work during.</p>
-<p>So the upshot is: I’m already brainstorming on how to <em>not</em> prepare like this for a class again!</p>
-</section><section id="sources" class="level2"><h2 class="anchored" data-anchor-id="sources">Sources</h2>
-<ul>
-<li><p><a href="https://drsimonj.svbtle.com/embarking-on-a-tidy-git-analysis" class="uri">https://drsimonj.svbtle.com/embarking-on-a-tidy-git-analysis</a></p></li>
-<li><p><a href="https://tidyr.tidyverse.org/reference/hoist.html" class="uri">https://tidyr.tidyverse.org/reference/hoist.html</a></p></li>
-</ul>
-
-
-</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2022,
-  author = {Fruehwald, Josef},
-  title = {A Lesson in over-Preparing},
-  series = {Væl Space},
-  date = {2022-12-10},
-  url = {https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10/},
-  langid = {en}
-}
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2022" class="csl-entry quarto-appendix-citeas">
-Fruehwald, Josef. 2022. <span>“A Lesson in over-Preparing.”</span> Væl
-Space. December 10, 2022. <a href="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10/">https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10/</a>.
-</div></div></section></div> ]]></description>
-  <guid>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10/</guid>
-  <pubDate>Sat, 10 Dec 2022 00:00:00 GMT</pubDate>
-  <media:content url="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-10/index_files/figure-html/fig-total-1.png" medium="image" type="image/png"/>
 </item>
 </channel>
 </rss>

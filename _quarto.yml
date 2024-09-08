@@ -11,11 +11,11 @@ execute:
 
 website:
   title: "Væl Space"
-  favicon: assets/logo.svg
+  favicon: /assets/logo.svg
   twitter-card:
-    image: assets/logo.svg
+    image: /assets/logo.svg
   open-graph: 
-    image: assets/logo.svg    
+    image: /assets/logo.svg    
   bread-crumbs: false
   site-url: "https://jofrhwld.github.io/blog"
   google-analytics: "G-SS6YYGWPPL"

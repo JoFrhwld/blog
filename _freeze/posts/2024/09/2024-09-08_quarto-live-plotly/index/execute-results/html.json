@@ -1,0 +1,15 @@
+{
+  "hash": "4cc589d2d7e7e516918e7071667f9462",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Rolling for Damage with the Central Limit Theorem\"\ndate: 2024-09-08\ndraft: false\ninclude-in-header: \n  text: |\n    <style type=\"text/css\">\n      @font-face {\n        font-family: \"Dice\";\n        src: url(https://www.ambor.com/hb/dice.ttf) format(\"truetype\");\n      }\n      .dice { font-family: \"Dice\", sans-serif }\n    </style>\nformat: \n  live-html:\n    theme:\n      light: \n        - flatly\n        - styles/custom.scss\n        - styles/light.scss\n      dark: \n        - darkly\n        - styles/custom.scss\n        - styles/dark.scss\n    monofont: Fira Code\n    mainfont: Public Sans\n    toc: true\n    fig-width: 6\n    fig-height: 5\n    title-block-banner: true\n    license: \"CC-BY-SA 4.0\"\n    smooth-scroll: true\n    code-link: true\n    lightbox: true\nwebr:\n  packages:\n    - plotly\n    - ggplot2\n    - droll\n    - tibble\n    - dplyr\n---\n\n::: {.cell}\n\n:::\n\n\n\n\n\n\n\n\n\n\n\nI've been playing a *lot* of Baldur's Gate 3 lately. My party has gotten to max level, and we're running around, casting spells and taking names.\n\nOne of the spells my wizard has is called *Disintegrate*, which gets summarized like this\n\n::: callout-important\n## Disintegrate\n\nShoot a thin green ray from your finger. If the spell reduces the target to 0 hit points, it disintegrates into a crumbly ash.\n\n### Damage\n\n🎲 10d6 + 40 (50\\~100)\n:::\n\nThe line of information under \"Damage\" means that to calculate how much damage you do when you cast the spell, you need to roll 10 6-sided dice (\"d6\"), then add 40. The \"(50\\~100)\" part summarizes the worst vs best outcomes.\n\nWorst\n\n:   You roll 10 d6, and they all come up [1]{.dice}.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

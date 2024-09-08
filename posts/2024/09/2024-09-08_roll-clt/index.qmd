@@ -45,7 +45,7 @@ The line of information under "Damage" means that to calculate how much damage y
 
 Worst
 
-:   You roll 10 d6, and they all come up 1: [1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice}. This sums to 10, then you add 40 to get a total of 60.
+:   You roll 10 d6, and they all come up 1: [1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice}. This sums to 10, then you add 40 to get a total of 50.
 
 Best
 

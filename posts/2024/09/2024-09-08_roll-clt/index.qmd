@@ -24,32 +24,37 @@ fig-height: 3
 fig-align: center
 ---
 
-I've been playing a *lot* of Baldur's Gate 3 lately. My party has gotten to max level, and we're running around, casting spells and taking names.
+I've been playing a *lot* of Baldur's Gate 3 lately.
+My party has gotten to max level, and we're running around, casting spells and taking names.
 
 One of the spells my wizard has is called *Disintegrate*, which gets summarized like this
 
 ::: callout-important
 ## Disintegrate
 
-Shoot a thin green ray from your finger. If the spell reduces the target to 0 hit points, it disintegrates into a crumbly ash.
+Shoot a thin green ray from your finger.
+If the spell reduces the target to 0 hit points, it disintegrates into a crumbly ash.
 
 ### Damage
 
 🎲 10d6 + 40 (50\~100)
 :::
 
-The line of information under "Damage" means that to calculate how much damage you do when you cast the spell, you need to roll 10 6-sided dice ("d6"), then add 40. The "(50\~100)" part summarizes the worst vs best outcomes.
+The line of information under "Damage" means that to calculate how much damage you do when you cast the spell, you need to roll 10 6-sided dice ("d6"), then add 40.
+The "(50\~100)" part summarizes the worst vs best outcomes.
 
 ::: callout-tip
 ## Best and worst
 
 Worst
 
-:   You roll 10 d6, and they all come up 1: [1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice}. This sums to 10, then you add 40 to get a total of 60.
+:   You roll 10 d6, and they all come up 1: [1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice},[1]{.dice}.
+    This sums to 10, then you add 40 to get a total of 60.
 
 Best
 
-:   You roll 10 d6, and they all come up 6: [6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice}. This sums up to 60, then you add 40 to get a total of 100.
+:   You roll 10 d6, and they all come up 6: [6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice},[6]{.dice}.
+    This sums up to 60, then you add 40 to get a total of 100.
 :::
 
 If you just glance at the description saying that the spell will do between 50 and 100 damage, you might think that you're equally likely to roll any amount of damage between these two values.
@@ -87,7 +92,8 @@ tibble(
   
 ```
 
-But, as you play, you'll find that hitting something right in the middle, like 75, is very likely, and that hitting either 50 or 100 is vanishingly rare. The distribution of rolls wind up looking like this:
+But, as you play, you'll find that hitting something right in the middle, like 75, is very likely, and that hitting either 50 or 100 is vanishingly rare.
+The distribution of rolls wind up looking like this:
 
 ```{r}
 #| echo: false
@@ -133,7 +139,8 @@ low <- qroll(0.025, (10*d6)+40)
 high <- qroll(0.975, (10*d6)+40)
 ```
 
-In fact, 95% of the rolls are going to be between `r low` and `r high`. The rest of this post is about these two questions:
+In fact, 95% of the rolls are going to be between `r low` and `r high`.
+The rest of this post is about these two questions:
 
 1.  Why is that?
 2.  Is that a normal distribution?
@@ -142,7 +149,9 @@ In fact, 95% of the rolls are going to be between `r low` and `r high`. The rest
 
 ## 1d6
 
-We should start things off easy, and look at what happens when we roll 1d6. As long as the die is fair, any value between 1 and 6 is possible. And for each value between 1 and 6, there's only 1 possible way to get that value.
+We should start things off easy, and look at what happens when we roll 1d6.
+As long as the die is fair, any value between 1 and 6 is possible.
+And for each value between 1 and 6, there's only 1 possible way to get that value.
 
 ```{r}
 #| echo: false
@@ -177,9 +186,11 @@ tibble(
 
 ## 2d6
 
-Things are more complicated when we start rolling 2d6 and summing them together. Let's name each of our die "Alpha" and "Beta" to keep them straight.
+Things are more complicated when we start rolling 2d6 and summing them together.
+Let's name each of our die "Alpha" and "Beta" to keep them straight.
 
-There's only one way for us to get a total roll of 2: both Alpha and Beta need to come up [1]{.dice}. Same thing for a total roll of 12: both Alpha and Beta need to come up [6]{.dice}.
+There's only one way for us to get a total roll of 2: both Alpha and Beta need to come up [1]{.dice}.
+Same thing for a total roll of 12: both Alpha and Beta need to come up [6]{.dice}.
 
 But to roll a value of 3, there are two ways.
 
@@ -232,17 +243,23 @@ There's just more different ways for a very large roll on Alpha to get balanced 
 n <- (1/droll(10, 10*d6)) * droll(35, 10*d6)
 ```
 
-If we expand this out to the 10d6 situation, where there's only one way to roll 10 (all six die roll [1]{.dice}), there are `r format(n, big.mark = ",")` different ways to roll 35. The massively larger number of ways to get 35 results in it showing up that much more often than 10 (or 60).
+If we expand this out to the 10d6 situation, where there's only one way to roll 10 (all six die roll [1]{.dice}), there are `r format(n, big.mark = ",")` different ways to roll 35.
+The massively larger number of ways to get 35 results in it showing up that much more often than 10 (or 60).
 
 # Is that a Normal Distribution?
 
-Yes, or, at least it's approximating one. This is, in fact, a demonstration of the "Central Limit Theorem". The Central Limit Theorem states that if we take a bunch of samples from a single distribution and average them together, and we keep doing that, the distribution of the averages will approach a normal distribution.
+Yes, or, at least it's approximating one.
+This is, in fact, a demonstration of the "Central Limit Theorem".
+The Central Limit Theorem states that if we take a bunch of samples from a single distribution and average them together, and we keep doing that, the distribution of the averages will approach a normal distribution.
 
-An average is the sum of a list of numbers, divided by now many numbers there are. When we roll for damage in D&D, we just do the summing part, but the result is still going to approximate the Normal Distribution.
+An average is the sum of a list of numbers, divided by now many numbers there are.
+When we roll for damage in D&D, we just do the summing part, but the result is still going to approximate the Normal Distribution.
 
 ## Unfair dice
 
-The nifty thing about the Central Limit Theorem is that it works no matter what the shape of the original distribution was. Let's say we had a 10 sided die, but 3 of the sides have "1" painted, 3 of the sides have "6" painted on them, and the rest have 2 through 5. With this die, we're a lot more likely to roll a 1 or a 6.
+The nifty thing about the Central Limit Theorem is that it works no matter what the shape of the original distribution was.
+Let's say we had a 10 sided die, but 3 of the sides have "1" painted, 3 of the sides have "6" painted on them, and the rest have 2 through 5.
+With this die, we're a lot more likely to roll a 1 or a 6.
 
 ```{r}
 #| echo: false

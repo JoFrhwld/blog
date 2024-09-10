@@ -8,7 +8,9 @@ filters:
   - codeblocklabel
 ---
 
-I'm teaching a class on quantitative methods in linguistics, and after getting tired, over the years, of debugging everyone's computer before we could get to the *content* of learning R (much less quantitative methods), I decided to seize control. I'm running the course through GitHub Classroom which comes with an educational allowance for using GitHub codespaces. There have been pros and cons to running things through there:
+I'm teaching a class on quantitative methods in linguistics, and after getting tired, over the years, of debugging everyone's computer before we could get to the *content* of learning R (much less quantitative methods), I decided to seize control.
+I'm running the course through GitHub Classroom which comes with an educational allowance for using GitHub codespaces.
+There have been pros and cons to running things through there:
 
 Pro
 
@@ -18,13 +20,15 @@ Con
 
 :   I *really* have to troubleshoot the one configuration for everyone.
 
-After working through some issues today, I thought I'd start a running document of decisions I've already made, leaving space for updates down the line. This is for my own sake, to refer back to, but also for any other poor souls out there.
+After working through some issues today, I thought I'd start a running document of decisions I've already made, leaving space for updates down the line.
+This is for my own sake, to refer back to, but also for any other poor souls out there.
 
 # Problems
 
 ## Problem: Devcontainers can take a long time to load.
 
-Launching a codespace can take a long time, especially if you are doing a lot of configuration at the creation time. My solution was to create my own devcontainer image, which should speed some things up.
+Launching a codespace can take a long time, especially if you are doing a lot of configuration at the creation time.
+My solution was to create my own devcontainer image, which should speed some things up.
 
 -   I forked the [rocker-org/devcontainer-images](https://github.com/rocker-org/devcontainer-images) repo
 
@@ -39,7 +43,8 @@ RUN install2.r --error --skipinstalled $(cat /home/rstudio/.rpackages)
 
 ## Problem: I don't want a login screen to Rstudio
 
-By default, if you just launch `rserver` from the devcontainer image (which has RStudio Server installed), you'll get a login screen when you visit the forwarded port. I could have left this, but needing to explain "It looks like a login screen, but the username and password are just rstudio/rstudio" is too sharp an edge.
+By default, if you just launch `rserver` from the devcontainer image (which has RStudio Server installed), you'll get a login screen when you visit the forwarded port.
+I could have left this, but needing to explain "It looks like a login screen, but the username and password are just rstudio/rstudio" is too sharp an edge.
 
 Fortunately, there's an rstudio server devcontainer feature I can add to the template assignment that enables single sign on mode, and even updates the default working directory to be the workspace, rather than `~`.
 
@@ -56,7 +61,8 @@ Fortunately, there's an rstudio server devcontainer feature I can add to the tem
 
 ## Problem: On launch, RStudio doesn't open a project
 
-Even if the default working directory has an `.Rproj` file in it, RStudio doesn't default open it as a project on launch, which also means the git pane isn't available. This was another sharp edge that I knew would cause me problems.
+Even if the default working directory has an `.Rproj` file in it, RStudio doesn't default open it as a project on launch, which also means the git pane isn't available.
+This was another sharp edge that I knew would cause me problems.
 
 I found a hook I could add to the system `.Rprofile` to fix this
 
@@ -80,9 +86,12 @@ COPY --chown=rstudio:rstudio assets/.Rprofile /home/rstudio/
 
 ## Problem: There were no git credentials in RStudio git pane
 
-If you use the VS Code interface in a codespace, you can push and pull to the original repo, no problem. But I couldn't do it inside the RStudio Server session. I could have had students go back to VS Code for this, but, again, another sharp edge.
+If you use the VS Code interface in a codespace, you can push and pull to the original repo, no problem.
+But I couldn't do it inside the RStudio Server session.
+I could have had students go back to VS Code for this, but, again, another sharp edge.
 
-The necessary evironment variables that are available in the VS Code interface are `GITHUB_USER` and `GITHUB_TOKEN`, but they weren't available to R. This is something that needs to be dealt with *after* the codespace has built (not in the devcontainer image), so I added the following to assingment template's `devcontainer.json`.
+The necessary environment variables that are available in the VS Code interface are `GITHUB_USER` and `GITHUB_TOKEN`, but they weren't available to R.
+This is something that needs to be dealt with *after* the codespace has built (not in the devcontainer image), so I added the following to assignment template's `devcontainer.json`.
 
 ``` json
  "postAttachCommand": {
@@ -94,7 +103,8 @@ This just copies the values in the environment variables to R's environment vari
 
 ## Problem: I wanted the most up-to-date Quarto
 
-We're going to be talking a bit about authoring, sometimes using typst, and [the newest update that styles tables from `gt`](https://quarto.org/docs/blog/posts/2024-07-02-beautiful-tables-in-typst/) was too good to not have. This required going back to the dockerfile.
+We're going to be talking a bit about authoring, sometimes using typst, and [the newest update that styles tables from `gt`](https://quarto.org/docs/blog/posts/2024-07-02-beautiful-tables-in-typst/) was too good to not have.
+This required going back to the dockerfile.
 
 ``` dockerfile
 ARG QUARTOVERSION=1.5.56
@@ -115,7 +125,8 @@ ENV PATH "$PATH:/usr/share/quarto/bin"
 
 ## Problem: The `.Rproj` file name didn't match the repository name
 
-This might not have mattered too much, but GitHub classroom creates a new repository for each student called `{assignment-name}-{username}`. I thought it would be not quite the same as using RStudio projects locally if the project file was called `assignment-template.Rproj` in all cases.
+This might not have mattered too much, but GitHub classroom creates a new repository for each student called `{assignment-name}-{username}`.
+I thought it would be not quite the same as using RStudio projects locally if the project file was called `assignment-template.Rproj` in all cases.
 
 This was another case for adding a post-attach command in the assignment template `devcontainer.json`.
 
@@ -129,7 +140,8 @@ This was another case for adding a post-attach command in the assignment templat
 
 ## Problem: A GitHub Classroom race condition
 
-So, when github classroom creates the student's assignment repo, it adds two buttons to the `README.md`. *But*, if the student is quick on the draw and launch their codespace before the bot commits the change to the readme, their codespace will be a commit behind the remote, but they won't necessarilly realize this.
+So, when github classroom creates the student's assignment repo, it adds two buttons to the `README.md`.
+*But*, if the student is quick on the draw and launch their codespace before the bot commits the change to the readme, their codespace will be a commit behind the remote, but they won't necessarily realize this.
 
 Then, if they keep working and commit, they've got a divergent branch from the remote, and they'll need to reconcile it, which the RStudio git gui interface doesn't really have capacity for.
 
@@ -145,7 +157,9 @@ This is another item for the `devcontainer.json`
 
 ## Problem: Codespaces going idle too quickly
 
-I'm still trying to debug this issue (I've opened an issue with GH, waiting to hear back). Students' codespaces seem to be going idle very quickly when we're working on an in-class assignment. This results in their RStudio session starting to return mysterious 400 errors.
+I'm still trying to debug this issue (I've opened an issue with GH, waiting to hear back).
+Students' codespaces seem to be going idle very quickly when we're working on an in-class assignment.
+This results in their RStudio session starting to return mysterious 400 errors.
 
 Some things I've already done:
 
@@ -153,7 +167,8 @@ Some things I've already done:
 
 -   I've set a custom timeout policy for codespaces within the organization.
 
-This didn't seem to fix things. A few more hypotheses I have are:
+This didn't seem to fix things.
+A few more hypotheses I have are:
 
 -   Because we're working in RStudio, largely in Quarto notebooks, and not in the VS Code interface, [the codespace isn't registering any activity](https://docs.github.com/en/codespaces/setting-your-user-preferences/setting-your-timeout-period-for-github-codespaces?tool=webui#inactivity-defined).
 
@@ -180,11 +195,13 @@ Then added the following to my `devcontainer.json`
 }
 ```
 
-This will print `Stay Awake` every 20 seconds for 90 minutes... hopefully keeping our RStudio sessions active long enough for a class meeting.
+This will print `Stay Awake` every 20 seconds for 90 minutes...
+hopefully keeping our RStudio sessions active long enough for a class meeting.
 
 # Customizations
 
-There were a few customizations to RStudio that I wanted to make available to students. We *could* configure these within the codespace through the RStudio GUI, but since the codespaces is created anew for each assignment, we'd have to make these changes every time.
+There were a few customizations to RStudio that I wanted to make available to students.
+We *could* configure these within the codespace through the RStudio GUI, but since the codespaces is created anew for each assignment, we'd have to make these changes every time.
 
 ## RStudio Prefs
 
@@ -195,6 +212,13 @@ Some rstudio preferences I wanted to set were:
 -   Use of the native pipe operator
 
 -   Use of the Menlo font in the editor.
+
+::: callout-note
+## Update (2024-09-10)
+
+I also just found out you can globally[ change the default line-wrapping behavior](https://rstudio.github.io/visual-markdown-editing/markdown.html#line-wrapping) in the source document when working in the Visual Editor.
+I'll go with sentence-level wrapping, which will be nice for git diffs.
+:::
 
 To get these working, I added the following to the default `rstudio-prefs.json` which I included in the devcontainer repository
 
@@ -210,7 +234,8 @@ To get these working, I added the following to the default `rstudio-prefs.json` 
   "rainbow_parentheses": true,
   "insert_native_pipe_operator": true,
   "server_editor_font_enabled": true,
-  "server_editor_font": "Menlo"	
+  "server_editor_font": "Menlo"
+  "visual_markdown_editing_wrap": "sentence"
 }
 ```
 

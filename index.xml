@@ -44,11 +44,9 @@ Best and worst
 </div>
 </div>
 <div class="callout-body-container callout-body">
+<p>Worst</p>
+<p>: You roll 10 d6, and they all come up 1: <span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>. This sums to 10, then you add 40 to get a total of 50.</p>
 <dl>
-<dt>Worst</dt>
-<dd>
-<p>You roll 10 d6, and they all come up 1: <span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>,<span class="dice">1</span>. This sums to 10, then you add 40 to get a total of 50.</p>
-</dd>
 <dt>Best</dt>
 <dd>
 <p>You roll 10 d6, and they all come up 6: <span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>,<span class="dice">6</span>. This sums up to 60, then you add 40 to get a total of 100.</p>
@@ -84,23 +82,23 @@ Best and worst
 <p>We should start things off easy, and look at what happens when we roll 1d6. As long as the die is fair, any value between 1 and 6 is possible. And for each value between 1 and 6, there’s only 1 possible way to get that value.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="cwnfmgxazf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cwnfmgxazf table {
+<div id="rmqdlebtik" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rmqdlebtik table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cwnfmgxazf thead, #cwnfmgxazf tbody, #cwnfmgxazf tfoot, #cwnfmgxazf tr, #cwnfmgxazf td, #cwnfmgxazf th {
+#rmqdlebtik thead, #rmqdlebtik tbody, #rmqdlebtik tfoot, #rmqdlebtik tr, #rmqdlebtik td, #rmqdlebtik th {
   border-style: none;
 }
 
-#cwnfmgxazf p {
+#rmqdlebtik p {
   margin: 0;
   padding: 0;
 }
 
-#cwnfmgxazf .gt_table {
+#rmqdlebtik .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -126,12 +124,12 @@ Best and worst
   border-left-color: #D3D3D3;
 }
 
-#cwnfmgxazf .gt_caption {
+#rmqdlebtik .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cwnfmgxazf .gt_title {
+#rmqdlebtik .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -143,7 +141,7 @@ Best and worst
   border-bottom-width: 0;
 }
 
-#cwnfmgxazf .gt_subtitle {
+#rmqdlebtik .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -155,7 +153,7 @@ Best and worst
   border-top-width: 0;
 }
 
-#cwnfmgxazf .gt_heading {
+#rmqdlebtik .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -167,13 +165,13 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#cwnfmgxazf .gt_bottom_border {
+#rmqdlebtik .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cwnfmgxazf .gt_col_headings {
+#rmqdlebtik .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -188,7 +186,7 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#cwnfmgxazf .gt_col_heading {
+#rmqdlebtik .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -208,7 +206,7 @@ Best and worst
   overflow-x: hidden;
 }
 
-#cwnfmgxazf .gt_column_spanner_outer {
+#rmqdlebtik .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -220,15 +218,15 @@ Best and worst
   padding-right: 4px;
 }
 
-#cwnfmgxazf .gt_column_spanner_outer:first-child {
+#rmqdlebtik .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cwnfmgxazf .gt_column_spanner_outer:last-child {
+#rmqdlebtik .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cwnfmgxazf .gt_column_spanner {
+#rmqdlebtik .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -240,11 +238,11 @@ Best and worst
   width: 100%;
 }
 
-#cwnfmgxazf .gt_spanner_row {
+#rmqdlebtik .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cwnfmgxazf .gt_group_heading {
+#rmqdlebtik .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -270,7 +268,7 @@ Best and worst
   text-align: left;
 }
 
-#cwnfmgxazf .gt_empty_group_heading {
+#rmqdlebtik .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -285,15 +283,15 @@ Best and worst
   vertical-align: middle;
 }
 
-#cwnfmgxazf .gt_from_md > :first-child {
+#rmqdlebtik .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cwnfmgxazf .gt_from_md > :last-child {
+#rmqdlebtik .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cwnfmgxazf .gt_row {
+#rmqdlebtik .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -312,7 +310,7 @@ Best and worst
   overflow-x: hidden;
 }
 
-#cwnfmgxazf .gt_stub {
+#rmqdlebtik .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -325,7 +323,7 @@ Best and worst
   padding-right: 5px;
 }
 
-#cwnfmgxazf .gt_stub_row_group {
+#rmqdlebtik .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -339,15 +337,15 @@ Best and worst
   vertical-align: top;
 }
 
-#cwnfmgxazf .gt_row_group_first td {
+#rmqdlebtik .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cwnfmgxazf .gt_row_group_first th {
+#rmqdlebtik .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cwnfmgxazf .gt_summary_row {
+#rmqdlebtik .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -357,16 +355,16 @@ Best and worst
   padding-right: 5px;
 }
 
-#cwnfmgxazf .gt_first_summary_row {
+#rmqdlebtik .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cwnfmgxazf .gt_first_summary_row.thick {
+#rmqdlebtik .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cwnfmgxazf .gt_last_summary_row {
+#rmqdlebtik .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -376,7 +374,7 @@ Best and worst
   border-bottom-color: #D3D3D3;
 }
 
-#cwnfmgxazf .gt_grand_summary_row {
+#rmqdlebtik .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -386,7 +384,7 @@ Best and worst
   padding-right: 5px;
 }
 
-#cwnfmgxazf .gt_first_grand_summary_row {
+#rmqdlebtik .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -396,7 +394,7 @@ Best and worst
   border-top-color: #D3D3D3;
 }
 
-#cwnfmgxazf .gt_last_grand_summary_row_top {
+#rmqdlebtik .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -406,11 +404,11 @@ Best and worst
   border-bottom-color: #D3D3D3;
 }
 
-#cwnfmgxazf .gt_striped {
+#rmqdlebtik .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cwnfmgxazf .gt_table_body {
+#rmqdlebtik .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -419,7 +417,7 @@ Best and worst
   border-bottom-color: #D3D3D3;
 }
 
-#cwnfmgxazf .gt_footnotes {
+#rmqdlebtik .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -433,7 +431,7 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#cwnfmgxazf .gt_footnote {
+#rmqdlebtik .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -442,7 +440,7 @@ Best and worst
   padding-right: 5px;
 }
 
-#cwnfmgxazf .gt_sourcenotes {
+#rmqdlebtik .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -456,7 +454,7 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#cwnfmgxazf .gt_sourcenote {
+#rmqdlebtik .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -464,72 +462,72 @@ Best and worst
   padding-right: 5px;
 }
 
-#cwnfmgxazf .gt_left {
+#rmqdlebtik .gt_left {
   text-align: left;
 }
 
-#cwnfmgxazf .gt_center {
+#rmqdlebtik .gt_center {
   text-align: center;
 }
 
-#cwnfmgxazf .gt_right {
+#rmqdlebtik .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cwnfmgxazf .gt_font_normal {
+#rmqdlebtik .gt_font_normal {
   font-weight: normal;
 }
 
-#cwnfmgxazf .gt_font_bold {
+#rmqdlebtik .gt_font_bold {
   font-weight: bold;
 }
 
-#cwnfmgxazf .gt_font_italic {
+#rmqdlebtik .gt_font_italic {
   font-style: italic;
 }
 
-#cwnfmgxazf .gt_super {
+#rmqdlebtik .gt_super {
   font-size: 65%;
 }
 
-#cwnfmgxazf .gt_footnote_marks {
+#rmqdlebtik .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cwnfmgxazf .gt_asterisk {
+#rmqdlebtik .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cwnfmgxazf .gt_indent_1 {
+#rmqdlebtik .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cwnfmgxazf .gt_indent_2 {
+#rmqdlebtik .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cwnfmgxazf .gt_indent_3 {
+#rmqdlebtik .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cwnfmgxazf .gt_indent_4 {
+#rmqdlebtik .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cwnfmgxazf .gt_indent_5 {
+#rmqdlebtik .gt_indent_5 {
   text-indent: 25px;
 }
 
-#cwnfmgxazf .katex-display {
+#rmqdlebtik .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#cwnfmgxazf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#rmqdlebtik div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -586,23 +584,23 @@ Best and worst
 <p>If we expand this out to look at all possible values between 2 and 12, we’ll find that there’s six unique ways to roll 7, with each value above and below having fewer unique ways.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="dzlygxynkq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#dzlygxynkq table {
+<div id="dzuqojjqby" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dzuqojjqby table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#dzlygxynkq thead, #dzlygxynkq tbody, #dzlygxynkq tfoot, #dzlygxynkq tr, #dzlygxynkq td, #dzlygxynkq th {
+#dzuqojjqby thead, #dzuqojjqby tbody, #dzuqojjqby tfoot, #dzuqojjqby tr, #dzuqojjqby td, #dzuqojjqby th {
   border-style: none;
 }
 
-#dzlygxynkq p {
+#dzuqojjqby p {
   margin: 0;
   padding: 0;
 }
 
-#dzlygxynkq .gt_table {
+#dzuqojjqby .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -628,12 +626,12 @@ Best and worst
   border-left-color: #D3D3D3;
 }
 
-#dzlygxynkq .gt_caption {
+#dzuqojjqby .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dzlygxynkq .gt_title {
+#dzuqojjqby .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -645,7 +643,7 @@ Best and worst
   border-bottom-width: 0;
 }
 
-#dzlygxynkq .gt_subtitle {
+#dzuqojjqby .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -657,7 +655,7 @@ Best and worst
   border-top-width: 0;
 }
 
-#dzlygxynkq .gt_heading {
+#dzuqojjqby .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -669,13 +667,13 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#dzlygxynkq .gt_bottom_border {
+#dzuqojjqby .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dzlygxynkq .gt_col_headings {
+#dzuqojjqby .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -690,7 +688,7 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#dzlygxynkq .gt_col_heading {
+#dzuqojjqby .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -710,7 +708,7 @@ Best and worst
   overflow-x: hidden;
 }
 
-#dzlygxynkq .gt_column_spanner_outer {
+#dzuqojjqby .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -722,15 +720,15 @@ Best and worst
   padding-right: 4px;
 }
 
-#dzlygxynkq .gt_column_spanner_outer:first-child {
+#dzuqojjqby .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dzlygxynkq .gt_column_spanner_outer:last-child {
+#dzuqojjqby .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dzlygxynkq .gt_column_spanner {
+#dzuqojjqby .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -742,11 +740,11 @@ Best and worst
   width: 100%;
 }
 
-#dzlygxynkq .gt_spanner_row {
+#dzuqojjqby .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#dzlygxynkq .gt_group_heading {
+#dzuqojjqby .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -772,7 +770,7 @@ Best and worst
   text-align: left;
 }
 
-#dzlygxynkq .gt_empty_group_heading {
+#dzuqojjqby .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -787,15 +785,15 @@ Best and worst
   vertical-align: middle;
 }
 
-#dzlygxynkq .gt_from_md > :first-child {
+#dzuqojjqby .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dzlygxynkq .gt_from_md > :last-child {
+#dzuqojjqby .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dzlygxynkq .gt_row {
+#dzuqojjqby .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -814,7 +812,7 @@ Best and worst
   overflow-x: hidden;
 }
 
-#dzlygxynkq .gt_stub {
+#dzuqojjqby .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -827,7 +825,7 @@ Best and worst
   padding-right: 5px;
 }
 
-#dzlygxynkq .gt_stub_row_group {
+#dzuqojjqby .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -841,15 +839,15 @@ Best and worst
   vertical-align: top;
 }
 
-#dzlygxynkq .gt_row_group_first td {
+#dzuqojjqby .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dzlygxynkq .gt_row_group_first th {
+#dzuqojjqby .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#dzlygxynkq .gt_summary_row {
+#dzuqojjqby .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -859,16 +857,16 @@ Best and worst
   padding-right: 5px;
 }
 
-#dzlygxynkq .gt_first_summary_row {
+#dzuqojjqby .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dzlygxynkq .gt_first_summary_row.thick {
+#dzuqojjqby .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dzlygxynkq .gt_last_summary_row {
+#dzuqojjqby .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -878,7 +876,7 @@ Best and worst
   border-bottom-color: #D3D3D3;
 }
 
-#dzlygxynkq .gt_grand_summary_row {
+#dzuqojjqby .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -888,7 +886,7 @@ Best and worst
   padding-right: 5px;
 }
 
-#dzlygxynkq .gt_first_grand_summary_row {
+#dzuqojjqby .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -898,7 +896,7 @@ Best and worst
   border-top-color: #D3D3D3;
 }
 
-#dzlygxynkq .gt_last_grand_summary_row_top {
+#dzuqojjqby .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -908,11 +906,11 @@ Best and worst
   border-bottom-color: #D3D3D3;
 }
 
-#dzlygxynkq .gt_striped {
+#dzuqojjqby .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dzlygxynkq .gt_table_body {
+#dzuqojjqby .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -921,7 +919,7 @@ Best and worst
   border-bottom-color: #D3D3D3;
 }
 
-#dzlygxynkq .gt_footnotes {
+#dzuqojjqby .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -935,7 +933,7 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#dzlygxynkq .gt_footnote {
+#dzuqojjqby .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -944,7 +942,7 @@ Best and worst
   padding-right: 5px;
 }
 
-#dzlygxynkq .gt_sourcenotes {
+#dzuqojjqby .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -958,7 +956,7 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#dzlygxynkq .gt_sourcenote {
+#dzuqojjqby .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -966,72 +964,72 @@ Best and worst
   padding-right: 5px;
 }
 
-#dzlygxynkq .gt_left {
+#dzuqojjqby .gt_left {
   text-align: left;
 }
 
-#dzlygxynkq .gt_center {
+#dzuqojjqby .gt_center {
   text-align: center;
 }
 
-#dzlygxynkq .gt_right {
+#dzuqojjqby .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dzlygxynkq .gt_font_normal {
+#dzuqojjqby .gt_font_normal {
   font-weight: normal;
 }
 
-#dzlygxynkq .gt_font_bold {
+#dzuqojjqby .gt_font_bold {
   font-weight: bold;
 }
 
-#dzlygxynkq .gt_font_italic {
+#dzuqojjqby .gt_font_italic {
   font-style: italic;
 }
 
-#dzlygxynkq .gt_super {
+#dzuqojjqby .gt_super {
   font-size: 65%;
 }
 
-#dzlygxynkq .gt_footnote_marks {
+#dzuqojjqby .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#dzlygxynkq .gt_asterisk {
+#dzuqojjqby .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dzlygxynkq .gt_indent_1 {
+#dzuqojjqby .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dzlygxynkq .gt_indent_2 {
+#dzuqojjqby .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dzlygxynkq .gt_indent_3 {
+#dzuqojjqby .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dzlygxynkq .gt_indent_4 {
+#dzuqojjqby .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dzlygxynkq .gt_indent_5 {
+#dzuqojjqby .gt_indent_5 {
   text-indent: 25px;
 }
 
-#dzlygxynkq .katex-display {
+#dzuqojjqby .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#dzlygxynkq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#dzuqojjqby div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1321,7 +1319,7 @@ font-style: inherit;">--chown=rstudio:rstudio</span> assets/.Rprofile /home/rstu
 <section id="problem-there-were-no-git-credentials-in-rstudio-git-pane" class="level2">
 <h2 class="anchored" data-anchor-id="problem-there-were-no-git-credentials-in-rstudio-git-pane">Problem: There were no git credentials in RStudio git pane</h2>
 <p>If you use the VS Code interface in a codespace, you can push and pull to the original repo, no problem. But I couldn’t do it inside the RStudio Server session. I could have had students go back to VS Code for this, but, again, another sharp edge.</p>
-<p>The necessary evironment variables that are available in the VS Code interface are <code>GITHUB_USER</code> and <code>GITHUB_TOKEN</code>, but they weren’t available to R. This is something that needs to be dealt with <em>after</em> the codespace has built (not in the devcontainer image), so I added the following to assingment template’s <code>devcontainer.json</code>.</p>
+<p>The necessary environment variables that are available in the VS Code interface are <code>GITHUB_USER</code> and <code>GITHUB_TOKEN</code>, but they weren’t available to R. This is something that needs to be dealt with <em>after</em> the codespace has built (not in the devcontainer image), so I added the following to assignment template’s <code>devcontainer.json</code>.</p>
 <div class="langname">
 <pre class="langname">json</pre>
 </div>
@@ -1477,7 +1475,7 @@ font-style: inherit;">}</span></span></code></pre></div>
 </section>
 <section id="problem-a-github-classroom-race-condition" class="level2">
 <h2 class="anchored" data-anchor-id="problem-a-github-classroom-race-condition">Problem: A GitHub Classroom race condition</h2>
-<p>So, when github classroom creates the student’s assignment repo, it adds two buttons to the <code>README.md</code>. <em>But</em>, if the student is quick on the draw and launch their codespace before the bot commits the change to the readme, their codespace will be a commit behind the remote, but they won’t necessarilly realize this.</p>
+<p>So, when github classroom creates the student’s assignment repo, it adds two buttons to the <code>README.md</code>. <em>But</em>, if the student is quick on the draw and launch their codespace before the bot commits the change to the readme, their codespace will be a commit behind the remote, but they won’t necessarily realize this.</p>
 <p>Then, if they keep working and commit, they’ve got a divergent branch from the remote, and they’ll need to reconcile it, which the RStudio git gui interface doesn’t really have capacity for.</p>
 <p>This is another item for the <code>devcontainer.json</code></p>
 <div class="langname">
@@ -1588,6 +1586,19 @@ font-style: inherit;">}</span></span></code></pre></div>
 <li><p>Use of the native pipe operator</p></li>
 <li><p>Use of the Menlo font in the editor.</p></li>
 </ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Update (2024-09-10)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I also just found out you can globally<a href="https://rstudio.github.io/visual-markdown-editing/markdown.html#line-wrapping">change the default line-wrapping behavior</a> in the source document when working in the Visual Editor. I’ll go with sentence-level wrapping, which will be nice for git diffs.</p>
+</div>
+</div>
 <p>To get these working, I added the following to the default <code>rstudio-prefs.json</code> which I included in the devcontainer repository</p>
 <div class="langname">
 <pre class="langname">json</pre>
@@ -1697,8 +1708,15 @@ font-style: inherit;">"server_editor_font"</span><span class="fu" style="color: 
 background-color: null;
 font-style: inherit;">:</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"Menlo"</span> </span>
-<span id="cb11-13"><span class="fu" style="color: #4758AB;
+font-style: inherit;">"Menlo"</span></span>
+<span id="cb11-13">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"visual_markdown_editing_wrap"</span><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sentence"</span></span>
+<span id="cb11-14"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">}</span></span></code></pre></div>
 <p>Then added this to the dockerfile</p>
@@ -17452,7 +17470,7 @@ Væl Space. January 27, 2023. <a href="https://jofrhwld.github.io/blog/posts/202
   <dc:creator>Josef Fruehwald</dc:creator>
   <link>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/</link>
   <description><![CDATA[ <p>I might flesh this out as a more detailed tutorial for <a href="https://lingmethodshub.github.io/content/">LingMethodsHub</a>, but for now this is going to be a rough-around-the-edges post about making spectrograms in R. My goal will be to get as close as possible to recreating a spectrogram like you might get from Praat.</p>
-<div id="fig-praat-spect" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A spectrogram of the vowel /i/ generated by praat." data-fig-align="center">
+<div id="fig-praat-spect" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A spectrogram of the vowel /i/ generated by praat.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-praat-spect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/praat.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: A spectrogram of the vowel /i/ generated by praat."><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/assets/praat.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A spectrogram of the vowel /i/ generated by praat."></a>
 </div>
@@ -17626,7 +17644,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 </dl>
 <section id="praat-defaults" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="praat-defaults">Praat defaults</h3>
 <p>Let’s have a look at the Praat spectrogram defaults</p>
-<div id="fig-praat-defaults" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A screenshot of the default spectrogram settings for Praat." data-fig-align="center">
+<div id="fig-praat-defaults" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A screenshot of the default spectrogram settings for Praat.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-praat-defaults-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/praat_defaults.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Praat defaults for spectrograms"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/assets/praat_defaults.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A screenshot of the default spectrogram settings for Praat."></a>
 </div>
@@ -19210,7 +19228,7 @@ Space. January 22, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/01/
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-oh-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-oh" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-oh1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="An illustration of a triangular vowel space with ɔ placed mid-low and back.">
+<div id="fig-oh1" class="quarto-float quarto-figure quarto-figure-center anchored" alt="An illustration of a triangular vowel space with ɔ placed mid-low and back." data-fig-align="center">
 <figure class="quarto-float quarto-subfloat-fig figure"><div aria-describedby="fig-oh1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/oh_1.png" class="lightbox" data-gallery="fig-oh" title="Figure&nbsp;1&nbsp;(a): “canonical” ɔ placement"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/oh_1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:25.0%" data-ref-parent="fig-oh" alt="An illustration of a triangular vowel space with ɔ placed mid-low and back."></a>
 </div>
@@ -19220,7 +19238,7 @@ Space. January 22, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/01/
 </div>
 </div>
 <div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-oh" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-oh2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="An illustration of a triangular vowel space with ɔ placed high and back.">
+<div id="fig-oh2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="An illustration of a triangular vowel space with ɔ placed high and back." data-fig-align="center">
 <figure class="quarto-float quarto-subfloat-fig figure"><div aria-describedby="fig-oh2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/oh_2.png" class="lightbox" data-gallery="fig-oh" title="Figure&nbsp;1&nbsp;(b): Philly ɔ placement"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/oh_2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:25.0%" data-ref-parent="fig-oh" alt="An illustration of a triangular vowel space with ɔ placed high and back."></a>
 </div>
@@ -19279,7 +19297,7 @@ Figure&nbsp;2: Dueling enregisterments.
 <p>But, this /r/ dissimilation isn’t restricted to just the word “Swarthmore.” The first /r/ is usually dropped in words like “quarter” or “corner”.</p>
 </section><section id="reinterpretation" class="level3"><h3 class="anchored" data-anchor-id="reinterpretation">Reinterpretation</h3>
 <p>I think this /r/ dissimilation is what got “worder” in the door, which I’ll try to illustrate with an example. Let’s say you’re in Philadelphia and from Philadelphia, and some shows you this coin and says “Here’s a [kʰwɔ.ɾɚ].”</p>
-<div id="fig-coin" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="The face side of a quarter.">
+<div id="fig-coin" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The face side of a quarter." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-coin-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/coin.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;3: A quarter"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/coin.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:25.0%" alt="The face side of a quarter."></a>
 </div>
@@ -19288,7 +19306,7 @@ Figure&nbsp;3: A quarter
 </figcaption></figure>
 </div>
 <p>There are two possible ways you could decide to interpret the underlying form of this word. The first would be to take into account /r/ dissimulation, and stick the /r/ back in, for a /kʰwɔɹ.tɹ̩/ representation. The other would be to <em>not</em> take into account /r/ dissimilation, and decided on a /kʰwɔ.tɹ̩/representation.</p>
-<div id="fig-quarter" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="A diagram showing how kʰwɔ.ɾɚ could be interpreted as being underlyingly kʰwɔɹ.tɹ̩ or kʰwɔ.tɹ̩">
+<div id="fig-quarter" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A diagram showing how kʰwɔ.ɾɚ could be interpreted as being underlyingly kʰwɔɹ.tɹ̩ or kʰwɔ.tɹ̩" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-quarter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/quarter.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;4: The possible re-interpretations of kʰwɔ.ɾɚ"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/quarter.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A diagram showing how kʰwɔ.ɾɚ could be interpreted as being underlyingly kʰwɔɹ.tɹ̩ or kʰwɔ.tɹ̩"></a>
 </div>
@@ -19297,7 +19315,7 @@ Figure&nbsp;4: The possible re-interpretations of kʰwɔ.ɾɚ
 </figcaption></figure>
 </div>
 <p>Now, let’s just take off the [kʰ] at the beginning, and we have a remarkably similar kind of interpretation pathways for <em>water</em>!</p>
-<div id="fig-water-interp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" alt="A diagram showing wɔ.ɾɚ being reinterpreted as wɔɹ.tɹ̩ or as wɔ.tɹ̩">
+<div id="fig-water-interp" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A diagram showing wɔ.ɾɚ being reinterpreted as wɔɹ.tɹ̩ or as wɔ.tɹ̩" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-water-interp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/water_interp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;5: Possible re-interpretations of wɔ.ɾɚ"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-04_wooder3/assets/water_interp.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A diagram showing wɔ.ɾɚ being reinterpreted as wɔɹ.tɹ̩ or as wɔ.tɹ̩"></a>
 </div>
@@ -22114,7 +22132,7 @@ font-style: inherit;">cars</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-carsplot" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A base graphics scatter plot showing the relationship between speed and distance from the cars default data frame." data-fig-align="center">
+<div id="fig-carsplot" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A base graphics scatter plot showing the relationship between speed and distance from the cars default data frame.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-carsplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-carsplot-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: A plot"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index_files/figure-html/fig-carsplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A base graphics scatter plot showing the relationship between speed and distance from the cars default data frame." width="576"></a>
 </div>
@@ -22569,7 +22587,7 @@ font-style: inherit;">0.6</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </details><div class="cell-output-display page-columns page-full">
-<div id="fig-rank" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The main figure shows the linear decreasing relationship between log(frequency) and log(rank). The inset is a bar graph showing the import frequency of the top 10 packages, which are stats, utils, methods, dplyr, ggplot2, Rcpp, graphics, magrittr, rlang, stringr" data-fig-align="center">
+<div id="fig-rank" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The main figure shows the linear decreasing relationship between log(frequency) and log(rank). The inset is a bar graph showing the import frequency of the top 10 packages, which are stats, utils, methods, dplyr, ggplot2, Rcpp, graphics, magrittr, rlang, stringr">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-rank-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-rank-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: A log(rank) by log(frequency) plot of R imports"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index_files/figure-html/fig-rank-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The main figure shows the linear decreasing relationship between log(frequency) and log(rank). The inset is a bar graph showing the import frequency of the top 10 packages, which are stats, utils, methods, dplyr, ggplot2, Rcpp, graphics, magrittr, rlang, stringr" width="768"></a>
 </div>
@@ -23174,7 +23192,7 @@ font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 </details><div class="cell-output-display page-columns page-full">
-<div id="fig-network" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A network diagram displaying just the nodes, color coded according to their name pattern: beginning with tidy, beginning with gg, ending with r, and else" data-fig-align="center">
+<div id="fig-network" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A network diagram displaying just the nodes, color coded according to their name pattern: beginning with tidy, beginning with gg, ending with r, and else">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-network-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-network-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: CRAN network graph"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-17/index_files/figure-html/fig-network-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A network diagram displaying just the nodes, color coded according to their name pattern: beginning with tidy, beginning with gg, ending with r, and else" width="480"></a>
 </div>

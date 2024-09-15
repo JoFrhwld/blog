@@ -1,0 +1,315 @@
+---
+title: Building up a complex `{gt}` table.
+date: 2024-09-15
+knitr: 
+  opts_chunk: 
+    message: false
+image: tbl.png
+---
+
+```{r}
+#| echo: false
+source(here::here("_defaults.R"))
+```
+
+Recently, for class notes on probability/the central limit theorem, I wanted to recreate [the table of 2d6 values that I made here](../2024-09-08_roll-clt/#d6-1). A really cool thing I found between that blog post and now is that `{gt}` has a`fmt_icon()` operation that will replace text with its fontawesome icon.
+
+```{r}
+library(tidyverse)
+library(gt)
+```
+
+```{r}
+tibble(
+ icon = c(
+   "face-smile",
+   "hippo",
+   "pizza-slice"
+ )
+) |> 
+  gt() |> 
+  fmt_icon()
+```
+
+*And* font-awesome has icons for each face of a 6 sided die!
+
+```{r}
+library(english)
+
+tibble(
+  icon = str_glue(
+    "dice-{as.english(1:6)}"
+  )
+) |> 
+  gt() |> 
+  fmt_icon()
+```
+
+Here's how I got to a result that I liked. If anyone has suggestions for how to do this more *cleanly,* I'd love to hear about it!
+
+# Building the Data
+
+## The actual die rolls
+
+Getting the actual die rolls and their total is a simple `expand_grid()` .
+
+```{r}
+expand_grid(
+  die_a = 1:6,
+  die_b = 1:6
+) |> 
+  mutate(
+    total = die_a + die_b
+  )->
+  rolls_df
+
+head(rolls_df)
+```
+
+## Injecting the fontawesome icon names
+
+In my original code, I used some joins here, but I just found the `{english}` package, which will let me mutate the `die_` columns directly.
+
+```{r}
+rolls_df |> 
+  mutate(
+    across(
+      starts_with("die_"),
+      ~ str_glue(
+        "dice-{word}",
+        word = as.english(.x)
+      )
+    )
+  ) ->
+  rolls_df
+
+head(rolls_df)
+```
+
+## Identifying combos
+
+I'm going to start pivoting a bunch, so now is the best time to give an id to each unique combo, as well as the total number of combos per total.
+
+```{r}
+rolls_df |> 
+  mutate(
+    .by = total,
+    id = row_number(),
+    n = n()
+  ) ->
+  rolls_df
+
+head(rolls_df)
+```
+
+## Getting wide
+
+I'll eventually want one column per die, with its combination id appended to it, which means pivoting long, merging the columns together, then pivoting wide.
+
+Pivoting long
+
+```{r}
+rolls_df |> 
+  pivot_longer(
+    starts_with("die"),
+    names_to = "die",
+    values_to = "icon"
+  ) |> 
+  unite(
+    c(die, id),
+    col = "die_id"
+  )->
+  rolls_long
+
+head(rolls_long)
+```
+
+Pivoting wide
+
+```{r}
+rolls_long |> 
+  pivot_wider(
+    names_from = die_id,
+    values_from = icon
+  ) ->
+  rolls_wide
+
+head(rolls_wide)
+```
+
+Now, I've got some well named columns identifying die a and die b, as well as numeric ids for each unique combination. I'll use these for coloring the dice icons and merging columns.
+
+But, I also want to move the `n` column, and add a `proportion` column.
+
+```{r}
+rolls_wide |> 
+  relocate(
+    n,
+    .after = last_col()
+  ) |> 
+  mutate(
+    prop = n/sum(n)
+  )->
+  rolls_wide
+```
+
+# Building the table.
+
+## Formatting the icons
+
+To make sure it's clear I'm working with two die, I want die_a and die_b to be different colors, which I can make happen with two uses of `fmt_icon()`.
+
+```{r}
+rolls_wide |> 
+  gt() |>   
+  fmt_icon(
+    starts_with("die_a"),
+    fill_color = "#CC6677"
+  ) |>
+  fmt_icon(
+    starts_with("die_b"),
+    fill_color = "#4477AA"
+  ) ->
+  out_tbl
+
+out_tbl
+```
+
+## Dropping the missing values
+
+I want to drop out all of the missing values. I found that if I replace them with just `""`, for some reason the row with no `NA`s winds up being narrower than the rest, but if I replace them with a zero-width space, it turns out more compact.
+
+```{r}
+out_tbl |> 
+  sub_missing(missing_text = html("&ZeroWidthSpace;")) ->
+  out_tbl
+```
+
+## The ugliest part
+
+Now, I need to merge the columns together with `cols_merge()`. This is where the code gets a little ugly, what I want to be able to say is
+
+-   Merge two columns if they match in the last two characters
+
+Maybe there's a way to express this with tidyselect verbs that I'm just not good enough with. In the original code, I just used `cols_merge()` 6 times, which would look like:
+
+```{r}
+#| results: false
+
+out_tbl |> 
+  cols_merge(ends_with("1")) |> 
+  cols_merge(ends_with("2")) |> 
+  cols_merge(ends_with("3")) |>
+  cols_merge(ends_with("4")) |>
+  cols_merge(ends_with("5")) |>
+  cols_merge(ends_with("6"))
+```
+
+It just occurred to me that something from `purrr` might be the right tool, and refreshed myself on `purrr::reduce()`.
+
+```{r}
+reduce(
+  as.character(1:6),
+  \(acc, nxt){
+    acc |> 
+      cols_merge(
+        ends_with(nxt)
+      )
+  },
+  .init = out_tbl
+) ->
+  out_tbl
+
+out_tbl 
+```
+
+To be honest, even though the `reduce()` approach is more programmery, writing out each `cols_merge()` individually is more readable...
+
+Maybe if I wanted to expand this out to 3d6, the `reduce()` approach would be better. But at that point, I'd also be creating a table of 27 columns, and at that point the illustrative nature of the table would probably be lost.
+
+::: {.callout-note collapse="true"}
+## 27 Columns
+
+```{r}
+# dice roll package
+library(droll)
+
+d6 <- d(6)
+
+one_combo_p <- droll(3, 3*d6)
+total_combo <- 1/one_combo_p
+
+max_combo_p <- droll(10, 3*d6)
+
+total_combo * max_combo_p
+```
+:::
+
+## Final table finessing
+
+Now, I want to
+
+1.  remove the column names from the dice columns
+2.  add a grand summary row
+3.  format the probabilities down to 2 digits
+4.  add some css so that the table will match lightmode/darkmode settings
+
+```{r}
+out_tbl |> 
+  # no dice column label
+  cols_label(
+    starts_with("die") ~ ""
+  ) |> 
+  # grand summary
+  grand_summary_rows(
+    columns = c(n, prop),
+    fns = list(total ~ sum(.)),
+    missing_text = ""
+  ) |> 
+  # two digits max 
+  fmt_number(
+    columns = prop,
+    decimals = 2
+  ) |> 
+  # font setting
+  opt_table_font(
+    font = list(
+      google_font(name = "Public Sans"),
+      default_fonts()
+    )
+  ) |>     
+  # light/darkmode matching
+  tab_style(
+    style = "
+      background-color: var(--bs-body-bg);
+      color: var(--bs-body-color)
+    ",
+    locations = list(
+      cells_column_labels(),
+      cells_column_spanners(),
+      cells_row_groups(),
+      cells_body(),
+      cells_grand_summary(),
+      cells_stub_grand_summary(),
+      cells_stub(),
+      cells_stubhead()
+    )
+  )  ->
+  out_tbl
+
+out_tbl  
+```
+
+```{r}
+#| echo: false
+library(webshot2)
+
+gtsave(
+  out_tbl,
+  "tbl.png"
+)
+```
+
+# Final thoughts
+
+I'm really happy with the final result! The thought I've had while working with `{gt}` is that there are just a lot more steps involved in building a good table, compared to building a good plot in `{ggplot2}`. I don't mean that as a knock on the package. I think it's possible that building up a good table is just more complicated!

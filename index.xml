@@ -10,7 +10,1660 @@
 <atom:link href="https://jofrhwld.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.5.57</generator>
-<lastBuildDate>Sun, 15 Sep 2024 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 01 Oct 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Setting default ggplot2 colors</title>
+  <dc:creator>Josef Fruehwald</dc:creator>
+  <link>https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/</link>
+  <description><![CDATA[ <p>This might be a “everyone else already knew about this” thing, but I’ve finally gotten to a place of understanding about setting default colors scales for <a href="https://ggplot2.tidyverse.org">ggplot2</a>, so I thought I’d share.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Setup
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;"><a href="https://mjskay.github.io/ggdist/">ggdist</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;"><a href="https://jamesotto852.github.io/ggdensity/">ggdensity</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;"><a href="https://github.com/yixuan/showtext">showtext</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/sysfonts/man/font_add_google.html">font_add_google</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Public Sans"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Public Sans"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html">showtext_auto</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">knitr</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/knitr/man/knit_hooks.html">knit_hooks</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">set</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span>crop <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">knitr</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/knitr/man/chunk_hook.html">hook_pdfcrop</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2024</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span></span>
+<span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">sample_data</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>  a <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>, mean <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, sd <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span>,</span>
+<span>  b <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>, mean <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, sd <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/row_number.html">row_number</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span>,</span>
+<span>    level <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">b</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"low"</span>,</span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">b</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"high"</span>,</span>
+<span>      .default <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"mid"</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span>      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://forcats.tidyverse.org/reference/fct_relevel.html">fct_relevel</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"low"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"mid"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"high"</span></span>
+<span>      <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Top line summary
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>My options for setting default color scales look like this:</p>
+<div class="cell">
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># not run</span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>  ggplot2.discrete.colour <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">12</span>, </span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggthemes</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="http://jrnold.github.io/ggthemes/reference/ptol_pal.html">ptol_pal</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span>,</span>
+<span>  ggplot2.discrete.fill <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">12</span>, </span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggthemes</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="http://jrnold.github.io/ggthemes/reference/ptol_pal.html">ptol_pal</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span>,</span>
+<span>  ggplot2.ordinal.colour <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> \<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      option <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"G"</span>, </span>
+<span>      direction <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, </span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span>,</span>
+<span>  ggplot2.ordinal.fill <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> \<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_d</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      option <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"G"</span>, </span>
+<span>      direction <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, </span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span>,</span>
+<span>  ggplot2.continuous.colour <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> \<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scico</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/scico/man/ggplot2-scales.html">scale_color_scico</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      palette <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"batlow"</span>, </span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span>,</span>
+<span>  ggplot2.continuous.fill <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> \<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scico</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/scico/man/ggplot2-scales.html">scale_fill_scico</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      palette <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"batlow"</span>, </span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<section id="theme-setting" class="level1"><h1>Theme setting</h1>
+<p>I’ve known for a while now that you can change the default theme of plots with <code><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set()</a></code>, which can actually be more in-depth than just a default <code>theme_*()</code> function.</p>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">sample_data</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">a</span>,<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">b</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span></span>
+<span>  <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">base_p</span></span>
+<span></span>
+<span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">base_p</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> </span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span>title <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"before"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">### setting the theme</span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="http://mjskay.github.io/ggdist/reference/theme_ggdist.html">theme_ggdist</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span>base_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">16</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      text <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>        family <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Public Sans"</span></span>
+<span>      <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span></span>
+<span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">base_p</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span>title <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"after"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="index_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="384"></a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="index_files/figure-html/unnamed-chunk-4-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="384"></a></p>
+</div>
+</div>
+</div>
+</section><section id="setting-the-default-colors" class="level1"><h1>Setting the default <em>colors</em>
+</h1>
+<p>According to the changelogs, as of <a href="https://ggplot2.tidyverse.org/news/index.html?q=ggplot2.discrete.colour#ggplot2-332">ggplot2 v3.3.2</a>, the default color and fill scales can be set by passing values to <code><a href="https://rdrr.io/r/base/options.html">options()</a></code>. One way is to pass a list of values. I’ll use <code><a href="https://withr.r-lib.org/reference/with_options.html">withr::with_options()</a></code> to demonstrate.</p>
+<section id="discrete-colors" class="level2"><h2 class="anchored" data-anchor-id="discrete-colors">Discrete colors</h2>
+<section id="without-doing-anything" class="level3"><h3 class="anchored" data-anchor-id="without-doing-anything">Without doing anything</h3>
+<p>Here’s how things look by default:</p>
+<div class="cell">
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>  <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">sample_data</span></span>
+<span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">a</span>,</span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">b</span>,</span>
+<span>      color <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">level</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span></span>
+<span>  <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">discrete3_p</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>  <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">sample_data</span></span>
+<span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">a</span>,</span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">b</span>,</span>
+<span>      color <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">a</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span></span>
+<span>  <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">discrete2_p</span></span></code></pre></div>
+</div>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">discrete2_p</span></span>
+<span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">discrete3_p</span></span></code></pre></div>
+<div class="cell quarto-layout-panel" data-layout-ncol="2" data-layout-align="center">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></a></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-6-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section><section id="setting-the-default-with-a-list" class="level3"><h3 class="anchored" data-anchor-id="setting-the-default-with-a-list">Setting the default with a list</h3>
+<p>If we set the default colors by setting <code>options(ggplot2.discrete.colour = )</code> a list of color values, ggplot will use those colors if there’s enough, and if there’s not enough, it’ll fall back to the default <code><a href="https://ggplot2.tidyverse.org/reference/scale_hue.html">scale_color_hue()</a></code>.</p>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">withr</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://withr.r-lib.org/reference/with_options.html">with_options</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    ggplot2.discrete.colour <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#AA4499"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#117733"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span>,</span>
+<span>  </span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">discrete2_p</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">discrete3_p</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+<div class="cell quarto-layout-panel" data-layout-ncol="2" data-layout-align="center">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></a></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-7-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>You could even set a completely different vector of values for 3 colors.</p>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">withr</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://withr.r-lib.org/reference/with_options.html">with_options</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    ggplot2.discrete.colour <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#AA4499"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#117733"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span>,</span>
+<span>      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#4477AA"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#88CCEE"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#DDCC77"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span>,</span>
+<span>  </span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">discrete2_p</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">discrete3_p</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+<div class="cell quarto-layout-panel" data-layout-ncol="2" data-layout-align="center">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-8-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></a></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-8-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>What I set up in my actual <code>_defaults.R</code> files is to generate all of the possible palettes from <code><a href="http://jrnold.github.io/ggthemes/reference/ptol_pal.html">ggthemes::ptol_pal()</a></code>, because I like it.</p>
+<div class="cell" data-crop="true">
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">my_discrete_list</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>  <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">12</span>, </span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggthemes</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="http://jrnold.github.io/ggthemes/reference/ptol_pal.html">ptol_pal</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scales</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://scales.r-lib.org/reference/show_col.html">show_col</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>  <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">my_discrete_list</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">[[</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">]</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">]</span>,</span>
+<span>  ncol <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>,</span>
+<span>  cex_label <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.8</span></span>
+<span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-9-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="480"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I <em>could</em> set <code>ggplot2.discrete.colour</code> to <code><a href="http://jrnold.github.io/ggthemes/reference/scale_ptol.html">ggthemes::scale_color_ptol()</a></code>. But by setting it to the progessively larger list of colors, if if make the decision<sup>1</sup> to map a factor with 13 labels to color, instead of erroring or just not plotting some points, it will fall back to the built in <code><a href="https://ggplot2.tidyverse.org/reference/scale_hue.html">scale_color_hue()</a></code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>  ggplot2.discrete.colour <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">12</span>,</span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggthemes</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="http://jrnold.github.io/ggthemes/reference/ptol_pal.html">ptol_pal</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span>,</span>
+<span>  ggplot2.discrete.fill <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">12</span>,</span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggthemes</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="http://jrnold.github.io/ggthemes/reference/ptol_pal.html">ptol_pal</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+</div>
+<p>Here’s an example showing using that 13+ levels example</p>
+<div class="cell">
+<details class="code-fold"><summary>Setting up base plots</summary><div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">sample_data</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">a</span>,</span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">b</span>,</span>
+<span>      color <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">a</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    color <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span></span>
+<span>  <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">base_10_p</span></span>
+<span></span>
+<span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">sample_data</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">a</span>,</span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">b</span>,</span>
+<span>      color <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">a</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    color <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span></span>
+<span>  <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">base_15_p</span></span></code></pre></div>
+</details>
+</div>
+<details class="code-fold"><summary>Plotting code</summary><div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">base_10_p</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    title <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"10 cuts, list"</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">base_15_p</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    title <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"15 cuts, list"</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">base_10_p</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggthemes</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="http://jrnold.github.io/ggthemes/reference/scale_ptol.html">scale_color_ptol</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    title <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"10 cuts, scale"</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">base_15_p</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggthemes</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="http://jrnold.github.io/ggthemes/reference/scale_ptol.html">scale_color_ptol</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    title <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"15 cuts, scale"</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+</details><div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="index_files/figure-html/unnamed-chunk-12-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="384"></a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="index_files/figure-html/unnamed-chunk-12-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid" width="384"></a></p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="index_files/figure-html/unnamed-chunk-12-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-12-3.png" class="img-fluid" width="384"></a></p>
+</div>
+<div class="cell-output cell-output-error quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<pre><code>Error in colors[[n]]: subscript out of bounds</code></pre>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="index_files/figure-html/unnamed-chunk-12-4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-12-4.png" class="img-fluid" width="384"></a></p>
+</div>
+</div>
+</div>
+</section></section><section id="continuous-colors" class="level2"><h2 class="anchored" data-anchor-id="continuous-colors">Continuous colors</h2>
+<p>The continuous color scales need to be set more straightforwardly with a function that returns a <code>scale_color_*()</code>. I’m kind of bouncing around continuous color scales I like, but for now, I’m defaulting to the batlow palette from <a href="https://github.com/thomasp85/scico">scico</a>.</p>
+<p>Since getting the specific batlow palette requires passing arguments to <code><a href="https://rdrr.io/pkg/scico/man/ggplot2-scales.html">scico::scale_color_scico()</a></code>, I need to pass <code>ggplot2.continuous.colour</code> an anonymous function.</p>
+<div class="cell">
+<div class="sourceCode" id="cb14" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">sample_data</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">a</span>, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">b</span>,</span>
+<span>      color <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">a</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span></span>
+<span>  <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">continuous_base</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb15" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>  ggplot2.continuous.colour <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> \<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scico</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/scico/man/ggplot2-scales.html">scale_color_scico</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      palette <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"batlow"</span>, </span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span>,</span>
+<span>  ggplot2.continuous.fill <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> \<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scico</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/pkg/scico/man/ggplot2-scales.html">scale_fill_scico</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      palette <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"batlow"</span>, </span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb16" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">continuous_base</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-15-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="480"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="ordinal-colors" class="level2"><h2 class="anchored" data-anchor-id="ordinal-colors">Ordinal colors</h2>
+<p>For the longest time, I only had settings for continuous and discrete color scales, and I kept getting frustrated when an occasional plot would show up with <em>neither</em> of my options showing up.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb17" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">sample_data</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://jamesotto852.github.io/ggdensity/reference/geom_hdr_points.html">geom_hdr_points</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">a</span>, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">b</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span>,</span>
+<span>      probs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/rev.html">rev</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/stats/ppoints.html">ppoints</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span>color <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span></span>
+<span>    <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">density_points</span></span>
+<span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-16-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="384"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I could <em>not</em>, for the life of me, figure out what option I had to set to change the default here! I eventually just searched <a href="https://github.com/search?q=repo%3Atidyverse%2Fggplot2+getOption&amp;type=code">the ggplot2 github for <code>getOption</code></a> and found <code>ggplot2.ordinal.colour</code>! This is definitely not documented anywhere in the actual ggplot2 docs!</p>
+<p>Anyway, l kind of like the <code>mako</code> viridis palette for this, so that’s what I’m using:</p>
+<div class="cell">
+<div class="sourceCode" id="cb18" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>  ggplot2.ordinal.colour <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> \<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_d</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      option <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"G"</span>, </span>
+<span>      direction <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, </span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span>,</span>
+<span>  ggplot2.ordinal.fill <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> \<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span>    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_d</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span></span>
+<span>      option <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"G"</span>, </span>
+<span>      direction <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, </span>
+<span>      <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span>    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+</div>
+<div class="cell preview-image" data-layout-align="center">
+<div class="sourceCode" id="cb19" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">density_points</span></span></code></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/share-image-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/share-image-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="384"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section id="when-i-wind-up-doing-this" class="level1"><h1>When I wind up doing this</h1>
+<p>For any one-off plot or notebook, I just set change the color scales “manually” in the normal way, by adding a <code>scale_color_*()</code> layer to the plot. But once I start working on a longer document or, say, a course website, I drop these options into a <code>_defaults.R</code> file at the top of my project directory, and source it on every page with</p>
+<div class="sourceCode" id="cb20" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">here</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">(</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_defaults.R"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+
+
+</section><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<ol>
+<li id="fn1"><p>bad↩︎</p></li>
+</ol></section><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2024,
+  author = {Fruehwald, Josef},
+  title = {Setting Default Ggplot2 Colors},
+  series = {Væl Space},
+  date = {2024-10-01},
+  url = {https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2024" class="csl-entry quarto-appendix-citeas">
+Fruehwald, Josef. 2024. <span>“Setting Default Ggplot2 Colors.”</span>
+Væl Space. October 1, 2024. <a href="https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/">https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/</a>.
+</div></div></section></div> ]]></description>
+  <category>ggplot2</category>
+  <category>dataviz</category>
+  <guid>https://jofrhwld.github.io/blog/posts/2024/10/2024-10-01_ggplot2-default-colors/</guid>
+  <pubDate>Tue, 01 Oct 2024 00:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Building up a complex {gt} table.</title>
   <dc:creator>Josef Fruehwald</dc:creator>
@@ -85,23 +1738,23 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display">
-<div id="jlcgbtfqiu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jlcgbtfqiu table {
+<div id="xzsbwokibp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xzsbwokibp table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jlcgbtfqiu thead, #jlcgbtfqiu tbody, #jlcgbtfqiu tfoot, #jlcgbtfqiu tr, #jlcgbtfqiu td, #jlcgbtfqiu th {
+#xzsbwokibp thead, #xzsbwokibp tbody, #xzsbwokibp tfoot, #xzsbwokibp tr, #xzsbwokibp td, #xzsbwokibp th {
   border-style: none;
 }
 
-#jlcgbtfqiu p {
+#xzsbwokibp p {
   margin: 0;
   padding: 0;
 }
 
-#jlcgbtfqiu .gt_table {
+#xzsbwokibp .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -127,12 +1780,12 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-left-color: #D3D3D3;
 }
 
-#jlcgbtfqiu .gt_caption {
+#xzsbwokibp .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jlcgbtfqiu .gt_title {
+#xzsbwokibp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -144,7 +1797,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-width: 0;
 }
 
-#jlcgbtfqiu .gt_subtitle {
+#xzsbwokibp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -156,7 +1809,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-width: 0;
 }
 
-#jlcgbtfqiu .gt_heading {
+#xzsbwokibp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -168,13 +1821,13 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#jlcgbtfqiu .gt_bottom_border {
+#xzsbwokibp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jlcgbtfqiu .gt_col_headings {
+#xzsbwokibp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -189,7 +1842,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#jlcgbtfqiu .gt_col_heading {
+#xzsbwokibp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -209,7 +1862,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#jlcgbtfqiu .gt_column_spanner_outer {
+#xzsbwokibp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -221,15 +1874,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 4px;
 }
 
-#jlcgbtfqiu .gt_column_spanner_outer:first-child {
+#xzsbwokibp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jlcgbtfqiu .gt_column_spanner_outer:last-child {
+#xzsbwokibp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jlcgbtfqiu .gt_column_spanner {
+#xzsbwokibp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -241,11 +1894,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   width: 100%;
 }
 
-#jlcgbtfqiu .gt_spanner_row {
+#xzsbwokibp .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jlcgbtfqiu .gt_group_heading {
+#xzsbwokibp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -271,7 +1924,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   text-align: left;
 }
 
-#jlcgbtfqiu .gt_empty_group_heading {
+#xzsbwokibp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -286,15 +1939,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: middle;
 }
 
-#jlcgbtfqiu .gt_from_md > :first-child {
+#xzsbwokibp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jlcgbtfqiu .gt_from_md > :last-child {
+#xzsbwokibp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jlcgbtfqiu .gt_row {
+#xzsbwokibp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -313,7 +1966,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#jlcgbtfqiu .gt_stub {
+#xzsbwokibp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -326,7 +1979,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#jlcgbtfqiu .gt_stub_row_group {
+#xzsbwokibp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -340,15 +1993,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: top;
 }
 
-#jlcgbtfqiu .gt_row_group_first td {
+#xzsbwokibp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jlcgbtfqiu .gt_row_group_first th {
+#xzsbwokibp .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jlcgbtfqiu .gt_summary_row {
+#xzsbwokibp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -358,16 +2011,16 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#jlcgbtfqiu .gt_first_summary_row {
+#xzsbwokibp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jlcgbtfqiu .gt_first_summary_row.thick {
+#xzsbwokibp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jlcgbtfqiu .gt_last_summary_row {
+#xzsbwokibp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -377,7 +2030,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#jlcgbtfqiu .gt_grand_summary_row {
+#xzsbwokibp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -387,7 +2040,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#jlcgbtfqiu .gt_first_grand_summary_row {
+#xzsbwokibp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -397,7 +2050,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-color: #D3D3D3;
 }
 
-#jlcgbtfqiu .gt_last_grand_summary_row_top {
+#xzsbwokibp .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -407,11 +2060,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#jlcgbtfqiu .gt_striped {
+#xzsbwokibp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jlcgbtfqiu .gt_table_body {
+#xzsbwokibp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -420,7 +2073,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#jlcgbtfqiu .gt_footnotes {
+#xzsbwokibp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -434,7 +2087,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#jlcgbtfqiu .gt_footnote {
+#xzsbwokibp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -443,7 +2096,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#jlcgbtfqiu .gt_sourcenotes {
+#xzsbwokibp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -457,7 +2110,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#jlcgbtfqiu .gt_sourcenote {
+#xzsbwokibp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -465,72 +2118,72 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#jlcgbtfqiu .gt_left {
+#xzsbwokibp .gt_left {
   text-align: left;
 }
 
-#jlcgbtfqiu .gt_center {
+#xzsbwokibp .gt_center {
   text-align: center;
 }
 
-#jlcgbtfqiu .gt_right {
+#xzsbwokibp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jlcgbtfqiu .gt_font_normal {
+#xzsbwokibp .gt_font_normal {
   font-weight: normal;
 }
 
-#jlcgbtfqiu .gt_font_bold {
+#xzsbwokibp .gt_font_bold {
   font-weight: bold;
 }
 
-#jlcgbtfqiu .gt_font_italic {
+#xzsbwokibp .gt_font_italic {
   font-style: italic;
 }
 
-#jlcgbtfqiu .gt_super {
+#xzsbwokibp .gt_super {
   font-size: 65%;
 }
 
-#jlcgbtfqiu .gt_footnote_marks {
+#xzsbwokibp .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jlcgbtfqiu .gt_asterisk {
+#xzsbwokibp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jlcgbtfqiu .gt_indent_1 {
+#xzsbwokibp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jlcgbtfqiu .gt_indent_2 {
+#xzsbwokibp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jlcgbtfqiu .gt_indent_3 {
+#xzsbwokibp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jlcgbtfqiu .gt_indent_4 {
+#xzsbwokibp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jlcgbtfqiu .gt_indent_5 {
+#xzsbwokibp .gt_indent_5 {
   text-indent: 25px;
 }
 
-#jlcgbtfqiu .katex-display {
+#xzsbwokibp .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#jlcgbtfqiu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#xzsbwokibp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -619,23 +2272,23 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display">
-<div id="lvzuxmuyug" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#lvzuxmuyug table {
+<div id="eompepgnlg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#eompepgnlg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#lvzuxmuyug thead, #lvzuxmuyug tbody, #lvzuxmuyug tfoot, #lvzuxmuyug tr, #lvzuxmuyug td, #lvzuxmuyug th {
+#eompepgnlg thead, #eompepgnlg tbody, #eompepgnlg tfoot, #eompepgnlg tr, #eompepgnlg td, #eompepgnlg th {
   border-style: none;
 }
 
-#lvzuxmuyug p {
+#eompepgnlg p {
   margin: 0;
   padding: 0;
 }
 
-#lvzuxmuyug .gt_table {
+#eompepgnlg .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -661,12 +2314,12 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-left-color: #D3D3D3;
 }
 
-#lvzuxmuyug .gt_caption {
+#eompepgnlg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lvzuxmuyug .gt_title {
+#eompepgnlg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -678,7 +2331,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-width: 0;
 }
 
-#lvzuxmuyug .gt_subtitle {
+#eompepgnlg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -690,7 +2343,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-width: 0;
 }
 
-#lvzuxmuyug .gt_heading {
+#eompepgnlg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -702,13 +2355,13 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#lvzuxmuyug .gt_bottom_border {
+#eompepgnlg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lvzuxmuyug .gt_col_headings {
+#eompepgnlg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -723,7 +2376,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#lvzuxmuyug .gt_col_heading {
+#eompepgnlg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -743,7 +2396,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#lvzuxmuyug .gt_column_spanner_outer {
+#eompepgnlg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -755,15 +2408,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 4px;
 }
 
-#lvzuxmuyug .gt_column_spanner_outer:first-child {
+#eompepgnlg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lvzuxmuyug .gt_column_spanner_outer:last-child {
+#eompepgnlg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lvzuxmuyug .gt_column_spanner {
+#eompepgnlg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -775,11 +2428,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   width: 100%;
 }
 
-#lvzuxmuyug .gt_spanner_row {
+#eompepgnlg .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#lvzuxmuyug .gt_group_heading {
+#eompepgnlg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -805,7 +2458,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   text-align: left;
 }
 
-#lvzuxmuyug .gt_empty_group_heading {
+#eompepgnlg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -820,15 +2473,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: middle;
 }
 
-#lvzuxmuyug .gt_from_md > :first-child {
+#eompepgnlg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lvzuxmuyug .gt_from_md > :last-child {
+#eompepgnlg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lvzuxmuyug .gt_row {
+#eompepgnlg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -847,7 +2500,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#lvzuxmuyug .gt_stub {
+#eompepgnlg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -860,7 +2513,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#lvzuxmuyug .gt_stub_row_group {
+#eompepgnlg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -874,15 +2527,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: top;
 }
 
-#lvzuxmuyug .gt_row_group_first td {
+#eompepgnlg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lvzuxmuyug .gt_row_group_first th {
+#eompepgnlg .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#lvzuxmuyug .gt_summary_row {
+#eompepgnlg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -892,16 +2545,16 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#lvzuxmuyug .gt_first_summary_row {
+#eompepgnlg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lvzuxmuyug .gt_first_summary_row.thick {
+#eompepgnlg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lvzuxmuyug .gt_last_summary_row {
+#eompepgnlg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -911,7 +2564,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#lvzuxmuyug .gt_grand_summary_row {
+#eompepgnlg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -921,7 +2574,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#lvzuxmuyug .gt_first_grand_summary_row {
+#eompepgnlg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -931,7 +2584,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-color: #D3D3D3;
 }
 
-#lvzuxmuyug .gt_last_grand_summary_row_top {
+#eompepgnlg .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -941,11 +2594,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#lvzuxmuyug .gt_striped {
+#eompepgnlg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lvzuxmuyug .gt_table_body {
+#eompepgnlg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -954,7 +2607,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#lvzuxmuyug .gt_footnotes {
+#eompepgnlg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -968,7 +2621,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#lvzuxmuyug .gt_footnote {
+#eompepgnlg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -977,7 +2630,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#lvzuxmuyug .gt_sourcenotes {
+#eompepgnlg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -991,7 +2644,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#lvzuxmuyug .gt_sourcenote {
+#eompepgnlg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -999,72 +2652,72 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#lvzuxmuyug .gt_left {
+#eompepgnlg .gt_left {
   text-align: left;
 }
 
-#lvzuxmuyug .gt_center {
+#eompepgnlg .gt_center {
   text-align: center;
 }
 
-#lvzuxmuyug .gt_right {
+#eompepgnlg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lvzuxmuyug .gt_font_normal {
+#eompepgnlg .gt_font_normal {
   font-weight: normal;
 }
 
-#lvzuxmuyug .gt_font_bold {
+#eompepgnlg .gt_font_bold {
   font-weight: bold;
 }
 
-#lvzuxmuyug .gt_font_italic {
+#eompepgnlg .gt_font_italic {
   font-style: italic;
 }
 
-#lvzuxmuyug .gt_super {
+#eompepgnlg .gt_super {
   font-size: 65%;
 }
 
-#lvzuxmuyug .gt_footnote_marks {
+#eompepgnlg .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#lvzuxmuyug .gt_asterisk {
+#eompepgnlg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lvzuxmuyug .gt_indent_1 {
+#eompepgnlg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#lvzuxmuyug .gt_indent_2 {
+#eompepgnlg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#lvzuxmuyug .gt_indent_3 {
+#eompepgnlg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#lvzuxmuyug .gt_indent_4 {
+#eompepgnlg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#lvzuxmuyug .gt_indent_5 {
+#eompepgnlg .gt_indent_5 {
   text-indent: 25px;
 }
 
-#lvzuxmuyug .katex-display {
+#eompepgnlg .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#lvzuxmuyug div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#eompepgnlg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1624,23 +3277,23 @@ font-style: inherit;">out_tbl</span></span>
 background-color: null;
 font-style: inherit;">out_tbl</span></span></code></pre></div>
 <div class="cell-output-display">
-<div id="zbldwljukg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zbldwljukg table {
+<div id="ftjzfpjkto" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ftjzfpjkto table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zbldwljukg thead, #zbldwljukg tbody, #zbldwljukg tfoot, #zbldwljukg tr, #zbldwljukg td, #zbldwljukg th {
+#ftjzfpjkto thead, #ftjzfpjkto tbody, #ftjzfpjkto tfoot, #ftjzfpjkto tr, #ftjzfpjkto td, #ftjzfpjkto th {
   border-style: none;
 }
 
-#zbldwljukg p {
+#ftjzfpjkto p {
   margin: 0;
   padding: 0;
 }
 
-#zbldwljukg .gt_table {
+#ftjzfpjkto .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1666,12 +3319,12 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   border-left-color: #D3D3D3;
 }
 
-#zbldwljukg .gt_caption {
+#ftjzfpjkto .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zbldwljukg .gt_title {
+#ftjzfpjkto .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1683,7 +3336,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   border-bottom-width: 0;
 }
 
-#zbldwljukg .gt_subtitle {
+#ftjzfpjkto .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1695,7 +3348,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   border-top-width: 0;
 }
 
-#zbldwljukg .gt_heading {
+#ftjzfpjkto .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1707,13 +3360,13 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#zbldwljukg .gt_bottom_border {
+#ftjzfpjkto .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zbldwljukg .gt_col_headings {
+#ftjzfpjkto .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1728,7 +3381,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#zbldwljukg .gt_col_heading {
+#ftjzfpjkto .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1748,7 +3401,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#zbldwljukg .gt_column_spanner_outer {
+#ftjzfpjkto .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1760,15 +3413,15 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   padding-right: 4px;
 }
 
-#zbldwljukg .gt_column_spanner_outer:first-child {
+#ftjzfpjkto .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zbldwljukg .gt_column_spanner_outer:last-child {
+#ftjzfpjkto .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zbldwljukg .gt_column_spanner {
+#ftjzfpjkto .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1780,11 +3433,11 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   width: 100%;
 }
 
-#zbldwljukg .gt_spanner_row {
+#ftjzfpjkto .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zbldwljukg .gt_group_heading {
+#ftjzfpjkto .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1810,7 +3463,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   text-align: left;
 }
 
-#zbldwljukg .gt_empty_group_heading {
+#ftjzfpjkto .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1825,15 +3478,15 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   vertical-align: middle;
 }
 
-#zbldwljukg .gt_from_md > :first-child {
+#ftjzfpjkto .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zbldwljukg .gt_from_md > :last-child {
+#ftjzfpjkto .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zbldwljukg .gt_row {
+#ftjzfpjkto .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1852,7 +3505,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#zbldwljukg .gt_stub {
+#ftjzfpjkto .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1865,7 +3518,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#zbldwljukg .gt_stub_row_group {
+#ftjzfpjkto .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1879,15 +3532,15 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   vertical-align: top;
 }
 
-#zbldwljukg .gt_row_group_first td {
+#ftjzfpjkto .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zbldwljukg .gt_row_group_first th {
+#ftjzfpjkto .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zbldwljukg .gt_summary_row {
+#ftjzfpjkto .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1897,16 +3550,16 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#zbldwljukg .gt_first_summary_row {
+#ftjzfpjkto .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zbldwljukg .gt_first_summary_row.thick {
+#ftjzfpjkto .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zbldwljukg .gt_last_summary_row {
+#ftjzfpjkto .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1916,7 +3569,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#zbldwljukg .gt_grand_summary_row {
+#ftjzfpjkto .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1926,7 +3579,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#zbldwljukg .gt_first_grand_summary_row {
+#ftjzfpjkto .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1936,7 +3589,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   border-top-color: #D3D3D3;
 }
 
-#zbldwljukg .gt_last_grand_summary_row_top {
+#ftjzfpjkto .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1946,11 +3599,11 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#zbldwljukg .gt_striped {
+#ftjzfpjkto .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zbldwljukg .gt_table_body {
+#ftjzfpjkto .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1959,7 +3612,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#zbldwljukg .gt_footnotes {
+#ftjzfpjkto .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1973,7 +3626,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#zbldwljukg .gt_footnote {
+#ftjzfpjkto .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1982,7 +3635,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#zbldwljukg .gt_sourcenotes {
+#ftjzfpjkto .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1996,7 +3649,7 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#zbldwljukg .gt_sourcenote {
+#ftjzfpjkto .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2004,72 +3657,72 @@ font-style: inherit;">out_tbl</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#zbldwljukg .gt_left {
+#ftjzfpjkto .gt_left {
   text-align: left;
 }
 
-#zbldwljukg .gt_center {
+#ftjzfpjkto .gt_center {
   text-align: center;
 }
 
-#zbldwljukg .gt_right {
+#ftjzfpjkto .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zbldwljukg .gt_font_normal {
+#ftjzfpjkto .gt_font_normal {
   font-weight: normal;
 }
 
-#zbldwljukg .gt_font_bold {
+#ftjzfpjkto .gt_font_bold {
   font-weight: bold;
 }
 
-#zbldwljukg .gt_font_italic {
+#ftjzfpjkto .gt_font_italic {
   font-style: italic;
 }
 
-#zbldwljukg .gt_super {
+#ftjzfpjkto .gt_super {
   font-size: 65%;
 }
 
-#zbldwljukg .gt_footnote_marks {
+#ftjzfpjkto .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zbldwljukg .gt_asterisk {
+#ftjzfpjkto .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zbldwljukg .gt_indent_1 {
+#ftjzfpjkto .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zbldwljukg .gt_indent_2 {
+#ftjzfpjkto .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zbldwljukg .gt_indent_3 {
+#ftjzfpjkto .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zbldwljukg .gt_indent_4 {
+#ftjzfpjkto .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zbldwljukg .gt_indent_5 {
+#ftjzfpjkto .gt_indent_5 {
   text-indent: 25px;
 }
 
-#zbldwljukg .katex-display {
+#ftjzfpjkto .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#zbldwljukg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ftjzfpjkto div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2807,23 +4460,23 @@ font-style: inherit;">out_tbl</span></span>
 background-color: null;
 font-style: inherit;">out_tbl</span> </span></code></pre></div>
 <div class="cell-output-display">
-<div id="gbrbqxxand" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#gbrbqxxand table {
+<div id="ojpoqwvnpc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ojpoqwvnpc table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#gbrbqxxand thead, #gbrbqxxand tbody, #gbrbqxxand tfoot, #gbrbqxxand tr, #gbrbqxxand td, #gbrbqxxand th {
+#ojpoqwvnpc thead, #ojpoqwvnpc tbody, #ojpoqwvnpc tfoot, #ojpoqwvnpc tr, #ojpoqwvnpc td, #ojpoqwvnpc th {
   border-style: none;
 }
 
-#gbrbqxxand p {
+#ojpoqwvnpc p {
   margin: 0;
   padding: 0;
 }
 
-#gbrbqxxand .gt_table {
+#ojpoqwvnpc .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2849,12 +4502,12 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   border-left-color: #D3D3D3;
 }
 
-#gbrbqxxand .gt_caption {
+#ojpoqwvnpc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#gbrbqxxand .gt_title {
+#ojpoqwvnpc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2866,7 +4519,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   border-bottom-width: 0;
 }
 
-#gbrbqxxand .gt_subtitle {
+#ojpoqwvnpc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2878,7 +4531,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   border-top-width: 0;
 }
 
-#gbrbqxxand .gt_heading {
+#ojpoqwvnpc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2890,13 +4543,13 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#gbrbqxxand .gt_bottom_border {
+#ojpoqwvnpc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gbrbqxxand .gt_col_headings {
+#ojpoqwvnpc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2911,7 +4564,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#gbrbqxxand .gt_col_heading {
+#ojpoqwvnpc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2931,7 +4584,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   overflow-x: hidden;
 }
 
-#gbrbqxxand .gt_column_spanner_outer {
+#ojpoqwvnpc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2943,15 +4596,15 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   padding-right: 4px;
 }
 
-#gbrbqxxand .gt_column_spanner_outer:first-child {
+#ojpoqwvnpc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gbrbqxxand .gt_column_spanner_outer:last-child {
+#ojpoqwvnpc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gbrbqxxand .gt_column_spanner {
+#ojpoqwvnpc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2963,11 +4616,11 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   width: 100%;
 }
 
-#gbrbqxxand .gt_spanner_row {
+#ojpoqwvnpc .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#gbrbqxxand .gt_group_heading {
+#ojpoqwvnpc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2993,7 +4646,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   text-align: left;
 }
 
-#gbrbqxxand .gt_empty_group_heading {
+#ojpoqwvnpc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3008,15 +4661,15 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   vertical-align: middle;
 }
 
-#gbrbqxxand .gt_from_md > :first-child {
+#ojpoqwvnpc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gbrbqxxand .gt_from_md > :last-child {
+#ojpoqwvnpc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gbrbqxxand .gt_row {
+#ojpoqwvnpc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3035,7 +4688,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   overflow-x: hidden;
 }
 
-#gbrbqxxand .gt_stub {
+#ojpoqwvnpc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3048,7 +4701,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   padding-right: 5px;
 }
 
-#gbrbqxxand .gt_stub_row_group {
+#ojpoqwvnpc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3062,15 +4715,15 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   vertical-align: top;
 }
 
-#gbrbqxxand .gt_row_group_first td {
+#ojpoqwvnpc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#gbrbqxxand .gt_row_group_first th {
+#ojpoqwvnpc .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#gbrbqxxand .gt_summary_row {
+#ojpoqwvnpc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3080,16 +4733,16 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   padding-right: 5px;
 }
 
-#gbrbqxxand .gt_first_summary_row {
+#ojpoqwvnpc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#gbrbqxxand .gt_first_summary_row.thick {
+#ojpoqwvnpc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#gbrbqxxand .gt_last_summary_row {
+#ojpoqwvnpc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3099,7 +4752,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#gbrbqxxand .gt_grand_summary_row {
+#ojpoqwvnpc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3109,7 +4762,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   padding-right: 5px;
 }
 
-#gbrbqxxand .gt_first_grand_summary_row {
+#ojpoqwvnpc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3119,7 +4772,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   border-top-color: #D3D3D3;
 }
 
-#gbrbqxxand .gt_last_grand_summary_row_top {
+#ojpoqwvnpc .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3129,11 +4782,11 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#gbrbqxxand .gt_striped {
+#ojpoqwvnpc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gbrbqxxand .gt_table_body {
+#ojpoqwvnpc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3142,7 +4795,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#gbrbqxxand .gt_footnotes {
+#ojpoqwvnpc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3156,7 +4809,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#gbrbqxxand .gt_footnote {
+#ojpoqwvnpc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3165,7 +4818,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   padding-right: 5px;
 }
 
-#gbrbqxxand .gt_sourcenotes {
+#ojpoqwvnpc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3179,7 +4832,7 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#gbrbqxxand .gt_sourcenote {
+#ojpoqwvnpc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3187,72 +4840,72 @@ font-style: inherit;">out_tbl</span> </span></code></pre></div>
   padding-right: 5px;
 }
 
-#gbrbqxxand .gt_left {
+#ojpoqwvnpc .gt_left {
   text-align: left;
 }
 
-#gbrbqxxand .gt_center {
+#ojpoqwvnpc .gt_center {
   text-align: center;
 }
 
-#gbrbqxxand .gt_right {
+#ojpoqwvnpc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gbrbqxxand .gt_font_normal {
+#ojpoqwvnpc .gt_font_normal {
   font-weight: normal;
 }
 
-#gbrbqxxand .gt_font_bold {
+#ojpoqwvnpc .gt_font_bold {
   font-weight: bold;
 }
 
-#gbrbqxxand .gt_font_italic {
+#ojpoqwvnpc .gt_font_italic {
   font-style: italic;
 }
 
-#gbrbqxxand .gt_super {
+#ojpoqwvnpc .gt_super {
   font-size: 65%;
 }
 
-#gbrbqxxand .gt_footnote_marks {
+#ojpoqwvnpc .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#gbrbqxxand .gt_asterisk {
+#ojpoqwvnpc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#gbrbqxxand .gt_indent_1 {
+#ojpoqwvnpc .gt_indent_1 {
   text-indent: 5px;
 }
 
-#gbrbqxxand .gt_indent_2 {
+#ojpoqwvnpc .gt_indent_2 {
   text-indent: 10px;
 }
 
-#gbrbqxxand .gt_indent_3 {
+#ojpoqwvnpc .gt_indent_3 {
   text-indent: 15px;
 }
 
-#gbrbqxxand .gt_indent_4 {
+#ojpoqwvnpc .gt_indent_4 {
   text-indent: 20px;
 }
 
-#gbrbqxxand .gt_indent_5 {
+#ojpoqwvnpc .gt_indent_5 {
   text-indent: 25px;
 }
 
-#gbrbqxxand .katex-display {
+#ojpoqwvnpc .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#gbrbqxxand div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ojpoqwvnpc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4167,24 +5820,24 @@ font-style: inherit;">out_tbl</span></span>
 background-color: null;
 font-style: inherit;">out_tbl</span>  </span></code></pre></div>
 <div class="cell-output-display">
-<div id="munbmivfkv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="fplrrrwqgj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-#munbmivfkv table {
+#fplrrrwqgj table {
   font-family: 'Public Sans', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#munbmivfkv thead, #munbmivfkv tbody, #munbmivfkv tfoot, #munbmivfkv tr, #munbmivfkv td, #munbmivfkv th {
+#fplrrrwqgj thead, #fplrrrwqgj tbody, #fplrrrwqgj tfoot, #fplrrrwqgj tr, #fplrrrwqgj td, #fplrrrwqgj th {
   border-style: none;
 }
 
-#munbmivfkv p {
+#fplrrrwqgj p {
   margin: 0;
   padding: 0;
 }
 
-#munbmivfkv .gt_table {
+#fplrrrwqgj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4210,12 +5863,12 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   border-left-color: #D3D3D3;
 }
 
-#munbmivfkv .gt_caption {
+#fplrrrwqgj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#munbmivfkv .gt_title {
+#fplrrrwqgj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4227,7 +5880,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   border-bottom-width: 0;
 }
 
-#munbmivfkv .gt_subtitle {
+#fplrrrwqgj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4239,7 +5892,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   border-top-width: 0;
 }
 
-#munbmivfkv .gt_heading {
+#fplrrrwqgj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4251,13 +5904,13 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#munbmivfkv .gt_bottom_border {
+#fplrrrwqgj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#munbmivfkv .gt_col_headings {
+#fplrrrwqgj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4272,7 +5925,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#munbmivfkv .gt_col_heading {
+#fplrrrwqgj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4292,7 +5945,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   overflow-x: hidden;
 }
 
-#munbmivfkv .gt_column_spanner_outer {
+#fplrrrwqgj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4304,15 +5957,15 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   padding-right: 4px;
 }
 
-#munbmivfkv .gt_column_spanner_outer:first-child {
+#fplrrrwqgj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#munbmivfkv .gt_column_spanner_outer:last-child {
+#fplrrrwqgj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#munbmivfkv .gt_column_spanner {
+#fplrrrwqgj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4324,11 +5977,11 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   width: 100%;
 }
 
-#munbmivfkv .gt_spanner_row {
+#fplrrrwqgj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#munbmivfkv .gt_group_heading {
+#fplrrrwqgj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4354,7 +6007,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   text-align: left;
 }
 
-#munbmivfkv .gt_empty_group_heading {
+#fplrrrwqgj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4369,15 +6022,15 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   vertical-align: middle;
 }
 
-#munbmivfkv .gt_from_md > :first-child {
+#fplrrrwqgj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#munbmivfkv .gt_from_md > :last-child {
+#fplrrrwqgj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#munbmivfkv .gt_row {
+#fplrrrwqgj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4396,7 +6049,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   overflow-x: hidden;
 }
 
-#munbmivfkv .gt_stub {
+#fplrrrwqgj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4409,7 +6062,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   padding-right: 5px;
 }
 
-#munbmivfkv .gt_stub_row_group {
+#fplrrrwqgj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4423,15 +6076,15 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   vertical-align: top;
 }
 
-#munbmivfkv .gt_row_group_first td {
+#fplrrrwqgj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#munbmivfkv .gt_row_group_first th {
+#fplrrrwqgj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#munbmivfkv .gt_summary_row {
+#fplrrrwqgj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4441,16 +6094,16 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   padding-right: 5px;
 }
 
-#munbmivfkv .gt_first_summary_row {
+#fplrrrwqgj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#munbmivfkv .gt_first_summary_row.thick {
+#fplrrrwqgj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#munbmivfkv .gt_last_summary_row {
+#fplrrrwqgj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4460,7 +6113,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#munbmivfkv .gt_grand_summary_row {
+#fplrrrwqgj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4470,7 +6123,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   padding-right: 5px;
 }
 
-#munbmivfkv .gt_first_grand_summary_row {
+#fplrrrwqgj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4480,7 +6133,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   border-top-color: #D3D3D3;
 }
 
-#munbmivfkv .gt_last_grand_summary_row_top {
+#fplrrrwqgj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4490,11 +6143,11 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#munbmivfkv .gt_striped {
+#fplrrrwqgj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#munbmivfkv .gt_table_body {
+#fplrrrwqgj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4503,7 +6156,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#munbmivfkv .gt_footnotes {
+#fplrrrwqgj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4517,7 +6170,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#munbmivfkv .gt_footnote {
+#fplrrrwqgj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4526,7 +6179,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   padding-right: 5px;
 }
 
-#munbmivfkv .gt_sourcenotes {
+#fplrrrwqgj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4540,7 +6193,7 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#munbmivfkv .gt_sourcenote {
+#fplrrrwqgj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4548,72 +6201,72 @@ font-style: inherit;">out_tbl</span>  </span></code></pre></div>
   padding-right: 5px;
 }
 
-#munbmivfkv .gt_left {
+#fplrrrwqgj .gt_left {
   text-align: left;
 }
 
-#munbmivfkv .gt_center {
+#fplrrrwqgj .gt_center {
   text-align: center;
 }
 
-#munbmivfkv .gt_right {
+#fplrrrwqgj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#munbmivfkv .gt_font_normal {
+#fplrrrwqgj .gt_font_normal {
   font-weight: normal;
 }
 
-#munbmivfkv .gt_font_bold {
+#fplrrrwqgj .gt_font_bold {
   font-weight: bold;
 }
 
-#munbmivfkv .gt_font_italic {
+#fplrrrwqgj .gt_font_italic {
   font-style: italic;
 }
 
-#munbmivfkv .gt_super {
+#fplrrrwqgj .gt_super {
   font-size: 65%;
 }
 
-#munbmivfkv .gt_footnote_marks {
+#fplrrrwqgj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#munbmivfkv .gt_asterisk {
+#fplrrrwqgj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#munbmivfkv .gt_indent_1 {
+#fplrrrwqgj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#munbmivfkv .gt_indent_2 {
+#fplrrrwqgj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#munbmivfkv .gt_indent_3 {
+#fplrrrwqgj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#munbmivfkv .gt_indent_4 {
+#fplrrrwqgj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#munbmivfkv .gt_indent_5 {
+#fplrrrwqgj .gt_indent_5 {
   text-indent: 25px;
 }
 
-#munbmivfkv .katex-display {
+#fplrrrwqgj .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#munbmivfkv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#fplrrrwqgj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -5279,23 +6932,23 @@ Best and worst
 <p>We should start things off easy, and look at what happens when we roll 1d6. As long as the die is fair, any value between 1 and 6 is possible. And for each value between 1 and 6, there’s only 1 possible way to get that value.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="cdrmfkegyi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cdrmfkegyi table {
+<div id="khumwoakic" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#khumwoakic table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cdrmfkegyi thead, #cdrmfkegyi tbody, #cdrmfkegyi tfoot, #cdrmfkegyi tr, #cdrmfkegyi td, #cdrmfkegyi th {
+#khumwoakic thead, #khumwoakic tbody, #khumwoakic tfoot, #khumwoakic tr, #khumwoakic td, #khumwoakic th {
   border-style: none;
 }
 
-#cdrmfkegyi p {
+#khumwoakic p {
   margin: 0;
   padding: 0;
 }
 
-#cdrmfkegyi .gt_table {
+#khumwoakic .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -5321,12 +6974,12 @@ Best and worst
   border-left-color: #D3D3D3;
 }
 
-#cdrmfkegyi .gt_caption {
+#khumwoakic .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cdrmfkegyi .gt_title {
+#khumwoakic .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -5338,7 +6991,7 @@ Best and worst
   border-bottom-width: 0;
 }
 
-#cdrmfkegyi .gt_subtitle {
+#khumwoakic .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -5350,7 +7003,7 @@ Best and worst
   border-top-width: 0;
 }
 
-#cdrmfkegyi .gt_heading {
+#khumwoakic .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -5362,13 +7015,13 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#cdrmfkegyi .gt_bottom_border {
+#khumwoakic .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cdrmfkegyi .gt_col_headings {
+#khumwoakic .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5383,7 +7036,7 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#cdrmfkegyi .gt_col_heading {
+#khumwoakic .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5403,7 +7056,7 @@ Best and worst
   overflow-x: hidden;
 }
 
-#cdrmfkegyi .gt_column_spanner_outer {
+#khumwoakic .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5415,15 +7068,15 @@ Best and worst
   padding-right: 4px;
 }
 
-#cdrmfkegyi .gt_column_spanner_outer:first-child {
+#khumwoakic .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cdrmfkegyi .gt_column_spanner_outer:last-child {
+#khumwoakic .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cdrmfkegyi .gt_column_spanner {
+#khumwoakic .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -5435,11 +7088,11 @@ Best and worst
   width: 100%;
 }
 
-#cdrmfkegyi .gt_spanner_row {
+#khumwoakic .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cdrmfkegyi .gt_group_heading {
+#khumwoakic .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5465,7 +7118,7 @@ Best and worst
   text-align: left;
 }
 
-#cdrmfkegyi .gt_empty_group_heading {
+#khumwoakic .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -5480,15 +7133,15 @@ Best and worst
   vertical-align: middle;
 }
 
-#cdrmfkegyi .gt_from_md > :first-child {
+#khumwoakic .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cdrmfkegyi .gt_from_md > :last-child {
+#khumwoakic .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cdrmfkegyi .gt_row {
+#khumwoakic .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5507,7 +7160,7 @@ Best and worst
   overflow-x: hidden;
 }
 
-#cdrmfkegyi .gt_stub {
+#khumwoakic .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5520,7 +7173,7 @@ Best and worst
   padding-right: 5px;
 }
 
-#cdrmfkegyi .gt_stub_row_group {
+#khumwoakic .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5534,15 +7187,15 @@ Best and worst
   vertical-align: top;
 }
 
-#cdrmfkegyi .gt_row_group_first td {
+#khumwoakic .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cdrmfkegyi .gt_row_group_first th {
+#khumwoakic .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cdrmfkegyi .gt_summary_row {
+#khumwoakic .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5552,16 +7205,16 @@ Best and worst
   padding-right: 5px;
 }
 
-#cdrmfkegyi .gt_first_summary_row {
+#khumwoakic .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cdrmfkegyi .gt_first_summary_row.thick {
+#khumwoakic .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cdrmfkegyi .gt_last_summary_row {
+#khumwoakic .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5571,7 +7224,7 @@ Best and worst
   border-bottom-color: #D3D3D3;
 }
 
-#cdrmfkegyi .gt_grand_summary_row {
+#khumwoakic .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5581,7 +7234,7 @@ Best and worst
   padding-right: 5px;
 }
 
-#cdrmfkegyi .gt_first_grand_summary_row {
+#khumwoakic .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5591,7 +7244,7 @@ Best and worst
   border-top-color: #D3D3D3;
 }
 
-#cdrmfkegyi .gt_last_grand_summary_row_top {
+#khumwoakic .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5601,11 +7254,11 @@ Best and worst
   border-bottom-color: #D3D3D3;
 }
 
-#cdrmfkegyi .gt_striped {
+#khumwoakic .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cdrmfkegyi .gt_table_body {
+#khumwoakic .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5614,7 +7267,7 @@ Best and worst
   border-bottom-color: #D3D3D3;
 }
 
-#cdrmfkegyi .gt_footnotes {
+#khumwoakic .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5628,7 +7281,7 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#cdrmfkegyi .gt_footnote {
+#khumwoakic .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -5637,7 +7290,7 @@ Best and worst
   padding-right: 5px;
 }
 
-#cdrmfkegyi .gt_sourcenotes {
+#khumwoakic .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5651,7 +7304,7 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#cdrmfkegyi .gt_sourcenote {
+#khumwoakic .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5659,72 +7312,72 @@ Best and worst
   padding-right: 5px;
 }
 
-#cdrmfkegyi .gt_left {
+#khumwoakic .gt_left {
   text-align: left;
 }
 
-#cdrmfkegyi .gt_center {
+#khumwoakic .gt_center {
   text-align: center;
 }
 
-#cdrmfkegyi .gt_right {
+#khumwoakic .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cdrmfkegyi .gt_font_normal {
+#khumwoakic .gt_font_normal {
   font-weight: normal;
 }
 
-#cdrmfkegyi .gt_font_bold {
+#khumwoakic .gt_font_bold {
   font-weight: bold;
 }
 
-#cdrmfkegyi .gt_font_italic {
+#khumwoakic .gt_font_italic {
   font-style: italic;
 }
 
-#cdrmfkegyi .gt_super {
+#khumwoakic .gt_super {
   font-size: 65%;
 }
 
-#cdrmfkegyi .gt_footnote_marks {
+#khumwoakic .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cdrmfkegyi .gt_asterisk {
+#khumwoakic .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cdrmfkegyi .gt_indent_1 {
+#khumwoakic .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cdrmfkegyi .gt_indent_2 {
+#khumwoakic .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cdrmfkegyi .gt_indent_3 {
+#khumwoakic .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cdrmfkegyi .gt_indent_4 {
+#khumwoakic .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cdrmfkegyi .gt_indent_5 {
+#khumwoakic .gt_indent_5 {
   text-indent: 25px;
 }
 
-#cdrmfkegyi .katex-display {
+#khumwoakic .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#cdrmfkegyi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#khumwoakic div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -5781,23 +7434,23 @@ Best and worst
 <p>If we expand this out to look at all possible values between 2 and 12, we’ll find that there’s six unique ways to roll 7, with each value above and below having fewer unique ways.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="sxqoszxiri" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#sxqoszxiri table {
+<div id="yzcqybyarp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#yzcqybyarp table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#sxqoszxiri thead, #sxqoszxiri tbody, #sxqoszxiri tfoot, #sxqoszxiri tr, #sxqoszxiri td, #sxqoszxiri th {
+#yzcqybyarp thead, #yzcqybyarp tbody, #yzcqybyarp tfoot, #yzcqybyarp tr, #yzcqybyarp td, #yzcqybyarp th {
   border-style: none;
 }
 
-#sxqoszxiri p {
+#yzcqybyarp p {
   margin: 0;
   padding: 0;
 }
 
-#sxqoszxiri .gt_table {
+#yzcqybyarp .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -5823,12 +7476,12 @@ Best and worst
   border-left-color: #D3D3D3;
 }
 
-#sxqoszxiri .gt_caption {
+#yzcqybyarp .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#sxqoszxiri .gt_title {
+#yzcqybyarp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -5840,7 +7493,7 @@ Best and worst
   border-bottom-width: 0;
 }
 
-#sxqoszxiri .gt_subtitle {
+#yzcqybyarp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -5852,7 +7505,7 @@ Best and worst
   border-top-width: 0;
 }
 
-#sxqoszxiri .gt_heading {
+#yzcqybyarp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -5864,13 +7517,13 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#sxqoszxiri .gt_bottom_border {
+#yzcqybyarp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#sxqoszxiri .gt_col_headings {
+#yzcqybyarp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5885,7 +7538,7 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#sxqoszxiri .gt_col_heading {
+#yzcqybyarp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5905,7 +7558,7 @@ Best and worst
   overflow-x: hidden;
 }
 
-#sxqoszxiri .gt_column_spanner_outer {
+#yzcqybyarp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5917,15 +7570,15 @@ Best and worst
   padding-right: 4px;
 }
 
-#sxqoszxiri .gt_column_spanner_outer:first-child {
+#yzcqybyarp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#sxqoszxiri .gt_column_spanner_outer:last-child {
+#yzcqybyarp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#sxqoszxiri .gt_column_spanner {
+#yzcqybyarp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -5937,11 +7590,11 @@ Best and worst
   width: 100%;
 }
 
-#sxqoszxiri .gt_spanner_row {
+#yzcqybyarp .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#sxqoszxiri .gt_group_heading {
+#yzcqybyarp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5967,7 +7620,7 @@ Best and worst
   text-align: left;
 }
 
-#sxqoszxiri .gt_empty_group_heading {
+#yzcqybyarp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -5982,15 +7635,15 @@ Best and worst
   vertical-align: middle;
 }
 
-#sxqoszxiri .gt_from_md > :first-child {
+#yzcqybyarp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#sxqoszxiri .gt_from_md > :last-child {
+#yzcqybyarp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#sxqoszxiri .gt_row {
+#yzcqybyarp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6009,7 +7662,7 @@ Best and worst
   overflow-x: hidden;
 }
 
-#sxqoszxiri .gt_stub {
+#yzcqybyarp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6022,7 +7675,7 @@ Best and worst
   padding-right: 5px;
 }
 
-#sxqoszxiri .gt_stub_row_group {
+#yzcqybyarp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6036,15 +7689,15 @@ Best and worst
   vertical-align: top;
 }
 
-#sxqoszxiri .gt_row_group_first td {
+#yzcqybyarp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#sxqoszxiri .gt_row_group_first th {
+#yzcqybyarp .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#sxqoszxiri .gt_summary_row {
+#yzcqybyarp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -6054,16 +7707,16 @@ Best and worst
   padding-right: 5px;
 }
 
-#sxqoszxiri .gt_first_summary_row {
+#yzcqybyarp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#sxqoszxiri .gt_first_summary_row.thick {
+#yzcqybyarp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#sxqoszxiri .gt_last_summary_row {
+#yzcqybyarp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6073,7 +7726,7 @@ Best and worst
   border-bottom-color: #D3D3D3;
 }
 
-#sxqoszxiri .gt_grand_summary_row {
+#yzcqybyarp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -6083,7 +7736,7 @@ Best and worst
   padding-right: 5px;
 }
 
-#sxqoszxiri .gt_first_grand_summary_row {
+#yzcqybyarp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6093,7 +7746,7 @@ Best and worst
   border-top-color: #D3D3D3;
 }
 
-#sxqoszxiri .gt_last_grand_summary_row_top {
+#yzcqybyarp .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6103,11 +7756,11 @@ Best and worst
   border-bottom-color: #D3D3D3;
 }
 
-#sxqoszxiri .gt_striped {
+#yzcqybyarp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#sxqoszxiri .gt_table_body {
+#yzcqybyarp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -6116,7 +7769,7 @@ Best and worst
   border-bottom-color: #D3D3D3;
 }
 
-#sxqoszxiri .gt_footnotes {
+#yzcqybyarp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -6130,7 +7783,7 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#sxqoszxiri .gt_footnote {
+#yzcqybyarp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -6139,7 +7792,7 @@ Best and worst
   padding-right: 5px;
 }
 
-#sxqoszxiri .gt_sourcenotes {
+#yzcqybyarp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -6153,7 +7806,7 @@ Best and worst
   border-right-color: #D3D3D3;
 }
 
-#sxqoszxiri .gt_sourcenote {
+#yzcqybyarp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -6161,72 +7814,72 @@ Best and worst
   padding-right: 5px;
 }
 
-#sxqoszxiri .gt_left {
+#yzcqybyarp .gt_left {
   text-align: left;
 }
 
-#sxqoszxiri .gt_center {
+#yzcqybyarp .gt_center {
   text-align: center;
 }
 
-#sxqoszxiri .gt_right {
+#yzcqybyarp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sxqoszxiri .gt_font_normal {
+#yzcqybyarp .gt_font_normal {
   font-weight: normal;
 }
 
-#sxqoszxiri .gt_font_bold {
+#yzcqybyarp .gt_font_bold {
   font-weight: bold;
 }
 
-#sxqoszxiri .gt_font_italic {
+#yzcqybyarp .gt_font_italic {
   font-style: italic;
 }
 
-#sxqoszxiri .gt_super {
+#yzcqybyarp .gt_super {
   font-size: 65%;
 }
 
-#sxqoszxiri .gt_footnote_marks {
+#yzcqybyarp .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#sxqoszxiri .gt_asterisk {
+#yzcqybyarp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#sxqoszxiri .gt_indent_1 {
+#yzcqybyarp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#sxqoszxiri .gt_indent_2 {
+#yzcqybyarp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#sxqoszxiri .gt_indent_3 {
+#yzcqybyarp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#sxqoszxiri .gt_indent_4 {
+#yzcqybyarp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#sxqoszxiri .gt_indent_5 {
+#yzcqybyarp .gt_indent_5 {
   text-indent: 25px;
 }
 
-#sxqoszxiri .katex-display {
+#yzcqybyarp .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#sxqoszxiri div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#yzcqybyarp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -13213,7 +14866,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span> </span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="http://mjskay.github.io/tidybayes/reference/spread_draws.html">gather_draws</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://mjskay.github.io/tidybayes/reference/spread_draws.html">gather_draws</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>    <span class="va" style="color: #111111;
@@ -13883,7 +15536,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span> </span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="http://mjskay.github.io/tidybayes/reference/spread_draws.html">gather_draws</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://mjskay.github.io/tidybayes/reference/spread_draws.html">gather_draws</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>    <span class="va" style="color: #111111;
@@ -14240,7 +15893,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span> </span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="http://mjskay.github.io/tidybayes/reference/spread_draws.html">gather_draws</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://mjskay.github.io/tidybayes/reference/spread_draws.html">gather_draws</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>    <span class="va" style="color: #111111;
@@ -14916,7 +16569,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span> </span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="http://mjskay.github.io/tidybayes/reference/spread_draws.html">gather_draws</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://mjskay.github.io/tidybayes/reference/spread_draws.html">gather_draws</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>    <span class="va" style="color: #111111;
@@ -21826,7 +23479,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">plot1</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo" data-fig-align="center">
+<div id="fig-penguin1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: The base penguins scatterplot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo" width="576"></a>
 </div>
@@ -21855,7 +23508,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 ℹ Please use `linewidth` in the `default_aes` field and elsewhere instead.</code></pre>
 </div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged." data-fig-align="center">
+<div id="fig-penguin_hull1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Basic convex hull"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged." width="576"></a>
 </div>
@@ -21899,7 +23552,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species." data-fig-align="center">
+<div id="fig-penguin_hull2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Smoothed out and filled convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species." width="576"></a>
 </div>
@@ -21952,7 +23605,7 @@ font-style: inherit;">"Fira Sans"</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The scatter plot with the sme convex hull, but no labels actually present." data-fig-align="center">
+<div id="fig-penguin_hull3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The scatter plot with the sme convex hull, but no labels actually present.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Attempted labelling of convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The scatter plot with the sme convex hull, but no labels actually present." width="576"></a>
 </div>
@@ -22091,7 +23744,7 @@ font-style: inherit;">"none"</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin-hull4" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull" data-fig-align="center">
+<div id="fig-penguin-hull4" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin-hull4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin-hull4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Labelled convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull" width="768"></a>
 </div>
@@ -22141,7 +23794,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin-hull-filter" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data." data-fig-align="center">
+<div id="fig-penguin-hull-filter" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin-hull-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin-hull-filter-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: Filtered convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull-filter-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data." width="576"></a>
 </div>
@@ -22204,7 +23857,7 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_dens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution" data-fig-align="center">
+<div id="fig-penguin_dens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_dens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_dens-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: Density contour plot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_dens-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution" width="576"></a>
 </div>
@@ -22229,7 +23882,7 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%" data-fig-align="center">
+<div id="fig-penguin_hdr" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: Highest density region contour plot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%" width="576"></a>
 </div>
@@ -22277,7 +23930,7 @@ font-style: inherit;">"Dark2"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species" data-fig-align="center">
+<div id="fig-penguin_hdr2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: Highest density region contour plot, filled by species"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species" width="576"></a>
 </div>
@@ -22315,7 +23968,7 @@ font-style: inherit;">"grey90"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr_rug" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot with a data distribution rug indicating the density of the data distribution." data-fig-align="center">
+<div id="fig-penguin_hdr_rug" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot with a data distribution rug indicating the density of the data distribution.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr_rug-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr_rug-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: HDR rug"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr_rug-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot with a data distribution rug indicating the density of the data distribution." width="576"></a>
 </div>
@@ -22428,7 +24081,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one trend line for each species with the species name written along the line." data-fig-align="center">
+<div id="fig-penguin_textsmooth" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one trend line for each species with the species name written along the line.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;11: Trendlines with text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one trend line for each species with the species name written along the line." width="576"></a>
 </div>
@@ -22498,7 +24151,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one trend line for each species with the species name written just above line." data-fig-align="center">
+<div id="fig-penguin_textsmooth2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one trend line for each species with the species name written just above line.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;12: Trendlines with text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one trend line for each species with the species name written just above line." width="576"></a>
 </div>
@@ -22561,7 +24214,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it." data-fig-align="center">
+<div id="fig-penguin_textsmooth3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;13: Data ellipses text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it." width="576"></a>
 </div>
@@ -22629,7 +24282,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr-text" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A highest density region plot with the probability levels written along the contours" data-fig-align="center">
+<div id="fig-penguin_hdr-text" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A highest density region plot with the probability levels written along the contours">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr-text-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr-text-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;14: Higest density region plot with direct labels"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr-text-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A highest density region plot with the probability levels written along the contours" width="576"></a>
 </div>
@@ -22667,7 +24320,7 @@ Væl Space. January 27, 2023. <a href="https://jofrhwld.github.io/blog/posts/202
   <dc:creator>Josef Fruehwald</dc:creator>
   <link>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/</link>
   <description><![CDATA[ <p>I might flesh this out as a more detailed tutorial for <a href="https://lingmethodshub.github.io/content/">LingMethodsHub</a>, but for now this is going to be a rough-around-the-edges post about making spectrograms in R. My goal will be to get as close as possible to recreating a spectrogram like you might get from Praat.</p>
-<div id="fig-praat-spect" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A spectrogram of the vowel /i/ generated by praat." data-fig-align="center">
+<div id="fig-praat-spect" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A spectrogram of the vowel /i/ generated by praat.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-praat-spect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/praat.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: A spectrogram of the vowel /i/ generated by praat."><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/assets/praat.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A spectrogram of the vowel /i/ generated by praat."></a>
 </div>
@@ -22841,7 +24494,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 </dl>
 <section id="praat-defaults" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="praat-defaults">Praat defaults</h3>
 <p>Let’s have a look at the Praat spectrogram defaults</p>
-<div id="fig-praat-defaults" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A screenshot of the default spectrogram settings for Praat." data-fig-align="center">
+<div id="fig-praat-defaults" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A screenshot of the default spectrogram settings for Praat.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-praat-defaults-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/praat_defaults.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Praat defaults for spectrograms"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/assets/praat_defaults.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A screenshot of the default spectrogram settings for Praat."></a>
 </div>
@@ -25998,7 +27651,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span> </span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="http://mjskay.github.io/tidybayes/reference/add_predicted_draws.html">add_epred_draws</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://mjskay.github.io/tidybayes/reference/add_predicted_draws.html">add_epred_draws</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
@@ -26852,250 +28505,6 @@ December 31, 2022. <a href="https://jofrhwld.github.io/blog/posts/2022/12/2022-1
   <category>linguistics</category>
   <guid>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-31_wooder1/</guid>
   <pubDate>Sat, 31 Dec 2022 00:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Github Onboarding with RStudio</title>
-  <dc:creator>Josef Fruehwald</dc:creator>
-  <link>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/</link>
-  <description><![CDATA[ <section id="the-target-audience" class="level2"><h2 class="anchored" data-anchor-id="the-target-audience">The target audience</h2>
-<p>I’m writing this primarily for students <a href="../../../../posts/2022/12/2022-12-17/index.html">I’ll be teaching in Spring 2023</a> who I want to use Git/Github with Posit Workbench.</p>
-<dl>
-<dt>This tutorial is appropriate for:</dt>
-<dd>
-<p>Anyone using RStudio/RStudio Server/Posit Workbench/Posit Cloud</p>
-</dd>
-<dt>I will assume:</dt>
-<dd>
-<ol type="1">
-<li>Git is already installed and available.</li>
-<li>You have not already configured Git locally.</li>
-<li>You cannot access the terminal.</li>
-</ol>
-</dd>
-</dl>
-<p>If item number 1 is not correct, or you want more detail on using Git and Github with RStudio, you should check out Jennifer Bryan’s much more extensive <a href="https://happygitwithr.com/">Happy Git and GitHub for the useR</a>.</p>
-<p>Item number 2 might be a strange assumption, but the Posit Workbench configuration I have access to actually does not allow opening a terminal.</p>
-<p>Instruction boxes with <i class="fa-brands fa-github" aria-label="github"></i> should be done on github, and instruction boxes with <i class="fa-brands fa-r-project" aria-label="r-project"></i> should be done in RStudio.</p>
-</section><section id="step-1-create-a-github-account" class="level2"><h2 class="anchored" data-anchor-id="step-1-create-a-github-account">Step 1: Create a Github Account</h2>
-<p>Go over to Github and create a free account.</p>
-<div class="callout callout-style-simple callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-brands fa-github" aria-label="github"></i>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<dl>
-<dt>Go To</dt>
-<dd>
-<p><a href="https://github.com/" class="uri">https://github.com/</a></p>
-</dd>
-</dl>
-</div>
-</div>
-<p>As suggested in <a href="https://happygitwithr.com/github-acct.html">Happy Git Chapter 4</a>, it would make sense to register an account username that aligns with your professional identity.</p>
-<p>After you’ve created your free account, if you are affiliated with a university, I would also suggest applying for the education benefits here: <a href="https://education.github.com/" class="uri">https://education.github.com/</a>. There are a few nice, but not mandatory, perks.</p>
-</section><section id="step-2-configure-git-in-rstudio" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="step-2-configure-git-in-rstudio">Step 2: Configure Git in RStudio</h2>
-<p>Now, you need to tell Git a little bit about yourself on the computer/server you’re using RStudio on.</p>
-<div class="callout callout-style-simple callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-brands fa-r-project" aria-label="r-project"></i>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<dl>
-<dt>Go To</dt>
-<dd>
-<p>Wherever you are using RStudio ( could be Posit Workbench, Posit Cloud, RStudio Server, or RStudio Desktop)</p>
-</dd>
-<dt>Then Go To</dt>
-<dd>
-<p>The Console (a.k.a the R Prompt)</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="quarto-figure quarto-figure-center page-columns page-full">
-<figure class="figure page-columns page-full"><div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="github_onboarding_assets/rstudio_console.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="The Console in RStudio is here."><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/github_onboarding_assets/rstudio_console.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A screenshot of RStudio. The console is in its default pane on the left hand side. An arrow has been drawn onto the screenshot pointing at the"></a></p>
-</figure>
-</div>
-<figcaption class="margin-caption">The Console in RStudio is here.</figcaption></figure>
-</div>
-<p>Next, we need to tell the local version of Git who you are, specifically your username (which should match your Github username) and your email address (which should match the email address you registered for Github with).</p>
-<div class="callout callout-style-simple callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-brands fa-r-project" aria-label="r-project"></i>, <i class="fa-brands fa-git" aria-label="git"></i>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>In the code below, <code>USERNAME</code> should be replaced with your Github username and <code>EMAIL</code> should be replaced with the email you registered your github account with.</p>
-<div class="cell">
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Run this in the R Console:</strong></pre>
-</div>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'git config --global user.name "USERNAME"'</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span>
-<span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">(</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'git config --global user.email "EMAIL"'</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">)</span></span></code></pre></div>
-</div>
-</div>
-</div>
-</div>
-</section><section id="step-3-configure-rstudio-to-communicate-with-github" class="level2"><h2 class="anchored" data-anchor-id="step-3-configure-rstudio-to-communicate-with-github">Step 3: Configure RStudio to Communicate with Github</h2>
-<p>In order to be able to push commits from RStudio to Github, you’ll need to set up secure communication between wherever you are using RStudio and Github. I’ll walk you through how to do this with SSH credentials. (See also <a href="https://happygitwithr.com/https-pat.html">Happy Git with R</a> for personal access tokens via HTTPS).</p>
-<section id="rstudio-configuration" class="level3"><h3 class="anchored" data-anchor-id="rstudio-configuration">RStudio Configuration</h3>
-<div class="callout callout-style-simple callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-brands fa-r-project" aria-label="r-project"></i>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<dl>
-<dt>Go To:</dt>
-<dd>
-<p>The Tools menu, then Global Options</p>
-</dd>
-</dl>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="github_onboarding_assets/global_options.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/github_onboarding_assets/global_options.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:76.0%" alt="A screenshot of an RStudio session with Tools>Global Options selected"></a></p>
-</figure>
-</div>
-<dl>
-<dt>Then Go To:</dt>
-<dd>
-<p>Git/SVN from the left hand side option selector. Its icon is a cardboard box</p>
-</dd>
-</dl>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="github_onboarding_assets/git_svn.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/github_onboarding_assets/git_svn.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A screenshot of RStudio's global options menu, with Git/SVN selected"></a></p>
-</figure>
-</div>
-<dl>
-<dt>Then Go To</dt>
-<dd>
-<p>Create SSH Key</p>
-</dd>
-</dl>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="github_onboarding_assets/create_ssh_key.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/github_onboarding_assets/create_ssh_key.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A screenshot of the RStudio Git/SVN options menu, with Create SSH Key selected"></a></p>
-</figure>
-</div>
-<dl>
-<dt>Then</dt>
-<dd>
-<p>The default options should be fine to use. The passphrase here is <em><strong>for the ssh key</strong>.</em> It should <u><strong><em>not</em></strong></u> be your Github password, or the password for logging into Posit Workbench or Posit Cloud. Once you’re ready, click Create.</p>
-</dd>
-<dt>Then</dt>
-<dd>
-<p>After creating the SSH key, you should see the option “View Public Key”. Click on it, and copy the text that appears.</p>
-</dd>
-</dl>
-</div>
-</div>
-<p>This concludes everything necessary on the RStudio side of things. You should probably keep the session open so that you can come back to re-copy your public key.</p>
-</section><section id="github-configuration" class="level3"><h3 class="anchored" data-anchor-id="github-configuration">Github Configuration</h3>
-<p>Now, you’ll need to go over to github to add the public key to your profile.</p>
-<div class="callout callout-style-simple callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<i class="fa-brands fa-github" aria-label="github"></i>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<dl>
-<dt>Go To</dt>
-<dd>
-<p>Your Github Profile Settings</p>
-</dd>
-</dl>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="github_onboarding_assets/github_settings.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/github_onboarding_assets/github_settings.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="Screenshot of a logged-in github session, with the user's profile setting selected"></a></p>
-</figure>
-</div>
-<dl>
-<dt>Then Go To</dt>
-<dd>
-<p>SSH and GPG keys from the left side menu</p>
-</dd>
-</dl>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="github_onboarding_assets/ssh_gpg.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/github_onboarding_assets/ssh_gpg.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A screenshot of the github profile settings page with SSH and GPG keys selected"></a></p>
-</figure>
-</div>
-<dl>
-<dt>Then</dt>
-<dd>
-<p>Click on the New SSH key button</p>
-</dd>
-</dl>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><a href="github_onboarding_assets/new_ssh_key.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/github_onboarding_assets/new_ssh_key.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="Screenshot of the Github SSH and GPG Keys settings, with New SSH Key selected"></a></p>
-</figure>
-</div>
-<dl>
-<dt>Then</dt>
-<dd>
-<p>Give this key an informative name so you can remember which computer it’s coming from.</p>
-</dd>
-<dt>Then</dt>
-<dd>
-<p>Paste the text you copied from RStudio into the Key box and click Add SSH Key.</p>
-</dd>
-</dl>
-</div>
-</div>
-</section></section><section id="configured" class="level2"><h2 class="anchored" data-anchor-id="configured">Configured</h2>
-<p>Now, wherever you are using RStudio from should be able to push commits to your Github account.</p>
-
-
-</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2022,
-  author = {Fruehwald, Josef},
-  title = {Github {Onboarding} with {RStudio}},
-  series = {Væl Space},
-  date = {2022-12-21},
-  url = {https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/},
-  langid = {en}
-}
-</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2022" class="csl-entry quarto-appendix-citeas">
-Fruehwald, Josef. 2022. <span>“Github Onboarding with RStudio.”</span>
-Væl Space. December 21, 2022. <a href="https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/">https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/</a>.
-</div></div></section></div> ]]></description>
-  <guid>https://jofrhwld.github.io/blog/posts/2022/12/2022-12-21_github-onboarding/</guid>
-  <pubDate>Wed, 21 Dec 2022 00:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

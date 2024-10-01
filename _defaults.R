@@ -60,6 +60,8 @@ theme_no_x <- function(){
 options(
   ggplot2.discrete.colour = lapply(1:12, ggthemes::ptol_pal()),
   ggplot2.discrete.fill = lapply(1:12, ggthemes::ptol_pal()),
+  ggplot2.ordinal.colour = \(...) scale_color_viridis_d(option = "G", direction = -1, ...),
+  ggplot2.ordinal.fill = \(...) scale_fill_viridis_d(option = "G", direction = -1, ...),  
   ggplot2.continuous.colour = \(...) scico::scale_color_scico(palette = "batlow", ...),
   ggplot2.continuous.fill = \(...) scico::scale_fill_scico(palette = "batlow", ...)
 )

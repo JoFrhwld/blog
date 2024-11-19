@@ -1,0 +1,320 @@
+---
+title: Random effect priors, redo
+date: 2024-11-19
+format:
+  html:
+    fig-width: 5
+    fig-asp: 0.618
+    out-width: 70%
+    fig-align: center
+---
+
+```{r}
+#| echo: false
+source(here::here("_defaults.R"))
+```
+
+For me, teaching stats this semester has turned into a journey of discovering what the `{distributional}` and `{ggdist}` packages can do for me. The way I make illustrative figures will never be the same. So I thought I'd revisit [my post about hierarchical variance priors](/posts/2023/06/2023-06-29_hierarchical-variance/), this time implementing the figures using these two packages.
+
+```{r}
+library(tibble)
+library(dplyr)
+library(ggplot2)
+library(scico)
+library(ggdist)
+library(distributional)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: Custom y theme and scale
+
+theme_no_y <- function(){
+
+  out_theme <- theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.title.y = element_blank()
+  )
+
+  out_theme  
+}
+
+scale_y_tight <- function(...) {
+  scale_y_continuous(expand = expansion(0), ...)
+}
+```
+
+# Random effect variance priors
+
+When fitting a model with a random intercept, the group-level random effects (let's say, $\gamma_i$) are sampled from a normal distribution
+
+$$
+\gamma_i \sim \mathcal{N}(0,\sigma)
+$$
+
+If you look at the default prior brms uses for $\sigma$, it's a truncated student-t:
+
+```         
+student_t(3, 0, 2.5)
+```
+
+We can make this distribution!
+
+```{r}
+full_t <- dist_student_t(
+  df = 3, 
+  mu = 0, 
+  sigma = 2.5
+)
+
+half_t <- dist_truncated(
+  full_t, 
+  lower = 0
+)
+```
+
+We can get things like the mean and variance of this truncated distribution, and generate random samples from it
+
+```{r}
+mean(half_t)
+variance(half_t)
+generate(half_t, 10)
+```
+
+And we can plot it
+
+```{r}
+#| fig-align: center
+ggplot()+
+  stat_slab(
+    aes(
+      xdist = half_t
+    ),
+    fill = "#EE6677"
+  )+
+  scale_y_tight()+
+  theme_no_y()+
+  scale_thickness_shared() 
+```
+
+Let's just use the expected value of this distribution as $\sigma$ for now.
+
+```{r}
+init_sigma <- mean(half_t)
+```
+
+# Random effects in probability space
+
+Now let's make the normal distribution for the group-level random effects.
+
+```{r}
+ranef_dist <- dist_normal(
+  mu = 0, 
+  sigma = init_sigma
+)
+```
+
+```{r}
+ggplot()+
+  stat_slab(
+    aes(
+      xdist = ranef_dist
+    ),
+    fill = "#EE6677"
+  )+
+  scale_y_tight()+
+  theme_no_y()
+```
+
+Ok, great! But what if the model I'm fitting is a logistic regression? This random effects distribution is in the logit space. But what does it look like if we transform it to the probability space?
+
+```{r}
+ranef_prob_dist <- dist_transformed(
+  ranef_dist,
+  plogis,
+  qlogis
+)
+```
+
+```{r}
+ggplot()+
+  stat_slab(
+    aes(
+      xdist = ranef_prob_dist
+    ),
+    fill = "#EE6677"
+  )+
+  scale_y_tight()+
+  theme_no_y()
+```
+
+Rather than having a random effects distribution where groups are broadly distributed across the probability space, we actually have a random effects distribution where groups are pretty strongly bifurcated. And this is at the expected value for our prior over $\sigma$.
+
+## Looking for a more neutral distribution
+
+Let's see what different $\sigma$s look like in the probability space.
+
+```{r}
+#| fig-width: 7
+possible_dists <- tibble(
+  sigma = seq(
+    1, 2.1, by = 0.1
+  ),
+  dist = dist_normal(0, sigma),
+  p_dist = dist_transformed(
+    dist, plogis, qlogis
+  )
+)
+
+ggplot(
+  possible_dists,
+  aes(
+    xdist = p_dist,
+    fill = sigma
+  )
+)+
+  stat_slab(
+    color = "black",
+    linewidth = 0.5
+  )+
+  scale_fill_scico(
+    palette = "devon",
+    guide = "none"
+  )+
+  scale_y_tight()+
+  facet_wrap(~sigma)+
+  theme_no_y()+
+  theme_no_x()
+```
+
+It looks like somewhere between 1.3 and 1.4 is the sweet spot for a maximally flat random effects distribution in the probability space.
+
+## Really honing in on it
+
+I can try getting even more precise by looking at a vectorized version of these distributions, and finding the largest sigma what still has its density peak at 0.5.
+
+```{r}
+library(purrr)
+
+# a vector of sigmas
+sigmas = seq(1.3, 1.5, length = 100)
+
+# a vectorized normal
+vec_dist <- dist_normal(
+  mu = 0,
+  sigma = sigmas
+) 
+
+# a vectorized ilogit(normal)
+vec_p_dist <- dist_transformed(
+  vec_dist,
+  plogis,
+  qlogis
+)
+
+# the density function
+# from 0 to 0.5
+p_densities <- density(
+  vec_p_dist, 
+  seq(0, 0.5, length = 100)
+)
+
+# The index of the max
+# density
+where_is_max <- p_densities |> 
+  map_vec(
+    which.max
+  ) 
+
+# if where_is_max == 100
+# peak density was at 0.5
+flat_idx <- (where_is_max == 100) |> 
+  which() |> 
+  max()
+
+flattest_sigma <- sigmas[flat_idx]
+
+flattest_sigma
+```
+
+Let's take a look at it:
+
+```{r}
+flat_pdist <- dist_normal(0, flattest_sigma) |> 
+  dist_transformed(plogis,qlogis)
+  
+ggplot()+
+  stat_slab(
+    aes(
+      xdist = flat_pdist
+    ),
+    fill = "#EE6677"
+  )+
+  scale_y_tight()+
+  theme_no_y()
+```
+
+# What about a prior?
+
+In a logistic regression I think I would usually like a prior over $\sigma$ for random effects to have its expected value right about here, with about as close as we can get to a uniform prior in probability space. Then, the data can pull it towards being more bifurcated, or more focused, depending.
+
+I'm not sure how to *solve* that, but I *can* do a grid search!
+
+```{r}
+tibble(
+  prior_sigma = seq(1,1.5,length = 100),
+  half_student = dist_student_t(3,0,prior_sigma) |> 
+    dist_truncated(lower = 0),
+  expected = mean(half_student)
+)  |> 
+  slice(
+    which.min(abs(expected - flattest_sigma))
+  )
+```
+
+Let's call it 1.28.
+
+```{r}
+#| fig-width: 7
+ranef_sigma_prior <- dist_student_t(3, 0, 1.28) |> 
+  dist_truncated(lower = 0)
+
+set.seed(2024)
+ranef_sigmas <- generate(ranef_sigma_prior, 9)[[1]]
+
+
+tibble(
+  sigma = ranef_sigmas,
+  rounded_sigma = round(sigma, digits = 2),
+  dist = dist_normal(0, sigma),
+  p_dist = dist_transformed(
+    dist, plogis, qlogis
+  )
+) |> 
+  ggplot(
+    aes(
+      xdist = p_dist
+    )
+  )+
+  stat_slab(
+    aes(
+      fill = sigma
+    ),
+    normalize = "panels",
+    color = "black",
+    linewidth = 0.5
+  )+ 
+  scale_y_tight()+
+  scale_fill_scico(
+    palette = "devon",
+    guide = "none"
+  )+
+  scale_x_continuous(
+    breaks = c(0,1)
+  )+
+  facet_wrap(~rounded_sigma)+
+  theme_no_y()
+```
+
+Looks good to me!

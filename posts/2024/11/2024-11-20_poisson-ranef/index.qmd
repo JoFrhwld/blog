@@ -1,0 +1,280 @@
+---
+title: Random Effects and Overdispersion
+date: 2024-11-20
+warning: false
+message: false
+fig-width: 5
+fig-asp: 0.62
+---
+
+Today in my stats class, my students saw me realize, in real-time, that you *can* include random intercepts in poisson models that you couldn't in ordinary gaussian models, *and* this might be a nicer way to deal with overdisperssion than moving to a negative binomial model.
+
+```{r}
+source(here::here("_defaults.R"))
+```
+
+```{r}
+library(tidyverse)
+library(brms)
+library(distributional)
+library(ggdist)
+library(palmerpenguins)
+library(gt)
+library(marginaleffects)
+```
+
+# Impossible ranefs
+
+Let's start off with the Palmer Penguin data
+
+```{r}
+penguins |> 
+  gt_preview()
+```
+
+As far as I know, no individual penguin is represented in the data twice. So let's add an `individual` column that's the same as the row number.
+
+```{r}
+penguins |> 
+  mutate(
+    individual = row_number(),
+    .before = 1
+  )->
+  penguins
+```
+
+If we try to fit an intercept only model for, say, bill length, and include a random intercept for individual, things are going to get wonky.
+
+```{r}
+peng_remod <- brm(
+  bill_length_mm ~ 1 + (1|individual),
+  data = penguins,
+  backend = "cmdstanr",
+  file = "peng_re"
+)
+```
+
+```{r}
+peng_remod
+```
+
+Nothing's converged, everything's divergent, what's going on here!
+
+Well, if we think about how the model is defined, and the structure of the data, it makes a bit more sense. We're telling the model to estimate $\mu_i$ this way
+
+$$
+\mu_i = \beta_0 + \gamma_i
+$$
+
+Where $\gamma_i$ is a random intercept by individual. $\gamma_i$ is meant to be sampled from a normal distribution like:
+
+$$
+\gamma_i \sim \mathcal{N}(0, \sigma_{\gamma})
+$$
+
+Then, we're saying the data is sampled from a normal distribution like this
+
+$$
+y_i \sim \mathcal{N}(\mu_i, \sigma)
+$$
+
+*The problem* is that because every row is one individual, the sampling statement for $\gamma_i$ is basically a description of the residual error, and $\sigma_{\gamma}$ would wind up being equivalent to the standard deviation of the residuals. But that's also what $\sigma$ in the sampling statement for $y_i$ is supposed to be.
+
+One way to think about what's happened is we've created an identifiability problem, trying to account for the residual error with two different parameters. Another way to think about is that the individual level variation around the population mean that we wanted to capture with `(1|individual)` was *already* being captured by the residual error.
+
+# Poisson Models & Overdispersion
+
+I'd like to thank Andrew Heiss for having [his course materials online](https://bayesf22-notebook.classes.andrewheiss.com/bayes-rules/12-chapter.html#negative-binomial-regression-for-overdispersed-counts), as they helped inform my thinking on this. The data set below has a count of how many times people said "like" in interviews.
+
+```{r}
+like_df <- read_csv(
+  "https://lin611-2024.github.io/notes/meetings/data/like.csv"
+) |> 
+  mutate(
+    dob_g = (dob-1945)/20,
+    .after = dob
+  )
+```
+
+```{r}
+like_df |> 
+  gt_preview()
+```
+
+I'll first try fitting this with a standard poisson model.
+
+$$
+\log(\lambda_i) = \beta_0 + \beta_1\text{dob} + \log(\text{total.words)}
+$$
+
+$$
+y_i \sim \text{Pois}(\lambda_i)
+$$
+
+```{r}
+like_pois <- brm(
+  n ~ dob_g + offset(log(total_words)),
+  family = poisson(),
+  data = like_df,
+  backend = "cmdstanr",
+  file = "like_pois"
+)
+```
+
+```{r}
+#| out-width: 70%
+#| fig-align: center
+plot_predictions(
+  like_pois,
+  newdata = datagrid(
+    dob_g = \(x) seq(min(x), max(x), length = 100),
+    total_words = 1000
+  ),
+  by = "dob_g"
+)
+```
+
+If we look at the posterior predictive check, we can see that we've got some over dispersion.
+
+```{r}
+#| out-width: 70%
+#| fig-align: center
+pp_check(like_pois)+
+  scale_x_log10()
+```
+
+The poisson distribution is assuming a narrower range of "like" counts than the data has.
+
+```{r}
+#| code-fold: true
+#| code-summary: Plot code
+#| out-width: 70%
+#| fig-align: center
+predictions(
+  like_pois, 
+  newdata = datagrid(
+    dob_g = \(x) seq(min(x), max(x), length = 100),
+    total_words = 1000
+  )
+) |> 
+  as_tibble() |> 
+  mutate(
+    like_dist = dist_poisson(estimate)
+  ) ->
+  pois_pred
+
+pois_pred |> 
+  ggplot(
+    aes(
+      dob_g
+    )
+  )+
+  stat_lineribbon(
+    aes(
+      ydist = like_dist
+    )
+  )+
+  geom_point(
+    data = like_df,
+    aes(
+      y = (n/total_words)*1000
+    ),
+    color = "grey",
+    alpha = 0.6
+  )+
+  labs(
+    y = "likes per 1000"
+  )
+```
+
+It's too bad we can't add a random effect by speaker, but just like the penguins, we've only got one row per individual...
+
+But wait! Look at the $y_i$ sampling statement again!
+
+$$
+y_i \sim \text{Pois}(\lambda_i)
+$$
+
+There's no observation-level variance term in a poisson distribution. Its mean and variance are the same,
+
+```{r}
+pois_ex <- dist_poisson(1:10)
+
+mean(pois_ex)
+
+variance(pois_ex)
+```
+
+So, adding a row-level random variable wouldn't introduce the same non-identifiability issue.
+
+$$
+\log(\lambda_i) = \beta_0 + \beta_i\text{dob} + \gamma_i
+$$
+
+$$
+\gamma_i\sim\mathcal{N}(0, \sigma)
+$$
+
+$$
+y_i \sim \text{Pois}(\lambda_i)
+$$
+
+```{r}
+like_repois <- brm(
+  n ~ dob_g + (1|id) + offset(log(total_words)),
+  family = poisson(),
+  data = like_df,
+  backend = "cmdstanr",
+  file = "like_repois"
+)
+```
+
+```{r}
+like_repois
+```
+
+We are all converged, with no divergent transitions.
+
+```{r}
+#| out-width: 70%
+#| fig-align: center
+#| code-fold: true
+#| code-summary: plotting code
+plot_predictions(
+  like_repois,
+  newdata = datagrid(
+    dob_g = \(x) seq(min(x), max(x), length = 100),
+    total_words = 1000
+  ),
+  re_formula = NA,
+  by = "dob_g"
+) +
+  geom_point(
+    data = like_df,
+    aes(
+      x = dob_g,
+      y = (n/total_words)*1000
+    ),
+    alpha = 0.2,
+    color = "#EE6677"
+  )+
+  labs(
+    y = "like per 1000"
+  )
+```
+
+And the posterior predictive check looks a lot better.
+
+```{r}
+#| out-width: 70%
+#| fig-align: center
+pp_check(like_repois)+
+  scale_x_log10()
+```
+
+## Negative Binomial?
+
+The stats notes I linked to above turned to a negative binomial model to use in a case of over-dispersion like this. I'm not quite in a place to evaluate the pros and cons of the negative binomial vs this random effects approach in general. But for this case I like the random effects better because
+
+1.  It lines up with how I *think* about this data as having a population level trend, with individual divergences off of it.
+2.  It's easier for me to explain and understand than whatever the shape parameter is for the negative binomial.

@@ -5,8 +5,8 @@
 <meta name="generator" content="quarto-1.5.57">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
-<meta name="dcterms.date" content="2024-07-19">
-<title>Working with the Discrete Cosine Transform in R – Væl Space</title>
+<meta name="dcterms.date" content="2024-11-20">
+<title>Random Effects and Overdispersion – Væl Space</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -62,8 +62,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
-<link href="../../../../posts/2024/09/2024-09-06_rserver-codespaces/index.html" rel="next">
-<link href="../../../../posts/2024/02/2024-02-16_fs-atg/index.html" rel="prev">
+<link href="../../../../posts/2024/11/2024-11-19_logit-priors-again/index.html" rel="prev">
 <link href="../../../..//assets/logo.svg" rel="icon" type="image/svg+xml">
 <script src="../../../../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
@@ -78,7 +77,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../../site_libs/quarto-contrib/codenamelabel/codeblocklabel.css" rel="stylesheet">
 <script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
@@ -129,16 +127,42 @@ cookieconsent.run({
   });
 });
 </script><style>html{ scroll-behavior: smooth; }</style>
-<meta property="og:title" content="Working with the Discrete Cosine Transform in R – Væl Space">
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+<meta property="og:title" content="Random Effects and Overdispersion – Væl Space">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://jofrhwld.github.io/blog/assets/logo.svg">
 <meta property="og:site_name" content="Væl Space">
-<meta name="twitter:title" content="Working with the Discrete Cosine Transform in R – Væl Space">
+<meta name="twitter:title" content="Random Effects and Overdispersion – Væl Space">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://jofrhwld.github.io/blog/assets/logo.svg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
-<body class="nav-sidebar floating nav-fixed slimcontent">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
@@ -177,12 +201,12 @@ cookieconsent.run({
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <a class="flex-grow-1 no-decor" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-          <h1 class="quarto-secondary-nav-title">Working with the Discrete Cosine Transform in R</h1>
+          <h1 class="quarto-secondary-nav-title">Random Effects and Overdispersion</h1>
         </a>     
     </div>
   </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title d-none d-lg-block">Working with the Discrete Cosine Transform in R</h1>
+      <h1 class="title d-none d-lg-block">Random Effects and Overdispersion</h1>
                       </div>
   </div>
     
@@ -199,7 +223,7 @@ cookieconsent.run({
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">July 19, 2024</p>
+        <p class="date">November 20, 2024</p>
       </div>
     </div>
     
@@ -425,16 +449,16 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
  <span class="menu-text">07</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 show">
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 ">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2024/07/2024-07-19_dct-r/index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../../posts/2024/07/2024-07-19_dct-r/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Working with the Discrete Cosine Transform in R</span></a>
   </div>
 </li>
@@ -494,13 +518,13 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true">
  <span class="menu-text">11</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth3 ">
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth3 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2024/11/2024-11-19_logit-priors-again/index.html" class="sidebar-item-text sidebar-link">
@@ -509,7 +533,7 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2024/11/2024-11-20_poisson-ranef/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../posts/2024/11/2024-11-20_poisson-ranef/index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Random Effects and Overdispersion</span></a>
   </div>
 </li>
@@ -527,157 +551,52 @@ cookieconsent.run({
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#background-what-is-the-dct" id="toc-background-what-is-the-dct" class="nav-link" data-scroll-target="#background-what-is-the-dct">Background: What is the DCT?</a></li>
+<li><a href="#impossible-ranefs" id="toc-impossible-ranefs" class="nav-link active" data-scroll-target="#impossible-ranefs">Impossible ranefs</a></li>
   <li>
-<a href="#option-1-passing-data-back-and-forth" id="toc-option-1-passing-data-back-and-forth" class="nav-link" data-scroll-target="#option-1-passing-data-back-and-forth">Option 1: Passing Data back and forth</a>
+<a href="#poisson-models-overdispersion" id="toc-poisson-models-overdispersion" class="nav-link" data-scroll-target="#poisson-models-overdispersion">Poisson Models &amp; Overdispersion</a>
   <ul class="collapse">
-<li><a href="#passing-data-to-python" id="toc-passing-data-to-python" class="nav-link" data-scroll-target="#passing-data-to-python">Passing data to python</a></li>
-  <li><a href="#applying-idct" id="toc-applying-idct" class="nav-link" data-scroll-target="#applying-idct">Applying idct</a></li>
-  <li><a href="#passing-data-back-to-r" id="toc-passing-data-back-to-r" class="nav-link" data-scroll-target="#passing-data-back-to-r">Passing data back to R</a></li>
-  <li><a href="#shortcomings" id="toc-shortcomings" class="nav-link" data-scroll-target="#shortcomings">Shortcomings</a></li>
+<li><a href="#negative-binomial" id="toc-negative-binomial" class="nav-link" data-scroll-target="#negative-binomial">Negative Binomial?</a></li>
   </ul>
 </li>
-  <li>
-<a href="#option-2-using-python-functions-inside-r" id="toc-option-2-using-python-functions-inside-r" class="nav-link" data-scroll-target="#option-2-using-python-functions-inside-r">Option 2: Using Python functions <em>inside</em> R</a>
-  <ul class="collapse">
-<li><a href="#step-1-getting-the-average-of-the-dct-parameters-by-token." id="toc-step-1-getting-the-average-of-the-dct-parameters-by-token." class="nav-link" data-scroll-target="#step-1-getting-the-average-of-the-dct-parameters-by-token.">Step 1: Getting the average of the DCT parameters by token.</a></li>
-  <li><a href="#step-2-apply-idct-to-the-averages" id="toc-step-2-apply-idct-to-the-averages" class="nav-link" data-scroll-target="#step-2-apply-idct-to-the-averages">Step 2: Apply <code>idct</code> to the averages</a></li>
-  <li><a href="#step-3-make-some-good-plots" id="toc-step-3-make-some-good-plots" class="nav-link" data-scroll-target="#step-3-make-some-good-plots">Step 3: Make some good plots</a></li>
-  </ul>
-</li>
-  <li><a href="#a-note" id="toc-a-note" class="nav-link" data-scroll-target="#a-note">A note</a></li>
   </ul></nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content"><p>I’ve been working a lot with the Discrete Cosine Transform in python, specifically as it’s implemented in <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.fft.dct.html#scipy.fft.dct">scipy</a>. But, I really prefer doing my data munging and stats in R.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> What to do!</p>
-<p>I knew the answer rested in using the <a href="https://rstudio.github.io/reticulate/">reticulate</a> package, which lets you communicate back and forth between python and R, but I hadn’t appreciated <em>how</em> cool reticulate was, which is why I’m making this blog post.</p>
-<section id="setup" class="level2"><h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<main class="content quarto-banner-title-block" id="quarto-document-content"><p>Today in my stats class, my students saw me realize, in real-time, that you <em>can</em> include random intercepts in poisson models that you couldn’t in ordinary gaussian models, <em>and</em> this might be a nicer way to deal with overdisperssion than moving to a negative binomial model.</p>
 <div class="cell">
-<div class="langname">
-<pre class="langname">r</pre>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"_defaults.R"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<details class="code-fold"><summary>Irrelevant R setup</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allancameron.github.io/geomtextpath/">geomtextpath</a></span><span class="op">)</span></span>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/paul-buerkner/brms">brms</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.mitchelloharawild.com/distributional/">distributional</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mjskay.github.io/ggdist/">ggdist</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com">gt</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"_defaults.R"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marginaleffects.com/">marginaleffects</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In order to communicate back and forth, I’ll need to load the reticulate package.</p>
+<section id="impossible-ranefs" class="level1"><h1>Impossible ranefs</h1>
+<p>Let’s start off with the Palmer Penguin data</p>
 <div class="cell">
-<div class="langname">
-<pre class="langname">r</pre>
-</div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/">reticulate</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>I’ll also need to make sure that I’ve got scipy installed for python, which you can do with <code><a href="https://rstudio.github.io/reticulate/reference/py_install.html">reticulate::py_install()</a></code>.</p>
-<div class="cell">
-<div class="langname">
-<pre class="langname">r</pre>
-</div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_install.html">py_install</a></span><span class="op">(</span><span class="st">"scipy"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Python environments
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Python environments are kind of <a href="https://xkcd.com/1987/">notorious</a> for being confusing to keep straight, which is why a whole host of tools for managing how python is installed have cropped up. Inside all of my R projects, I already use <a href="https://rstudio.github.io/renv/"><code>renv</code></a>, which has an option to also manage your python environment for a project like so:</p>
-<div class="langname">
-<pre class="langname">r</pre>
-</div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">renv</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/renv/reference/use_python.html">use_python</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>If we pull up the python configuration for reticulate, we can see it’s installed in the local renv project.</p>
-<div class="cell">
-<div class="langname">
-<pre class="langname">r</pre>
-</div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/py_config.html">py_config</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">python</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "/Users/joseffruehwald/Documents/blog/renv/python/virtualenvs/renv-python-3.11/bin/python"</code></pre>
-</div>
-</div>
-<p>But, if you have a favorite other way of managing your python environments, <a href="https://rstudio.github.io/reticulate/reference/use_python.html">there are ways to point reticulate at those too</a>.</p>
-</div>
-</div>
-</div>
-</section><section id="background-what-is-the-dct" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="background-what-is-the-dct">Background: What is the DCT?</h2>
-<p>The Discrete Cosine Transform is very similar to the Fourier Transform (if that helps). It takes in a signal of wiggly data, and re-describes it in terms of weights on cosine functions of increasing frequency. <a href="#fig-dct-funcs" class="quarto-xref">Figure&nbsp;1</a> plots the first DCT functions as they’re defined by a particular set of options in <code>scipy.fft.dct</code>.</p>
-<div class="cell page-columns page-full">
-<div class="cell-output-display page-columns page-full">
-<div id="fig-dct-funcs" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-dct-funcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-dct-funcs-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: The first 5 cosine functions of the DCT."><img src="index_files/figure-html/fig-dct-funcs-1.svg" class="img-fluid figure-img" width="768"></a>
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-dct-funcs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: The first 5 cosine functions of the DCT.
-</figcaption></figure>
-</div>
-</div>
-</div>
-<p>If you use the same number of cosine functions as you had data points in the original signal, you can fully reconstruct the original signal. Or, if you use just a few (like 5 in this figure), it has the effect of smoothing the signal when you invert the DCT.</p>
-</section><section id="option-1-passing-data-back-and-forth" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="option-1-passing-data-back-and-forth">Option 1: Passing Data back and forth</h2>
-<p>So, the <a href="https://fasttrackiverse.github.io/fasttrackpy/">fasttrackpy</a> package gives you the option of saving DCT parameters to a csv file. I’ll load an example into R, and grab the rows for one example vowel so we can see what it looks like.</p>
-<div class="cell">
-<div class="langname">
-<pre class="langname">r</pre>
-</div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Reading in the data</span></span>
-<span><span class="va">dct_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span>                      </span>
-<span>  <span class="st">"data/josef-fruehwald_speaker_param.csv"</span>,  </span>
-<span>  col_types <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span><span class="op">(</span><span class="op">)</span>                         </span>
-<span><span class="op">)</span>                                            </span>
-<span></span>
-<span><span class="co"># getting the first token's id</span></span>
-<span><span class="va">first_id</span> <span class="op">&lt;-</span> <span class="va">dct_params</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>                 </span>
-<span></span>
-<span><span class="co"># subsetting to get just</span></span>
-<span><span class="co"># the first token's parameters</span></span>
-<span><span class="va">first_df</span> <span class="op">&lt;-</span> <span class="va">dct_params</span> <span class="op">|&gt;</span>                    </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span>                                    </span>
-<span>    <span class="va">id</span> <span class="op">==</span> <span class="va">first_id</span>                           </span>
-<span>  <span class="op">)</span>                                          </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="langname">
-<pre class="langname">r</pre>
-</div>
-<details class="code-fold"><summary>Table Code</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">first_df</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span></span>
-<span>    <span class="va">label</span>,</span>
-<span>    <span class="va">word</span>,</span>
-<span>    <span class="va">param</span>,</span>
-<span>    <span class="va">F1</span><span class="op">:</span><span class="va">F3</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html">fmt_number</a></span><span class="op">(</span></span>
-<span>    columns <span class="op">=</span> <span class="va">F1</span><span class="op">:</span><span class="va">F3</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output-display">
-<div id="zbvlkabvwt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zbvlkabvwt table {
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penguins</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt_preview.html">gt_preview</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ffepczozgb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ffepczozgb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zbvlkabvwt thead, #zbvlkabvwt tbody, #zbvlkabvwt tfoot, #zbvlkabvwt tr, #zbvlkabvwt td, #zbvlkabvwt th {
+#ffepczozgb thead, #ffepczozgb tbody, #ffepczozgb tfoot, #ffepczozgb tr, #ffepczozgb td, #ffepczozgb th {
   border-style: none;
 }
 
-#zbvlkabvwt p {
+#ffepczozgb p {
   margin: 0;
   padding: 0;
 }
 
-#zbvlkabvwt .gt_table {
+#ffepczozgb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -703,12 +622,12 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   border-left-color: #D3D3D3;
 }
 
-#zbvlkabvwt .gt_caption {
+#ffepczozgb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zbvlkabvwt .gt_title {
+#ffepczozgb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -720,7 +639,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   border-bottom-width: 0;
 }
 
-#zbvlkabvwt .gt_subtitle {
+#ffepczozgb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -732,7 +651,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   border-top-width: 0;
 }
 
-#zbvlkabvwt .gt_heading {
+#ffepczozgb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -744,13 +663,13 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   border-right-color: #D3D3D3;
 }
 
-#zbvlkabvwt .gt_bottom_border {
+#ffepczozgb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zbvlkabvwt .gt_col_headings {
+#ffepczozgb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -765,7 +684,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   border-right-color: #D3D3D3;
 }
 
-#zbvlkabvwt .gt_col_heading {
+#ffepczozgb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -785,7 +704,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   overflow-x: hidden;
 }
 
-#zbvlkabvwt .gt_column_spanner_outer {
+#ffepczozgb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -797,15 +716,15 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   padding-right: 4px;
 }
 
-#zbvlkabvwt .gt_column_spanner_outer:first-child {
+#ffepczozgb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zbvlkabvwt .gt_column_spanner_outer:last-child {
+#ffepczozgb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zbvlkabvwt .gt_column_spanner {
+#ffepczozgb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -817,11 +736,11 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   width: 100%;
 }
 
-#zbvlkabvwt .gt_spanner_row {
+#ffepczozgb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zbvlkabvwt .gt_group_heading {
+#ffepczozgb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -847,7 +766,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   text-align: left;
 }
 
-#zbvlkabvwt .gt_empty_group_heading {
+#ffepczozgb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -862,15 +781,15 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   vertical-align: middle;
 }
 
-#zbvlkabvwt .gt_from_md > :first-child {
+#ffepczozgb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zbvlkabvwt .gt_from_md > :last-child {
+#ffepczozgb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zbvlkabvwt .gt_row {
+#ffepczozgb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -889,7 +808,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   overflow-x: hidden;
 }
 
-#zbvlkabvwt .gt_stub {
+#ffepczozgb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -902,7 +821,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   padding-right: 5px;
 }
 
-#zbvlkabvwt .gt_stub_row_group {
+#ffepczozgb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -916,15 +835,15 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   vertical-align: top;
 }
 
-#zbvlkabvwt .gt_row_group_first td {
+#ffepczozgb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zbvlkabvwt .gt_row_group_first th {
+#ffepczozgb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zbvlkabvwt .gt_summary_row {
+#ffepczozgb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -934,16 +853,16 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   padding-right: 5px;
 }
 
-#zbvlkabvwt .gt_first_summary_row {
+#ffepczozgb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zbvlkabvwt .gt_first_summary_row.thick {
+#ffepczozgb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zbvlkabvwt .gt_last_summary_row {
+#ffepczozgb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -953,7 +872,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   border-bottom-color: #D3D3D3;
 }
 
-#zbvlkabvwt .gt_grand_summary_row {
+#ffepczozgb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -963,7 +882,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   padding-right: 5px;
 }
 
-#zbvlkabvwt .gt_first_grand_summary_row {
+#ffepczozgb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -973,7 +892,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   border-top-color: #D3D3D3;
 }
 
-#zbvlkabvwt .gt_last_grand_summary_row_top {
+#ffepczozgb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -983,11 +902,11 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   border-bottom-color: #D3D3D3;
 }
 
-#zbvlkabvwt .gt_striped {
+#ffepczozgb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zbvlkabvwt .gt_table_body {
+#ffepczozgb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -996,7 +915,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   border-bottom-color: #D3D3D3;
 }
 
-#zbvlkabvwt .gt_footnotes {
+#ffepczozgb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1010,7 +929,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   border-right-color: #D3D3D3;
 }
 
-#zbvlkabvwt .gt_footnote {
+#ffepczozgb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1019,7 +938,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   padding-right: 5px;
 }
 
-#zbvlkabvwt .gt_sourcenotes {
+#ffepczozgb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1033,7 +952,7 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   border-right-color: #D3D3D3;
 }
 
-#zbvlkabvwt .gt_sourcenote {
+#ffepczozgb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1041,456 +960,983 @@ Figure&nbsp;1: The first 5 cosine functions of the DCT.
   padding-right: 5px;
 }
 
-#zbvlkabvwt .gt_left {
+#ffepczozgb .gt_left {
   text-align: left;
 }
 
-#zbvlkabvwt .gt_center {
+#ffepczozgb .gt_center {
   text-align: center;
 }
 
-#zbvlkabvwt .gt_right {
+#ffepczozgb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zbvlkabvwt .gt_font_normal {
+#ffepczozgb .gt_font_normal {
   font-weight: normal;
 }
 
-#zbvlkabvwt .gt_font_bold {
+#ffepczozgb .gt_font_bold {
   font-weight: bold;
 }
 
-#zbvlkabvwt .gt_font_italic {
+#ffepczozgb .gt_font_italic {
   font-style: italic;
 }
 
-#zbvlkabvwt .gt_super {
+#ffepczozgb .gt_super {
   font-size: 65%;
 }
 
-#zbvlkabvwt .gt_footnote_marks {
+#ffepczozgb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zbvlkabvwt .gt_asterisk {
+#ffepczozgb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zbvlkabvwt .gt_indent_1 {
+#ffepczozgb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zbvlkabvwt .gt_indent_2 {
+#ffepczozgb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zbvlkabvwt .gt_indent_3 {
+#ffepczozgb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zbvlkabvwt .gt_indent_4 {
+#ffepczozgb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zbvlkabvwt .gt_indent_5 {
+#ffepczozgb .gt_indent_5 {
   text-indent: 25px;
 }
 
-#zbvlkabvwt .katex-display {
+#ffepczozgb .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#zbvlkabvwt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ffepczozgb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="header gt_col_headings">
-<th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">label</th>
-<th id="word" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">word</th>
-<th id="param" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">param</th>
-<th id="F1" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">F1</th>
-<th id="F2" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">F2</th>
-<th id="F3" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">F3</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="species" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">species</th>
+<th id="island" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">island</th>
+<th id="bill_length_mm" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">bill_length_mm</th>
+<th id="bill_depth_mm" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">bill_depth_mm</th>
+<th id="flipper_length_mm" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">flipper_length_mm</th>
+<th id="body_mass_g" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">body_mass_g</th>
+<th id="sex" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">sex</th>
+<th id="year" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">year</th>
 </tr></thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">ay0</td>
-<td class="gt_row gt_left" headers="word">sunlight</td>
-<td class="gt_row gt_right" headers="param">0</td>
-<td class="gt_row gt_right" headers="F1">322.45</td>
-<td class="gt_row gt_right" headers="F2">1,178.19</td>
-<td class="gt_row gt_right" headers="F3">1,753.24</td>
+<td id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">1</td>
+<td class="gt_row gt_left" headers="stub_1_1 species">Adelie</td>
+<td class="gt_row gt_left" headers="stub_1_1 island">Torgersen</td>
+<td class="gt_row gt_right" headers="stub_1_1 bill_length_mm">39.1</td>
+<td class="gt_row gt_right" headers="stub_1_1 bill_depth_mm">18.7</td>
+<td class="gt_row gt_right" headers="stub_1_1 flipper_length_mm">181</td>
+<td class="gt_row gt_right" headers="stub_1_1 body_mass_g">3750</td>
+<td class="gt_row gt_left" headers="stub_1_1 sex">male</td>
+<td class="gt_row gt_right" headers="stub_1_1 year">2007</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="label">ay0</td>
-<td class="gt_row gt_left" headers="word">sunlight</td>
-<td class="gt_row gt_right" headers="param">1</td>
-<td class="gt_row gt_right" headers="F1">30.34</td>
-<td class="gt_row gt_right" headers="F2">−159.93</td>
-<td class="gt_row gt_right" headers="F3">55.47</td>
+<td id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">2</td>
+<td class="gt_row gt_left" headers="stub_1_2 species">Adelie</td>
+<td class="gt_row gt_left" headers="stub_1_2 island">Torgersen</td>
+<td class="gt_row gt_right" headers="stub_1_2 bill_length_mm">39.5</td>
+<td class="gt_row gt_right" headers="stub_1_2 bill_depth_mm">17.4</td>
+<td class="gt_row gt_right" headers="stub_1_2 flipper_length_mm">186</td>
+<td class="gt_row gt_right" headers="stub_1_2 body_mass_g">3800</td>
+<td class="gt_row gt_left" headers="stub_1_2 sex">female</td>
+<td class="gt_row gt_right" headers="stub_1_2 year">2007</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">ay0</td>
-<td class="gt_row gt_left" headers="word">sunlight</td>
-<td class="gt_row gt_right" headers="param">2</td>
-<td class="gt_row gt_right" headers="F1">−0.73</td>
-<td class="gt_row gt_right" headers="F2">−11.40</td>
-<td class="gt_row gt_right" headers="F3">23.71</td>
+<td id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">3</td>
+<td class="gt_row gt_left" headers="stub_1_3 species">Adelie</td>
+<td class="gt_row gt_left" headers="stub_1_3 island">Torgersen</td>
+<td class="gt_row gt_right" headers="stub_1_3 bill_length_mm">40.3</td>
+<td class="gt_row gt_right" headers="stub_1_3 bill_depth_mm">18.0</td>
+<td class="gt_row gt_right" headers="stub_1_3 flipper_length_mm">195</td>
+<td class="gt_row gt_right" headers="stub_1_3 body_mass_g">3250</td>
+<td class="gt_row gt_left" headers="stub_1_3 sex">female</td>
+<td class="gt_row gt_right" headers="stub_1_3 year">2007</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="label">ay0</td>
-<td class="gt_row gt_left" headers="word">sunlight</td>
-<td class="gt_row gt_right" headers="param">3</td>
-<td class="gt_row gt_right" headers="F1">2.25</td>
-<td class="gt_row gt_right" headers="F2">−15.00</td>
-<td class="gt_row gt_right" headers="F3">3.98</td>
+<td id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">4</td>
+<td class="gt_row gt_left" headers="stub_1_4 species">Adelie</td>
+<td class="gt_row gt_left" headers="stub_1_4 island">Torgersen</td>
+<td class="gt_row gt_right" headers="stub_1_4 bill_length_mm">NA</td>
+<td class="gt_row gt_right" headers="stub_1_4 bill_depth_mm">NA</td>
+<td class="gt_row gt_right" headers="stub_1_4 flipper_length_mm">NA</td>
+<td class="gt_row gt_right" headers="stub_1_4 body_mass_g">NA</td>
+<td class="gt_row gt_left" headers="stub_1_4 sex">NA</td>
+<td class="gt_row gt_right" headers="stub_1_4 year">2007</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">ay0</td>
-<td class="gt_row gt_left" headers="word">sunlight</td>
-<td class="gt_row gt_right" headers="param">4</td>
-<td class="gt_row gt_right" headers="F1">−5.07</td>
-<td class="gt_row gt_right" headers="F2">4.76</td>
-<td class="gt_row gt_right" headers="F3">4.59</td>
+<td id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">5</td>
+<td class="gt_row gt_left" headers="stub_1_5 species">Adelie</td>
+<td class="gt_row gt_left" headers="stub_1_5 island">Torgersen</td>
+<td class="gt_row gt_right" headers="stub_1_5 bill_length_mm">36.7</td>
+<td class="gt_row gt_right" headers="stub_1_5 bill_depth_mm">19.3</td>
+<td class="gt_row gt_right" headers="stub_1_5 flipper_length_mm">193</td>
+<td class="gt_row gt_right" headers="stub_1_5 body_mass_g">3450</td>
+<td class="gt_row gt_left" headers="stub_1_5 sex">female</td>
+<td class="gt_row gt_right" headers="stub_1_5 year">2007</td>
+</tr>
+<tr class="even">
+<td id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; font-size: x-small; background-color: #E4E4E4">6..343</td>
+<td class="gt_row gt_left" headers="stub_1_6 species" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_left" headers="stub_1_6 island" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 bill_length_mm" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 bill_depth_mm" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 flipper_length_mm" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 body_mass_g" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_left" headers="stub_1_6 sex" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 year" style="background-color: #E4E4E4"></td>
+</tr>
+<tr class="odd">
+<td id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">344</td>
+<td class="gt_row gt_left" headers="stub_1_7 species">Chinstrap</td>
+<td class="gt_row gt_left" headers="stub_1_7 island">Dream</td>
+<td class="gt_row gt_right" headers="stub_1_7 bill_length_mm">50.2</td>
+<td class="gt_row gt_right" headers="stub_1_7 bill_depth_mm">18.7</td>
+<td class="gt_row gt_right" headers="stub_1_7 flipper_length_mm">198</td>
+<td class="gt_row gt_right" headers="stub_1_7 body_mass_g">3775</td>
+<td class="gt_row gt_left" headers="stub_1_7 sex">female</td>
+<td class="gt_row gt_right" headers="stub_1_7 year">2009</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-<p>These DCT parameters don’t look like much on their own. That’s even clearer if we plot them.</p>
-<div class="cell page-columns page-full">
-<div class="langname">
-<pre class="langname">r</pre>
-</div>
-<details class="code-fold"><summary>Plotting code</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">first_df</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
-<span>    <span class="va">F1</span><span class="op">:</span><span class="va">F3</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">param</span>, <span class="va">value</span><span class="op">)</span></span>
-<span>  <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span></span>
-<span>      yintercept <span class="op">=</span> <span class="fl">0</span></span>
-<span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">param</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>      size <span class="op">=</span> <span class="fl">3</span></span>
-<span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span></span>
-<span>      color <span class="op">=</span> <span class="st">"none"</span></span>
-<span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
-<span>      y <span class="op">=</span> <span class="cn">NULL</span></span>
-<span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">name</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
-<span>      aspect.ratio <span class="op">=</span> <span class="fl">1</span></span>
-<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output-display page-columns page-full">
-<div id="fig-first-params" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-first-params-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-first-params-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: DCT parameters for one vowel token"><img src="index_files/figure-html/fig-first-params-1.svg" class="img-fluid figure-img" width="576"></a>
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-first-params-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: DCT parameters for one vowel token
-</figcaption></figure>
-</div>
-</div>
-</div>
-<p>To get these values back into something interpretable, we need to apply the inverse discrete cosine transform. To do that, we can</p>
-<ol type="1">
-<li>pass these parameter values over to python,</li>
-<li>apply <code>scipy.fft.idct</code> to them to get back formant-like values</li>
-<li>pass the results back to R.</li>
-</ol>
-<section id="passing-data-to-python" class="level3"><h3 class="anchored" data-anchor-id="passing-data-to-python">Passing data to python</h3>
-<p>To do this, first I’m going to assign each set of parameters to a variable in R.</p>
+<p>As far as I know, no individual penguin is represented in the data twice. So let’s add an <code>individual</code> column that’s the same as the row number.</p>
 <div class="cell">
-<div class="langname">
-<pre class="langname">r</pre>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penguins</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    individual <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/row_number.html">row_number</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    .before <span class="op">=</span> <span class="fl">1</span></span>
+<span>  <span class="op">)</span><span class="op">-&gt;</span></span>
+<span>  <span class="va">penguins</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">F1_param</span> <span class="op">&lt;-</span> <span class="va">first_df</span><span class="op">$</span><span class="va">F1</span></span>
-<span><span class="va">F2_param</span> <span class="op">&lt;-</span> <span class="va">first_df</span><span class="op">$</span><span class="va">F2</span></span>
-<span><span class="va">F3_param</span> <span class="op">&lt;-</span> <span class="va">first_df</span><span class="op">$</span><span class="va">F3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Having loaded reticulate before, any variable we’ve created in R are available in Python within an <code>r</code> object.</p>
+<p>If we try to fit an intercept only model for, say, bill length, and include a random intercept for individual, things are going to get wonky.</p>
 <div class="cell">
-<div class="langname">
-<pre class="langname">python</pre>
-</div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>r.F1_param</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[322.4520974990528, 30.339268532723658, -0.7277856792300109, 2.25340821466954, -5.069135079372835]</code></pre>
-</div>
-</div>
-<p>Now, we just need to import the <code>idct</code> function and apply it to each of these sets of parameters.</p>
-</section><section id="applying-idct" class="level3"><h3 class="anchored" data-anchor-id="applying-idct">Applying idct</h3>
-<div class="cell">
-<div class="langname">
-<pre class="langname">python</pre>
-</div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.fft <span class="im">import</span> idct</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="langname">
-<pre class="langname">python</pre>
-</div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>F1_expanded <span class="op">=</span> idct(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  r.F1_param,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  n <span class="op">=</span> <span class="dv">100</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  orthogonalize <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  norm <span class="op">=</span> <span class="st">"forward"</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>F2_expanded <span class="op">=</span> idct(</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  r.F2_param,</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  n <span class="op">=</span> <span class="dv">100</span>,</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  orthogonalize <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  norm <span class="op">=</span> <span class="st">"forward"</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>F3_expanded <span class="op">=</span> idct(</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  r.F3_param,</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  n <span class="op">=</span> <span class="dv">100</span>,</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  orthogonalize <span class="op">=</span> <span class="va">True</span>,</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  norm <span class="op">=</span> <span class="st">"forward"</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section><section id="passing-data-back-to-r" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="passing-data-back-to-r">Passing data back to R</h3>
-<p>Now, we can get these expanded values back in R from an object called <code>py</code>.</p>
-<div class="cell">
-<div class="langname">
-<pre class="langname">r</pre>
-</div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span></span>
-<span>  <span class="va">py</span><span class="op">$</span><span class="va">F1_expanded</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">peng_remod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://paul-buerkner.github.io/brms/reference/brm.html">brm</a></span><span class="op">(</span></span>
+<span>  <span class="va">bill_length_mm</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">individual</span><span class="op">)</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">penguins</span>,</span>
+<span>  backend <span class="op">=</span> <span class="st">"cmdstanr"</span>,</span>
+<span>  file <span class="op">=</span> <span class="st">"peng_re"</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 509.6159 509.6814 509.8102 509.9982 510.2390 510.5247</code></pre>
 </div>
-</div>
-<p>I’ll pop these all into a tibble.</p>
 <div class="cell">
-<div class="langname">
-<pre class="langname">r</pre>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">peng_remod</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Family: gaussian 
+  Links: mu = identity; sigma = identity 
+Formula: bill_length_mm ~ 1 + (1 | individual) 
+   Data: penguins (Number of observations: 342) 
+  Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+         total post-warmup draws = 4000
+
+Multilevel Hyperparameters:
+~individual (Number of levels: 342) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     2.90      1.55     0.19     5.30 1.51        7       31
+
+Regression Coefficients:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+Intercept    43.88      0.29    43.36    44.45 1.03      226      867
+
+Further Distributional Parameters:
+      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sigma     4.25      1.16     1.63     5.69 1.54        7       54
+
+Draws were sampled using sample(hmc). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 </div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">first_expanded</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
-<span>  F1 <span class="op">=</span> <span class="va">py</span><span class="op">$</span><span class="va">F1_expanded</span>,</span>
-<span>  F2 <span class="op">=</span> <span class="va">py</span><span class="op">$</span><span class="va">F2_expanded</span>,</span>
-<span>  F3 <span class="op">=</span> <span class="va">py</span><span class="op">$</span><span class="va">F3_expanded</span></span>
+</div>
+<p>Nothing’s converged, everything’s divergent, what’s going on here!</p>
+<p>Well, if we think about how the model is defined, and the structure of the data, it makes a bit more sense. We’re telling the model to estimate <span class="math inline">\(\mu_i\)</span> this way</p>
+<p><span class="math display">\[
+\mu_i = \beta_0 + \gamma_i
+\]</span></p>
+<p>Where <span class="math inline">\(\gamma_i\)</span> is a random intercept by individual. <span class="math inline">\(\gamma_i\)</span> is meant to be sampled from a normal distribution like:</p>
+<p><span class="math display">\[
+\gamma_i \sim \mathcal{N}(0, \sigma_{\gamma})
+\]</span></p>
+<p>Then, we’re saying the data is sampled from a normal distribution like this</p>
+<p><span class="math display">\[
+y_i \sim \mathcal{N}(\mu_i, \sigma)
+\]</span></p>
+<p><em>The problem</em> is that because every row is one individual, the sampling statement for <span class="math inline">\(\gamma_i\)</span> is basically a description of the residual error, and <span class="math inline">\(\sigma_{\gamma}\)</span> would wind up being equivalent to the standard deviation of the residuals. But that’s also what <span class="math inline">\(\sigma\)</span> in the sampling statement for <span class="math inline">\(y_i\)</span> is supposed to be.</p>
+<p>One way to think about what’s happened is we’ve created an identifiability problem, trying to account for the residual error with two different parameters. Another way to think about is that the individual level variation around the population mean that we wanted to capture with <code>(1|individual)</code> was <em>already</em> being captured by the residual error.</p>
+</section><section id="poisson-models-overdispersion" class="level1"><h1>Poisson Models &amp; Overdispersion</h1>
+<p>I’d like to thank Andrew Heiss for having <a href="https://bayesf22-notebook.classes.andrewheiss.com/bayes-rules/12-chapter.html#negative-binomial-regression-for-overdispersed-counts">his course materials online</a>, as they helped inform my thinking on this. The data set below has a count of how many times people said “like” in interviews.</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">like_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span></span>
+<span>  <span class="st">"https://lin611-2024.github.io/notes/meetings/data/like.csv"</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    prop_time <span class="op">=</span> <span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/row_number.html">row_number</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
+<span>    dob_g <span class="op">=</span> <span class="op">(</span><span class="va">dob</span><span class="op">-</span><span class="fl">1945</span><span class="op">)</span><span class="op">/</span><span class="fl">20</span>,</span>
+<span>    .after <span class="op">=</span> <span class="va">dob</span></span>
 <span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell page-columns page-full">
-<div class="langname">
-<pre class="langname">r</pre>
-</div>
-<details class="code-fold"><summary>Plotting code</summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">first_expanded</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
-<span>    <span class="va">F1</span><span class="op">:</span><span class="va">F3</span>,</span>
-<span>    names_to <span class="op">=</span> <span class="st">"formant"</span>,</span>
-<span>    values_to <span class="op">=</span> <span class="st">"frequency"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">prop_time</span>, <span class="va">frequency</span>, color <span class="op">=</span> <span class="va">formant</span><span class="op">)</span></span>
-<span>  <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://allancameron.github.io/geomtextpath/reference/geom_textpath.html">geom_textpath</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">formant</span><span class="op">)</span>,</span>
-<span>      linewidth <span class="op">=</span> <span class="fl">1</span></span>
-<span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span></span>
-<span>      color <span class="op">=</span> <span class="st">"none"</span></span>
-<span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
-<span>      x <span class="op">=</span> <span class="st">"proportional time"</span></span>
-<span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expand_limits.html">expand_limits</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output-display page-columns page-full">
-<div id="fig-formant-expanded" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-formant-expanded-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-formant-expanded-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Inverse DCT formant results"><img src="index_files/figure-html/fig-formant-expanded-1.svg" class="img-fluid figure-img" width="768"></a>
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-formant-expanded-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Inverse DCT formant results
-</figcaption></figure>
-</div>
-</div>
-</div>
-</section><section id="shortcomings" class="level3"><h3 class="anchored" data-anchor-id="shortcomings">Shortcomings</h3>
-<ol type="1">
-<li>That was a <em>lot</em> of code to get back the formant-like values for just one token!</li>
-<li>It’s not taking advantage of the really cool averaging properties of the DCT.</li>
-<li>It didn’t fit into my nice tidyverse workflows at all!</li>
-</ol></section></section><section id="option-2-using-python-functions-inside-r" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="option-2-using-python-functions-inside-r">Option 2: Using Python functions <em>inside</em> R</h2>
-<p>Rather than passing data back and forth directly, instead, I’ll import the scipy function directly into R.</p>
 <div class="cell">
-<div class="langname">
-<pre class="langname">r</pre>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">like_df</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt_preview.html">gt_preview</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="tjbysephdu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tjbysephdu table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#tjbysephdu thead, #tjbysephdu tbody, #tjbysephdu tfoot, #tjbysephdu tr, #tjbysephdu td, #tjbysephdu th {
+  border-style: none;
+}
+
+#tjbysephdu p {
+  margin: 0;
+  padding: 0;
+}
+
+#tjbysephdu .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#tjbysephdu .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#tjbysephdu .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#tjbysephdu .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#tjbysephdu .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tjbysephdu .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tjbysephdu .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tjbysephdu .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#tjbysephdu .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#tjbysephdu .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#tjbysephdu .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#tjbysephdu .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#tjbysephdu .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#tjbysephdu .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#tjbysephdu .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#tjbysephdu .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#tjbysephdu .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#tjbysephdu .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#tjbysephdu .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tjbysephdu .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#tjbysephdu .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#tjbysephdu .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#tjbysephdu .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tjbysephdu .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#tjbysephdu .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#tjbysephdu .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tjbysephdu .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tjbysephdu .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#tjbysephdu .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tjbysephdu .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#tjbysephdu .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tjbysephdu .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tjbysephdu .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tjbysephdu .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tjbysephdu .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tjbysephdu .gt_left {
+  text-align: left;
+}
+
+#tjbysephdu .gt_center {
+  text-align: center;
+}
+
+#tjbysephdu .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#tjbysephdu .gt_font_normal {
+  font-weight: normal;
+}
+
+#tjbysephdu .gt_font_bold {
+  font-weight: bold;
+}
+
+#tjbysephdu .gt_font_italic {
+  font-style: italic;
+}
+
+#tjbysephdu .gt_super {
+  font-size: 65%;
+}
+
+#tjbysephdu .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#tjbysephdu .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#tjbysephdu .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#tjbysephdu .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#tjbysephdu .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#tjbysephdu .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#tjbysephdu .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#tjbysephdu .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#tjbysephdu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="header gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="id" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">id</th>
+<th id="filler" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">filler</th>
+<th id="n" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">n</th>
+<th id="dob" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">dob</th>
+<th id="dob_g" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">dob_g</th>
+<th id="total_words" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">total_words</th>
+</tr></thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">1</td>
+<td class="gt_row gt_left" headers="stub_1_1 id">s_001</td>
+<td class="gt_row gt_left" headers="stub_1_1 filler">LIKE</td>
+<td class="gt_row gt_right" headers="stub_1_1 n">79</td>
+<td class="gt_row gt_right" headers="stub_1_1 dob">1953</td>
+<td class="gt_row gt_right" headers="stub_1_1 dob_g">0.40</td>
+<td class="gt_row gt_right" headers="stub_1_1 total_words">3524</td>
+</tr>
+<tr class="even">
+<td id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">2</td>
+<td class="gt_row gt_left" headers="stub_1_2 id">s_002</td>
+<td class="gt_row gt_left" headers="stub_1_2 filler">LIKE</td>
+<td class="gt_row gt_right" headers="stub_1_2 n">457</td>
+<td class="gt_row gt_right" headers="stub_1_2 dob">1990</td>
+<td class="gt_row gt_right" headers="stub_1_2 dob_g">2.25</td>
+<td class="gt_row gt_right" headers="stub_1_2 total_words">4842</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">3</td>
+<td class="gt_row gt_left" headers="stub_1_3 id">s_003</td>
+<td class="gt_row gt_left" headers="stub_1_3 filler">LIKE</td>
+<td class="gt_row gt_right" headers="stub_1_3 n">14</td>
+<td class="gt_row gt_right" headers="stub_1_3 dob">1914</td>
+<td class="gt_row gt_right" headers="stub_1_3 dob_g">-1.55</td>
+<td class="gt_row gt_right" headers="stub_1_3 total_words">2148</td>
+</tr>
+<tr class="even">
+<td id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">4</td>
+<td class="gt_row gt_left" headers="stub_1_4 id">s_004</td>
+<td class="gt_row gt_left" headers="stub_1_4 filler">LIKE</td>
+<td class="gt_row gt_right" headers="stub_1_4 n">17</td>
+<td class="gt_row gt_right" headers="stub_1_4 dob">1937</td>
+<td class="gt_row gt_right" headers="stub_1_4 dob_g">-0.40</td>
+<td class="gt_row gt_right" headers="stub_1_4 total_words">1799</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">5</td>
+<td class="gt_row gt_left" headers="stub_1_5 id">s_005</td>
+<td class="gt_row gt_left" headers="stub_1_5 filler">LIKE</td>
+<td class="gt_row gt_right" headers="stub_1_5 n">11</td>
+<td class="gt_row gt_right" headers="stub_1_5 dob">1904</td>
+<td class="gt_row gt_right" headers="stub_1_5 dob_g">-2.05</td>
+<td class="gt_row gt_right" headers="stub_1_5 total_words">2457</td>
+</tr>
+<tr class="even">
+<td id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; font-size: x-small; background-color: #E4E4E4">6..352</td>
+<td class="gt_row gt_left" headers="stub_1_6 id" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_left" headers="stub_1_6 filler" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 n" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 dob" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 dob_g" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 total_words" style="background-color: #E4E4E4"></td>
+</tr>
+<tr class="odd">
+<td id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">353</td>
+<td class="gt_row gt_left" headers="stub_1_7 id">s_353</td>
+<td class="gt_row gt_left" headers="stub_1_7 filler">LIKE</td>
+<td class="gt_row gt_right" headers="stub_1_7 n">20</td>
+<td class="gt_row gt_right" headers="stub_1_7 dob">1963</td>
+<td class="gt_row gt_right" headers="stub_1_7 dob_g">0.90</td>
+<td class="gt_row gt_right" headers="stub_1_7 total_words">2295</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">scipy</span> <span class="op">&lt;-</span> <span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/import.html">import</a></span><span class="op">(</span><span class="st">"scipy"</span><span class="op">)</span></span>
-<span><span class="va">idct</span> <span class="op">&lt;-</span> <span class="va">scipy</span><span class="op">$</span><span class="va">fft</span><span class="op">$</span><span class="va">idct</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now, we can use <code>idct()</code> (almost) like an R function. Here’s how it looks on one of the variables we created before.</p>
+</div>
+<p>I’ll first try fitting this with a standard poisson model.</p>
+<p><span class="math display">\[
+\log(\lambda_i) = \beta_0 + \beta_1\text{dob} + \log(\text{total.words)}
+\]</span></p>
+<p><span class="math display">\[
+y_i \sim \text{Pois}(\lambda_i)
+\]</span></p>
 <div class="cell">
-<div class="langname">
-<pre class="langname">r</pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">like_pois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://paul-buerkner.github.io/brms/reference/brm.html">brm</a></span><span class="op">(</span></span>
+<span>  <span class="va">n</span> <span class="op">~</span> <span class="va">dob_g</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html">offset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">total_words</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">poisson</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">like_df</span>,</span>
+<span>  backend <span class="op">=</span> <span class="st">"cmdstanr"</span>,</span>
+<span>  file <span class="op">=</span> <span class="st">"like_pois"</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">new_F1_expanded</span> <span class="op">&lt;-</span> <span class="fu">idct</span><span class="op">(</span></span>
-<span>  <span class="va">F1_param</span>,</span>
-<span>  n <span class="op">=</span> <span class="fl">100L</span>,</span>
-<span>  orthogonalize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  norm <span class="op">=</span> <span class="st">"forward"</span></span>
-<span><span class="op">)</span></span>
-<span>  </span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">new_F1_expanded</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 509.6159 509.6814 509.8102 509.9982 510.2390 510.5247</code></pre>
-</div>
-</div>
-<p>I’ll combine this with the handy-dandy tidyverse functions <a href="https://dplyr.tidyverse.org/reference/across.html">across</a> and <a href="https://dplyr.tidyverse.org/reference/reframe.html">reframe</a> to get average formant trajectories.</p>
-<section id="step-1-getting-the-average-of-the-dct-parameters-by-token." class="level3"><h3 class="anchored" data-anchor-id="step-1-getting-the-average-of-the-dct-parameters-by-token.">Step 1: Getting the average of the DCT parameters by token.</h3>
-<p>With<code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/across.html">across()</a></code>, we’ll get the mean of the parameter values for F1, F2 and F3, grouped by label and parameter.</p>
-<div class="cell">
-<div class="langname">
-<pre class="langname">r</pre>
-</div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dct_params</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span></span>
-<span>      <span class="va">F1</span><span class="op">:</span><span class="va">F3</span>, <span class="va">mean</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">label</span>, <span class="va">param</span><span class="op">)</span></span>
-<span>  <span class="op">)</span><span class="op">-&gt;</span></span>
-<span>  <span class="va">dct_averages</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dct_averages</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 5
-  label param      F1      F2      F3
-  &lt;chr&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-1 ay0       0 338.    1130.   1659.  
-2 ay0       1  33.8   -136.     26.9 
-3 ay0       2  -5.53    -5.95    5.37
-4 ay0       3  -0.580  -11.6    -1.87
-5 ay0       4  -1.20    -2.15   -3.60
-6 ey        0 274.    1380.   1736.  </code></pre>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/plot_predictions.html">plot_predictions</a></span><span class="op">(</span></span>
+<span>  <span class="va">like_pois</span>,</span>
+<span>  newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op">(</span></span>
+<span>    dob_g <span class="op">=</span> \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, length <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>,</span>
+<span>    total_words <span class="op">=</span> <span class="fl">1000</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  by <span class="op">=</span> <span class="st">"dob_g"</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-10-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a></p>
+</figure>
 </div>
 </div>
-</section><section id="step-2-apply-idct-to-the-averages" class="level3"><h3 class="anchored" data-anchor-id="step-2-apply-idct-to-the-averages">Step 2: Apply <code>idct</code> to the averages</h3>
-<p>Now, I’ll use <code><a href="https://dplyr.tidyverse.org/reference/reframe.html">reframe()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/across.html">across()</a></code> to get the formant-like values from these averages</p>
-<div class="cell">
-<div class="langname">
-<pre class="langname">r</pre>
 </div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dct_averages</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reframe.html">reframe</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span></span>
-<span>      <span class="va">F1</span><span class="op">:</span><span class="va">F3</span>,</span>
-<span>      <span class="op">~</span><span class="fu">idct</span><span class="op">(</span></span>
-<span>        <span class="va">.x</span>, </span>
-<span>        n <span class="op">=</span> <span class="fl">100L</span>,</span>
-<span>        orthogonalize <span class="op">=</span> <span class="cn">T</span>, </span>
-<span>        norm <span class="op">=</span> <span class="st">"forward"</span></span>
-<span>      <span class="op">)</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    .by <span class="op">=</span> <span class="va">label</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<p>If we look at the posterior predictive check, we can see that we’ve got some over dispersion.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/pp_check.html">pp_check</a></span><span class="op">(</span><span class="va">like_pois</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-11-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The poisson distribution is assuming a narrower range of “like” counts than the data has.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold"><summary>Plot code</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html">predictions</a></span><span class="op">(</span></span>
+<span>  <span class="va">like_pois</span>, </span>
+<span>  newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op">(</span></span>
+<span>    dob_g <span class="op">=</span> \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, length <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>,</span>
+<span>    total_words <span class="op">=</span> <span class="fl">1000</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    prop_time <span class="op">=</span> <span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/row_number.html">row_number</a></span><span class="op">(</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>,</span>
-<span>    .by <span class="op">=</span> <span class="va">label</span></span>
-<span>  <span class="op">)</span><span class="op">-&gt;</span></span>
-<span>  <span class="va">average_smooths</span></span>
+<span>    like_dist <span class="op">=</span> <span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_poisson.html">dist_poisson</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">-&gt;</span></span>
+<span>  <span class="va">pois_pred</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">average_smooths</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 5
-  label        F1        F2        F3 prop_time
-  &lt;chr&gt; &lt;dbl[1d]&gt; &lt;dbl[1d]&gt; &lt;dbl[1d]&gt;     &lt;dbl&gt;
-1 ay0        532.     1287.     2400.    0     
-2 ay0        532.     1287.     2400.    0.0101
-3 ay0        532.     1288.     2400.    0.0202
-4 ay0        532.     1290.     2400.    0.0303
-5 ay0        532.     1292.     2401.    0.0404
-6 ay0        532.     1295.     2401.    0.0505</code></pre>
-</div>
-</div>
-</section><section id="step-3-make-some-good-plots" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="step-3-make-some-good-plots">Step 3: Make some good plots</h3>
-<p>Here’s a plot of the expanded formant trajectories for some of the more dynamic vowels.</p>
-<div class="cell page-columns page-full">
-<div class="langname">
-<pre class="langname">r</pre>
-</div>
-<details class="code-fold"><summary>Plotting code</summary><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">average_smooths</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span></span>
-<span>    <span class="va">label</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
-<span>      <span class="st">"iy"</span>,</span>
-<span>      <span class="st">"ey"</span>,</span>
-<span>      <span class="st">"ay"</span>,</span>
-<span>      <span class="st">"ay0"</span>,</span>
-<span>      <span class="st">"aw"</span>,</span>
-<span>      <span class="st">"Tuw"</span>,</span>
-<span>      <span class="st">"owL"</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">pois_pred</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">F2</span>, <span class="va">F1</span>, color <span class="op">=</span> <span class="va">label</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>      <span class="va">dob_g</span></span>
+<span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://allancameron.github.io/geomtextpath/reference/geom_textpath.html">geom_textpath</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
-<span>        group <span class="op">=</span> <span class="va">label</span>,</span>
-<span>        label <span class="op">=</span> <span class="va">label</span></span>
-<span>      <span class="op">)</span>,</span>
-<span>      arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html">arrow</a></span><span class="op">(</span></span>
-<span>        type <span class="op">=</span> <span class="st">"closed"</span>,</span>
-<span>        length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="st">"cm"</span><span class="op">)</span></span>
-<span>      <span class="op">)</span>,</span>
-<span>      linewidth <span class="op">=</span> <span class="fl">1</span></span>
-<span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_reverse</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_reverse</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span></span>
-<span>      color <span class="op">=</span> <span class="st">"none"</span></span>
-<span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output-display page-columns page-full">
-<div id="fig-trajectories" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-trajectories-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-trajectories-1.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Average formant trajectories"><img src="index_files/figure-html/fig-trajectories-1.svg" class="img-fluid figure-img" width="384"></a>
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-trajectories-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Average formant trajectories
-</figcaption></figure>
+<span>  <span class="fu"><a href="http://mjskay.github.io/ggdist/reference/stat_lineribbon.html">stat_lineribbon</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>      ydist <span class="op">=</span> <span class="va">like_dist</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">like_df</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>      y <span class="op">=</span> <span class="op">(</span><span class="va">n</span><span class="op">/</span><span class="va">total_words</span><span class="op">)</span><span class="op">*</span><span class="fl">1000</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"grey"</span>,</span>
+<span>    alpha <span class="op">=</span> <span class="fl">0.6</span></span>
+<span>  <span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    y <span class="op">=</span> <span class="st">"likes per 1000"</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-12-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a></p>
+</figure>
 </div>
 </div>
 </div>
-</section></section><section id="a-note" class="level2"><h2 class="anchored" data-anchor-id="a-note">A note</h2>
-<p><em>Usually</em> when you see a plot like <a href="#fig-trajectories" class="quarto-xref">Figure&nbsp;4</a>, it’s the result of some fairly complicated model fitting. But take a look through the source code here! Not a gam in sight! Just averaging, and the application of the idct!</p>
+<p>It’s too bad we can’t add a random effect by speaker, but just like the penguins, we’ve only got one row per individual…</p>
+<p>But wait! Look at the <span class="math inline">\(y_i\)</span> sampling statement again!</p>
+<p><span class="math display">\[
+y_i \sim \text{Pois}(\lambda_i)
+\]</span></p>
+<p>There’s no observation-level variance term in a poisson distribution. Its mean and variance are the same,</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pois_ex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/dist_poisson.html">dist_poisson</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">pois_ex</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+</div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pkg.mitchelloharawild.com/distributional/reference/variance.html">variance</a></span><span class="op">(</span><span class="va">pois_ex</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+</div>
+</div>
+<p>So, adding a row-level random variable wouldn’t introduce the same non-identifiability issue.</p>
+<p><span class="math display">\[
+\log(\lambda_i) = \beta_0 + \beta_i\text{dob} + \gamma_i
+\]</span></p>
+<p><span class="math display">\[
+\gamma_i\sim\mathcal{N}(0, \sigma)
+\]</span></p>
+<p><span class="math display">\[
+y_i \sim \text{Pois}(\lambda_i)
+\]</span></p>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">like_repois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://paul-buerkner.github.io/brms/reference/brm.html">brm</a></span><span class="op">(</span></span>
+<span>  <span class="va">n</span> <span class="op">~</span> <span class="va">dob_g</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">id</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html">offset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">total_words</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">poisson</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">like_df</span>,</span>
+<span>  backend <span class="op">=</span> <span class="st">"cmdstanr"</span>,</span>
+<span>  file <span class="op">=</span> <span class="st">"like_repois"</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">like_repois</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Family: poisson 
+  Links: mu = log 
+Formula: n ~ dob_g + (1 | id) + offset(log(total_words)) 
+   Data: like_df (Number of observations: 353) 
+  Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+         total post-warmup draws = 4000
+
+Multilevel Hyperparameters:
+~id (Number of levels: 353) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.56      0.03     0.52     0.61 1.00      601     1431
+
+Regression Coefficients:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+Intercept    -4.79      0.03    -4.85    -4.72 1.01      491      853
+dob_g         0.43      0.03     0.37     0.48 1.00      554     1196
+
+Draws were sampled using sample(hmc). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+</div>
+<p>We are all converged, with no divergent transitions.</p>
+<div class="cell" data-layout-align="center">
+<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/plot_predictions.html">plot_predictions</a></span><span class="op">(</span></span>
+<span>  <span class="va">like_repois</span>,</span>
+<span>  newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op">(</span></span>
+<span>    dob_g <span class="op">=</span> \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, length <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>,</span>
+<span>    total_words <span class="op">=</span> <span class="fl">1000</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  re_formula <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  by <span class="op">=</span> <span class="st">"dob_g"</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">like_df</span>,</span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="va">dob_g</span>,</span>
+<span>      y <span class="op">=</span> <span class="op">(</span><span class="va">n</span><span class="op">/</span><span class="va">total_words</span><span class="op">)</span><span class="op">*</span><span class="fl">1000</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    alpha <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"#EE6677"</span></span>
+<span>  <span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    y <span class="op">=</span> <span class="st">"like per 1000"</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-16-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>And the posterior predictive check looks a lot better.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/pp_check.html">pp_check</a></span><span class="op">(</span><span class="va">like_repois</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_log10</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-17-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="negative-binomial" class="level2"><h2 class="anchored" data-anchor-id="negative-binomial">Negative Binomial?</h2>
+<p>The stats notes I linked to above turned to a negative binomial model to use in a case of over-dispersion like this. I’m not quite in a place to evaluate the pros and cons of the negative binomial vs this random effects approach in general. But for this case I like the random effects better because</p>
+<ol type="1">
+<li>It lines up with how I <em>think</em> about this data as having a population level trend, with individual divergences off of it.</li>
+<li>It’s easier for me to explain and understand than whatever the shape parameter is for the negative binomial.</li>
+</ol>
 
 
-</section><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-<ol>
-<li id="fn1"><p><a href="https://pola.rs/">polars</a> <em>is</em> growing on me, but I don’t think in it yet.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol></section><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2024,
+</section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2024,
   author = {Fruehwald, Josef},
-  title = {Working with the {Discrete} {Cosine} {Transform} in {R}},
+  title = {Random {Effects} and {Overdispersion}},
   series = {Væl Space},
-  date = {2024-07-19},
-  url = {https://jofrhwld.github.io/blog/posts/2024/07/2024-07-19_dct-r/},
+  date = {2024-11-20},
+  url = {https://jofrhwld.github.io/blog/posts/2024/11/2024-11-20_poisson-ranef/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2024" class="csl-entry quarto-appendix-citeas" role="listitem">
-Fruehwald, Josef. 2024. <span>“Working with the Discrete Cosine
-Transform in R.”</span> Væl Space. July 19, 2024. <a href="https://jofrhwld.github.io/blog/posts/2024/07/2024-07-19_dct-r/">https://jofrhwld.github.io/blog/posts/2024/07/2024-07-19_dct-r/</a>.
+Fruehwald, Josef. 2024. <span>“Random Effects and
+Overdispersion.”</span> Væl Space. November 20, 2024. <a href="https://jofrhwld.github.io/blog/posts/2024/11/2024-11-20_poisson-ranef/">https://jofrhwld.github.io/blog/posts/2024/11/2024-11-20_poisson-ranef/</a>.
 </div></div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -2056,14 +2502,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><script src="https://giscus.app/client.js" data-repo="JoFrhwld/blog" data-repo-id="MDEwOlJlcG9zaXRvcnkxNjU0MzIyNg==" data-category="General" data-category-id="DIC_kwDOAPxt-s4CTI5W" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="transparent_dark" data-lang="en" crossorigin="anonymous" async="">
 </script><input type="hidden" id="giscus-base-theme" value="transparent_dark"><input type="hidden" id="giscus-alt-theme" value="transparent_dark"><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="../../../../posts/2024/02/2024-02-16_fs-atg/index.html" class="pagination-link" aria-label="Using FastTrackPy and aligned-textgrid">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Using FastTrackPy and aligned-textgrid</span>
+      <a href="../../../../posts/2024/11/2024-11-19_logit-priors-again/index.html" class="pagination-link" aria-label="Random effect priors, redo">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Random effect priors, redo</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../../posts/2024/09/2024-09-06_rserver-codespaces/index.html" class="pagination-link" aria-label="Troubleshooting RStudio for GitHub Classrom and Codespaces">
-        <span class="nav-page-text">Troubleshooting RStudio for GitHub Classrom and Codespaces</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -2078,7 +2521,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>
   </div>
-</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom"});
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":false});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

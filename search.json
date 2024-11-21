@@ -1649,7 +1649,7 @@
     "href": "posts/2024/11/2024-11-20_poisson-ranef/index.html",
     "title": "Random Effects and Overdispersion",
     "section": "",
-    "text": "Today in my stats class, my students saw me realize, in real-time, that you can include random intercepts in poisson models that you couldn’t in ordinary gaussian models, and this might be a nicer way to deal with overdisperssion than moving to a negative binomial model.\nsource(here::here(\"_defaults.R\"))\nlibrary(tidyverse)\nlibrary(brms)\nlibrary(distributional)\nlibrary(ggdist)\nlibrary(palmerpenguins)\nlibrary(gt)\nlibrary(marginaleffects)",
+    "text": "Today in my stats class, my students saw me realize, in real-time, that you can include random intercepts in poisson models that you couldn’t in ordinary gaussian models, and this might be a nicer way to deal with overdispersion than moving to a negative binomial model.\nsource(here::here(\"_defaults.R\"))\nlibrary(tidyverse)\nlibrary(brms)\nlibrary(distributional)\nlibrary(ggdist)\nlibrary(palmerpenguins)\nlibrary(gt)\nlibrary(marginaleffects)",
     "crumbs": [
       "Homepage",
       "Posts",
@@ -1663,7 +1663,7 @@
     "href": "posts/2024/11/2024-11-20_poisson-ranef/index.html#negative-binomial",
     "title": "Random Effects and Overdispersion",
     "section": "Negative Binomial?",
-    "text": "Negative Binomial?\nThe stats notes I linked to above turned to a negative binomial model to use in a case of over-dispersion like this. I’m not quite in a place to evaluate the pros and cons of the negative binomial vs this random effects approach in general. But for this case I like the random effects better because\n\nIt lines up with how I think about this data as having a population level trend, with individual divergences off of it.\nIt’s easier for me to explain and understand than whatever the shape parameter is for the negative binomial.",
+    "text": "Negative Binomial?\nThe stats notes I linked to above turned to a negative binomial model to use in a case of overdispersion like this. I’m not quite in a place to evaluate the pros and cons of the negative binomial vs this random effects approach in general. But for this case I like the random effects better because\n\nIt lines up with how I think about this data as having a population level trend, with individual divergences off of it.\nIt’s easier for me to explain and understand than whatever the shape parameter is for the negative binomial.",
     "crumbs": [
       "Homepage",
       "Posts",

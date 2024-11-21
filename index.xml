@@ -15,7 +15,7 @@
   <title>Random Effects and Overdispersion</title>
   <dc:creator>Josef Fruehwald</dc:creator>
   <link>https://jofrhwld.github.io/blog/posts/2024/11/2024-11-20_poisson-ranef/</link>
-  <description><![CDATA[ <p>Today in my stats class, my students saw me realize, in real-time, that you <em>can</em> include random intercepts in poisson models that you couldn’t in ordinary gaussian models, <em>and</em> this might be a nicer way to deal with overdisperssion than moving to a negative binomial model.</p>
+  <description><![CDATA[ <p>Today in my stats class, my students saw me realize, in real-time, that you <em>can</em> include random intercepts in poisson models that you couldn’t in ordinary gaussian models, <em>and</em> this might be a nicer way to deal with overdispersion than moving to a negative binomial model.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw" style="color: #003B4F;
 background-color: null;
@@ -126,23 +126,23 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display">
-<div id="ffepczozgb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ffepczozgb table {
+<div id="xzlrrntiuu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xzlrrntiuu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ffepczozgb thead, #ffepczozgb tbody, #ffepczozgb tfoot, #ffepczozgb tr, #ffepczozgb td, #ffepczozgb th {
+#xzlrrntiuu thead, #xzlrrntiuu tbody, #xzlrrntiuu tfoot, #xzlrrntiuu tr, #xzlrrntiuu td, #xzlrrntiuu th {
   border-style: none;
 }
 
-#ffepczozgb p {
+#xzlrrntiuu p {
   margin: 0;
   padding: 0;
 }
 
-#ffepczozgb .gt_table {
+#xzlrrntiuu .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -168,12 +168,12 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-left-color: #D3D3D3;
 }
 
-#ffepczozgb .gt_caption {
+#xzlrrntiuu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ffepczozgb .gt_title {
+#xzlrrntiuu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -185,7 +185,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-width: 0;
 }
 
-#ffepczozgb .gt_subtitle {
+#xzlrrntiuu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -197,7 +197,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-width: 0;
 }
 
-#ffepczozgb .gt_heading {
+#xzlrrntiuu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -209,13 +209,13 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#ffepczozgb .gt_bottom_border {
+#xzlrrntiuu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ffepczozgb .gt_col_headings {
+#xzlrrntiuu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -230,7 +230,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#ffepczozgb .gt_col_heading {
+#xzlrrntiuu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -250,7 +250,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#ffepczozgb .gt_column_spanner_outer {
+#xzlrrntiuu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -262,15 +262,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 4px;
 }
 
-#ffepczozgb .gt_column_spanner_outer:first-child {
+#xzlrrntiuu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ffepczozgb .gt_column_spanner_outer:last-child {
+#xzlrrntiuu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ffepczozgb .gt_column_spanner {
+#xzlrrntiuu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -282,11 +282,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   width: 100%;
 }
 
-#ffepczozgb .gt_spanner_row {
+#xzlrrntiuu .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ffepczozgb .gt_group_heading {
+#xzlrrntiuu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -312,7 +312,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   text-align: left;
 }
 
-#ffepczozgb .gt_empty_group_heading {
+#xzlrrntiuu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -327,15 +327,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: middle;
 }
 
-#ffepczozgb .gt_from_md > :first-child {
+#xzlrrntiuu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ffepczozgb .gt_from_md > :last-child {
+#xzlrrntiuu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ffepczozgb .gt_row {
+#xzlrrntiuu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -354,7 +354,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#ffepczozgb .gt_stub {
+#xzlrrntiuu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -367,7 +367,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#ffepczozgb .gt_stub_row_group {
+#xzlrrntiuu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -381,15 +381,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: top;
 }
 
-#ffepczozgb .gt_row_group_first td {
+#xzlrrntiuu .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ffepczozgb .gt_row_group_first th {
+#xzlrrntiuu .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ffepczozgb .gt_summary_row {
+#xzlrrntiuu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -399,16 +399,16 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#ffepczozgb .gt_first_summary_row {
+#xzlrrntiuu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ffepczozgb .gt_first_summary_row.thick {
+#xzlrrntiuu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ffepczozgb .gt_last_summary_row {
+#xzlrrntiuu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -418,7 +418,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#ffepczozgb .gt_grand_summary_row {
+#xzlrrntiuu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -428,7 +428,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#ffepczozgb .gt_first_grand_summary_row {
+#xzlrrntiuu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -438,7 +438,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-color: #D3D3D3;
 }
 
-#ffepczozgb .gt_last_grand_summary_row_top {
+#xzlrrntiuu .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -448,11 +448,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#ffepczozgb .gt_striped {
+#xzlrrntiuu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ffepczozgb .gt_table_body {
+#xzlrrntiuu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -461,7 +461,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#ffepczozgb .gt_footnotes {
+#xzlrrntiuu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -475,7 +475,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#ffepczozgb .gt_footnote {
+#xzlrrntiuu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -484,7 +484,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#ffepczozgb .gt_sourcenotes {
+#xzlrrntiuu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -498,7 +498,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#ffepczozgb .gt_sourcenote {
+#xzlrrntiuu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -506,72 +506,72 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#ffepczozgb .gt_left {
+#xzlrrntiuu .gt_left {
   text-align: left;
 }
 
-#ffepczozgb .gt_center {
+#xzlrrntiuu .gt_center {
   text-align: center;
 }
 
-#ffepczozgb .gt_right {
+#xzlrrntiuu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ffepczozgb .gt_font_normal {
+#xzlrrntiuu .gt_font_normal {
   font-weight: normal;
 }
 
-#ffepczozgb .gt_font_bold {
+#xzlrrntiuu .gt_font_bold {
   font-weight: bold;
 }
 
-#ffepczozgb .gt_font_italic {
+#xzlrrntiuu .gt_font_italic {
   font-style: italic;
 }
 
-#ffepczozgb .gt_super {
+#xzlrrntiuu .gt_super {
   font-size: 65%;
 }
 
-#ffepczozgb .gt_footnote_marks {
+#xzlrrntiuu .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ffepczozgb .gt_asterisk {
+#xzlrrntiuu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ffepczozgb .gt_indent_1 {
+#xzlrrntiuu .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ffepczozgb .gt_indent_2 {
+#xzlrrntiuu .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ffepczozgb .gt_indent_3 {
+#xzlrrntiuu .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ffepczozgb .gt_indent_4 {
+#xzlrrntiuu .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ffepczozgb .gt_indent_5 {
+#xzlrrntiuu .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ffepczozgb .katex-display {
+#xzlrrntiuu .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ffepczozgb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#xzlrrntiuu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -858,23 +858,23 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display">
-<div id="tjbysephdu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tjbysephdu table {
+<div id="yagypjdesr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#yagypjdesr table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#tjbysephdu thead, #tjbysephdu tbody, #tjbysephdu tfoot, #tjbysephdu tr, #tjbysephdu td, #tjbysephdu th {
+#yagypjdesr thead, #yagypjdesr tbody, #yagypjdesr tfoot, #yagypjdesr tr, #yagypjdesr td, #yagypjdesr th {
   border-style: none;
 }
 
-#tjbysephdu p {
+#yagypjdesr p {
   margin: 0;
   padding: 0;
 }
 
-#tjbysephdu .gt_table {
+#yagypjdesr .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -900,12 +900,12 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-left-color: #D3D3D3;
 }
 
-#tjbysephdu .gt_caption {
+#yagypjdesr .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#tjbysephdu .gt_title {
+#yagypjdesr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -917,7 +917,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-width: 0;
 }
 
-#tjbysephdu .gt_subtitle {
+#yagypjdesr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -929,7 +929,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-width: 0;
 }
 
-#tjbysephdu .gt_heading {
+#yagypjdesr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -941,13 +941,13 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#tjbysephdu .gt_bottom_border {
+#yagypjdesr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tjbysephdu .gt_col_headings {
+#yagypjdesr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -962,7 +962,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#tjbysephdu .gt_col_heading {
+#yagypjdesr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -982,7 +982,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#tjbysephdu .gt_column_spanner_outer {
+#yagypjdesr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -994,15 +994,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 4px;
 }
 
-#tjbysephdu .gt_column_spanner_outer:first-child {
+#yagypjdesr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tjbysephdu .gt_column_spanner_outer:last-child {
+#yagypjdesr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tjbysephdu .gt_column_spanner {
+#yagypjdesr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1014,11 +1014,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   width: 100%;
 }
 
-#tjbysephdu .gt_spanner_row {
+#yagypjdesr .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#tjbysephdu .gt_group_heading {
+#yagypjdesr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1044,7 +1044,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   text-align: left;
 }
 
-#tjbysephdu .gt_empty_group_heading {
+#yagypjdesr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1059,15 +1059,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: middle;
 }
 
-#tjbysephdu .gt_from_md > :first-child {
+#yagypjdesr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tjbysephdu .gt_from_md > :last-child {
+#yagypjdesr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tjbysephdu .gt_row {
+#yagypjdesr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1086,7 +1086,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   overflow-x: hidden;
 }
 
-#tjbysephdu .gt_stub {
+#yagypjdesr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1099,7 +1099,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#tjbysephdu .gt_stub_row_group {
+#yagypjdesr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1113,15 +1113,15 @@ font-style: inherit;">)</span></span></code></pre></div>
   vertical-align: top;
 }
 
-#tjbysephdu .gt_row_group_first td {
+#yagypjdesr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tjbysephdu .gt_row_group_first th {
+#yagypjdesr .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#tjbysephdu .gt_summary_row {
+#yagypjdesr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1131,16 +1131,16 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#tjbysephdu .gt_first_summary_row {
+#yagypjdesr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tjbysephdu .gt_first_summary_row.thick {
+#yagypjdesr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tjbysephdu .gt_last_summary_row {
+#yagypjdesr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1150,7 +1150,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#tjbysephdu .gt_grand_summary_row {
+#yagypjdesr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1160,7 +1160,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#tjbysephdu .gt_first_grand_summary_row {
+#yagypjdesr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1170,7 +1170,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-top-color: #D3D3D3;
 }
 
-#tjbysephdu .gt_last_grand_summary_row_top {
+#yagypjdesr .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1180,11 +1180,11 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#tjbysephdu .gt_striped {
+#yagypjdesr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tjbysephdu .gt_table_body {
+#yagypjdesr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1193,7 +1193,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#tjbysephdu .gt_footnotes {
+#yagypjdesr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1207,7 +1207,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#tjbysephdu .gt_footnote {
+#yagypjdesr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1216,7 +1216,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#tjbysephdu .gt_sourcenotes {
+#yagypjdesr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1230,7 +1230,7 @@ font-style: inherit;">)</span></span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#tjbysephdu .gt_sourcenote {
+#yagypjdesr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1238,72 +1238,72 @@ font-style: inherit;">)</span></span></code></pre></div>
   padding-right: 5px;
 }
 
-#tjbysephdu .gt_left {
+#yagypjdesr .gt_left {
   text-align: left;
 }
 
-#tjbysephdu .gt_center {
+#yagypjdesr .gt_center {
   text-align: center;
 }
 
-#tjbysephdu .gt_right {
+#yagypjdesr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tjbysephdu .gt_font_normal {
+#yagypjdesr .gt_font_normal {
   font-weight: normal;
 }
 
-#tjbysephdu .gt_font_bold {
+#yagypjdesr .gt_font_bold {
   font-weight: bold;
 }
 
-#tjbysephdu .gt_font_italic {
+#yagypjdesr .gt_font_italic {
   font-style: italic;
 }
 
-#tjbysephdu .gt_super {
+#yagypjdesr .gt_super {
   font-size: 65%;
 }
 
-#tjbysephdu .gt_footnote_marks {
+#yagypjdesr .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#tjbysephdu .gt_asterisk {
+#yagypjdesr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tjbysephdu .gt_indent_1 {
+#yagypjdesr .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tjbysephdu .gt_indent_2 {
+#yagypjdesr .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tjbysephdu .gt_indent_3 {
+#yagypjdesr .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tjbysephdu .gt_indent_4 {
+#yagypjdesr .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tjbysephdu .gt_indent_5 {
+#yagypjdesr .gt_indent_5 {
   text-indent: 25px;
 }
 
-#tjbysephdu .katex-display {
+#yagypjdesr .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#tjbysephdu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#yagypjdesr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1524,7 +1524,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 </div>
 </div>
 </div>
-<p>If we look at the posterior predictive check, we can see that we’ve got some over dispersion.</p>
+<p>If we look at the posterior predictive check, we can see that we’ve got some overdispersion.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2099,7 +2099,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 </div>
 </div>
 <section id="negative-binomial" class="level2"><h2 class="anchored" data-anchor-id="negative-binomial">Negative Binomial?</h2>
-<p>The stats notes I linked to above turned to a negative binomial model to use in a case of over-dispersion like this. I’m not quite in a place to evaluate the pros and cons of the negative binomial vs this random effects approach in general. But for this case I like the random effects better because</p>
+<p>The stats notes I linked to above turned to a negative binomial model to use in a case of overdispersion like this. I’m not quite in a place to evaluate the pros and cons of the negative binomial vs this random effects approach in general. But for this case I like the random effects better because</p>
 <ol type="1">
 <li>It lines up with how I <em>think</em> about this data as having a population level trend, with individual divergences off of it.</li>
 <li>It’s easier for me to explain and understand than whatever the shape parameter is for the negative binomial.</li>
@@ -26993,7 +26993,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">plot1</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo" data-fig-align="center">
+<div id="fig-penguin1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: The base penguins scatterplot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo" width="576"></a>
 </div>
@@ -27022,7 +27022,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 ℹ Please use `linewidth` in the `default_aes` field and elsewhere instead.</code></pre>
 </div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged." data-fig-align="center">
+<div id="fig-penguin_hull1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Basic convex hull"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged." width="576"></a>
 </div>
@@ -27066,7 +27066,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species." data-fig-align="center">
+<div id="fig-penguin_hull2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Smoothed out and filled convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species." width="576"></a>
 </div>
@@ -27119,7 +27119,7 @@ font-style: inherit;">"Fira Sans"</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The scatter plot with the sme convex hull, but no labels actually present." data-fig-align="center">
+<div id="fig-penguin_hull3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The scatter plot with the sme convex hull, but no labels actually present.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Attempted labelling of convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The scatter plot with the sme convex hull, but no labels actually present." width="576"></a>
 </div>
@@ -27258,7 +27258,7 @@ font-style: inherit;">"none"</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin-hull4" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull" data-fig-align="center">
+<div id="fig-penguin-hull4" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin-hull4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin-hull4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Labelled convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull" width="768"></a>
 </div>
@@ -27308,7 +27308,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin-hull-filter" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data." data-fig-align="center">
+<div id="fig-penguin-hull-filter" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin-hull-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin-hull-filter-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: Filtered convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull-filter-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data." width="576"></a>
 </div>
@@ -27371,7 +27371,7 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_dens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution" data-fig-align="center">
+<div id="fig-penguin_dens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_dens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_dens-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: Density contour plot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_dens-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution" width="576"></a>
 </div>
@@ -27396,7 +27396,7 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%" data-fig-align="center">
+<div id="fig-penguin_hdr" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: Highest density region contour plot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%" width="576"></a>
 </div>
@@ -27444,7 +27444,7 @@ font-style: inherit;">"Dark2"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species" data-fig-align="center">
+<div id="fig-penguin_hdr2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: Highest density region contour plot, filled by species"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species" width="576"></a>
 </div>
@@ -27482,7 +27482,7 @@ font-style: inherit;">"grey90"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr_rug" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot with a data distribution rug indicating the density of the data distribution." data-fig-align="center">
+<div id="fig-penguin_hdr_rug" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot with a data distribution rug indicating the density of the data distribution.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr_rug-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr_rug-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: HDR rug"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr_rug-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot with a data distribution rug indicating the density of the data distribution." width="576"></a>
 </div>
@@ -27595,7 +27595,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one trend line for each species with the species name written along the line." data-fig-align="center">
+<div id="fig-penguin_textsmooth" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one trend line for each species with the species name written along the line.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;11: Trendlines with text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one trend line for each species with the species name written along the line." width="576"></a>
 </div>
@@ -27665,7 +27665,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one trend line for each species with the species name written just above line." data-fig-align="center">
+<div id="fig-penguin_textsmooth2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one trend line for each species with the species name written just above line.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;12: Trendlines with text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one trend line for each species with the species name written just above line." width="576"></a>
 </div>
@@ -27728,7 +27728,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it." data-fig-align="center">
+<div id="fig-penguin_textsmooth3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;13: Data ellipses text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it." width="576"></a>
 </div>
@@ -27796,7 +27796,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr-text" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A highest density region plot with the probability levels written along the contours" data-fig-align="center">
+<div id="fig-penguin_hdr-text" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A highest density region plot with the probability levels written along the contours">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr-text-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr-text-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;14: Higest density region plot with direct labels"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr-text-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A highest density region plot with the probability levels written along the contours" width="576"></a>
 </div>
@@ -27834,7 +27834,7 @@ Væl Space. January 27, 2023. <a href="https://jofrhwld.github.io/blog/posts/202
   <dc:creator>Josef Fruehwald</dc:creator>
   <link>https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/</link>
   <description><![CDATA[ <p>I might flesh this out as a more detailed tutorial for <a href="https://lingmethodshub.github.io/content/">LingMethodsHub</a>, but for now this is going to be a rough-around-the-edges post about making spectrograms in R. My goal will be to get as close as possible to recreating a spectrogram like you might get from Praat.</p>
-<div id="fig-praat-spect" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A spectrogram of the vowel /i/ generated by praat.">
+<div id="fig-praat-spect" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A spectrogram of the vowel /i/ generated by praat." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-praat-spect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/praat.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: A spectrogram of the vowel /i/ generated by praat."><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/assets/praat.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A spectrogram of the vowel /i/ generated by praat."></a>
 </div>
@@ -28008,7 +28008,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 </dl>
 <section id="praat-defaults" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="praat-defaults">Praat defaults</h3>
 <p>Let’s have a look at the Praat spectrogram defaults</p>
-<div id="fig-praat-defaults" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A screenshot of the default spectrogram settings for Praat.">
+<div id="fig-praat-defaults" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A screenshot of the default spectrogram settings for Praat." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-praat-defaults-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/praat_defaults.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Praat defaults for spectrograms"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/assets/praat_defaults.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A screenshot of the default spectrogram settings for Praat."></a>
 </div>

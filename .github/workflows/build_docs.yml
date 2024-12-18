@@ -2,7 +2,10 @@ name: Build Site
 on:
   push:
     branches: ["master"]
-
+    
+env:
+  RENV_PATHS_ROOT: ~/.cache/R/renv    
+    
 jobs:
   build-docs:
      runs-on: macos-latest
@@ -17,7 +20,21 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install -r requirements.txt
-      - uses: r-lib/actions/setup-renv@v2
+          
+      - name: Cache packages
+        uses: actions/cache@v1
+        with:
+          path: ${{ env.RENV_PATHS_ROOT }}
+          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-renv-
+      
+      - name: Restore packages
+        shell: Rscript {0}
+        run: |
+          if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+          renv::restore()
+          
       - name: Install Reticulate
         run: Rscript -e 'renv::install("reticulate")'
       - name: Set up quarto

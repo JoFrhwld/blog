@@ -91,7 +91,7 @@ like_df <- read_csv(
   "https://lin611-2024.github.io/notes/meetings/data/like.csv"
 ) |> 
   mutate(
-    dob_g = (dob-1945)/20,
+    dob_g = (dob-1985)/20,
     .after = dob
   )
 ```

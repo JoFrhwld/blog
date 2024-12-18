@@ -1,0 +1,40 @@
+---
+title: "In Remembrance"
+date: 2024-12-17
+format: html
+bibliography: references.bib
+twitter-card:
+  image: images/tapes.JPG
+open-graph: 
+  image: images/tapes.JPG
+---
+
+@wlh1968 is a foundational text in my subfield of linguistics. Entitled "Empirical foundations for a theory of language change," it's both a comprehensive review of the field at the time, and a programmatic outlook for the future, laying down problems that researchers are still grappling with today. It's one of those papers that's worth dusting off and revisiting every 4 or 5 years as you've accumulated more knowledge and experience to see what new glimmers of wisdom you'll pick up on this time.
+
+But, I always have a hard time starting a new read. I get completely sidetracked by the opening lines:
+
+> Uriel Weinreich died on March 30, 1967. Those who knew him, friends and colleagues in many fields of research, find it difficult to contain their grief. He was not yet forty-one years old. In the last weeks of his life he devoted his major effort to the final revision of this paper, and worked actively on it until two days before his death.
+
+It seems clear that Weinreich left a long and lasting impact on Bill Labov. The dedication pages of all three volumes of *Principles of Linguistic Change* [@Labov1994; @Labov2001; @Labov2010a] read simply "For Uriel Weinreich". In his essay ["How I got into linguistics, and what I got out of it"](https://web.archive.org/web/20241003021324/https://www.ling.upenn.edu/~wlabov/HowIgot.html), he says
+
+> Weinreich was the perfect academic: passionately interested in the ideas of others, brimming over with intellectual honesty, vigor and originality. He protected me from every academic evil. \[...\] Going through his papers in later years, I found that he had written up projects for research that anticipated most of the things I wanted to do. So to this day, I do not know how many of my ideas I brought to linguistics, and how many I got from Weinreich. I would like to think that my students are as lucky as I was, but I know better than that.
+
+This is a sentiment he repeats in the preface to the second edition of *The social stratification of English in New York City* [@Labov2006a]
+
+> I find it very hard to say where his \[Weinreich's\] influence is to be found, since it has merged so deeply with my own approach to language, so I must assume that it is everywhere.
+
+I even remember Weinriech coming up in an advising meeting with Bill, as I was talking about the metaphysical nature of language. I said something like, "Maybe Language only exists as the individualized grammars inside each of our heads, but a *baby* doesn't know that when they're trying to learn it." And Bill said something like, "It seems like you're really picking up the ideas of my professor, Uriel Weinreich."
+
+I obviously never knew Uriel Weinreich. But I do know that whether the loss of a mentor was tragic and untimely, or after a long and fruitful and inspiring career, it is still keenly felt. And I know that everything Bill had to say about Weinreich is what I have to say about Bill.
+
+------------------------------------------------------------------------
+
+![](images/tapes.JPG){fig-align="center" width="70%"}
+
+------------------------------------------------------------------------
+
+After my parents, the people who have most bent the arc of my life are Bill Labov and his wife & Linguistics Lab co-director, Gillian Sankoff. I went to college being good at school, but without any goals, and without my wits about me for the elite environment at Penn. I am indescribably lucky to have wandered into the Linguistics Lab where Bill and Gillian introduced me to a passion, and showed me that I could meaningfully contribute to our collective understanding of language.
+
+I wouldn't be an academic today if not for Bill Labov. Not just for his literal signature on my dissertation, but because some of the best years of my life were spent doing my PhD, and I know this is far from the norm. I know that there can be joy in the in the process, given the right mixture of patience, encouragement & flexibility, and I would like to pay that forward. Since finishing my PhD, my career has had some twists and turns that, quite frankly, nearly led to me calling it quits, but for that guiding light of knowing how things could be better.
+
+May his memory be a blessing.

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -40,12 +40,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-67ac7ec6b3a1f85241b981265026ac09.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-b45dcf2c66fba14039379877d3deadb4.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -84,7 +84,8 @@ ul.task-list li input[type="checkbox"] {
 
     const options = {
       valueNames: ['listing-date','listing-author','listing-reading-time','listing-title','listing-subtitle','listing-description','listing-image','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
+      page: 25,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
       searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description"],
     };
 
@@ -205,6 +206,11 @@ window.Quarto = {
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -482,26 +488,26 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth3 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts/2024/09/2024-09-06_rserver-codespaces/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Troubleshooting RStudio for GitHub Classrom and Codespaces</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./posts/2024/09/2024-09-02_OOP-r/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Experimenting with Object Oriented Programming in R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts/2024/09/2024-09-15_gt-table/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Building up a complex <code>{gt}</code> table.</span></a>
+  <a href="./posts/2024/09/2024-09-06_rserver-codespaces/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Troubleshooting RStudio for GitHub Classrom and Codespaces</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./posts/2024/09/2024-09-08_roll-clt/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rolling for Damage with the Central Limit Theorem</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./posts/2024/09/2024-09-15_gt-table/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Building up a complex <code>{gt}</code> table.</span></a>
   </div>
 </li>
       </ul>
@@ -546,6 +552,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-15" role="navigation" aria-expanded="false">
+ <span class="menu-text">12</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-15" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-15" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./posts/2024/12/2024-12-17_in-remembrance/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">In Remembrance</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
       </ul>
   </li>
       </ul>
@@ -572,7 +595,38 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1732060800000" data-listing-file-modified-sort="1732211025580" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="963">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1734393600000" data-listing-file-modified-sort="1734494315676" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="688">
+<div class="thumbnail">
+<p><a href="./posts/2024/12/2024-12-17_in-remembrance/index.html" class="no-external"></a></p><a href="./posts/2024/12/2024-12-17_in-remembrance/index.html" class="no-external">
+<p class="card-img-top"><img src="posts/2024/12/2024-12-17_in-remembrance/images/tapes.JPG"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/2024/12/2024-12-17_in-remembrance/index.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/2024/12/2024-12-17_in-remembrance/index.html" class="no-external">In Remembrance</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/2024/12/2024-12-17_in-remembrance/index.html" class="no-external"></a>
+</div>
+<div class="listing-description">
+<a href="./posts/2024/12/2024-12-17_in-remembrance/index.html" class="no-external"><span class="citation" data-cites="wlh1968">Weinreich, Labov, and Herzog (1968)</span> is a foundational text in my subfield of linguistics. Entitled “Empirical foundations for a theory of language change,” it’s both a…</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/2024/12/2024-12-17_in-remembrance/index.html" class="no-external">
+<div class="listing-date">
+2024-12-17
+</div>
+<div class="listing-author">
+Josef Fruehwald
+</div>
+<div class="listing-reading-time">
+4 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1732060800000" data-listing-file-modified-sort="1734494315654" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="963">
 <div class="thumbnail">
 <p><a href="./posts/2024/11/2024-11-20_poisson-ranef/index.html" class="no-external"></a></p><a href="./posts/2024/11/2024-11-20_poisson-ranef/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/2024/11/2024-11-20_poisson-ranef/index_files/figure-html/unnamed-chunk-10-1.png"  class="thumbnail-image card-img"/></p>
@@ -603,7 +657,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1731974400000" data-listing-file-modified-sort="1732211025580" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="969">
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1731974400000" data-listing-file-modified-sort="1734494315654" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="969">
 <div class="thumbnail">
 <p><a href="./posts/2024/11/2024-11-19_logit-priors-again/index.html" class="no-external"></a></p><a href="./posts/2024/11/2024-11-19_logit-priors-again/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/2024/11/2024-11-19_logit-priors-again/index_files/figure-html/unnamed-chunk-6-1.png"  class="thumbnail-image card-img"/></p>
@@ -634,7 +688,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="ggplot2,dataviz" data-listing-date-sort="1727740800000" data-listing-file-modified-sort="1732211025580" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1409">
+<div class="quarto-post image-right" data-index="3" data-categories="Z2dwbG90MiUyQ2RhdGF2aXo=" data-listing-date-sort="1727740800000" data-listing-file-modified-sort="1734494315654" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1409">
 <div class="thumbnail">
 <p><a href="./posts/2024/10/2024-10-01_ggplot2-default-colors/index.html" class="no-external"></a></p><a href="./posts/2024/10/2024-10-01_ggplot2-default-colors/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/2024/10/2024-10-01_ggplot2-default-colors/index_files/figure-html/share-image-1.png"  class="thumbnail-image card-img"/></p>
@@ -648,10 +702,10 @@ Josef Fruehwald
 <a href="./posts/2024/10/2024-10-01_ggplot2-default-colors/index.html" class="no-external"></a>
 </div>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ggplot2'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('Z2dwbG90Mg=='); return false;">
 ggplot2
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('dataviz'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('ZGF0YXZpeg=='); return false;">
 dataviz
 </div>
 </div>
@@ -673,7 +727,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1726358400000" data-listing-file-modified-sort="1732211025579" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1162">
+<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1726358400000" data-listing-file-modified-sort="1734494315653" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1162">
 <div class="thumbnail">
 <p><a href="./posts/2024/09/2024-09-15_gt-table/index.html" class="no-external"></a></p><a href="./posts/2024/09/2024-09-15_gt-table/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/2024/09/2024-09-15_gt-table/tbl.png" class="thumbnail-image"></p>
@@ -704,7 +758,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1725753600000" data-listing-file-modified-sort="1732211025579" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1519">
+<div class="quarto-post image-right" data-index="5" data-listing-date-sort="1725753600000" data-listing-file-modified-sort="1734494315653" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1519">
 <div class="thumbnail">
 <p><a href="./posts/2024/09/2024-09-08_roll-clt/index.html" class="no-external"></a></p><a href="./posts/2024/09/2024-09-08_roll-clt/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/2024/09/2024-09-08_roll-clt/index_files/figure-html/unnamed-chunk-4-1.png"  class="thumbnail-image card-img"/></p>
@@ -735,7 +789,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-listing-date-sort="1725580800000" data-listing-file-modified-sort="1732211025579" data-listing-date-modified-sort="1732211025000" data-listing-reading-time-sort="7" data-listing-word-count-sort="1324">
+<div class="quarto-post image-right" data-index="6" data-listing-date-sort="1725580800000" data-listing-file-modified-sort="1734494315653" data-listing-date-modified-sort="1734494315000" data-listing-reading-time-sort="7" data-listing-word-count-sort="1324">
 <div class="thumbnail">
 <p><a href="./posts/2024/09/2024-09-06_rserver-codespaces/index.html" class="no-external"></a></p><a href="./posts/2024/09/2024-09-06_rserver-codespaces/index.html" class="no-external">
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
@@ -766,7 +820,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-listing-date-sort="1725235200000" data-listing-file-modified-sort="1732211025579" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2724">
+<div class="quarto-post image-right" data-index="7" data-listing-date-sort="1725235200000" data-listing-file-modified-sort="1734494315653" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2724">
 <div class="thumbnail">
 <p><a href="./posts/2024/09/2024-09-02_OOP-r/index.html" class="no-external"></a></p><a href="./posts/2024/09/2024-09-02_OOP-r/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/2024/09/2024-09-02_OOP-r/assets/intervals.png"  class="thumbnail-image card-img"/></p>
@@ -797,7 +851,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-listing-date-sort="1721347200000" data-listing-file-modified-sort="1732211025578" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1894">
+<div class="quarto-post image-right" data-index="8" data-listing-date-sort="1721347200000" data-listing-file-modified-sort="1734494315653" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1894">
 <div class="thumbnail">
 <p><a href="./posts/2024/07/2024-07-19_dct-r/index.html" class="no-external"></a></p><a href="./posts/2024/07/2024-07-19_dct-r/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/2024/07/2024-07-19_dct-r/index_files/figure-html/fig-dct-funcs-1.svg"  class="thumbnail-image card-img"/></p>
@@ -828,7 +882,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-listing-date-sort="1708041600000" data-listing-file-modified-sort="1732211025539" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1557">
+<div class="quarto-post image-right" data-index="9" data-listing-date-sort="1708041600000" data-listing-file-modified-sort="1734494315615" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1557">
 <div class="thumbnail">
 <p><a href="./posts/2024/02/2024-02-16_fs-atg/index.html" class="no-external"></a></p><a href="./posts/2024/02/2024-02-16_fs-atg/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/2024/02/2024-02-16_fs-atg/index_files/figure-html/fig-first-ay-1.png"  class="thumbnail-image card-img"/></p>
@@ -859,7 +913,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-listing-date-sort="1707868800000" data-listing-file-modified-sort="1732211025501" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="935">
+<div class="quarto-post image-right" data-index="10" data-listing-date-sort="1707868800000" data-listing-file-modified-sort="1734494315578" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="935">
 <div class="thumbnail">
 <p><a href="./posts/2024/02/2024-02-14_gh-classroom/index.html" class="no-external"></a></p><a href="./posts/2024/02/2024-02-14_gh-classroom/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/2024/02/2024-02-14_gh-classroom/assets/git_error.png"  class="thumbnail-image card-img"/></p>
@@ -890,7 +944,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-listing-date-sort="1687996800000" data-listing-file-modified-sort="1732211025498" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1727">
+<div class="quarto-post image-right" data-index="11" data-listing-date-sort="1687996800000" data-listing-file-modified-sort="1734494315575" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1727">
 <div class="thumbnail">
 <p><a href="./posts/2023/06/2023-06-29_hierarchical-variance/index.html" class="no-external"></a></p><a href="./posts/2023/06/2023-06-29_hierarchical-variance/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/2023/06/2023-06-29_hierarchical-variance/index_files/figure-html/fig-individuals-1.png"  class="thumbnail-image card-img"/></p>
@@ -921,7 +975,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-listing-date-sort="1687910400000" data-listing-file-modified-sort="1732211025494" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="930">
+<div class="quarto-post image-right" data-index="12" data-listing-date-sort="1687910400000" data-listing-file-modified-sort="1734494315572" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="930">
 <div class="thumbnail">
 <p><a href="./posts/2023/06/2023-06-19_getting-a-sense-of-priors/index.html" class="no-external"></a></p><a href="./posts/2023/06/2023-06-19_getting-a-sense-of-priors/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/2023/06/2023-06-19_getting-a-sense-of-priors/index_files/figure-html/fig-intercept-1.png"  class="thumbnail-image card-img"/></p>
@@ -952,7 +1006,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="12" data-listing-date-sort="1686873600000" data-listing-file-modified-sort="1732211025493" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="712">
+<div class="quarto-post image-right" data-index="13" data-listing-date-sort="1686873600000" data-listing-file-modified-sort="1734494315572" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="712">
 <div class="thumbnail">
 <p><a href="./posts/2023/06/2023-06-16_changing_blog_defaults/index.html" class="no-external"></a></p><a href="./posts/2023/06/2023-06-16_changing_blog_defaults/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/2023/06/2023-06-16_changing_blog_defaults/index_files/figure-html/unnamed-chunk-2-1.png"  class="thumbnail-image card-img"/></p>
@@ -983,7 +1037,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="13" data-listing-date-sort="1683072000000" data-listing-file-modified-sort="1732211025493" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1586">
+<div class="quarto-post image-right" data-index="14" data-listing-date-sort="1683072000000" data-listing-file-modified-sort="1734494315572" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1586">
 <div class="thumbnail">
 <p><a href="./posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html" class="no-external"></a></p><a href="./posts/2023/05/2023-05-03_teaching-quarto-blogs/index.html" class="no-external">
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
@@ -1014,7 +1068,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="14" data-listing-date-sort="1676160000000" data-listing-file-modified-sort="1732211025493" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1073">
+<div class="quarto-post image-right" data-index="15" data-listing-date-sort="1676160000000" data-listing-file-modified-sort="1734494315572" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1073">
 <div class="thumbnail">
 <p><a href="./posts/2023/02/2023-02-12_dndroll/index.html" class="no-external"></a></p><a href="./posts/2023/02/2023-02-12_dndroll/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/2023/02/2023-02-12_dndroll/index_files/figure-html/fig-rollprob-1.png" class="thumbnail-image"></p>
@@ -1045,7 +1099,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="15" data-listing-date-sort="1675555200000" data-listing-file-modified-sort="1732211025493" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1082">
+<div class="quarto-post image-right" data-index="16" data-listing-date-sort="1675555200000" data-listing-file-modified-sort="1734494315571" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1082">
 <div class="thumbnail">
 <p><a href="./posts/2023/02/2023-02-05/index.html" class="no-external"></a></p><a href="./posts/2023/02/2023-02-05/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/2023/02/2023-02-05/data/table.png" class="thumbnail-image"></p>
@@ -1076,7 +1130,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="16" data-categories="plotly" data-listing-date-sort="1674950400000" data-listing-file-modified-sort="1732211025492" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="692">
+<div class="quarto-post image-right" data-index="17" data-categories="cGxvdGx5" data-listing-date-sort="1674950400000" data-listing-file-modified-sort="1734494315571" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="692">
 <div class="thumbnail">
 <p><a href="./posts/2023/01/2023-01-29_starting-plotly/index.html" class="no-external"></a></p><a href="./posts/2023/01/2023-01-29_starting-plotly/index.html" class="no-external">
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
@@ -1090,7 +1144,7 @@ Josef Fruehwald
 <a href="./posts/2023/01/2023-01-29_starting-plotly/index.html" class="no-external"></a>
 </div>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('plotly'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('cGxvdGx5'); return false;">
 plotly
 </div>
 </div>
@@ -1112,7 +1166,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="17" data-categories="R,R package exploration,`{ggforce}`,`{geomtextpath}`,`{ggdensity}`" data-listing-date-sort="1674777600000" data-listing-file-modified-sort="1732211025492" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1448">
+<div class="quarto-post image-right" data-index="18" data-categories="UiUyQ1IlMjBwYWNrYWdlJTIwZXhwbG9yYXRpb24lMkMlNjAlN0JnZ2ZvcmNlJTdEJTYwJTJDJTYwJTdCZ2VvbXRleHRwYXRoJTdEJTYwJTJDJTYwJTdCZ2dkZW5zaXR5JTdEJTYw" data-listing-date-sort="1674777600000" data-listing-file-modified-sort="1734494315571" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1448">
 <div class="thumbnail">
 <p><a href="./posts/2023/01/2023-01-27_jan-rpackages/index.html" class="no-external"></a></p><a href="./posts/2023/01/2023-01-27_jan-rpackages/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull4-1.png" class="thumbnail-image"></p>
@@ -1126,19 +1180,19 @@ Josef Fruehwald
 <a href="./posts/2023/01/2023-01-27_jan-rpackages/index.html" class="no-external"></a>
 </div>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">
 R
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('R package exploration'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('UiUyMHBhY2thZ2UlMjBleHBsb3JhdGlvbg=='); return false;">
 R package exploration
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('`{ggforce}`'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('JTYwJTdCZ2dmb3JjZSU3RCU2MA=='); return false;">
 <code>{ggforce}</code>
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('`{geomtextpath}`'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('JTYwJTdCZ2VvbXRleHRwYXRoJTdEJTYw'); return false;">
 <code>{geomtextpath}</code>
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('`{ggdensity}`'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('JTYwJTdCZ2dkZW5zaXR5JTdEJTYw'); return false;">
 <code>{ggdensity}</code>
 </div>
 </div>
@@ -1160,7 +1214,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="18" data-categories="how-to,r" data-listing-date-sort="1674345600000" data-listing-file-modified-sort="1732211025491" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2103">
+<div class="quarto-post image-right" data-index="19" data-categories="aG93LXRvJTJDcg==" data-listing-date-sort="1674345600000" data-listing-file-modified-sort="1734494315570" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2103">
 <div class="thumbnail">
 <p><a href="./posts/2023/01/2023-01-22_r-spect/index.html" class="no-external"></a></p><a href="./posts/2023/01/2023-01-22_r-spect/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/2023/01/2023-01-22_r-spect/index_files/figure-html/fig-countour2-1.png" class="thumbnail-image"></p>
@@ -1174,10 +1228,10 @@ Josef Fruehwald
 <a href="./posts/2023/01/2023-01-22_r-spect/index.html" class="no-external"></a>
 </div>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('how-to'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('aG93LXRv'); return false;">
 how-to
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('r'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('cg=='); return false;">
 r
 </div>
 </div>
@@ -1199,7 +1253,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="19" data-categories="research,linguistics" data-listing-date-sort="1672790400000" data-listing-file-modified-sort="1732211025462" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1403">
+<div class="quarto-post image-right" data-index="20" data-categories="cmVzZWFyY2glMkNsaW5ndWlzdGljcw==" data-listing-date-sort="1672790400000" data-listing-file-modified-sort="1734494315568" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1403">
 <div class="thumbnail">
 <p><a href="./posts/2023/01/2023-01-04_wooder3/index.html" class="no-external"></a></p><a href="./posts/2023/01/2023-01-04_wooder3/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/2023/01/2023-01-04_wooder3/assets/wooder_path.png" class="thumbnail-image"></p>
@@ -1213,10 +1267,10 @@ Josef Fruehwald
 <a href="./posts/2023/01/2023-01-04_wooder3/index.html" class="no-external">Part 3: The role of r-dissimilation</a>
 </div>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('research'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('cmVzZWFyY2g='); return false;">
 research
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('linguistics'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('bGluZ3Vpc3RpY3M='); return false;">
 linguistics
 </div>
 </div>
@@ -1238,7 +1292,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="20" data-categories="research,linguistics" data-listing-date-sort="1672531200000" data-listing-file-modified-sort="1732211025450" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2950">
+<div class="quarto-post image-right" data-index="21" data-categories="cmVzZWFyY2glMkNsaW5ndWlzdGljcw==" data-listing-date-sort="1672531200000" data-listing-file-modified-sort="1734494315563" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2950">
 <div class="thumbnail">
 <p><a href="./posts/2023/01/2023-01-01_wooder2/index.html" class="no-external"></a></p><a href="./posts/2023/01/2023-01-01_wooder2/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/2023/01/2023-01-01_wooder2/index_files/figure-html/fig-spectrogram-1.png" class="thumbnail-image"></p>
@@ -1252,10 +1306,10 @@ Josef Fruehwald
 <a href="./posts/2023/01/2023-01-01_wooder2/index.html" class="no-external">Part 2: Saying Wooder</a>
 </div>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('research'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('cmVzZWFyY2g='); return false;">
 research
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('linguistics'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('bGluZ3Vpc3RpY3M='); return false;">
 linguistics
 </div>
 </div>
@@ -1277,7 +1331,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="21" data-categories="research,linguistics" data-listing-date-sort="1672444800000" data-listing-file-modified-sort="1732211025450" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1387">
+<div class="quarto-post image-right" data-index="22" data-categories="cmVzZWFyY2glMkNsaW5ndWlzdGljcw==" data-listing-date-sort="1672444800000" data-listing-file-modified-sort="1734494315563" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1387">
 <div class="thumbnail">
 <p><a href="./posts/2022/12/2022-12-31_wooder1/index.html" class="no-external"></a></p><a href="./posts/2022/12/2022-12-31_wooder1/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/2022/12/2022-12-31_wooder1/assets/ADS2023-wooder.png" alt="The full American Dialect Society poster for "Philadelphians' say Wooder, and that's that"?"  class="thumbnail-image card-img"/></p>
@@ -1291,10 +1345,10 @@ Josef Fruehwald
 <a href="./posts/2022/12/2022-12-31_wooder1/index.html" class="no-external">Part 1: Talking about Wooder</a>
 </div>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('research'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('cmVzZWFyY2g='); return false;">
 research
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('linguistics'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('bGluZ3Vpc3RpY3M='); return false;">
 linguistics
 </div>
 </div>
@@ -1316,7 +1370,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="22" data-listing-date-sort="1671580800000" data-listing-file-modified-sort="1732211025441" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="791">
+<div class="quarto-post image-right" data-index="23" data-listing-date-sort="1671580800000" data-listing-file-modified-sort="1734494315553" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="791">
 <div class="thumbnail">
 <p><a href="./posts/2022/12/2022-12-21_github-onboarding/index.html" class="no-external"></a></p><a href="./posts/2022/12/2022-12-21_github-onboarding/index.html" class="no-external">
 <p class="card-img-top"><img src="posts/2022/12/2022-12-21_github-onboarding/github_onboarding_assets/rstudio_console.png" alt="A screenshot of RStudio. The console is in its default pane on the left hand side. An arrow has been drawn onto the screenshot pointing at the"  class="thumbnail-image card-img"/></p>
@@ -1347,7 +1401,7 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="23" data-categories="R" data-listing-date-sort="1671235200000" data-listing-file-modified-sort="1732211025431" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1508">
+<div class="quarto-post image-right" data-index="24" data-categories="Ug==" data-listing-date-sort="1671235200000" data-listing-file-modified-sort="1734494315541" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1508">
 <div class="thumbnail">
 <p><a href="./posts/2022/12/2022-12-17/index.html" class="no-external"></a></p><a href="./posts/2022/12/2022-12-17/index.html" class="no-external">
 <p><img loading="lazy" src="./posts/2022/12/2022-12-17/index_files/figure-html/fig-network-1.png" class="thumbnail-image"></p>
@@ -1361,7 +1415,7 @@ Josef Fruehwald
 <a href="./posts/2022/12/2022-12-17/index.html" class="no-external"></a>
 </div>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+<div class="listing-category" onclick="window.quartoListingCategory('Ug=='); return false;">
 R
 </div>
 </div>
@@ -1383,10 +1437,10 @@ Josef Fruehwald
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="24" data-listing-date-sort="1670630400000" data-listing-file-modified-sort="1732211025419" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1466">
+<div class="quarto-post image-right" data-index="25" data-listing-date-sort="1670630400000" data-listing-file-modified-sort="1734494315530" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1466">
 <div class="thumbnail">
 <p><a href="./posts/2022/12/2022-12-10/index.html" class="no-external"></a></p><a href="./posts/2022/12/2022-12-10/index.html" class="no-external">
-<p><img loading="lazy" src="./posts/2022/12/2022-12-10/index_files/figure-html/fig-total-1.png" class="thumbnail-image"></p>
+<p><img loading="lazy" data-src="./posts/2022/12/2022-12-10/index_files/figure-html/fig-total-1.png" class="thumbnail-image"></p>
 </a><p><a href="./posts/2022/12/2022-12-10/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -1418,6 +1472,9 @@ Josef Fruehwald
 <div class="listing-no-matching d-none">
 No matching items
 </div>
+<nav id="listing-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1645,8 +1702,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1757,7 +1812,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

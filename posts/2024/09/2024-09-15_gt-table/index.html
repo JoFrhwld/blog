@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.39">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2024-09-15">
@@ -62,8 +62,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
-<link href="../../../../posts/2024/09/2024-09-08_roll-clt/index.html" rel="next">
-<link href="../../../../posts/2024/09/2024-09-02_OOP-r/index.html" rel="prev">
+<link href="../../../../posts/2024/10/2024-10-01_ggplot2-default-colors/index.html" rel="next">
+<link href="../../../../posts/2024/09/2024-09-08_roll-clt/index.html" rel="prev">
 <link href="../../../..//assets/logo.svg" rel="icon" type="image/svg+xml">
 <script src="../../../../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
@@ -72,12 +72,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+<link href="../../../../site_libs/bootstrap/bootstrap-67ac7ec6b3a1f85241b981265026ac09.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark-b45dcf2c66fba14039379877d3deadb4.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -170,6 +170,11 @@ cookieconsent.run({
 </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
       </div> <!-- /container-fluid -->
     </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
@@ -451,26 +456,26 @@ cookieconsent.run({
       <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth3 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2024/09/2024-09-06_rserver-codespaces/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Troubleshooting RStudio for GitHub Classrom and Codespaces</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../../posts/2024/09/2024-09-02_OOP-r/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Experimenting with Object Oriented Programming in R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2024/09/2024-09-15_gt-table/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Building up a complex <a href="https://gt.rstudio.com">gt</a> table.</span></a>
+  <a href="../../../../posts/2024/09/2024-09-06_rserver-codespaces/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Troubleshooting RStudio for GitHub Classrom and Codespaces</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2024/09/2024-09-08_roll-clt/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Rolling for Damage with the Central Limit Theorem</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2024/09/2024-09-15_gt-table/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Building up a complex <a href="https://gt.rstudio.com">gt</a> table.</span></a>
   </div>
 </li>
       </ul>
@@ -511,6 +516,23 @@ cookieconsent.run({
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2024/11/2024-11-20_poisson-ranef/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Random Effects and Overdispersion</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-15" role="navigation" aria-expanded="false">
+ <span class="menu-text">12</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-15" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-15" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2024/12/2024-12-17_in-remembrance/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">In Remembrance</span></a>
   </div>
 </li>
       </ul>
@@ -1016,7 +1038,7 @@ cookieconsent.run({
 </style>
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <colgroup><col style="width: 100%"></colgroup>
-<thead><tr class="header gt_col_headings">
+<thead><tr class="gt_col_headings header">
 <th id="icon" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">icon</th>
 </tr></thead>
 <tbody class="gt_table_body">
@@ -1509,7 +1531,7 @@ Pizza Slice
 </style>
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <colgroup><col style="width: 100%"></colgroup>
-<thead><tr class="header gt_col_headings">
+<thead><tr class="gt_col_headings header">
 <th id="icon" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">icon</th>
 </tr></thead>
 <tbody class="gt_table_body">
@@ -2190,7 +2212,7 @@ Dice Six
 <col style="width: 6%">
 <col style="width: 6%">
 </colgroup>
-<thead><tr class="header gt_col_headings">
+<thead><tr class="gt_col_headings header">
 <th id="total" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">total</th>
 <th id="die_a_1" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">die_a_1</th>
 <th id="die_b_1" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">die_b_1</th>
@@ -3187,7 +3209,7 @@ Dice Six
 <col style="width: 11%">
 <col style="width: 11%">
 </colgroup>
-<thead><tr class="header gt_col_headings">
+<thead><tr class="gt_col_headings header">
 <th id="total" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">total</th>
 <th id="die_a_1" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">die_a_1</th>
 <th id="die_a_2" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">die_a_2</th>
@@ -4270,7 +4292,7 @@ Dice Six
 <col style="width: 10%">
 <col style="width: 10%">
 </colgroup>
-<thead><tr class="header gt_col_headings">
+<thead><tr class="gt_col_headings header">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)" scope="col"></th>
 <th id="total" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)" scope="col">total</th>
 <th class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)" scope="col"></th>
@@ -5069,8 +5091,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -5181,7 +5201,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -5408,13 +5427,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><script src="https://giscus.app/client.js" data-repo="JoFrhwld/blog" data-repo-id="MDEwOlJlcG9zaXRvcnkxNjU0MzIyNg==" data-category="General" data-category-id="DIC_kwDOAPxt-s4CTI5W" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="transparent_dark" data-lang="en" crossorigin="anonymous" async="">
 </script><input type="hidden" id="giscus-base-theme" value="transparent_dark"><input type="hidden" id="giscus-alt-theme" value="transparent_dark"><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="../../../../posts/2024/09/2024-09-02_OOP-r/index.html" class="pagination-link" aria-label="Experimenting with Object Oriented Programming in R">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Experimenting with Object Oriented Programming in R</span>
+      <a href="../../../../posts/2024/09/2024-09-08_roll-clt/index.html" class="pagination-link" aria-label="Rolling for Damage with the Central Limit Theorem">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Rolling for Damage with the Central Limit Theorem</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../../posts/2024/09/2024-09-08_roll-clt/index.html" class="pagination-link" aria-label="Rolling for Damage with the Central Limit Theorem">
-        <span class="nav-page-text">Rolling for Damage with the Central Limit Theorem</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../../../posts/2024/10/2024-10-01_ggplot2-default-colors/index.html" class="pagination-link" aria-label="Setting default ggplot2 colors">
+        <span class="nav-page-text">Setting default ggplot2 colors</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

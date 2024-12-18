@@ -18,6 +18,7 @@ website:
     image: /assets/logo.svg    
   bread-crumbs: false
   site-url: "https://jofrhwld.github.io/blog"
+  reader-mode: true
   google-analytics: "G-SS6YYGWPPL"
   cookie-consent:
     type: express

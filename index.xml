@@ -9,7 +9,7 @@
 <link>https://jofrhwld.github.io/blog/</link>
 <atom:link href="https://jofrhwld.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.6.39</generator>
+<generator>quarto-1.6.40</generator>
 <lastBuildDate>Tue, 17 Dec 2024 00:00:00 GMT</lastBuildDate>
 <item>
   <title>In Remembrance</title>
@@ -39,7 +39,7 @@
 <hr>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="images/tapes.JPG" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://jofrhwld.github.io/blog/posts/2024/12/2024-12-17_in-remembrance/images/tapes.JPG" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a></p>
+<p><a href="images/tapes.JPG" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="https://jofrhwld.github.io/blog/posts/2024/12/2024-12-17_in-remembrance/images/tapes.JPG" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></a></p>
 </figure>
 </div>
 <hr>
@@ -1523,7 +1523,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/plot_predictions.html">plot_predictions</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/plot_predictions.html">plot_predictions</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>  <span class="va" style="color: #111111;
@@ -1533,7 +1533,7 @@ font-style: inherit;">like_pois</span>,</span>
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>    dob_g <span class="op" style="color: #5E5E5E;
@@ -1625,7 +1625,7 @@ font-style: inherit;">)</span></span></code></pre></div>
 <div class="cell" data-layout-align="center">
 <details class="code-fold"><summary>Plot code</summary><div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html">predictions</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/predictions.html">predictions</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>  <span class="va" style="color: #111111;
@@ -1635,7 +1635,7 @@ font-style: inherit;">like_pois</span>, </span>
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>    dob_g <span class="op" style="color: #5E5E5E;
@@ -1995,7 +1995,7 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <div class="cell" data-layout-align="center">
 <details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb21" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/plot_predictions.html">plot_predictions</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/plot_predictions.html">plot_predictions</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>  <span class="va" style="color: #111111;
@@ -2005,7 +2005,7 @@ font-style: inherit;">like_repois</span>,</span>
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>    dob_g <span class="op" style="color: #5E5E5E;
@@ -15531,7 +15531,7 @@ font-style: inherit;">model</span>,</span>
 background-color: null;
 font-style: inherit;">~</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html">predictions</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/predictions.html">predictions</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>        <span class="va" style="color: #111111;
@@ -15541,7 +15541,7 @@ font-style: inherit;">.x</span>, </span>
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>          prop_time <span class="op" style="color: #5E5E5E;
@@ -16400,14 +16400,14 @@ background-color: null;
 font-style: inherit;">|&gt;</span> </span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html">predictions</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/predictions.html">predictions</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>    newdata <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>      prop_time <span class="op" style="color: #5E5E5E;
@@ -18992,14 +18992,14 @@ background-color: null;
 font-style: inherit;">|&gt;</span> </span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html">predictions</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/predictions.html">predictions</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>    newdata <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span>x <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -19034,7 +19034,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/posterior_draws.html">posterior_draws</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/posterior_draws.html">posterior_draws</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -20025,14 +20025,14 @@ background-color: null;
 font-style: inherit;">|&gt;</span> </span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html">predictions</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/predictions.html">predictions</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>    newdata <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/datagrid.html">datagrid</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span>x <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -20067,7 +20067,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span> </span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;"><a href="https://rdrr.io/pkg/marginaleffects/man/posterior_draws.html">posterior_draws</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://marginaleffects.com/man/r/posterior_draws.html">posterior_draws</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;

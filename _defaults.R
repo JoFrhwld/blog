@@ -5,12 +5,12 @@ library(colorspace)
 library(ggthemes)
 
 # get Fira Sans from google
-font_add_google(name = "Fira Sans", family = "Fira Sans")
+font_add_google(name = "Public Sans", family = "Public Sans")
 showtext_auto()
 
 # Set global variable for setting fonts
 # that aren't set by theme(text=...)
-PLOT_FONT <- "Fira Sans"
+PLOT_FONT <- "Public Sans"
 
 
 # from the theme _variables.scss
@@ -31,7 +31,7 @@ ptol_blue <- "#4477AA"
 
 
 theme_set(theme_minimal(base_size = 16) + 
-            theme(text = element_text(family = "Fira Sans"),
+            theme(text = element_text(family = "Public Sans"),
                   #plot.background = element_rect(fill = plot_bg),
                   panel.background = element_blank(),
                   panel.grid = element_blank(),
@@ -39,6 +39,7 @@ theme_set(theme_minimal(base_size = 16) +
                   #strip.background = element_rect(fill = strip_bg),
                   #strip.text = element_text(color = "white"),
                   axis.ticks = element_blank(),
+                  axis.line = element_line(color = "grey60", linewidth = 0.2),
                   legend.background = element_blank()))
 
 theme_no_y <- function(){

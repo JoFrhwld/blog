@@ -1,0 +1,182 @@
+---
+title: "Custom Code Chunk css"
+format: 
+  html:
+    theme:
+      light: [flatly, assets/specific.scss, assets/light.scss]
+      dark: [darkly, assets/specific.scss, assets/dark.scss]
+editor: visual
+fig-width: 5
+fig-height: 3
+fig-align: center
+---
+
+```{r}
+#| echo: false
+source(here::here("_defaults.R"))
+```
+
+By default in a quarto document, the code and output look something like this:
+
+::: blank
+```{r}
+set.seed(2025)
+rnorm(10)
+```
+:::
+
+Maybe this is just me not wanting my peas to touch my mashed potatos, but I don't like how *close* the output is to the text of the document.
+I also feel like it gets a little visually confusing if I have a long paragraph,
+
+::: blank
+```{r}
+rnorm(10)
+```
+:::
+
+and then a short one
+
+::: blank
+```{r}
+rnorm(10)
+```
+:::
+
+and then a third.
+
+What I really want is my code output to be bundled up with the entire code chunk.
+I've worked out how to make it happen with some css, so now my code chunks and outputs look like this:
+
+```{r}
+rnorm(10)
+```
+
+The code input and output are wrapped up together visually, and remain distinct from the surrounding prose.
+
+## The scss
+
+I've set this up across three scss files, even though for the most part it's not making use of the features of scss.
+
+``` {.scss filename="custom.scss"}
+/*-- scss:rules --*/
+.cell:not(.page-full):has(.cell-output){
+    padding: 2%;
+    border-radius: 10px;
+    margin-bottom: 1em;
+ }
+```
+
+``` {.scss filename="light.scss"}
+/*-- scss:rules --*/
+.cell:not(.page-full):has(.cell-output){
+    background-color: $gray-100;
+ }
+```
+
+``` {.scss filename="dark.scss"}
+/*-- scss:rules --*/
+.cell:not(.page-full):has(.cell-output){
+   background-color: $gray-800;
+ }
+```
+
+The separate light and dark files are there so the background color of the full wrapper is appropriate for light/darkmode.
+These all get included in my quarto configuration like so:
+
+``` {.yaml filename="_quarto.yml"}
+#...
+format:
+  html:
+    theme:
+      light: [flatly, custom.scss, light.scss]
+      dark: [darkly, custom.scss, dark.scss]
+#...
+```
+
+## Why those selectors?
+
+So, the `.cell` class targets the entire code cell (input and output).
+To be honest, I can't reconstruct why I have a `:not(.page-full)` modifier in there.
+I must've done it to capture some edge case though, so I don't question it.
+
+I *do* remember why I have the `:has(.cell-output)` part.
+The lighter enclosing div only appears when there's code output.
+If I have code that doesn't print anything, it's just the normal default quarto formatting.
+
+```{r}
+a <- rnorm(10)
+```
+
+It's *also* the case that figures don't get rendered into a `.cell-output` div, so plotting code *also* gets the default quarto formatting.
+
+```{r}
+#| fig-align: center
+library(ggplot2)
+
+p <- ggplot(
+  mtcars,
+  aes(mpg, disp)
+) +
+  geom_point()
+
+print(p)
+```
+
+Same for `{gt}` tables.
+
+```{r}
+library(gt)
+
+car_tab <- gt_preview(mtcars) |>
+  fmt_number(
+    decimals = 1,
+    drop_trailing_zeros = T
+  ) |>
+  cols_align_decimal() |> 
+  opt_table_font(font = "Public Sans")
+
+car_tab
+```
+
+This is super handy, because if I don't echo the code chunks, the figures and tables show up in the document just like you'd expect
+
+::: {layout-ncol="2"}
+```{r}
+#| echo: false
+p
+```
+
+```{r}
+#| echo: false
+car_tab |> 
+  cols_hide(
+    columns = c(cyl, hp:carb) 
+  )
+```
+:::
+
+But if I have unechoed code that prints code output, it will still show up with the shaded outline.
+
+```{r}
+#| echo: false
+a
+```
+
+## The one thing to watch for
+
+If ggplot returns some warnings, and you don't have warnings in the output suppressed, the warning and the plot will all wind up in the `.cell-output`, even if you turn off code echoing.
+
+```{r}
+#| fig-align: center
+#| warning: true
+library(palmerpenguins)
+
+ggplot(
+  penguins,
+  aes(
+    bill_length_mm, 
+    bill_depth_mm
+  )
+) +
+  geom_point()
+```

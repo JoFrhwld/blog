@@ -32,6 +32,9 @@ website:
         text: About
       - icon: rss
         href: index.xml
+      - icon: cloud-sun
+        text: bsky
+        href: https://bsky.app/profile/jofrhwld.bsky.social
   sidebar:
     logo: assets/logo.svg  
     style: floating
@@ -57,8 +60,6 @@ format:
         - darkly
         - styles/custom.scss
         - styles/dark.scss
-    monofont: Fira Code
-    mainfont: Public Sans
     toc: true
     fig-width: 6
     fig-height: 5

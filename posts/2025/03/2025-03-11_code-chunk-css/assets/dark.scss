@@ -1,0 +1,6 @@
+/*-- scss:rules --*/
+  
+.blank .cell:not(.page-full):has(.cell-output){
+   background-color: $body-bg;
+ }
+ 

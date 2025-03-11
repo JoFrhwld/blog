@@ -9,6 +9,11 @@ editor: visual
 fig-width: 5
 fig-height: 3
 fig-align: center
+image: images/preview.png
+twitter-card:
+  image: images/preview.png
+open-graph: 
+  image: images/preview.png
 ---
 
 ```{r}

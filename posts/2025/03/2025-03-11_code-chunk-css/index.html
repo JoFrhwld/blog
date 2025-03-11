@@ -5,8 +5,7 @@
 <meta name="generator" content="quarto-1.6.42">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
-<meta name="dcterms.date" content="2023-06-28">
-<title>Getting a sense of priors for logistic regression – Væl Space</title>
+<title>Custom Code Chunk css – Væl Space</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -62,8 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
-<link href="../../../../posts/2023/06/2023-06-29_hierarchical-variance/index.html" rel="next">
-<link href="../../../../posts/2023/06/2023-06-16_changing_blog_defaults/index.html" rel="prev">
+<link href="../../../../posts/2024/12/2024-12-17_in-remembrance/index.html" rel="prev">
 <link href="../../../..//assets/logo.svg" rel="icon" type="image/svg+xml">
 <script src="../../../../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
@@ -76,8 +74,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-52344140e666b6081bcf6167ae8c18d5.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-3c9a02f5a4e573ddb016ae85c34eb00f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../../site_libs/bootstrap/bootstrap-dark-ba150af3df5be0845589c78ad7e2a51e.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-e751ea2958340f616fc6dbab0760838b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark-b12862de896721f4f86bd065a11dc2ab.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
@@ -128,20 +126,16 @@ cookieconsent.run({
   });
 });
 </script><style>html{ scroll-behavior: smooth; }</style>
-<meta property="og:title" content="Getting a sense of priors for logistic regression – Væl Space">
+<meta property="og:title" content="Custom Code Chunk css – Væl Space">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://jofrhwld.github.io/blog/posts/2023/06/2023-06-19_getting-a-sense-of-priors/index_files/figure-html/fig-prob-intercept-1.png">
+<meta property="og:image" content="https://jofrhwld.github.io/blog/assets/logo.svg">
 <meta property="og:site_name" content="Væl Space">
-<meta property="og:image:height" content="768">
-<meta property="og:image:width" content="1536">
-<meta name="twitter:title" content="Getting a sense of priors for logistic regression – Væl Space">
+<meta name="twitter:title" content="Custom Code Chunk css – Væl Space">
 <meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://jofrhwld.github.io/blog/posts/2023/06/2023-06-19_getting-a-sense-of-priors/index_files/figure-html/fig-prob-intercept-1.png">
-<meta name="twitter:image-height" content="768">
-<meta name="twitter:image-width" content="1536">
+<meta name="twitter:image" content="https://jofrhwld.github.io/blog/assets/logo.svg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
-<body class="nav-sidebar floating nav-fixed slimcontent">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
@@ -190,12 +184,12 @@ cookieconsent.run({
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <a class="flex-grow-1 no-decor" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-          <h1 class="quarto-secondary-nav-title">Getting a sense of priors for logistic regression</h1>
+          <h1 class="quarto-secondary-nav-title">Custom Code Chunk css</h1>
         </a>     
     </div>
   </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default page-columns page-full"><div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title d-none d-lg-block">Getting a sense of priors for logistic regression</h1>
+      <h1 class="title d-none d-lg-block">Custom Code Chunk css</h1>
                       </div>
   </div>
     
@@ -209,12 +203,6 @@ cookieconsent.run({
             </div>
     </div>
       
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">June 28, 2023</p>
-      </div>
-    </div>
     
       
     </div>
@@ -285,13 +273,13 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">2023</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">
 <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
@@ -375,13 +363,13 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
  <span class="menu-text">06</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 show">
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../posts/2023/06/2023-06-16_changing_blog_defaults/index.html" class="sidebar-item-text sidebar-link">
@@ -390,7 +378,7 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2023/06/2023-06-19_getting-a-sense-of-priors/index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../../posts/2023/06/2023-06-19_getting-a-sense-of-priors/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Getting a sense of priors for logistic regression</span></a>
   </div>
 </li>
@@ -549,25 +537,25 @@ cookieconsent.run({
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-16" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-16" role="navigation" aria-expanded="true">
  <span class="menu-text">2025</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-16" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-16" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-16" class="collapse list-unstyled sidebar-section depth2 ">
+      <ul id="quarto-sidebar-section-16" class="collapse list-unstyled sidebar-section depth2 show">
 <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-17" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-17" role="navigation" aria-expanded="true">
  <span class="menu-text">03</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-17" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-17" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-17" class="collapse list-unstyled sidebar-section depth3 ">
+      <ul id="quarto-sidebar-section-17" class="collapse list-unstyled sidebar-section depth3 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../posts/2025/03/2025-03-11_code-chunk-css/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../posts/2025/03/2025-03-11_code-chunk-css/index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Custom Code Chunk css</span></a>
   </div>
 </li>
@@ -585,147 +573,152 @@ cookieconsent.run({
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#simulating-some-intercepts" id="toc-simulating-some-intercepts" class="nav-link active" data-scroll-target="#simulating-some-intercepts">Simulating some intercepts</a></li>
-  <li><a href="#how-it-looks-in-the-probability-space" id="toc-how-it-looks-in-the-probability-space" class="nav-link" data-scroll-target="#how-it-looks-in-the-probability-space">How it looks in the probability space</a></li>
-  <li><a href="#the-upshot" id="toc-the-upshot" class="nav-link" data-scroll-target="#the-upshot">The Upshot</a></li>
+<li><a href="#the-scss" id="toc-the-scss" class="nav-link active" data-scroll-target="#the-scss">The scss</a></li>
+  <li><a href="#why-those-selectors" id="toc-why-those-selectors" class="nav-link" data-scroll-target="#why-those-selectors">Why those selectors?</a></li>
+  <li><a href="#the-one-thing-to-watch-for" id="toc-the-one-thing-to-watch-for" class="nav-link" data-scroll-target="#the-one-thing-to-watch-for">The one thing to watch for</a></li>
   </ul></nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content"><p>This summer, I’ve been spending some time getting more familiar with <a href="https://jofrhwld.github.io/rethinking-workthrough/">the nitty-gritty of Bayesian models</a>, and I’m working on some modelling in Stan for logistic regression. Setting up the basic model formula in Stan for logistic regression is pretty straightforward:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode stan code-with-copy"><code class="sourceCode stan"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mu = intercept + slope * x;</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y ~ bernoulli_logit(mu);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>And then you “just” need to set a prior for for the <code>intercept</code> and <code>slope</code> terms. But I hadn’t thought about how my impulses for setting priors for ordinary linear models could be pathological for logistic regression!</p>
+<main class="content quarto-banner-title-block" id="quarto-document-content"><p>By default in a quarto document, the code and output look something like this:</p>
+<div class="blank">
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mjskay.github.io/ggdist/">ggdist</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com">gt</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html">here</a></span><span class="op">(</span><span class="st">"_defaults.R"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="simulating-some-intercepts" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="simulating-some-intercepts">Simulating some intercepts</h2>
-<p>Let’s start by assuming that the <code>intercept</code> value should be about 0, which corresponds to a probability of 0.5.</p>
-<div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">zero_intercept</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
-<span></span>
-<span><span class="co">## inverse logit</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html">plogis</a></span><span class="op">(</span><span class="va">zero_intercept</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5</code></pre>
+<pre><code> [1]  0.62075674  0.03564140  0.77315448  1.27248909  0.37097543 -0.16285434
+ [7]  0.39711189 -0.07998932 -0.34496518  0.70215136</code></pre>
 </div>
 </div>
-<p>So, I’ll normal distribution with a mean of 0, but what should its standard deviation be? My impulse from gaussian models is that I don’t want to set the standard deviation too small, cause then I’d be using an overly informative prior. Let’s simulate some intercepts from normal distributions with sds of 1, 3, and 5.</p>
+</div>
+<p>Maybe this is just me not wanting my peas to touch my mashed potatos, but I don’t like how <em>close</em> the output is to the text of the document. I also feel like it gets a little visually confusing if I have a long paragraph,</p>
+<div class="blank">
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
-<span>  sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    intercepts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
-<span>      intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span></span>
-<span>        <span class="fl">1e6</span>, </span>
-<span>        mean <span class="op">=</span> <span class="fl">0</span>, </span>
-<span>        sd <span class="op">=</span> <span class="va">sd</span><span class="op">)</span></span>
-<span>    <span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">intercepts</span><span class="op">)</span><span class="op">-&gt;</span></span>
-<span>  <span class="va">intercept_samples</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>And we can visualize these samples from the prior like so.</p>
-<div class="cell page-columns page-full">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">intercept_samples</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
-<span>      <span class="va">intercept</span>, </span>
-<span>      fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">sd</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="http://mjskay.github.io/ggdist/reference/stat_slab.html">stat_slab</a></span><span class="op">(</span>normalize <span class="op">=</span> <span class="st">"panels"</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">sd</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu">theme_no_y</span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
-<span>      legend.position <span class="op">=</span> <span class="st">"none"</span></span>
-<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display page-columns page-full">
-<div id="fig-intercept" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-intercept-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-intercept-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Samples from normal priors."><img src="index_files/figure-html/fig-intercept-1.png" class="img-fluid figure-img" style="width:80.0%"></a>
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-intercept-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Samples from normal priors.
-</figcaption></figure>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -0.39569639 -1.75505405 -0.42096376  0.76490961  1.06616211 -0.19369636
+ [7] -0.05214701  0.41767082 -1.31269403  2.42901921</code></pre>
 </div>
 </div>
 </div>
-</section><section id="how-it-looks-in-the-probability-space" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="how-it-looks-in-the-probability-space">How it looks in the probability space</h2>
-<p>So, maybe we should go with the ~normal(0,5) prior, so as to not to be overly informative. Real quick, though, let’s plot these distributions in the <em>probablity</em> space.</p>
-<div class="cell page-columns page-full">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">intercept_samples</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html">plogis</a></span><span class="op">(</span><span class="va">intercept</span><span class="op">)</span>, </span>
-<span>      fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">sd</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="http://mjskay.github.io/ggdist/reference/stat_slab.html">stat_slab</a></span><span class="op">(</span>normalize <span class="op">=</span> <span class="st">"panels"</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">sd</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu">theme_no_y</span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
-<span>      legend.position <span class="op">=</span> <span class="st">"none"</span></span>
-<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display page-columns page-full">
-<div id="fig-prob-intercept" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-prob-intercept-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-prob-intercept-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Inverse logit samples from normal priors."><img src="index_files/figure-html/fig-prob-intercept-1.png" class="img-fluid figure-img" style="width:80.0%"></a>
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-prob-intercept-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Inverse logit samples from normal priors.
-</figcaption></figure>
-</div>
-</div>
-</div>
-<p>Wait! My uninformative ~normal(0,5) prior is suddenly looking <em>pretty</em> informative. The probability mass for the priors with larger standard deviations is ammassed closer to 0 and 1, rather than mostly toward the middle at 0.5! If we just roughly look at roughly how much probability mass each prior puts below 0.1 versus the middle 0.1, it’s pretty clear.</p>
+<p>and then a short one</p>
+<div class="blank">
 <div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">intercept_samples</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    prob_intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html">plogis</a></span><span class="op">(</span><span class="va">intercept</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sd</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
-<span>    under_5 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span></span>
-<span>      <span class="va">prob_intercept</span> <span class="op">&lt;</span> <span class="fl">0.1</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    middling <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span></span>
-<span>      <span class="va">prob_intercept</span> <span class="op">&gt;</span> <span class="fl">0.45</span> <span class="op">&amp;</span></span>
-<span>        <span class="va">prob_intercept</span> <span class="op">&lt;</span> <span class="fl">0.55</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html">fmt_number</a></span><span class="op">(</span></span>
-<span>      decimals <span class="op">=</span> <span class="fl">3</span>, </span>
-<span>      columns <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">3</span></span>
-<span>    <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://gt.rstudio.com/reference/cols_label.html">cols_label</a></span><span class="op">(</span></span>
-<span>      under_5<span class="op">=</span><span class="st">"bottom 0.1"</span>,</span>
-<span>      middling <span class="op">=</span> <span class="st">"middle 0.1"</span></span>
-<span>      </span>
-<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output-display">
-<div id="mawrmmbwfb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mawrmmbwfb table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -0.24457065  0.73378542  2.85278145  0.67152530 -0.11584926 -1.30135199
+ [7] -0.91780026  0.05071605 -0.38013286  0.72262510</code></pre>
+</div>
+</div>
+</div>
+<p>and then a third.</p>
+<p>What I really want is my code output to be bundled up with the entire code chunk. I’ve worked out how to make it happen with some css, so now my code chunks and outputs look like this:</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -1.0257576  1.8198706 -1.2704175  0.5888158 -0.6342534 -1.2658154
+ [7]  0.2837490 -1.4817612  0.9118797  0.9714688</code></pre>
+</div>
+</div>
+<p>The code input and output are wrapped up together visually, and remain distinct from the surrounding prose.</p>
+<section id="the-scss" class="level2"><h2 class="anchored" data-anchor-id="the-scss">The scss</h2>
+<p>I’ve set this up across three scss files, even though for the most part it’s not making use of the features of scss.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>custom.scss</strong></pre>
+</div>
+<div class="sourceCode" id="cb9" data-filename="custom.scss"><pre class="sourceCode scss code-with-copy"><code class="sourceCode scss"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">/*-- scss:rules --*/</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">.cell</span><span class="in">:not(.page-full):has(.cell-output)</span>{</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">padding</span>: <span class="dv">2</span><span class="dt">%</span><span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">border-radius</span>: <span class="dv">10</span><span class="dt">px</span><span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">margin-bottom</span>: <span class="dv">1</span><span class="dt">em</span><span class="op">;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>light.scss</strong></pre>
+</div>
+<div class="sourceCode" id="cb10" data-filename="light.scss"><pre class="sourceCode scss code-with-copy"><code class="sourceCode scss"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">/*-- scss:rules --*/</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">.cell</span><span class="in">:not(.page-full):has(.cell-output)</span>{</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">background-color</span>: <span class="va">$gray-100</span><span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a> }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>dark.scss</strong></pre>
+</div>
+<div class="sourceCode" id="cb11" data-filename="dark.scss"><pre class="sourceCode scss code-with-copy"><code class="sourceCode scss"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">/*-- scss:rules --*/</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">.cell</span><span class="in">:not(.page-full):has(.cell-output)</span>{</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>   <span class="kw">background-color</span>: <span class="va">$gray-800</span><span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a> }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The separate light and dark files are there so the background color of the full wrapper is appropriate for light/darkmode. These all get included in my quarto configuration like so:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>_quarto.yml</strong></pre>
+</div>
+<div class="sourceCode" id="cb12" data-filename="_quarto.yml"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#...</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">light</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">flatly</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">,</span><span class="at"> light.scss</span><span class="kw">]</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">dark</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">darkly</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">,</span><span class="at"> dark.scss</span><span class="kw">]</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="why-those-selectors" class="level2"><h2 class="anchored" data-anchor-id="why-those-selectors">Why those selectors?</h2>
+<p>So, the <code>.cell</code> class targets the entire code cell (input and output). To be honest, I can’t reconstruct why I have a <code>:not(.page-full)</code> modifier in there. I must’ve done it to capture some edge case though, so I don’t question it.</p>
+<p>I <em>do</em> remember why I have the <code>:has(.cell-output)</code> part. The lighter enclosing div only appears when there’s code output. If I have code that doesn’t print anything, it’s just the normal default quarto formatting.</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It’s <em>also</em> the case that figures don’t get rendered into a <code>.cell-output</code> div, so plotting code <em>also</em> gets the default quarto formatting.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">mtcars</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="va">disp</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Same for <a href="https://gt.rstudio.com">gt</a> tables.</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com">gt</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">car_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://gt.rstudio.com/reference/gt_preview.html">gt_preview</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html">fmt_number</a></span><span class="op">(</span></span>
+<span>    decimals <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    drop_trailing_zeros <span class="op">=</span> <span class="cn">T</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/cols_align_decimal.html">cols_align_decimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/opt_table_font.html">opt_table_font</a></span><span class="op">(</span>font <span class="op">=</span> <span class="st">"Public Sans"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">car_tab</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="hhwhbbzmjp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hhwhbbzmjp table {
+  font-family: 'Public Sans', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#mawrmmbwfb thead, #mawrmmbwfb tbody, #mawrmmbwfb tfoot, #mawrmmbwfb tr, #mawrmmbwfb td, #mawrmmbwfb th {
+#hhwhbbzmjp thead, #hhwhbbzmjp tbody, #hhwhbbzmjp tfoot, #hhwhbbzmjp tr, #hhwhbbzmjp td, #hhwhbbzmjp th {
   border-style: none;
 }
 
-#mawrmmbwfb p {
+#hhwhbbzmjp p {
   margin: 0;
   padding: 0;
 }
 
-#mawrmmbwfb .gt_table {
+#hhwhbbzmjp .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -751,12 +744,12 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   border-left-color: #D3D3D3;
 }
 
-#mawrmmbwfb .gt_caption {
+#hhwhbbzmjp .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#mawrmmbwfb .gt_title {
+#hhwhbbzmjp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -768,7 +761,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   border-bottom-width: 0;
 }
 
-#mawrmmbwfb .gt_subtitle {
+#hhwhbbzmjp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -780,7 +773,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   border-top-width: 0;
 }
 
-#mawrmmbwfb .gt_heading {
+#hhwhbbzmjp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -792,13 +785,13 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   border-right-color: #D3D3D3;
 }
 
-#mawrmmbwfb .gt_bottom_border {
+#hhwhbbzmjp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#mawrmmbwfb .gt_col_headings {
+#hhwhbbzmjp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -813,7 +806,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   border-right-color: #D3D3D3;
 }
 
-#mawrmmbwfb .gt_col_heading {
+#hhwhbbzmjp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -833,7 +826,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   overflow-x: hidden;
 }
 
-#mawrmmbwfb .gt_column_spanner_outer {
+#hhwhbbzmjp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -845,15 +838,15 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   padding-right: 4px;
 }
 
-#mawrmmbwfb .gt_column_spanner_outer:first-child {
+#hhwhbbzmjp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#mawrmmbwfb .gt_column_spanner_outer:last-child {
+#hhwhbbzmjp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#mawrmmbwfb .gt_column_spanner {
+#hhwhbbzmjp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -865,11 +858,11 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   width: 100%;
 }
 
-#mawrmmbwfb .gt_spanner_row {
+#hhwhbbzmjp .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#mawrmmbwfb .gt_group_heading {
+#hhwhbbzmjp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -895,7 +888,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   text-align: left;
 }
 
-#mawrmmbwfb .gt_empty_group_heading {
+#hhwhbbzmjp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -910,15 +903,15 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   vertical-align: middle;
 }
 
-#mawrmmbwfb .gt_from_md > :first-child {
+#hhwhbbzmjp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#mawrmmbwfb .gt_from_md > :last-child {
+#hhwhbbzmjp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#mawrmmbwfb .gt_row {
+#hhwhbbzmjp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -937,7 +930,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   overflow-x: hidden;
 }
 
-#mawrmmbwfb .gt_stub {
+#hhwhbbzmjp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -950,7 +943,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   padding-right: 5px;
 }
 
-#mawrmmbwfb .gt_stub_row_group {
+#hhwhbbzmjp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -964,15 +957,15 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   vertical-align: top;
 }
 
-#mawrmmbwfb .gt_row_group_first td {
+#hhwhbbzmjp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#mawrmmbwfb .gt_row_group_first th {
+#hhwhbbzmjp .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#mawrmmbwfb .gt_summary_row {
+#hhwhbbzmjp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -982,16 +975,16 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   padding-right: 5px;
 }
 
-#mawrmmbwfb .gt_first_summary_row {
+#hhwhbbzmjp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#mawrmmbwfb .gt_first_summary_row.thick {
+#hhwhbbzmjp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#mawrmmbwfb .gt_last_summary_row {
+#hhwhbbzmjp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1001,7 +994,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   border-bottom-color: #D3D3D3;
 }
 
-#mawrmmbwfb .gt_grand_summary_row {
+#hhwhbbzmjp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1011,7 +1004,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   padding-right: 5px;
 }
 
-#mawrmmbwfb .gt_first_grand_summary_row {
+#hhwhbbzmjp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1021,7 +1014,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   border-top-color: #D3D3D3;
 }
 
-#mawrmmbwfb .gt_last_grand_summary_row_top {
+#hhwhbbzmjp .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1031,11 +1024,11 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   border-bottom-color: #D3D3D3;
 }
 
-#mawrmmbwfb .gt_striped {
+#hhwhbbzmjp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#mawrmmbwfb .gt_table_body {
+#hhwhbbzmjp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1044,7 +1037,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   border-bottom-color: #D3D3D3;
 }
 
-#mawrmmbwfb .gt_footnotes {
+#hhwhbbzmjp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1058,7 +1051,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   border-right-color: #D3D3D3;
 }
 
-#mawrmmbwfb .gt_footnote {
+#hhwhbbzmjp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1067,7 +1060,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   padding-right: 5px;
 }
 
-#mawrmmbwfb .gt_sourcenotes {
+#hhwhbbzmjp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1081,7 +1074,7 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   border-right-color: #D3D3D3;
 }
 
-#mawrmmbwfb .gt_sourcenote {
+#hhwhbbzmjp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1089,165 +1082,751 @@ Figure&nbsp;2: Inverse logit samples from normal priors.
   padding-right: 5px;
 }
 
-#mawrmmbwfb .gt_left {
+#hhwhbbzmjp .gt_left {
   text-align: left;
 }
 
-#mawrmmbwfb .gt_center {
+#hhwhbbzmjp .gt_center {
   text-align: center;
 }
 
-#mawrmmbwfb .gt_right {
+#hhwhbbzmjp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#mawrmmbwfb .gt_font_normal {
+#hhwhbbzmjp .gt_font_normal {
   font-weight: normal;
 }
 
-#mawrmmbwfb .gt_font_bold {
+#hhwhbbzmjp .gt_font_bold {
   font-weight: bold;
 }
 
-#mawrmmbwfb .gt_font_italic {
+#hhwhbbzmjp .gt_font_italic {
   font-style: italic;
 }
 
-#mawrmmbwfb .gt_super {
+#hhwhbbzmjp .gt_super {
   font-size: 65%;
 }
 
-#mawrmmbwfb .gt_footnote_marks {
+#hhwhbbzmjp .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#mawrmmbwfb .gt_asterisk {
+#hhwhbbzmjp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#mawrmmbwfb .gt_indent_1 {
+#hhwhbbzmjp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#mawrmmbwfb .gt_indent_2 {
+#hhwhbbzmjp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#mawrmmbwfb .gt_indent_3 {
+#hhwhbbzmjp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#mawrmmbwfb .gt_indent_4 {
+#hhwhbbzmjp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#mawrmmbwfb .gt_indent_5 {
+#hhwhbbzmjp .gt_indent_5 {
   text-indent: 25px;
+}
+
+#hhwhbbzmjp .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#hhwhbbzmjp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
 }
 </style>
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings header">
-<th id="sd" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">sd</th>
-<th id="bottom 0.1" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">bottom 0.1</th>
-<th id="middle 0.1" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">middle 0.1</th>
+<th class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="mpg" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">mpg</th>
+<th id="cyl" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">cyl</th>
+<th id="disp" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">disp</th>
+<th id="hp" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">hp</th>
+<th id="drat" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">drat</th>
+<th id="wt" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">wt</th>
+<th id="qsec" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">qsec</th>
+<th id="vs" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">vs</th>
+<th id="am" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">am</th>
+<th id="gear" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">gear</th>
+<th id="carb" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">carb</th>
 </tr></thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_right" headers="sd">1</td>
-<td class="gt_row gt_right" headers="under_5">0.014</td>
-<td class="gt_row gt_right" headers="middling">0.159</td>
+<td id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">1</td>
+<td class="gt_row gt_right" headers="stub_1_1 mpg">21  </td>
+<td class="gt_row gt_right" headers="stub_1_1 cyl">6&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_1 disp">160&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_1 hp">110&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_1 drat">3.9</td>
+<td class="gt_row gt_right" headers="stub_1_1 wt">2.6</td>
+<td class="gt_row gt_right" headers="stub_1_1 qsec">16.5</td>
+<td class="gt_row gt_right" headers="stub_1_1 vs">0&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_1 am">1&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_1 gear">4&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_1 carb">4&nbsp;</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_right" headers="sd">3</td>
-<td class="gt_row gt_right" headers="under_5">0.231</td>
-<td class="gt_row gt_right" headers="middling">0.053</td>
+<td id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">2</td>
+<td class="gt_row gt_right" headers="stub_1_2 mpg">21  </td>
+<td class="gt_row gt_right" headers="stub_1_2 cyl">6&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_2 disp">160&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_2 hp">110&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_2 drat">3.9</td>
+<td class="gt_row gt_right" headers="stub_1_2 wt">2.9</td>
+<td class="gt_row gt_right" headers="stub_1_2 qsec">17  </td>
+<td class="gt_row gt_right" headers="stub_1_2 vs">0&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_2 am">1&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_2 gear">4&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_2 carb">4&nbsp;</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_right" headers="sd">5</td>
-<td class="gt_row gt_right" headers="under_5">0.330</td>
-<td class="gt_row gt_right" headers="middling">0.032</td>
+<td id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">3</td>
+<td class="gt_row gt_right" headers="stub_1_3 mpg">22.8</td>
+<td class="gt_row gt_right" headers="stub_1_3 cyl">4&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_3 disp">108&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_3 hp"> 93&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_3 drat">3.9</td>
+<td class="gt_row gt_right" headers="stub_1_3 wt">2.3</td>
+<td class="gt_row gt_right" headers="stub_1_3 qsec">18.6</td>
+<td class="gt_row gt_right" headers="stub_1_3 vs">1&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_3 am">1&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_3 gear">4&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_3 carb">1&nbsp;</td>
+</tr>
+<tr class="even">
+<td id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">4</td>
+<td class="gt_row gt_right" headers="stub_1_4 mpg">21.4</td>
+<td class="gt_row gt_right" headers="stub_1_4 cyl">6&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_4 disp">258&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_4 hp">110&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_4 drat">3.1</td>
+<td class="gt_row gt_right" headers="stub_1_4 wt">3.2</td>
+<td class="gt_row gt_right" headers="stub_1_4 qsec">19.4</td>
+<td class="gt_row gt_right" headers="stub_1_4 vs">1&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_4 am">0&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_4 gear">3&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_4 carb">1&nbsp;</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">5</td>
+<td class="gt_row gt_right" headers="stub_1_5 mpg">18.7</td>
+<td class="gt_row gt_right" headers="stub_1_5 cyl">8&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_5 disp">360&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_5 hp">175&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_5 drat">3.1</td>
+<td class="gt_row gt_right" headers="stub_1_5 wt">3.4</td>
+<td class="gt_row gt_right" headers="stub_1_5 qsec">17  </td>
+<td class="gt_row gt_right" headers="stub_1_5 vs">0&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_5 am">0&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_5 gear">3&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_5 carb">2&nbsp;</td>
+</tr>
+<tr class="even">
+<td id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; font-size: x-small; background-color: #E4E4E4">6..31</td>
+<td class="gt_row gt_right" headers="stub_1_6 mpg" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 cyl" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 disp" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 hp" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 drat" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 wt" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 qsec" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 vs" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 am" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 gear" style="background-color: #E4E4E4"></td>
+<td class="gt_row gt_right" headers="stub_1_6 carb" style="background-color: #E4E4E4"></td>
+</tr>
+<tr class="odd">
+<td id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">32</td>
+<td class="gt_row gt_right" headers="stub_1_7 mpg">21.4</td>
+<td class="gt_row gt_right" headers="stub_1_7 cyl">4&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_7 disp">121&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_7 hp">109&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_7 drat">4.1</td>
+<td class="gt_row gt_right" headers="stub_1_7 wt">2.8</td>
+<td class="gt_row gt_right" headers="stub_1_7 qsec">18.6</td>
+<td class="gt_row gt_right" headers="stub_1_7 vs">1&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_7 am">1&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_7 gear">4&nbsp;</td>
+<td class="gt_row gt_right" headers="stub_1_7 carb">2&nbsp;</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-</section><section id="the-upshot" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="the-upshot">The Upshot</h2>
-<p>The reason the symmetric and spread out distributions in the logit space turn into sharp bimodal distributions in the probability space is because the (inverse) logit transform is non linear. Basically every value below about -4.5 is going to get squished to 0, and basically every value above 4.5 is going to get squished to 1. If I want the probability distribution over the intercept to be roughly unimodal in the probability space, then the standard deviation in the logit space should be relatively small to avoid extreme values!</p>
-<p>If we take 0.01 and 0.99 as about most extreme values, in the probability space, that the intercept could be, we can convert that to logit, and divide by 3 to get a good standard deviation for the prior, since almost all data falls within 3sds of the mean.</p>
+<p>This is super handy, because if I don’t echo the code chunks, the figures and tables show up in the document just like you’d expect</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-9-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="480"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output-display">
+<div id="igqomdnnlt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#igqomdnnlt table {
+  font-family: 'Public Sans', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#igqomdnnlt thead, #igqomdnnlt tbody, #igqomdnnlt tfoot, #igqomdnnlt tr, #igqomdnnlt td, #igqomdnnlt th {
+  border-style: none;
+}
+
+#igqomdnnlt p {
+  margin: 0;
+  padding: 0;
+}
+
+#igqomdnnlt .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#igqomdnnlt .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#igqomdnnlt .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#igqomdnnlt .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#igqomdnnlt .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#igqomdnnlt .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#igqomdnnlt .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#igqomdnnlt .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#igqomdnnlt .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#igqomdnnlt .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#igqomdnnlt .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#igqomdnnlt .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#igqomdnnlt .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#igqomdnnlt .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#igqomdnnlt .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#igqomdnnlt .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#igqomdnnlt .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#igqomdnnlt .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#igqomdnnlt .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#igqomdnnlt .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#igqomdnnlt .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#igqomdnnlt .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#igqomdnnlt .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#igqomdnnlt .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#igqomdnnlt .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#igqomdnnlt .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#igqomdnnlt .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#igqomdnnlt .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#igqomdnnlt .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#igqomdnnlt .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#igqomdnnlt .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#igqomdnnlt .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#igqomdnnlt .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#igqomdnnlt .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#igqomdnnlt .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#igqomdnnlt .gt_left {
+  text-align: left;
+}
+
+#igqomdnnlt .gt_center {
+  text-align: center;
+}
+
+#igqomdnnlt .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#igqomdnnlt .gt_font_normal {
+  font-weight: normal;
+}
+
+#igqomdnnlt .gt_font_bold {
+  font-weight: bold;
+}
+
+#igqomdnnlt .gt_font_italic {
+  font-style: italic;
+}
+
+#igqomdnnlt .gt_super {
+  font-size: 65%;
+}
+
+#igqomdnnlt .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#igqomdnnlt .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#igqomdnnlt .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#igqomdnnlt .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#igqomdnnlt .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#igqomdnnlt .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#igqomdnnlt .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#igqomdnnlt .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#igqomdnnlt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead><tr class="gt_col_headings header">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" style="text-align: left;" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="mpg" class="gt_col_heading gt_columns_bottom_border gt_right" style="text-align: left;" data-quarto-table-cell-role="th" scope="col">mpg</th>
+<th id="disp" class="gt_col_heading gt_columns_bottom_border gt_right" style="text-align: left;" data-quarto-table-cell-role="th" scope="col">disp</th>
+</tr></thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">1</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="stub_1_1 mpg">21  </td>
+<td class="gt_row gt_right" style="text-align: left;" headers="stub_1_1 disp">160&nbsp;</td>
+</tr>
+<tr class="even">
+<td id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">2</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="stub_1_2 mpg">21  </td>
+<td class="gt_row gt_right" style="text-align: left;" headers="stub_1_2 disp">160&nbsp;</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">3</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="stub_1_3 mpg">22.8</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="stub_1_3 disp">108&nbsp;</td>
+</tr>
+<tr class="even">
+<td id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">4</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="stub_1_4 mpg">21.4</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="stub_1_4 disp">258&nbsp;</td>
+</tr>
+<tr class="odd">
+<td id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">5</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="stub_1_5 mpg">18.7</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="stub_1_5 disp">360&nbsp;</td>
+</tr>
+<tr class="even">
+<td id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier; font-size: x-small; background-color: #E4E4E4;">6..31</td>
+<td class="gt_row gt_right" headers="stub_1_6 mpg" style="text-align: left; background-color: #E4E4E4;"></td>
+<td class="gt_row gt_right" headers="stub_1_6 disp" style="text-align: left; background-color: #E4E4E4;"></td>
+</tr>
+<tr class="odd">
+<td id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">32</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="stub_1_7 mpg">21.4</td>
+<td class="gt_row gt_right" style="text-align: left;" headers="stub_1_7 disp">121&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>But if I have unechoed code that prints code output, it will still show up with the shaded outline.</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html">qlogis</a></span><span class="op">(</span><span class="fl">0.99</span><span class="op">)</span><span class="op">/</span><span class="fl">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.531707</code></pre>
+<pre><code> [1]  1.2731270  1.4622685 -0.6110828 -0.3605532 -1.5291518  1.1332638
+ [7] -0.4407391  0.1296048  0.8712326  0.5055147</code></pre>
 </div>
 </div>
-<p>The prior I had just above, with sd=1, has a slightly narrower range in the probability space.</p>
-<div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html">plogis</a></span><span class="op">(</span><span class="fl">1</span><span class="op">*</span><span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9525741</code></pre>
+</section><section id="the-one-thing-to-watch-for" class="level2"><h2 class="anchored" data-anchor-id="the-one-thing-to-watch-for">The one thing to watch for</h2>
+<p>If ggplot returns some warnings, and you don’t have warnings in the output suppressed, the warning and the plot will all wind up in the <code>.cell-output</code>, even if you turn off code echoing.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">penguins</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>    <span class="va">bill_length_mm</span>, </span>
+<span>    <span class="va">bill_depth_mm</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
 </div>
-</div>
-<div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
-<span>  sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    intercepts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
-<span>      intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span></span>
-<span>        <span class="fl">1e6</span>, </span>
-<span>        mean <span class="op">=</span> <span class="fl">0</span>, </span>
-<span>        sd <span class="op">=</span> <span class="va">sd</span><span class="op">)</span></span>
-<span>    <span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">intercepts</span><span class="op">)</span><span class="op">-&gt;</span></span>
-<span>  <span class="va">new_intercept_samples</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>The ~normal(0, 1.5) prior looks almost like a uniform distribution in the probability space.</p>
-<div class="cell page-columns page-full">
-<details class="code-fold"><summary>Code</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">new_intercept_samples</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html">plogis</a></span><span class="op">(</span><span class="va">intercept</span><span class="op">)</span>, </span>
-<span>      fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">sd</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="http://mjskay.github.io/ggdist/reference/stat_slab.html">stat_slab</a></span><span class="op">(</span>normalize <span class="op">=</span> <span class="st">"panels"</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">sd</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu">theme_no_y</span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
-<span>      legend.position <span class="op">=</span> <span class="st">"none"</span></span>
-<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details><div class="cell-output-display page-columns page-full">
-<div id="fig-prob-better" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
-<figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-prob-better-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/fig-prob-better-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Inverse logit samples from normal priors."><img src="index_files/figure-html/fig-prob-better-1.png" class="img-fluid figure-img" style="width:80.0%"></a>
-</div>
-<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-prob-better-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Inverse logit samples from normal priors.
-</figcaption></figure>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-12-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></a></p>
+</figure>
 </div>
 </div>
 </div>
 
 
-</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2023,
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY-SA 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald,
   author = {Fruehwald, Josef},
-  title = {Getting a Sense of Priors for Logistic Regression},
+  title = {Custom {Code} {Chunk} Css},
   series = {Væl Space},
-  date = {2023-06-28},
-  url = {https://jofrhwld.github.io/blog/posts/2023/06/2023-06-19_getting-a-sense-of-priors/},
+  url = {https://jofrhwld.github.io/blog/posts/2025/03/2025-03-11_code-chunk-css/},
   langid = {en}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2023" class="csl-entry quarto-appendix-citeas" role="listitem">
-Fruehwald, Josef. 2023. <span>“Getting a Sense of Priors for Logistic
-Regression.”</span> Væl Space. June 28, 2023. <a href="https://jofrhwld.github.io/blog/posts/2023/06/2023-06-19_getting-a-sense-of-priors/">https://jofrhwld.github.io/blog/posts/2023/06/2023-06-19_getting-a-sense-of-priors/</a>.
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald" class="csl-entry quarto-appendix-citeas" role="listitem">
+Fruehwald, Josef. n.d. <span>“Custom Code Chunk Css.”</span> Væl Space.
+<a href="https://jofrhwld.github.io/blog/posts/2025/03/2025-03-11_code-chunk-css/">https://jofrhwld.github.io/blog/posts/2025/03/2025-03-11_code-chunk-css/</a>.
 </div></div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1810,14 +2389,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><script src="https://giscus.app/client.js" data-repo="JoFrhwld/blog" data-repo-id="MDEwOlJlcG9zaXRvcnkxNjU0MzIyNg==" data-category="General" data-category-id="DIC_kwDOAPxt-s4CTI5W" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="transparent_dark" data-lang="en" crossorigin="anonymous" async="">
 </script><input type="hidden" id="giscus-base-theme" value="transparent_dark"><input type="hidden" id="giscus-alt-theme" value="transparent_dark"><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="../../../../posts/2023/06/2023-06-16_changing_blog_defaults/index.html" class="pagination-link" aria-label="Changing Project Defaults">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Changing Project Defaults</span>
+      <a href="../../../../posts/2024/12/2024-12-17_in-remembrance/index.html" class="pagination-link" aria-label="In Remembrance">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">In Remembrance</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../../posts/2023/06/2023-06-29_hierarchical-variance/index.html" class="pagination-link" aria-label="Thinking About Hierarchical Variance Parameters">
-        <span class="nav-page-text">Thinking About Hierarchical Variance Parameters</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

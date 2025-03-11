@@ -1,0 +1,11 @@
+typography:
+  fonts:
+    - family: Public Sans
+      source: google
+    - family: Comfortaa
+      source: google
+    - family: Fira Code
+      source: google      
+  base: Public Sans
+  headings: Comfortaa
+  monospace: Fira Code

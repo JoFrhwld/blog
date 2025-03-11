@@ -32,6 +32,9 @@ website:
         text: About
       - icon: rss
         href: index.xml
+      - icon: cloud-sun
+        text: bsky
+        href: https://bsky.app/profile/jofrhwld.bsky.social
   sidebar:
     logo: assets/logo.svg  
     style: floating

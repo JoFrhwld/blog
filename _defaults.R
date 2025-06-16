@@ -32,15 +32,29 @@ ptol_blue <- "#4477AA"
 
 theme_set(theme_minimal(base_size = 16) + 
             theme(text = element_text(family = "Public Sans"),
-                  #plot.background = element_rect(fill = plot_bg),
-                  panel.background = element_blank(),
-                  panel.grid = element_blank(),
+                  plot.background = element_rect(fill = "white", colour = NA),
+                  panel.background = element_rect(fill = "white", colour = NA),                  panel.grid = element_blank(),
                   legend.key = element_blank(),
                   #strip.background = element_rect(fill = strip_bg),
                   #strip.text = element_text(color = "white"),
                   axis.ticks = element_blank(),
                   axis.line = element_line(color = "grey60", linewidth = 0.2),
                   legend.background = element_blank()))
+
+theme_dark <- function(){
+  theme(
+    #panel.border = element_blank(),
+    text = element_text(family = "Public Sans", colour = "white"),
+    axis.text = element_text(colour = "white"),
+    rect = element_rect(colour = "#222", fill = "#222"),
+    plot.background = element_rect(fill = "#222", colour = NA),
+    panel.background = element_rect(fill = "#424952"),
+    strip.background = element_rect(fill="#3d3d3d"),
+    strip.text = element_text(color = "white")
+  )
+}
+
+
 
 theme_no_y <- function(){
   theme(
@@ -56,6 +70,10 @@ theme_no_x <- function(){
     axis.title.x = element_blank(),
     panel.grid.major.x = element_blank()
   )
+}
+
+out2fig = function(out.width, out.width.default = 0.7, fig.width.default = 6) {
+  fig.width.default * out.width / out.width.default 
 }
 
 options(

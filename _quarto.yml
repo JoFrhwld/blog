@@ -10,7 +10,7 @@ execute:
   freeze: auto
 
 website:
-  title: "Væl Space"
+  title: "Væl Space ![](/assets/logo-small.svg){.center}"
   favicon: /assets/logo.svg
   twitter-card:
     image: /assets/logo.svg
@@ -19,7 +19,8 @@ website:
   bread-crumbs: false
   site-url: "https://jofrhwld.github.io/blog"
   reader-mode: true
-  google-analytics: "G-SS6YYGWPPL"
+  google-analytics: 
+    tracking-id: "G-SS6YYGWPPL"
   cookie-consent:
     type: express
     palette: dark

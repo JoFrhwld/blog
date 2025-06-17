@@ -13,9 +13,9 @@ website:
   title: "Væl Space ![](/assets/logo-small.svg){.center}"
   favicon: /assets/logo.svg
   twitter-card:
-    image: /assets/logo.svg
+    image: https://jofrhwld.github.io/blog/assets/logo.svg
   open-graph: 
-    image: /assets/logo.svg    
+    image: https://jofrhwld.github.io/blog/assets/logo.svg
   bread-crumbs: false
   site-url: "https://jofrhwld.github.io/blog"
   reader-mode: true
@@ -27,15 +27,16 @@ website:
   page-navigation: true
   navbar:
     left:
-      - href: https://jofrhwld.github.io/
-        text: Homepage
       - href: about.qmd
         text: About
+      - href: defaults.qmd
+        text: Site defaults
       - icon: rss
         href: index.xml
-      - icon: cloud-sun
-        text: bsky
+      - text: <i class="bi bi-bluesky"></i>
         href: https://bsky.app/profile/jofrhwld.bsky.social
+      - href: https://jofrhwld.github.io/
+        icon: house-fill    
   sidebar:
     logo: assets/logo.svg  
     style: floating

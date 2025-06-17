@@ -1,0 +1,552 @@
+---
+title: "Doing cool things with the Discrete Cosine Transform in tidynorm"
+description: "DCT coefficients are really useful!"
+date: 2025-06-17
+format: html
+fig-width: 6
+fig-asp: 0.618
+out-width: 70%
+editor: visual
+---
+
+[Yesterday](../2025-06-16_introducing-tidynorm/) I posted about the normalization functions in the `{tidynorm}` R package.
+In order to implement formant track normalization, I had to also put together code for working with the Discrete Cosine Transform (DCT), which in and of itself can be handy to work with.
+
+```{r}
+library(tidynorm)
+library(tidyverse)
+library(geomtextpath)
+library(gt)
+
+source(here::here("_defaults.R"))
+```
+
+## The DCT
+
+[I've posted about the DCT before](../../../2024/07/2024-07-19_dct-r/), but to put it briefly, the DCT tries to re-describe an input signal in terms of weighted and summed cosine functions.
+The DCT basis looks like this:
+
+```{r}
+#| renderings: [light, dark]
+#| code-fold: true
+#| code-summary: "plotting code"
+#| fig-align: center
+#| fig-width: !expr out2fig(out.width = 0.6)
+#| out-width: 60%
+dct_mat <- dct_basis(100, k = 5)
+
+as_tibble(
+  dct_mat, 
+  .name_repair = "unique"
+) |> 
+  mutate(
+    x = row_number()
+  ) |> 
+  pivot_longer(
+    starts_with("...")
+  ) |> 
+  ggplot(
+    aes(x, value, color = name)
+  ) +
+    geom_line(
+      linewidth = 1
+    ) +
+  guides(color = "none") +
+  labs(y = NULL) +
+  theme_no_x()->p
+
+p
+p+theme_dark()
+```
+
+If we grab one vowel's formant track and fit a linear model using these functions as predictors, the coefficients will equal the DCT coefficients.
+
+```{r}
+speaker_tracks |> 
+  filter(
+    speaker == "s01",
+    plt_vclass == "ay"
+  ) |> 
+  filter(id == first(id)) ->
+  one_ay
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: plotting code
+#| renderings: 
+#|   - light
+#|   - dark
+#| fig-width: !expr out2fig(out.width = 0.5)
+#| out-width: 50%
+#| fig-align: center
+one_ay |> 
+  ggplot(
+    aes(t, F1)
+  )+
+  geom_point(color = ptol_red, size = 2)->
+  p
+
+p
+p + theme_dark()
+```
+
+```{r}
+# 5 dct coefficients
+# for a formant track with
+# 20 measurement points
+dct_mat <- dct_basis(20, k = 5)
+
+dct_mod <- lm(one_ay$F1 ~ dct_mat - 1)
+
+dct_direct <- tidynorm::dct(one_ay$F1)[1:5]
+
+cbind(
+  coef(dct_mod),
+  dct_direct
+)
+```
+
+## Using the DCT to Smooth
+
+A cool thing about the DCT is that it can be used to smooth formant tracks.
+We can see that smoothing effect if we plot the inverse DCT of the coefficients we just got.
+
+```{r}
+#| code-fold: true
+#| code-summary: plotting code
+#| renderings: 
+#|   - light
+#|   - dark
+#| fig-asp: 0.5
+#| out-width: 70%
+#| fig-align: center
+
+one_ay |> 
+  mutate(
+    F1_s = idct(
+      dct_direct, n = n()
+      )
+  ) |> 
+  ggplot(
+    aes(
+      t
+    )
+  ) +
+  geom_point(
+    aes(y = F1, color = "original")
+  ) +
+  geom_line(
+    aes(y = F1_s, color = "dct smooth"),
+    linewidth = 1
+  )+
+  labs(
+    color = NULL
+  ) -> p
+
+p
+p + theme_dark()
+```
+
+In `tidynorm()` we can get these smoothed formant tracks with `reframe_with_dct_smooth()`.
+
+```{r}
+#| warning: false
+
+# grabbing a sample of
+# a few vowel tracks
+set.seed(2025-06)
+speaker_tracks |> 
+  filter(
+    speaker == "s01",
+    plt_vclass == "ay0"
+  ) |> 
+  filter(
+    id %in% sample(unique(id), 5)
+  ) ->
+  ay_tracks
+
+# smoothing happens here
+ay_tracks |> 
+  reframe_with_dct_smooth(
+    F1:F3,
+    .token_id_col = id,
+    .time_col = t
+  ) ->
+  ay_smooths
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: plotting code
+
+ay_tracks |> 
+  ggplot(
+    aes(F2, F1)
+  ) +
+  geom_path(
+    aes(color = factor(id)),
+    arrow = arrow(
+      type = "closed",
+      angle = 25,
+      length = unit(0.5, "cm")
+    ),
+    linewidth = 1
+  ) +
+  guides(
+    color = "none"
+  ) +
+  scale_y_reverse() +
+  scale_x_reverse() ->
+  track_p
+
+track_p %+% ay_smooths ->
+  smooth_p
+```
+
+::: {layout-ncol="2"}
+```{r}
+#| echo: false
+#| renderings: 
+#|   - light
+#|   - dark
+
+track_p+labs(title = "original")
+track_p+labs(title = "original")+theme_dark()
+
+```
+
+```{r}
+#| echo: false
+#| renderings: 
+#|   - light
+#|   - dark
+
+smooth_p+labs(title = "smoothed")
+smooth_p+labs(title = "smoothed")+theme_dark()
+
+```
+:::
+
+## Averaging formant tracks
+
+Something that's *really* handy about DCT coefficients is they let you average over formant tracks of vowel tokens that are all different lengths.
+The process goes:
+
+1.  Get the DCT coefficients for each token with `reframe_with_dct().`
+2.  Average over each vowel class and dct parameter with `dplyr::summarise()`.
+3.  Then, convert everything back into formant-tracks with `reframe_with_idct()`.
+
+```{r}
+# Grabbing a subset of
+# vowel classes
+speaker_tracks |> 
+  filter(
+    speaker == "s03",
+    str_detect(plt_vclass, "y")
+  ) ->
+  y_vowels
+
+# Step 1: Reframe with DCT
+y_vowels |> 
+  reframe_with_dct(
+    F1:F3,
+    .by = speaker,
+    .token_id_col = id,
+    .time_col = t
+  ) -> 
+  y_vowel_dct
+  
+# Step 2: average over vowel class
+#   and DCT parameter
+  y_vowel_dct |> 
+  summarise(
+    .by = c(speaker, plt_vclass, .param),
+    across(
+      F1:F3,
+      mean
+    )
+  ) ->
+  y_vowel_dct_mean
+  
+# Step 3: Convert back to tracks
+# with the inverse DCT
+y_vowel_dct_mean |> 
+  reframe_with_idct(
+    F1:F3,
+    .by = speaker,
+    .token_id_col = plt_vclass,
+    .param_col = .param
+  ) ->
+  y_vowel_averages
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: plotting code
+#| renderings: 
+#|   - light
+#|   - dark
+
+y_vowel_averages |> 
+  ggplot(
+    aes(F2, F1)
+  )+
+  geom_textpath(
+    aes(
+      color = plt_vclass,
+      label = plt_vclass
+    ),
+    arrow = arrow(
+      type = "closed",
+      angle = 25,
+      length = unit(0.25, "cm")
+    ),
+    linewidth = 1
+  )+
+  guides(color = "none")+
+  scale_x_reverse()+
+  scale_y_reverse()->
+  y_p
+
+y_p
+y_p + theme_dark()
+```
+
+## Regressions with DCTs
+
+A *really* cool thing about DCTs is that you can use them as outcome measures in a regression, and get some nuanced results with some very simple models.
+For example, let's go to fit a model looking at the effect of voicing on the F1 of /ay/ ("ay", vs "ay0").
+
+### Step 1: get the data subset
+
+```{r}
+speaker_tracks |> 
+  filter(
+    speaker == "s03",
+    str_detect(plt_vclass, "ay")
+  ) ->
+  ays
+```
+
+### Step 2: get the DCTs
+
+```{r}
+ays |> 
+  reframe_with_dct(
+    F1:F3,
+    .token_id_col = id,
+    .time_col = t
+  )->
+  ay_dcts
+```
+
+### Step 3: pivot wider
+
+We need each DCT coefficient in its own column for this, so we'll pivot wider.
+
+```{r}
+ay_dcts |> 
+  pivot_wider(
+    names_from = .param,
+    values_from = F1:F3
+  ) ->
+  ay_dct_wide
+```
+
+::: {.callout-note collapse="true"}
+## The wide data
+
+```{r}
+#| echo: false
+#| renderings: [light, dark]
+
+ay_dct_wide |> 
+  gt_preview() |> 
+  fmt_number(
+    matches("F\\d_"),
+    decimals  = 1
+  ) -> 
+  tab
+
+tab
+tab |> 
+  dark_gt_theme()
+```
+:::
+
+### Step 4: Fit the model
+
+I'll fit this with a "simple" `lm()`.
+This isn't one of the fancy GAMs you've heard about.
+
+```{r}
+ay_model <- lm(
+  cbind(F1_0, F1_1, F1_2, F1_3, F1_4) ~ plt_vclass,
+  data = ay_dct_wide
+)
+```
+
+### Step 5: Interpreting the model
+
+Things get a little weird here, but we can apply the inverse DCT to the model parameters to visualize them.
+Getting confidence intervals takes a few more steps.
+
+```{r}
+library(broom)
+
+# get a dataframe 
+# of the model coefficients
+tidy(ay_model) |> 
+  
+# apply idct to each model term
+  reframe_with_idct(
+    estimate,
+    .token_id_col = term,
+    .param_col = response,
+    .n = 50
+  ) |> 
+
+# plotting
+  ggplot(
+    aes(
+      .time/50, estimate
+    )
+  ) +
+  geom_line(
+    color = ptol_red,
+    linewidth = 2
+  ) +
+  facet_wrap(~term, scales = "free_y") ->
+  model_plot
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: plot rendering
+#| renderings: [light, dark]
+#| out-width: 70%
+#| fig-asp: 0.5
+#| fig-align: center
+model_plot
+model_plot + theme_dark()
+```
+
+We can interpret the curve in the Intercept facet like we normally do: It's the predicted F1 formant track for the reference level.
+The curve in the "plt_vclassay0" facet is the *difference* curve, or how much different pre-voiceless /ay/ is predicted to be.
+
+::: {.callout-note collapse="true"}
+## Getting CIs
+
+To get a visualization of the uncertainty we'll have to sample from a multivariate normal.
+
+```{r}
+#| renderings: [light, dark]
+#| out-width: 80%
+#| fig-width: !expr out2fig(out.width = 0.8)
+#| fig-asp: 0.45
+#| fig-align: center
+
+library(mvtnorm)
+library(ggdist)
+Sigma <- vcov(ay_model)
+mu_df <- tidy(ay_model)
+
+rmvnorm(
+  1000, 
+  mean = mu_df$estimate, 
+  sigma = Sigma
+) |> 
+  t() |> 
+  as_tibble(
+    .name_repair = "unique_quiet",
+  ) |> 
+  mutate(
+    response = mu_df$response,
+    term = mu_df$term
+  ) |> 
+  pivot_longer(
+    starts_with("..."),
+    names_to = "sample",
+    values_to = "estimate"
+  ) |> 
+  reframe_with_idct(
+    estimate,
+    .by = sample,
+    .token_id_col = term,
+    .param_col = response,
+    .n = 50
+  ) |> 
+  ggplot(
+    aes(
+      .time, estimate
+    )
+  )+
+  geom_hline(
+    data =  tibble(term = "plt_vclassay0", estimate = 0),
+    aes(
+      yintercept = estimate
+    )
+  )+
+  stat_lineribbon()+
+  facet_wrap(~term, scales = "free_y")-> ci_plot
+
+ci_plot
+ci_plot + theme_dark()
+```
+:::
+
+## Getting the rate and acceleration
+
+If you're still here, you might also be interested to know that you can also get the first and second derivatives of the inverse DCT as well.
+tidynorm has two functions for this (`idct_rate()` and `idct_accel()`), but there are also optional arguments `.rate` and `.accel` in `reframe_with_idct()`
+
+```{r}
+y_vowel_dct_mean |> 
+  # let's look at just one
+  # vowel
+  filter(
+    plt_vclass == "ay"
+  ) |> 
+  # reframe with rate and accel
+  reframe_with_idct(
+    F1,
+    .token_id_col = plt_vclass,
+    .param_col = .param,
+    .rate = T,
+    .accel = T,
+    .n = 100
+  ) ->
+  formant_derivatives
+```
+
+```{r}
+#| renderings: [light, dark]
+#| code-fold: true
+#| code-summary: plot rendering
+#| fig-asp: 0.33
+#| out-width: 90%
+#| fig-width: !expr out2fig(0.9)
+#| fig-align: center
+formant_derivatives |> 
+  pivot_longer(
+    starts_with("F1")
+  ) |> 
+  ggplot(
+    aes(
+      .time, value
+    )
+  )+
+  geom_line(color = ptol_red, linewidth = 1)+
+  facet_wrap(~name, scales = "free_y")->
+  deriv_plot
+
+deriv_plot
+deriv_plot + theme_dark()
+
+```
+
+## Summing up
+
+There's a lot of cool and interesting use cases for DCT coefficients!
+Expect to see more about them from me!

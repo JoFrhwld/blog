@@ -1,0 +1,8 @@
+---
+title: "Site Defaults"
+filters:
+  - include-code-files
+---
+
+``` {.r include="_defaults.R" filename="_defaults.R"}
+```

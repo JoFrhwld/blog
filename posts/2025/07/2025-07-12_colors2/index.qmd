@@ -1,0 +1,343 @@
+---
+title: "index"
+format: html
+editor: visual
+draft: true
+---
+
+```{r}
+#| eval: false
+expand_grid(
+  x = seq(-1,1, length = 300),
+  y = seq(-1,1, length = 300)
+) |> 
+  
+  mutate(
+    L = sqrt((x^2) + (y^2))
+  ) |> 
+  filter(
+    L <= 0.9
+  ) |> 
+  mutate(
+    H_rad = atan2(x,y),
+    H_rad = case_when(
+      H_rad < 0 ~ H_rad + (2*pi),
+      .default = H_rad
+    ),
+    H = H_rad * (180/pi)
+  ) |> 
+  rowwise() |> 
+  mutate(
+    hls = HLS(H, L, 0.75) |>  list(),
+    hex = hex(hls)
+  ) ->
+  color_wheel
+```
+
+```{r}
+#| eval: false
+color_wheel |> 
+  ggplot(
+    aes(x, y)
+  )+
+  geom_raster(
+    aes(fill = hex)
+  )+
+  scale_fill_identity()+
+  coord_fixed()
+```
+
+```{r}
+#| eval: false
+gb_mod |> 
+  predictions(
+    newdata = color_wheel,
+    re_formula = NA
+  ) |> 
+  as_tibble()->
+  color_wheel_pred
+
+attr(color_wheel_pred, "model") <- NULL
+attr(color_wheel_pred, "newdata_modeldata") <- NULL
+attr(color_wheel_pred, "posterior_draws") <- NULL
+```
+
+```{r}
+#| eval: false
+color_wheel_pred |> 
+  filter(y < 0) ->
+  bottom_pred
+
+```
+
+```{r}
+#| eval: false
+#| fig-width: 5
+#| fig-height: 5
+color_wheel |> 
+  ggplot(
+    aes(x, y)
+  ) +
+  geom_raster(aes(fill = hex)) +
+  geom_textcontour(
+    data = bottom_pred,
+    aes(z = estimate),
+    breaks = c(0.1, 0.5, 0.9)
+  ) +
+  scale_fill_identity() +
+  coord_fixed()+
+  theme_no_x() + 
+  theme_no_y()
+```
+
+```{r}
+#| eval: false
+color_ranks |> 
+  slice(1:2) |> 
+  select(-hex) ->
+  rank_inspect
+
+rank_inspect |> 
+  left_join(answers, by = "rank") |> 
+  select(-c(rank, user_id)) |> 
+  mutate(
+    .by = color,
+    response_id = row_number()
+  ) |> 
+  pivot_wider(
+    names_from = color,
+    values_from = hex
+  ) |> 
+  head() ->
+  hex_inspect
+
+
+hex_inspect |> 
+  tt() |> 
+  style_tt(
+    i = 1:6,
+    j = 2,
+    background = hex_inspect$purple
+  ) |> 
+  style_tt(
+    i = 1:6,
+    j = 3,
+    background = hex_inspect$green
+  )
+```
+
+```{r}
+#| eval: false
+color_ranks |> 
+  pull(
+    hex
+  ) |> 
+  hex2RGB() |> 
+  as("HLS") ->
+  hls_data
+
+
+hls_data@coords |> 
+  as_tibble()->
+  hls_cols
+
+color_ranks |> 
+  bind_cols(hls_cols)->
+  hls_ranks
+```
+
+```{r}
+#| eval: false
+hls_ranks |> 
+  mutate(
+    H_rad = H * (pi/180)
+  ) ->
+  hls_ranks
+```
+
+```{r}
+#| eval: false
+hls_ranks |> 
+  filter(
+    str_detect(color, "red|green|blue")
+  ) |> 
+  mutate(
+    base_col = str_extract(color, "red|green|blue")
+  ) |> 
+  ggplot(
+    aes(sin(H_rad)*L, cos(H_rad)*L)
+  ) +
+  geom_point(
+    aes(color = hex, size = S)
+  ) +
+  stat_hdr(
+    aes(color = base_col),
+    probs = 0.95
+  )+
+  scale_color_identity()+
+  coord_fixed()+
+  guides(alpha = "none")
+```
+
+```{r}
+#| eval: false
+hls_ranks |> 
+  filter(
+    str_detect(color, "^light ")
+  ) |> 
+  mutate(
+    pieces = str_split(color, " "),
+    n_pieces = map_dbl(pieces, length),
+    base_col = map_chr(pieces, ~.x[2]),
+    mod = "light"
+  ) |> 
+  filter(n_pieces == 2) ->
+  light_cols
+
+hls_ranks |> 
+  filter(
+    str_detect(color, "^dark ")
+  ) |> 
+  mutate(
+    pieces = str_split(color, " "),
+    n_pieces = map_dbl(pieces, length),
+    base_col = map_chr(pieces, ~.x[2]),
+    mod = "dark"
+  ) |> 
+  filter(n_pieces == 2) ->
+  dark_cols
+```
+
+```{r}
+#| eval: false
+hls_ranks |> 
+  filter(color %in% light_cols$base_col) |> 
+  mutate(
+    base_col = color,
+    mod = "base"
+  )->
+  base_cols
+```
+
+```{r}
+#| eval: false
+base_cols |> 
+  bind_rows(
+    light_cols
+  ) |> 
+  select(
+    base_col, mod, hex:H_rad
+  ) |> 
+  pivot_wider(
+    names_from = mod, 
+    values_from = hex:H_rad
+  ) ->
+  lighten_wide
+
+base_cols |> 
+  bind_rows(
+    dark_cols
+  ) |> 
+  select(
+    base_col, mod, hex:H_rad
+  ) |> 
+  pivot_wider(
+    names_from = mod, 
+    values_from = hex:H_rad
+  ) ->
+  darken_wide
+
+lighten_wide |> 
+  ggplot(
+    aes(
+      sin(H_rad_base) * L_base,
+      cos(H_rad_base) * L_base,
+      color = hex_light
+    )
+  )+
+  geom_segment(
+    aes(
+      xend = sin(H_rad_light) * L_light,
+      yend = cos(H_rad_light) * L_light
+    ),
+    arrow = arrow(
+      type = "closed",
+      length = unit(0.25, "cm")
+    )
+  ) +
+  geom_point(
+    aes(color = hex_base)
+  ) +
+  scale_color_identity() +
+  coord_fixed()
+```
+
+```{r}
+#| eval: false
+darken_wide |> 
+  filter(
+    is.finite(H_rad_base)
+  ) |> 
+  ggplot(
+    aes(
+      sin(H_rad_dark) * L_dark,
+      cos(H_rad_dark) * L_dark,
+      color = hex_base    
+    )
+  )+
+  geom_segment(
+    aes(
+      xend = sin(H_rad_base) * (L_base),
+      yend = cos(H_rad_base) * (L_base)
+    ),
+    arrow = arrow(
+      type = "closed",
+      length = unit(0.25, "cm")
+    )
+  ) +
+  geom_point(
+    aes(color = hex_dark)
+  ) +
+  scale_color_identity() +
+  coord_fixed()
+```
+
+```{r}
+#| eval: false
+lighten_wide |> 
+  mutate(
+    hue_shift = H_rad_light - H_rad_base,
+    hue_shift = case_when(
+      hue_shift > pi ~ hue_shift - (2*pi),
+      .default = hue_shift
+    )
+  )  |> 
+  filter(is.finite(H_rad_base)) |> 
+  mutate(
+    tb = case_when(
+      cos(H_rad_base) > 0 ~ "t",
+      .default = "b"
+    ),
+    lr = case_when(
+      sin(H_rad_base) > 0 ~ "r",
+      .default = "l"
+    ),
+    quadrant = str_glue("{tb}{lr}")
+  ) |> 
+  summarise(
+    .by = quadrant,
+    hue_shift = median(hue_shift)
+  ) |> 
+  arrange(hue_shift)
+```
+
+```{r}
+n <- 400
+lo <- runif(n)*2*pi-pi ## longitude
+la <- runif(3*n)*pi-pi/2
+ind <- runif(3*n)<=cos(la)
+la <- la[ind];
+la <- la[1:n]
+
+summary(la)
+```

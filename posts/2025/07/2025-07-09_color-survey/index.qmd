@@ -1,0 +1,560 @@
+---
+title: "tidytuesday color survey"
+date: 2025-07-09
+format: html
+editor: visual
+code-fold: true
+knitr: 
+  opts_chunk: 
+    message: false
+    warning: false
+---
+
+When I saw that the TidyTuesday dataset was the [the XKCD color survey this week](https://github.com/rfordatascience/tidytuesday/blob/main/data/2025/2025-07-08/readme.md), I had to jump in!
+
+```{r}
+#| code-fold: false
+source(here::here("_defaults.R"))
+library(tidyverse)
+library(tidytuesdayR)
+library(tinytable)
+library(mgcv)
+library(marginaleffects)
+library(ggdist)
+library(ggdensity)
+library(geomtextpath)
+set.seed(2025-07-08)
+```
+
+```{r}
+#| code-fold: false
+#| eval: false
+# eval: false
+# downloading & saving to avoid 
+# downloading on every quarto render
+tuesdata <- tidytuesdayR::tt_load('2025-07-08')
+
+fs::dir_create("data")
+write_rds(tuesdata, "data/tuesdata.rds")
+```
+
+```{r}
+#| code-fold: false
+tuesdata <- read_rds("data/tuesdata.rds")
+
+answers <- tuesdata$answers
+color_ranks <- tuesdata$color_ranks
+users <- tuesdata$users
+```
+
+I first started digging into the `answers` dataframe.
+
+```{r}
+#| code-fold: false
+summary(answers)
+```
+
+The `rank` column is a unique ID for color labels, which means these are all of the responses for the top 5 provided color labels.
+
+```{r}
+#| code-fold: false
+color_ranks |> 
+  slice_head(n = 5) ->
+  top5
+
+top5 |> 
+  tt() |> 
+  style_tt(
+    i = 1:5,
+    j = 3,
+    background = top5$hex
+  )
+```
+
+## Colorspaces
+
+To make some plots, I'll use functions from `{colorspace}` to convert the hex codes to HLS (hue, lightness, saturation) values.
+
+```{r}
+#| code-fold: false
+library(colorspace)
+```
+
+-   H: A value in degrees from 0 to 360.
+
+    -   0/360 ≈ red
+
+    -   90 ≈ yellow to green
+
+    -   180 ≈ green to blue
+
+    -   270 ≈ blue to purple
+
+-   lightness: A value ranging from 0 to 1
+
+-   saturation: A value ranging from 0 to 1
+
+Colors become somewhat indistinct at both very high and very low Lightness
+
+```{r}
+#| code-fold: false
+# an example color space grid
+# with a fixed saturation
+expand_grid(
+  H = 0:360,
+  L = seq(0, 1, length = 50)
+) |> 
+  rowwise() |> 
+  mutate(
+    hls = HLS(H, L, 0.75) |> list(),
+    hex = hex(hls)
+  ) |> 
+  ungroup() ->
+  hl_demo
+```
+
+```{r}
+#| code-fold: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+hl_demo |> 
+  ggplot(
+    aes(H, L)
+  ) +
+    geom_tile(
+      aes(fill = hex)
+    ) +
+    scale_x_continuous(expand = expansion(0)) + 
+    scale_y_continuous(expand = expansion(0)) +
+    scale_fill_identity() ->
+    hl_rect_plot
+
+# I'm using the new quarto renderings option
+hl_rect_plot
+hl_rect_plot + theme_dark()
+```
+
+The indistinctness at the top and bottom is why the colorspace is often visualized as a colorwheel.
+
+```{r}
+#| fig-width: 5
+#| fig-height: 5
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+hl_demo |> 
+  ggplot(
+    aes(H, L)
+  ) +
+  geom_tile(
+    aes(
+      fill = hex, 
+      color = hex
+    )
+  ) +
+  scale_x_continuous(
+    breaks = c(0, 90, 180, 270),
+    expand = expansion(0)
+  ) +
+  scale_y_continuous(
+    expand = expansion(0)
+  ) +
+  scale_fill_identity() +
+  scale_color_identity() +
+  coord_radial()->
+  color_wheel
+
+color_wheel
+color_wheel + theme_dark()
+```
+
+But it's probably best thought of as a color sphere with a darker and a lighter hemisphere
+
+```{r}
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+hl_demo |> 
+  mutate(
+    eq_dist = 1 - abs(L - 0.5),
+    hemisphere = case_when(
+      L > 0.5 ~ "lighter",
+      .default = "darker"
+    ),
+    H2 = case_when(
+      hemisphere == "lighter" ~ abs(H - 360),
+      .default = H
+    )
+  ) |> 
+  ggplot(
+    aes(H2, eq_dist)
+  ) +
+  geom_tile(
+    aes(
+      fill = hex, 
+      color = hex
+    )
+  ) +
+  scale_x_continuous(
+    breaks = c(0, 90, 180, 270),
+    expand = expansion(0)
+  ) +
+  scale_y_continuous(
+    expand = expansion(0)
+  ) +
+  scale_fill_identity() +
+  scale_color_identity() +
+  facet_wrap(~hemisphere, labeller = label_both) +
+  coord_radial() +
+  theme_no_y() +
+  theme_no_x() ->
+  color_sphere
+
+color_sphere
+color_sphere + theme_dark()
+```
+
+## Looking at blue
+
+I'll convert all of the answers hex codes to HLS for plotting.
+
+```{r}
+#| code-fold: false
+answers |> 
+  pull(hex) |> 
+  hex2RGB() |> 
+  as("HLS") ->
+  answers_hsl_obj
+
+# the colorspace objects are S4 classes, so...
+answers_hsl_obj@coords |> 
+  as_tibble() ->
+  ans_hsl_cols
+
+answers |> 
+  bind_cols(ans_hsl_cols) |> 
+  left_join(
+    color_ranks |> select(rank, color)
+  ) ->
+  answers_hsl
+```
+
+We can plot a subset of blue to see how it looks:
+
+```{r}
+#| crop: true
+#| fig-width: 12
+#| fig-height: 4
+#| renderings: 
+#|   - light
+#|   - dark
+answers_hsl |> 
+  filter(color == "blue") |> 
+  # thin to deal with overplotting
+  slice_sample(n = 500) |> 
+  # slice up by saturation
+  mutate(
+    saturation = case_when(
+      S <= (1/3) ~ "low",
+      S <= (2/3) ~ "med",
+      S <= 1 ~ "high"
+    ) |> 
+      fct_reorder(S)
+  ) |> 
+  ggplot(
+    aes(H, L)
+  ) +
+  geom_point(
+    aes(
+      color = hex
+    )
+  ) +
+  scale_x_continuous(
+    limits = c(0, 360),
+    breaks = c(0, 90, 180, 270),
+    expand = expansion(0)
+  ) +
+  scale_y_continuous(
+    expand = expansion(0),
+    limits = c(0, 1)
+  ) +
+  scale_color_identity() +
+  coord_radial() +
+  facet_wrap(
+    ~saturation, 
+    labeller = label_both
+  ) ->
+  blues_plot
+
+
+blues_plot
+blues_plot + theme_dark()
+```
+
+## Blue vs green
+
+There was a "[find your boundary between green and blue](https://ismy.blue/)" quiz that went a little viral recently, and we could probably recreate it here.
+
+```{r}
+#| code-fold: false
+# get all green & blue answers
+answers_hsl |> 
+  filter(color %in% c("green", "blue")) |> 
+  mutate(is_blue = color == "blue") ->
+  gb_hsl
+
+# subsample to not overwhelm my computer
+gb_hsl |> 
+  slice_sample(prop = 0.1) -> 
+  gb_hsl_subset
+```
+
+If I was doing this for real for real, I'd fit a big bad Bayesian model, but I'll go for a simpler gam here.
+But what I *will* do (because I've never had cause to do it before!) is fit a "splines on a sphere" smooth!
+I'll need to prepare the data by converting the `H` and `L` columns into degrees in radians.
+
+Here I'll be honest and say I'm not 100% sure how the lightness dimension works.
+I'm guessing that it's actually describing the distance along the center axis of the sphere, and I had to make some notes about how that'd translate into an angle across the surface of the sphere.
+
+![](images/angles.jpeg){fig-align="center"}
+
+Converting the `H` scale to radians is easier, but looking at the help page for `smooth.construct.sos.smooth.spec()`, it looks like I'll need to convert it into east and west hemispheres.
+
+```{r}
+#| code-fold: false
+hl_demo |> 
+  select(-hls) |> 
+  mutate(
+    L_rad = asin((L - 0.5)/0.5),
+    H_rad = (H * (pi/180)) - pi
+  ) ->
+  hl_demo_rad
+```
+
+::: {.callout-note collapse="true"}
+## Hemispheres again
+
+I just want to see how the conversion to radians affects the color sphere plot I did before.
+
+```{r}
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+hl_demo_rad |>
+  slice(.by = hex, 1) |> 
+  mutate(
+    hemi = case_when(
+      L_rad > 0 ~ "lighter",
+      .default = "darker"
+    ),
+    dist = abs(L_rad),
+    H2 = case_when(
+      hemi == "lighter" ~ abs(H  - 360),
+      .default = H
+    )
+  ) |>
+  ggplot(
+    aes(H2, dist)
+  ) +
+  geom_point(
+    aes(color = hex)
+  ) +
+  scale_color_identity()+
+  scale_y_reverse(
+    expand = expansion(0)
+  ) +
+  scale_x_continuous(
+    expand = expansion(0),
+    limits = c(0, 360),
+    breaks = c(0, 90, 180, 270)
+  ) +
+  facet_wrap(~hemi) +
+  coord_polar() +
+  theme_no_y() +
+  theme_no_x() ->
+  hl_sphere2
+
+hl_sphere2
+hl_sphere2 + theme_dark()
+```
+:::
+
+Ok!
+Time for splines on the sphere!
+
+```{r}
+#| code-fold: false
+gb_hsl_subset |> 
+  mutate(
+    H_rad = (H * (pi/180)) - pi,
+    L_rad = asin((L - 0.5)/0.5)
+  ) ->
+  gb_hsl_subset
+```
+
+```{r}
+#| eval: false
+#| code-fold: false
+# eval: false
+# this took a while to fit
+gb_mod <- bam(
+  is_blue ~ s(L_rad, H_rad, bs = "sos"),
+  family = binomial,
+  data = gb_hsl_subset
+)
+
+write_rds(gb_mod, "gb_mod.rds")
+```
+
+```{r}
+#| code-fold: false
+gb_mod <- read_rds("gb_mod.rds")
+```
+
+Just as a first glance:
+
+```{r}
+#| code-fold: false
+#| crop: true
+#| out-width: 60%
+plot(gb_mod)
+```
+
+This is *pretty cool!*
+
+## Plotting the boundaries
+
+For plotting the boundaries, I'm going to make a dense grid in the polar coordinate space and then convert that to radians.
+I'll use the "sphere" grid to get predictions from the model.
+This is, admittedly, a *lot* of math just to get the figure just like I want it.
+
+```{r}
+#| code-summary: A lot of π
+
+# this creates a single hemisphere
+expand_grid(
+  x = seq(-pi/2, pi/2, length = 100),
+  y = seq(-pi/2, pi/2, length = 100),
+) |>
+  mutate(
+    dist =  sqrt((x^2) + (y^2))
+  ) |> 
+  filter(
+   dist < (pi/2)
+  ) |> 
+  mutate(
+    L_rad = (pi/2)-dist,
+    H_rad = atan2(x,y),
+    H_rad = case_when(
+      H_rad < 0 ~ H_rad + (2*pi),
+      .default = H_rad
+    ),
+    H_rad = H_rad - pi
+  ) ->
+  hemi_1
+
+# creating the second hemisphere
+hemi_1 |> 
+  mutate(
+    L_rad = -L_rad
+  )->
+  hemi_2
+
+
+bind_rows(
+  hemi_1, 
+  hemi_2
+) ->
+  sphere
+
+# finalizing the predictions grid
+sphere |> 
+  mutate(
+    H = (H_rad + pi) / (pi/180),
+    L = (sin(L_rad)/2) + 0.5,
+    hemi = case_when(
+      L_rad < 0 ~ "darker",
+      .default = "lighter"
+    )
+  )  |> 
+  rowwise() |> 
+  mutate(
+    hls = HLS(H, L, 0.75) |> list(),
+    hex = hex(hls)
+  ) |> 
+  select(-hls) |> 
+  ungroup() ->
+  sphere_pred
+```
+
+Grabbing the predictions
+
+```{r}
+#| code-fold: false
+#| eval: false
+# eval: false
+# this took a while to run
+gb_mod |> 
+  predictions(
+    newdata = sphere_pred
+  ) ->
+  gb_pred
+
+write_rds(gb_pred, "gb_pred.rds")
+```
+
+```{r}
+#| code-fold: false
+gb_pred <- read_rds("gb_pred.rds")
+```
+
+And plotting
+
+```{r}
+#| fig-width: 10
+#| fig-height: 5
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+gb_pred |> 
+  mutate(
+    x = case_when(
+      hemi == "lighter" ~ -x,
+      .default = x
+    )
+  ) |> 
+  ggplot(
+    aes(x, y)
+  ) + 
+  geom_raster(
+    aes(fill = hex)
+  ) +
+  geom_textcontour(
+    aes(z = estimate, color = hemi),
+    breaks = c(0.2, 0.5, 0.8),
+    hjust = 0.2
+  ) +
+  scale_fill_identity() +
+  scale_color_manual(
+    values = c("white", "black")
+  ) +
+  guides(color = "none") +
+  facet_wrap(~hemi)+
+  coord_fixed()+
+  theme_no_x() + 
+  theme_no_y()->
+  pred_plot
+
+pred_plot
+pred_plot + theme_dark()
+```
+
+It looks like on the darker side of the sphere, green has an "advantage" where more colors rotated towards blue, relative to the equator, are classified as "green", but on the lighter side of the sphere, it goes the other way.
+
+I'd also started messing around with how labeling a color "light X" vs "dark X" shifts its location across the sphere, but I think this was enough for one post.

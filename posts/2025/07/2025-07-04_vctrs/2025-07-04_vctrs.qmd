@@ -1,0 +1,265 @@
+---
+title: "Live blog: Implementing a vctr"
+date: 2025-07-04
+format: html
+editor: visual
+draft: true
+---
+
+::: {.callout-note .column-margin collapse="false"}
+## Libraries
+
+```{r}
+#| message: false
+source(here::here("_defaults.R"))
+library(tidyverse)
+library(rlang)
+library(cli)
+library(vctrs)
+library(tidynorm)
+```
+:::
+
+Rather a fully fleshed out post, I thought I'd make a "live blog" about me noodling around with the `{vctrs}` package, which lets you define custom vector classes.
+
+# A DCT vector
+
+I've been posting about [the Discrete Cosine Transform](../../06/2025-06-17_dct-in-tidynorm/), so maybe that's where I'll start.
+First, I'll grab some DCT coefficients to work with.
+
+```{r}
+speaker_tracks |> 
+  nest(
+    .by = c(speaker, id)
+  ) |> 
+  mutate(
+    dcts = map(data, ~dct(.x$F1)[1:5])
+  ) |> 
+  pull(dcts)->
+  dcts
+
+dcts[[1]]
+```
+
+## The constructor and convenience functions
+
+[The main vctrs vignette](https://vctrs.r-lib.org/articles/s3-vector.html) suggests defining a constructor function and a convenience function for your custom vector.
+I think I want to treat these coefficient vectors as having paired coefficient values and coefficient indices, along with an "order" attribute.
+
+```{r}
+# constructor function
+new_dct_coef <- function(
+    x = double(),
+    order = integer(),
+    .call = caller_env()
+){
+  # a whole bunch of checks
+  if (!is.double(x)) {
+    cli_abort(
+      "{.arg x} should be a {.cls double} vector.", 
+      call = .call
+    )
+  }
+  
+  if (!is.integer(order)) {
+    cli_abort(
+      "{.arg order} should be an {.cls integer}",
+      call = .call
+    )
+  }
+  
+  if (vec_size(order) > 1) {
+    cli_abort(
+      "{.arg order} should be of length no greater than 1.",
+      call = .call
+    )
+  }
+  
+  if (vec_size(x) > 0 & vec_size(order) < 1){
+    cli_abort(
+      "{.arg order} must be provided."
+    )
+  }
+  
+  if (vec_size(x) > 0) {
+    if(vec_size(x) != order){
+      cli_abort(
+        c(
+          "{.arg x} should have same length as value of {.arg order}",
+          "*" = "length of {.arg x} = {.val {vec_size(x)}}",
+          "*" = "{.arg order} = {.val {order}}"
+        ),
+        call = .call
+      )
+    }
+  }
+  
+  
+  out <- new_rcrd(
+    fields = list(
+      x = x,
+      param = seq_along(x)
+    ),
+    class = "dct_coef"
+  )
+  
+  attr(out, "order") <- order
+  out
+}
+
+# convenience function
+dct_coef <- function(x = double(), order = NULL){
+  args <- names(call_match())
+  if (!"order" %in% args) {
+    order <- vec_size(x)
+  }
+  x <- vec_cast(x, double())
+  order <- vec_cast(order, integer())
+  
+  new_dct_coef(x, order)
+  
+}
+```
+
+In order to get a nice looking printout of the vector, we need to define a `format` method.
+
+```{r}
+format.dct_coef <- function(x, ...){
+  formatC(field(x, "x"))
+}
+
+obj_print_footer.dct_coef <- function(x){
+  cat("order:", attr(x, "order"), "\n", sep = " ")
+}
+```
+
+Let's see it in action
+
+```{r}
+# empty
+dct_coef()
+
+# made up
+dct_coef(1:10)
+
+# actual
+coef1 <- dct_coef(dcts[[1]])
+coef1
+```
+
+## Casting and coersion
+
+Now, we need to provide some casting and coersion methods.
+
+```{r}
+# self casting
+vec_ptype2.dct_coef.dct_coef <- function(x, y, ...) dct_coef()
+vec_cast.dct_coef.dct_coef <- function(x, to, ...) x
+```
+
+```{r}
+# casting with doubles
+vec_ptype2.double.dct_coef <- function(x, y, ...) double()
+vec_ptype2.dct_coef.double <- function(x, y, ...) double()
+
+vec_cast.dct_coef.double <- function(x, to, ...) dct_coef(x)
+vec_cast.double.dct_coef <- function(x, to, ...) vec_data(x)$x
+```
+
+```{r}
+vec_c(2.1, coef1)
+```
+
+## Special Slicing
+
+```{r}
+vec_restore.dct_coef <- function(x, to, ..., i = NULL){
+  if (vec_size(x) < 1) {
+    return(new_dct_coef(order = 0L))
+  }
+  
+  in_data <- field(x, "x")
+  in_param <- field(x, "param")
+  in_order <- max(in_param)
+  
+  full_param <- 1:in_order
+  missing_param <- full_param[-in_param]
+  out_param <- c(in_param, missing_param)
+  
+  zero_pad <- rep(0, vec_size(missing_param))
+  out_data <- c(in_data, zero_pad)[order(out_param)]
+  
+  new_dct_coef(out_data, order = in_order)
+  
+}
+```
+
+```{r}
+coef1[1]
+coef1[1:3]
+coef1[4:5]
+coef1[-1]
+```
+
+## Some extra methods
+
+```{r}
+plot.dct_coef <- function(x, ..., n = attr(x, "order")){
+  y <- idct(field(x, "x"), n = n)
+  x <- seq_along(y)
+  
+  plot(x, y, ...)
+}
+```
+
+```{r}
+plot(coef1, n = 40, type = 'l', col = "red")
+```
+
+```{r}
+vec_arith.dct_coef <- function(op, x, y, ...) {
+  UseMethod("vec_arith.dct_coef", y)
+}
+
+vec_arith.dct_coef.dct_coef <- function(op, x, y, ...){
+  new_size <- min(c(vec_size(x), vec_size(y)))
+  if (new_size < 1 ) {
+    return(new_dct_coef(order = 0L))
+  }
+  x_dat <- field(x, "x")[1:new_size]
+  y_dat <- field(y, "x")[1:new_size]
+  
+  switch(
+    op,
+    "+" = new_dct_coef(vec_arith_base(op, x_dat, y_dat), order = new_size),
+    "-" = new_dct_coef(vec_arith_base(op, x_dat, y_dat), order = new_size),
+    "*" = new_dct_coef(vec_arith_base(op, x_dat, y_dat), order = new_size),
+    "/" = new_dct_coef(vec_arith_base(op, x_dat, y_dat), order = new_size)
+  )
+}
+```
+
+```{r}
+(coef1 * coef1)
+```
+
+```{r}
+jawn <- map_dbl(
+  1:10000,
+  ~(sum(sample(1:8, 3, replace = T))+4) + (sum(sample(1:8, 4, replace = T))+4)
+)
+
+median(jawn)
+```
+
+```{r}
+(90-4)/(5.5)
+```
+
+```{r}
+(10 * 5.5) + (10 * 4)
+```
+
+```{r}
+mean(1:10)
+```

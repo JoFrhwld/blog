@@ -4,6 +4,7 @@ library(showtext)
 library(colorspace)
 library(ggthemes)
 library(gt)
+library(rlang)
 
 # get plot fonts
 font_add_google(name = "Public Sans", family = "Public Sans")
@@ -56,6 +57,17 @@ theme_dark <- function(){
   )
 }
 
+dark_render <- function(plot){
+  ggdark::invert_geom_defaults()
+  rlang::try_fetch(
+    print(plot),
+    error = function(cnd){
+      ggdark::invert_geom_defaults()
+      abort("Failed.", parent = cnd)
+    }
+  )
+  ggdark::invert_geom_defaults()
+}
 
 
 theme_no_y <- function(){

@@ -1,0 +1,484 @@
+---
+title: "Visualizing the Color Sphere"
+date: 2025-07-12
+format: html
+editor: visual
+knitr: 
+  opts_chunk: 
+    message: false
+    warning: false
+---
+
+This [tidytuesday dataset of colors labels](https://github.com/rfordatascience/tidytuesday/blob/main/data/2025/2025-07-08/readme.md) is like the perfect confluence of interests for me!
+I've started learning how to do digital art to illustrate characters for a D&D campaign:
+
+::: {layout="[[576,424]]"}
+![](images/bert-van-damme2.png){fig-alt="A digital illustration of Dick Van Dyke both looking serious and very happy in an aviator's outfit" fig-align="center"}
+
+![](images/john-book.jpg){fig-alt="An illustration of Harrison Ford with a serious expression wearing simple clothes and a straw brimmed hat" fig-align="center"}
+:::
+
+Which means I've been looking a *lot* at a color picker that uses Hue, Saturation and Lightness sliders (even though they're not labelled that way).
+
+![](images/color-picker.jpeg){fig-alt="A screenshot of a HLS color picker" fig-align="center" width="60%"}
+
+But I've had an interest in colors and color theory for a while.
+From a cognitive science perspective, [color constancy](https://en.wikipedia.org/wiki/Color_constancy) is an interesting phenomenon where we perceive colors in a scene to be the "same" when they're definitely different, something I think shares a lot in common with vowel perception.
+
+[![Edited from the wikipedia image illustrating color constancy.](images/color-constancy.jpg){fig-align="center" width="70%"}](https://en.wikipedia.org/wiki/Color_constancy#/media/File:Hot_air_balloon_-_color_constancy.jpg)
+
+As was working on [the last post](../2025-07-09_color-survey), I actually used a physical representation of the Hue-Lightness-Saturation sphere that I already had in the house, cause I guess I'm just into colors.
+
+![](images/sphere.jpg){fig-alt="A paper model of the color sphere" fig-align="center" width="60%"}
+
+## The linguistic angle
+
+There's also a linguistic component to all of this.
+I could, for example, define "blue" as being a color at 220° with 50% lightness and 75% saturation.
+
+```{r}
+library(colorspace)
+```
+
+```{r}
+#| fig-width: 3
+#| fig-height: 3
+#| out-width: 50%
+#| fig-align: center
+HLS(220, 0.5, 0.75) |> 
+  plot(cex = 10)
+```
+
+And then, I could lighten it by increasing the lightness.
+
+```{r}
+#| fig-width: 4
+#| fig-height: 4
+#| out-width: 50%
+#| fig-align: center
+HLS(
+  c(220, 200),
+  c(0.5, 0.75),
+  c(0.75, 0.75)
+) |> 
+  plot(cex = 10)
+```
+
+But when people *see* a color and say "that's light blue", are they describing just a shift along the lightness scale, or something else?
+The best way to visualize shifts through the colorspace would be to plot their vector through the color sphere, but the problem is that the HLS values in and of themselves don't correspond to x, y and z coordinates.
+
+```{r}
+library(tidyverse)
+library(plotly)
+
+source(here::here("_defaults.R"))
+set.seed(2025-07-12)
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: plotly dark theme
+
+dark_plotly <- function(p){
+  p |> 
+    layout(
+      paper_bgcolor = "#222",
+      scene = list(
+        xaxis = list(color = "white"),
+        yaxis = list(color = "white"),
+        zaxis = list(color = "white")
+      )
+    )
+}
+```
+
+## The color cube
+
+```{r}
+HLS(
+  runif(1000, min = 0, max = 360),
+  runif(1000, min = 0, max = 1 ),
+  runif(1000, min = 0, max = 1)
+) -> hls_obj
+
+hls_obj |> 
+  slot("coords") |> 
+  as_tibble() |> 
+  mutate(hex = hex(hls_obj)) ->
+  hls_df
+```
+
+```{r}
+#| renderings: 
+#|   - light
+#|   - dark
+plot_ly(
+  x = ~H,
+  y = ~S,
+  z = ~L,
+  data = hls_df,
+  type = "scatter3d",
+  mode = "markers",
+  marker = list(color = hls_df$hex)
+) -> 
+  color_cube
+
+color_cube
+color_cube |> dark_plotly()
+```
+
+We've successfully made a color *cube*, but I really want to get to that color *sphere*.
+So this post is about the math I've had to work out to get to that point.
+
+## Color unit circle
+
+First thing, we need to turn that `H` angle from degrees to radians, and then a `sin()` and `cos()` should get us the points along a unit circle.
+
+```{r}
+hls_df |> 
+  mutate(
+    H_radian = H * (pi/180), 
+    x = sin(H_radian),
+    y = cos(H_radian)
+  ) ->
+  hls_df
+```
+
+```{r}
+#| fig-width: 4
+#| fig-height: 4
+#| crop: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| fig-align: center
+hls_df |> 
+  ggplot(
+    aes(
+      sin(H_radian), 
+      cos(H_radian),  
+      color = hex)
+  ) +
+    geom_point(size = 3) + 
+    scale_color_identity() +
+    coord_fixed() ->
+    color_circle
+
+color_circle
+(color_circle + theme_dark()) |> dark_render()
+```
+
+We've got each color point arranged along a unit circle.
+I want to organize the points so that light & dark correspond to the poles of the sphere (like a "north" and "south"), and saturation corresponds to deepness within the sphere.
+
+## The color "puck"
+
+The first thing I tried here was just to scale the color values along the unit circle by the saturation (which ranges between 0 and 1) to place each color's depth within the sphere, which winds up looking like this:
+
+```{r}
+hls_df |> 
+  mutate(
+    x = sin(H_radian) * S,
+    y = cos(H_radian) * S
+  ) ->
+  hls_df
+```
+
+In 2 dimensions, this looks pretty ok!
+
+```{r}
+#| fig-width: 4
+#| fig-height: 4
+#| crop: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| fig-align: center
+hls_df |> 
+  ggplot(
+    aes(x, y, color = hex)
+  ) + 
+  geom_point(size = 3)+
+  scale_x_continuous(
+    limit = c(-1, 1)
+  )+
+  scale_y_continuous(
+    limits = c(-1, 1)
+  )+
+  scale_color_identity()+
+  coord_fixed() ->
+  flat_puck
+
+flat_puck
+(flat_puck + theme_dark()) |> dark_render()
+```
+
+But when I add the third dimension, I don't end up with my sphere.
+
+```{r}
+#| renderings: 
+#|   - light
+#|   - dark
+plot_ly(
+  x = ~x,
+  y = ~y,
+  z = ~L,
+  data = hls_df,
+  type = "scatter3d",
+  mode = "markers",
+  marker = list(color = hls_df$hex)
+) -> 
+  color_puck
+
+color_puck
+color_puck |> dark_plotly()
+```
+
+It looks a bit like a color puck, or a Pride layer cake that's burnt on the bottom and under cooked on the top.
+
+## Why the puck?
+
+To illustrate why I wound up with a puck, I took apart my physical color sphere.
+
+::: column-margin
+![](images/pieces.jpg){fig-align="center" width="60%"}
+:::
+
+I'd scaled the x and y values above to try to capture the saturation "depth".
+The saturation value itself ranges between 0 and 1.
+
+```{r}
+hls_df |> 
+  pull(S) |> 
+  summary()
+```
+
+But that `S` value actually describes the *relative* distance of a point between the north-south axis and the sphere's surface.
+So where a value of `1` lands in absolute x, y space depends on the total width of the slice at that point.
+
+![](images/color-slices.jpg){fig-align="center"}
+
+So, I need to scale the *relative* saturation value based on its lightness to get the sphere.
+
+## The color sphere!
+
+I had to write out some notes for this one.
+If we rescale Lightness to run between -1 and 1, then the sphere from the side is a unit circle, and the radius at the equator is 1.
+
+![](images/step1.jpg){.light-content fig-align="center" width="60%"}
+
+![](images/step1_d.png){.dark-content fig-align="center" width="60%"}
+
+At some different value of L, like 0.75, the distance from the center axis to the surface will be the relative max-saturation I'm looking for.
+
+![](images/step2.jpg){.light-content fig-align="center" width="60%"}
+
+![](images/step2_d.png){.dark-content fig-align="center" width="60%"}
+
+The distance from the center to the same location on the surface will still be 1, though, turning this into solving the Pythagorean theorem.
+
+![](images/step3.jpg){.light-content fig-align="center" width="60%"}
+
+![](images/step3_d.png){.dark-content fig-align="center" width="60%"}
+
+So if
+
+$$
+a = L~\text{(lightness)}
+$$
+
+$$
+b = ?
+$$
+
+$$
+c = 1
+$$
+
+and
+
+$$
+a^2 + b^2 = c^2
+$$
+
+then
+
+$$
+b = \sqrt{|L^2 - 1|}
+$$
+
+Let's do it!
+
+```{r}
+hls_df |> 
+  mutate(
+    # new L scale between
+    # -1 and 1
+    L_scale = (L*2) - 1,
+    # maximum S
+    max_S = sqrt(abs((L_scale^2) - 1)),
+    # weighted S
+    weighted_S = S * max_S,
+    # scaled X and Y
+    x = sin(H_radian) * weighted_S,
+    y = cos(H_radian) * weighted_S,
+  ) ->
+  hls_df
+```
+
+```{r}
+#| renderings: 
+#|   - light
+#|   - dark
+plot_ly(
+  x = ~x,
+  y = ~y,
+  z = ~L_scale,
+  data = hls_df,
+  type = "scatter3d",
+  mode = "markers",
+  marker = list(color = hls_df$hex)
+) -> 
+  color_sphere
+
+color_sphere
+color_sphere |> dark_plotly()
+```
+
+Finally, the color sphere!
+
+## From the sphere back to HLS
+
+One kind of downside of the current visualization is that the sphere looks kind of porous, especially at the equator.
+That comes down to all of the rescaling we did.
+To get a nicer continuously dense sphere, I want to uniformly sample from these 3d coordinates, and then translate them back into HLS values for coloring in.
+
+### Sampling a sphere
+
+```{r}
+tibble(
+  x = runif(3000, min = -1, max = 1),
+  y = runif(3000, min = -1, max = 1),
+  z = runif(3000, min = -1, max = 1)
+) |> 
+  filter(
+    sqrt(
+      (x^2) + (y^2) + (z^2)
+    ) <= 1
+  ) ->
+  sphere_df
+```
+
+```{r}
+#| renderings: 
+#|   - light
+#|   - dark
+plot_ly(
+  x = ~x,
+  y = ~y,
+  z = ~z,
+  data = sphere_df,
+  type = "scatter3d",
+  mode = "markers"
+) ->
+  sphere_plot
+
+sphere_plot
+sphere_plot |> dark_plotly()
+```
+
+::: column-margin
+That's a dense meatball!
+:::
+
+### From x and y to degrees
+
+I had to double check wikipedia for this, but we can get from x and y back to angles [with atan2](#0).
+
+```{r}
+sphere_df |> 
+  mutate(
+    H_radian = atan2(y, x),
+    # to handle wrapping around 180
+    H_radian = case_when(
+      H_radian < 0 ~ H_radian + (2*pi),
+      .default = H_radian
+    ),
+    H = H_radian / (pi/180)
+  ) ->
+  sphere_df
+```
+
+### From z to Lightness
+
+Translating z back into Lightness is probably the simplest bit of math
+
+```{r}
+sphere_df |> 
+  mutate(
+    L = (z + 1)/2
+  ) -> 
+  sphere_df
+```
+
+### From depth to saturation
+
+We can get the absolute depth of a point on the x/y axis with the Pythagorean theorem.
+Then we need to divide it by the maximum possible depth like we did before.
+
+```{r}
+sphere_df |> 
+  mutate(
+    depth = sqrt((x^2) + (y^2)),
+    max_S = sqrt(abs((z^2) - 1)),
+    S = depth/max_S
+  ) ->
+  sphere_df
+```
+
+Let's double check the numbers look right.
+
+```{r}
+sphere_df |> 
+  select(H, L, S) |> 
+  summary()
+```
+
+### Adding in the hex codes
+
+```{r}
+sphere_df |> 
+  mutate(
+    hex = HLS(H, L, S) |> 
+      hex()
+  ) ->
+  sphere_df
+```
+
+### The moment of truth
+
+```{r}
+#| renderings: 
+#|   - light
+#|   - dark
+plot_ly(
+  x = ~x,
+  y = ~y,
+  z = ~z,
+  data = sphere_df,
+  type = "scatter3d",
+  mode = "markers",
+  marker = list(color = sphere_df$hex)
+) ->
+  sphere_plot2
+
+sphere_plot2
+sphere_plot2 |> dark_plotly()
+```
+
+There it is!
+The color sphere!
+
+------------------------------------------------------------------------
+
+Now I can actually visualize the difference between "blue" and "light blue".

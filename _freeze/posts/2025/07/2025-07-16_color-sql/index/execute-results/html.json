@@ -1,0 +1,15 @@
+{
+  "hash": "dfbea6016d6cb1761a5fc84c301c8ee3",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"index\"\nformat: html\neditor: visual\ndraft: true\n---\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(fs)\nlibrary(DBI)\nlibrary(RSQLite)\nlibrary(dbplyr)\nlibrary(colorspace)\nlibrary(ggdist)\n\nlibrary(plotly)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# download.file(\n#   \"http://xkcd.com/color/colorsurvey.tar.gz\",\n#   path(\n#     path_temp(),\n#     \"colorsurvey.tar.gz\"\n#   )\n# )\n# \n# untar(\n#   path(path_temp(), \"colorsurvey.tar.gz\"),\n#   exdir = path(path_temp(), \"colorsurvey\")\n# )\n# \n# path(\n#   path_temp(),\n#   \"colorsurvey\"\n# ) |> \n#   dir_ls() ->\n#   dump_files\n# \n# dump_files |> \n#   keep(\n#     ~str_detect(.x, \"mainsurvey\")\n#   ) ->\n#   survey_dump\n# \n# local_sql_path <- here::here(\"data\", \"colors.sqlite\")\n# \n# create_command <- str_glue(\n#   \"sqlite3 {local_sql_path} < {survey_dump}\"\n# )\n# \n# system(create_command)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ncon <- dbConnect(RSQLite::SQLite(), here::here(\"data\", \"colors.sqlite\"))\ndbListTables(con)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nanswers <- tbl(con, \"answers\")\n\nanswers |> \n  filter(\n    colorname %in% c(\"blue\", \"light blue\")\n  ) |> \n  collect() ->\n  blues\n\ndbDisconnect(con)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nRGB(\n  blues$r/256,\n  blues$g/256,\n  blues$b/256\n) |> \n  as(\"LAB\") |>\n  slot(\"coords\") |> \n  as_tibble() ->\n  lab_coords\n\n\nblues |> \n  bind_cols(lab_coords) |> \n  mutate(\n    hex = hex(RGB(r/256, g/256, b/256))\n  ) ->\n  blues_col\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nblues_col  |> \n  summarise(\n    .by = c(user_id, colorname),\n    across(\n      c(L,A,B),\n      mean\n    )\n  ) ->\n  user_average\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nuser_average |> \n  arrange(\n    colorname\n  ) |> \n  summarise(\n    .by = user_id,\n    across(\n      c(L, A, B),\n      diff\n    )\n  ) |> \n  pivot_longer(c(L, A, B)) |> \n  ggplot(\n    aes(value, name)\n  )+\n    stat_slab()\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlm(cbind(L, A, B) ~ colorname, data = user_average)\n```\n:::\n\n\n```{}\n```\n\n\n::: {.cell}\n\n```{.r .cell-code}\nx <- sRGB(runif(5000), runif(5000), runif(5000))\ny <- as(x, \"LUV\")\ny |> \n  slot(\"coords\") |> \n  as_tibble() |> \n  mutate(\n    hex = LUV(L, U, V) |> hex()\n  ) -> \n  dat\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nplot_ly(\n  x = ~U,\n  y = ~V,\n  z = ~L*2,\n  data = dat,\n  type = \"scatter3d\",\n  mode = \"markers\",\n  marker = list(\n    color = dat$hex\n  )\n)\n```\n:::\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

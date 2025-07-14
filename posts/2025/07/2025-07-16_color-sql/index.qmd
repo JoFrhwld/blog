@@ -1,0 +1,165 @@
+---
+title: "index"
+format: html
+editor: visual
+draft: true
+---
+
+```{r}
+library(tidyverse)
+library(fs)
+library(DBI)
+library(RSQLite)
+library(dbplyr)
+library(colorspace)
+library(ggdist)
+
+library(plotly)
+```
+
+```{r}
+#| eval: false
+# download.file(
+#   "http://xkcd.com/color/colorsurvey.tar.gz",
+#   path(
+#     path_temp(),
+#     "colorsurvey.tar.gz"
+#   )
+# )
+# 
+# untar(
+#   path(path_temp(), "colorsurvey.tar.gz"),
+#   exdir = path(path_temp(), "colorsurvey")
+# )
+# 
+# path(
+#   path_temp(),
+#   "colorsurvey"
+# ) |> 
+#   dir_ls() ->
+#   dump_files
+# 
+# dump_files |> 
+#   keep(
+#     ~str_detect(.x, "mainsurvey")
+#   ) ->
+#   survey_dump
+# 
+# local_sql_path <- here::here("data", "colors.sqlite")
+# 
+# create_command <- str_glue(
+#   "sqlite3 {local_sql_path} < {survey_dump}"
+# )
+# 
+# system(create_command)
+```
+
+```{r}
+#| eval: false
+con <- dbConnect(RSQLite::SQLite(), here::here("data", "colors.sqlite"))
+dbListTables(con)
+```
+
+```{r}
+#| eval: false
+answers <- tbl(con, "answers")
+
+answers |> 
+  filter(
+    colorname %in% c("blue", "light blue")
+  ) |> 
+  collect() ->
+  blues
+
+dbDisconnect(con)
+```
+
+```{r}
+#| eval: false
+RGB(
+  blues$r/256,
+  blues$g/256,
+  blues$b/256
+) |> 
+  as("LAB") |>
+  slot("coords") |> 
+  as_tibble() ->
+  lab_coords
+
+
+blues |> 
+  bind_cols(lab_coords) |> 
+  mutate(
+    hex = hex(RGB(r/256, g/256, b/256))
+  ) ->
+  blues_col
+```
+
+```{r}
+#| eval: false
+blues_col  |> 
+  summarise(
+    .by = c(user_id, colorname),
+    across(
+      c(L,A,B),
+      mean
+    )
+  ) ->
+  user_average
+```
+
+```{r}
+#| eval: false
+user_average |> 
+  arrange(
+    colorname
+  ) |> 
+  summarise(
+    .by = user_id,
+    across(
+      c(L, A, B),
+      diff
+    )
+  ) |> 
+  pivot_longer(c(L, A, B)) |> 
+  ggplot(
+    aes(value, name)
+  )+
+    stat_slab()
+```
+
+```{r}
+#| eval: false
+lm(cbind(L, A, B) ~ colorname, data = user_average)
+```
+
+```{}
+```
+
+```{r}
+#| eval: false
+x <- sRGB(runif(5000), runif(5000), runif(5000))
+y <- as(x, "LUV")
+y |> 
+  slot("coords") |> 
+  as_tibble() |> 
+  mutate(
+    hex = LUV(L, U, V) |> hex()
+  ) -> 
+  dat
+```
+
+```{r}
+#| eval: false
+plot_ly(
+  x = ~U,
+  y = ~V,
+  z = ~L*2,
+  data = dat,
+  type = "scatter3d",
+  mode = "markers",
+  marker = list(
+    color = dat$hex
+  )
+)
+```

@@ -1,0 +1,638 @@
+---
+title: "Light vs Dark <color>"
+format: html
+date: 2025-07-14
+editor: visual
+code-fold: true
+knitr: 
+  opts_chunk: 
+    message: false
+    warning: false
+bibliography: references.bib
+---
+
+So now I can [finally](../2025-07-09_color-survey) get to [visualizing](../2025-07-12_color-sphere) the effect of "light" and other modifiers on colors!
+When I eventually get to the `{plotly}` code, there's nothing tidy going on, so I'll be code-folding most of this stuff.
+
+```{r}
+#| code-fold: false
+source(here::here("_defaults.R"))
+library(tidyverse)
+library(tidytuesdayR)
+library(tinytable)
+library(plotly)
+library(ggdist)
+
+library(patchwork)
+set.seed(2025-07-08)
+```
+
+```{r}
+max_text_contrast <- function(bgs){
+  w_contrast <- abs(
+    contrast_ratio(
+      "white", bgs,
+      algorithm = "APCA"
+    )[,1]
+  )
+  b_contrast <- abs(
+    contrast_ratio(
+      "black", bgs,
+      algorithm = "APCA"
+    )[,1]
+  )
+  out_cols <- c("white", "black")
+
+  out_cols[
+    cbind(w_contrast, b_contrast) |>
+      apply(1, which.max)
+  ]
+  
+}
+```
+
+```{r}
+#| code-fold: false
+#| eval: false
+# eval: false
+# downloading & saving to avoid 
+# downloading on every quarto render
+tuesdata <- tidytuesdayR::tt_load('2025-07-08')
+
+fs::dir_create("data")
+write_rds(tuesdata, "data/tuesdata.rds")
+```
+
+```{r}
+#| code-fold: false
+tuesdata <- read_rds("data/tuesdata.rds")
+
+answers <- tuesdata$answers
+color_ranks <- tuesdata$color_ranks
+users <- tuesdata$users
+```
+
+```{r}
+#| code-fold: false
+color_ranks |> 
+  pull(hex) |>
+  hex2RGB() |> 
+  as("HLS") |> 
+  slot("coords") |> 
+  as_tibble() |> 
+  bind_cols(
+    color_ranks
+  ) ->
+  color_hls
+```
+
+## The goal
+
+Let's take "blue" and "light blue" as a quick example.
+Here are these two labels the "average" hex code associated with these labels, as well as the Hue, Lightness, Saturation values.
+
+```{r}
+color_hls |> 
+  filter(
+    color %in% c("blue", "light blue")
+  ) |> 
+  mutate(
+    hls = str_glue(
+      "HLS({round(H)}, {round(L, digits = 2)}, {round(S, digits = 2)})"
+    )
+  ) |> 
+  select(color, hex, hls) ->
+  blues
+
+blues |> 
+  tt() |> 
+  style_tt(
+    i = 1:2,
+    j = 2,
+    background = blues$hex,
+    color = max_text_contrast(blues$hex)
+  )
+```
+
+Unsurprisingly, blue ➝ light blue involves an increase in the lightness (from 0.44 to 0.79), but there's also about a 20 degree rotation of the hue towards green.
+The saturation stays about constant, but that's not true for every "\<color\>", "light \<color\>" pair.
+"Indigo" desaturates quite a bit when it becomes "light indigo."
+
+```{r}
+color_hls |> 
+  filter(
+    color %in% c("indigo", "light indigo")
+  ) |> 
+  mutate(
+    hls = str_glue(
+      "HLS({round(H)}, {round(L, digits = 2)}, {round(S, digits = 2)})"
+    )
+  ) |> 
+  select(color, hex, hls) ->
+  indigos
+
+indigos |> 
+  tt() |> 
+  style_tt(
+    i = 1:2,
+    j = 2,
+    background = indigos$hex,
+    color = max_text_contrast(indigos$hex)
+  )
+```
+
+The path these colors follow when they move from "\<color\>" to"\<modifier\> \<color\>" is what I want to visualize.
+
+## Modifiers
+
+### Single word terms
+
+First of all, I need to identify every one word color term so that I can go on to identify their modified versions.
+This involves some regex work
+
+```{r}
+#| code-fold: false
+color_hls |> 
+  filter(
+    # filter out any labels
+    # containing a space, slash or hyphen
+    str_detect(color, "[ /-]", negate = T),
+    # forcing this by hand
+    !color %in% c("dark", "pale")
+  ) ->
+  single_terms
+
+nrow(single_terms)
+```
+
+Let's get a look at 5 randomly sampled terms.
+
+```{r}
+single_terms |> 
+  slice_sample(n = 5) |> 
+  select(color, rank, hex) |> 
+  arrange(rank) ->
+  example_single
+
+example_single |> 
+  tt() |> 
+  style_tt(
+    i = 1:5,
+    j = 3,
+    background = example_single$hex,
+    color = max_text_contrast(example_single$hex)
+  )
+```
+
+I don't study color terms, and am only vaguely aware of the debates in the area.
+My shallow investigation into it turns up a 1969 book, *Basic color terms: their universality and evolution* by Berlin & Kay (third edition: @berlinBasicColorTerms1999), that seems to be a touchstone work.
+I couldn't quickly get an electronic copy, but I was able to find a 2001 encyclopedia entry by Kay [@kayColorTermsLinguistics2001] that includes in the definition of "basic color term"
+
+-   must be monolexemic
+
+-   must not be the name of a kind of object
+
+So from the 5 sampled color terms here, I think these criteria would exclude "blurple" for being a portmanteau, and "poop", "grapefruit" and "bruise" for being some kind of object.
+I'm still going to treat all of them as single color terms for this post though.
+
+I'll concatenate all single color words into a big regular expression.
+
+```{r}
+#| code-fold: false
+single_terms |> 
+  pull(color) |> 
+  str_c(collapse = "|") ->
+  single_word_regex
+
+color_hls |> 
+  mutate(
+    n_color = str_count(
+      color, single_word_regex
+    )
+  ) ->
+  color_hls
+```
+
+Let's get a sense of how many color terms show up in the labels.
+
+```{r}
+color_hls |> 
+  count(
+    n_color
+  ) |>
+  tt() |>
+  style_tt(
+    j = 2, align = "r"
+  )
+```
+
+The nine color labels that had 0 matches for any of the single color terms was interesting.
+
+```{r}
+color_hls |> 
+  filter(n_color == 0) ->
+  zeros
+
+zeros |> 
+  select(
+    color, rank, hex
+  ) |> 
+  tt(caption = "0 single color words") |> 
+  style_tt(
+    i = 1:nrow(zeros),
+    j = 3,
+    background = zeros$hex,
+    color = max_text_contrast(zeros$hex)
+  )
+```
+
+-   Two of them ("pale" and "dark") are modifiers used on their own that I specifically excluded from the single color terms because I wanted to investigate them as modifiers.
+
+-   Four of them ("terra cotta", "robin's egg", "egg shell", and "macaroni and cheese") are multi-word descriptions that contain no words that were used on their own as color terms (although, the alternative spelling "terracotta" was included).
+
+-   The remaining three ("light urple", "burnt siena", and "light lavendar") misspell the single color terms that they contain.
+
+It also seems interesting that the maximum number of color terms included in a label is 2!
+There weren't any "blueish green yellow" or anything.
+
+### Getting the Modifiers
+
+I'll be identifying modified colors labels as
+
+-   labels that include just 1 color term,
+
+-   and have just 2 words,
+
+-   and the second word is a color term
+
+And I'll be defining "modifiers" as the first word in these labels.
+
+```{r}
+#| code-fold: false
+color_hls |> 
+  filter(
+    # 1 color term
+    n_color == 1,
+    # 2 words
+    str_count(color, " ") == 1,
+    # second word is color
+    str_detect(
+      color,
+      str_c(" ", single_word_regex,"$")
+    )
+  ) |> 
+  separate_wider_delim(
+    color,
+    delim = " ",
+    names = c("modifier", "base")
+  ) ->
+  modified_hls
+```
+
+Let's get a look at the most common modifiers
+
+```{r}
+modified_hls |> 
+  count(modifier) |> 
+  arrange(desc(n)) |> 
+  slice_head(n = 6) ->
+  top_mod
+
+top_mod |> 
+  tt() |> 
+  style_tt(
+    j = "n",
+    align = "r"
+  )
+```
+
+I'll also need to get the base color data for making the comparisons.
+
+```{r}
+#| code-fold: false
+color_hls |> 
+  filter(
+    n_color == 1,
+    str_count(color, " ") == 0
+  )  |> 
+  rename(
+    base = color
+  ) ->
+  base_colors
+```
+
+And then a join will get me the modifier, base color in one data frame.
+
+```{r}
+#| code-fold: false
+modified_hls |> 
+  left_join(
+    base_colors,
+    by = "base",
+    suffix = c("_mod", "_base")
+  ) |> 
+  filter(is.finite(L_base)) ->
+  comp_hls
+```
+
+## General modifier analysis
+
+The plotly code gets gnarly, so this is all going to be folded.
+
+```{r}
+make_mod_segments <- function(comp_hls, mod) {
+  comp_hls |> 
+    filter(
+      modifier == mod
+    ) |> 
+    mutate(
+      H_mod = case_when(
+        H_mod - H_base > 180 ~ H_mod - 360,
+        H_mod - H_base < -180 ~ 360 + H_mod,
+        .default = H_mod
+      )
+    ) |> 
+    reframe(
+      .by = base,
+      H = seq(H_base, H_mod, length = 50),
+      L = seq(L_base, L_mod, length = 50),
+      S = seq(S_base, S_mod, length = 50),
+      point = 1:50
+    ) |> 
+    mutate(
+      hex = HLS(H, L, S) |> hex(),
+      H_radian = H * (pi/180),
+      z = (L*2) - 1,
+      max_S = sqrt(abs((z^2) - 1)),
+      weighted_S = S * max_S,
+      x = sin(H_radian) * weighted_S,
+      y = cos(H_radian) * weighted_S,
+      color = base
+    ) |> 
+    nest(
+      .by = base,
+      data = c(x, y, z, hex, color)
+    ) 
+}
+
+base_sphere <- function(){
+  plot_ly(
+    type = "scatter3d",
+    mode = "lines"
+  ) |>   
+  add_trace(
+    x = sin(seq(0, pi*2, length = 100)),
+    y = cos(seq(0, pi*2, length = 100)),
+    z = rep(0, 100),
+    mode = "lines",
+    line = list(color = "grey"),
+    hoverinfo = "none"
+  ) |> 
+  add_trace(
+    x = sin(seq(0, pi*2, length = 100)),
+    z = cos(seq(0, pi*2, length = 100)),
+    y = rep(0, 100),
+    mode = "lines",
+    line = list(color = "grey"),
+    hoverinfo = "none"
+  ) |> 
+  add_trace(
+    y = sin(seq(0, pi*2, length = 100)),
+    z = cos(seq(0, pi*2, length = 100)),
+    x = rep(0, 100),
+    mode = "lines",
+    line = list(color = "grey"),
+    hoverinfo = "none"
+  ) |> 
+  add_trace(
+    x = sin(seq(0, pi*2, length = 100)) * 0.5,
+    y = cos(seq(0, pi*2, length = 100)) * 0.5,
+    z = rep(0, 100),
+    mode = "lines",
+    line = list(color = "grey"),
+    hoverinfo = "none"
+  ) |> 
+  add_trace(
+    x = sin(seq(0, pi*2, length = 100)) * 0.5,
+    z = cos(seq(0, pi*2, length = 100)) * 0.5,
+    y = rep(0, 100),
+    mode = "lines",
+    line = list(color = "grey"),
+    hoverinfo = "none"
+  ) |> 
+  add_trace(
+    y = sin(seq(0, pi*2, length = 100)) * 0.5,
+    z = cos(seq(0, pi*2, length = 100)) * 0.5,
+    x = rep(0, 100),
+    mode = "lines",
+    line = list(color = "grey"),
+    hoverinfo = "none"
+  ) |> 
+  add_trace(
+    x = rep(0, 5),
+    y = rep(0, 5),
+    z = seq(-1, 1, length = 5),
+    mode = "lines",
+    line = list(color = "grey"),
+    hoverinfo = "none"
+  ) |> 
+  layout(
+    showlegend = F,
+    autosize = F,
+    scene = list(
+      xaxis = list(
+        domain = c(-1, 1),
+        color = "white"
+      ),
+      yaxis = list(
+        domain = c(-1, 1),
+        color = "white"
+      ),
+      zaxis = list(
+        domain = c(-1, 1),
+        color = "white"
+      )      
+    )
+  ) 
+}
+
+make_mod_plot <- function(comp_hls, mod, mode  = "light") {
+  
+  segments <- make_mod_segments(comp_hls, mod)
+  
+  p <- base_sphere()
+  
+  for(i in seq_along(segments$data)){
+    d <- segments$data[[i]]
+    col <- segments$base[i]
+    markers <- c(rep("circle", length(d$x)-1), "diamond")
+    sizes <- c(10, rep(1, length(d$x)-2), 5)
+    p |>
+      add_trace(
+        type = "scatter3d",
+        mode = "markers+lines",
+        x = ~x,
+        y = ~y,
+        z = ~z,
+        name = col,
+        data = d,
+        mode = "lines",
+        line = list(
+          color = d$hex,
+          width = 5
+        )
+        ,marker = list(
+          size = sizes,
+          symbol =  markers,
+          color = d$hex
+        )
+      ) ->
+      p
+  }
+  p |> 
+    layout(title = list(text = mod))->
+    p
+  if (mode == "dark") {
+    p |> 
+      layout(
+        paper_bgcolor = "#222",
+        scene = list(
+          xaxis = list(
+            domain = c(-1, 1),
+            color = "#222"
+          ),
+          yaxis = list(
+            domain = c(-1, 1),
+            color = "#222"
+          ),
+          zaxis = list(
+            domain = c(-1, 1),
+            color = "#222"
+          )      
+        ),
+        title = list(text = mod, font = list(color = "white"))
+      ) ->
+      p
+  }
+  p
+}
+```
+
+### "Light"
+
+Let's start with "light".
+The location of the base color is indicated with a circle, the modified color with a diamond, with a line connecting the two.
+
+::: light-content
+```{r}
+make_mod_plot(comp_hls, "light")
+```
+:::
+
+::: dark-content
+```{r}
+make_mod_plot(comp_hls, "light", mode = "dark")
+```
+:::
+
+A few cool things here!
+
+-   Even if very dark base colors shot straight upwards to lighten, this would still involve some degree of relative desaturation (they'd be deeper within the sphere).
+    As it is, though, it looks like they tend to arc inward.
+
+-   Desaturated colors that started out in the light hemisphere (like "sage" or "rose") look like they make a b-line for the surface of the sphere, which involves *saturating* them.
+
+-   Other highly saturated colors look like they stay close to the saturation surface, rather than cutting through the sphere (and desaturating).
+
+-   A lot of colors look like they've got a bit of a twist towards 90°, greening a little.
+
+### "dark"
+
+::: light-content
+```{r}
+make_mod_plot(comp_hls, "dark")
+```
+:::
+
+::: dark-content
+```{r}
+make_mod_plot(comp_hls, "dark", mode = "dark")
+```
+:::
+
+A lot of this looks like the reverse pattern of "light."
+
+-   Very light colors really dive downwards and toward the center (desaturating).
+
+-   Relative dark and highly saturated colors stay closer to the surface (keeping their saturation).
+
+### "pale"
+
+::: light-content
+```{r}
+make_mod_plot(comp_hls, "pale")
+```
+:::
+
+::: dark-content
+```{r}
+make_mod_plot(comp_hls, "pale", mode = "dark")
+```
+:::
+
+This looks really similar to "light".
+Maybe the main difference is where the base colors are originating from?
+Looks like "pale" doesn't combine with as many colors from the dark hemisphere as "light" did.
+
+### "bright"
+
+::: light-content
+```{r}
+make_mod_plot(comp_hls, "bright")
+```
+:::
+
+::: dark-content
+```{r}
+make_mod_plot(comp_hls, "bright", mode = "dark")
+```
+:::
+
+This one's really cool: Everything heads towards the equator!
+
+### "deep"
+
+::: light-content
+```{r}
+make_mod_plot(comp_hls, "deep")
+```
+:::
+
+::: dark-content
+```{r}
+make_mod_plot(comp_hls, "deep", mode = "dark")
+```
+:::
+
+This looks a lot like "dark".
+This might be down to there being fewer colors described as "dark \<color\>", but there's no base colors in the light hemisphere between 0° and 270°.
+
+### "dull"
+
+::: light-content
+```{r}
+make_mod_plot(comp_hls, "dull")
+```
+:::
+
+::: dark-content
+```{r}
+make_mod_plot(comp_hls, "dull", mode = "dark")
+```
+:::
+
+This looks exactly like you'd expect: everything's diving towards the core!
+
+## Wrapping up
+
+I think figuring out all of the math to plot these trajectories through color spheres was totally worth it!

@@ -6,3 +6,4 @@ _site/*
 rmd_drafts/*
 /.quarto/
 **/drafts/
+*.sqlite

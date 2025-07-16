@@ -1,0 +1,107 @@
+---
+title: "index"
+format: html
+editor: visual
+draft: true
+---
+
+```{r}
+#| eval: false
+con <- dbConnect(
+  RSQLite::SQLite(),
+  here::here("data", "colors.sqlite")
+)
+
+dbListTables(con)
+```
+
+```{r}
+#| eval: false
+answers <- tbl(con, "answers")
+
+answers |> 
+  filter(
+    colorname %in% c("blue", "light blue")
+  ) |> 
+  collect() ->
+  blues
+
+dbDisconnect(con)
+```
+
+```{r}
+#| eval: false
+RGB(
+  blues$r/256,
+  blues$g/256,
+  blues$b/256
+) |> 
+  as("LAB") |>
+  slot("coords") |> 
+  as_tibble() ->
+  lab_coords
+
+
+blues |> 
+  bind_cols(lab_coords) |> 
+  mutate(
+    hex = hex(RGB(r/256, g/256, b/256))
+  ) ->
+  blues_col
+```
+
+```{r}
+#| eval: false
+blues_col |> 
+  filter(colorname == "light blue") |> 
+  with(
+    kde3d(A, B, L, n = 30)
+  ) ->
+  dens
+```
+
+```{r}
+#| eval: false
+quantile(dens$d, 0.999)
+```
+
+```{r}
+#| eval: false
+jawn <- contour3d(dens$d, level = quantile(dens$d, c(0.999)), draw = F)
+```
+
+```{r}
+#| eval: false
+faces = array(c(jawn$v1, jawn$v2, jawn$v3), dim = c(nrow(jawn$v1), 3, 3))
+
+x = ((((faces[,1,] |> t() |> c())-1)/29) * diff(range(dens$x))) + min(dens$x)
+y = ((((faces[,2,] |> t() |> c())-1)/29) * diff(range(dens$y))) + min(dens$y)
+z = ((((faces[,3,] |> t() |> c())-1)/29) * diff(range(dens$z))) + min(dens$z)
+
+
+face_order <- (1:length(x) |> 
+  matrix(nrow = 3))
+
+vcol <- LAB(z, x, y) |> hex()
+
+x[is.na(vcol)] <- NA
+y[is.na(vcol)]<- NA
+z[is.na(vcol)]<- NA
+```
+
+```{r}
+#| eval: false
+plot_ly(
+  x = x,
+  y = y,
+  z = z,
+  # i = c(face_order[1, ]-1),
+  # j = c(face_order[2, ]-1),
+  # k = c(face_order[3, ]-1),
+  type = "scatter3d",
+  mode = "markers",
+  marker = list(
+    color = vcol
+  )
+)
+```

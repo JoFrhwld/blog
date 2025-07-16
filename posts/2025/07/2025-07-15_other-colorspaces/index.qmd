@@ -1,0 +1,127 @@
+---
+title: "index"
+format: html
+editor: visual
+draft: true
+---
+
+```{r}
+source(here::here("_defaults.R"))
+
+library(tidyverse)
+library(colorspace)
+library(plotly)
+```
+
+```{r}
+expand_grid(
+  r = seq(0, 1, length = 10),
+  g = seq(0, 1, length = 10),
+  b = seq(0, 1, length = 10)  
+) |> 
+  mutate(
+    hex = RGB(r, g, b) |> hex()
+  ) ->
+  rgb_grid
+```
+
+```{r}
+plot_ly(
+  x = ~r,
+  y = ~g,
+  z = ~b,
+  data = rgb_grid,
+  type = "scatter3d",
+  mode = "markers",
+  marker = list(
+    color = rgb_grid$hex
+  )
+)
+```
+
+```{r}
+rgb_grid |> 
+  with(
+    RGB(r, g, b)
+  ) |> 
+  as("LAB") |> 
+  slot("coords") |> 
+  as_tibble() |> 
+  mutate(
+    hex = LAB(L,A,B) |> hex()
+  ) ->
+  LAB_grid
+```
+
+```{r}
+plot_ly(
+  x = ~A,
+  y = ~B,
+  z = ~L*2,
+  data = LAB_grid,
+  type = "scatter3d",
+  mode = "markers",
+  marker = list(color = LAB_grid$hex)
+)
+```
+
+```{r}
+rgb_grid |> 
+  with(
+    RGB(r, g, b)
+  ) |> 
+  as("HLS") |> 
+  slot("coords") |> 
+  as_tibble() |> 
+  mutate(
+    hex = HLS(H, L, S) |> hex(),
+    L_scale = (L*2)-1,
+    max_S = sqrt(abs((L_scale^2)-1)),
+    S_abs = S * max_S,
+    x = sin(H*(pi/180)) * S_abs,
+    y = cos(H*(pi/180)) * S_abs
+  ) ->
+  HLS_grid
+```
+
+```{r}
+plot_ly(
+  x = ~x,
+  y = ~y,
+  z = ~L_scale,
+  data = HLS_grid,
+  type = "scatter3d",
+  mode = "markers",
+  marker = list(
+    color = HLS_grid$hex
+  )
+)
+```
+
+```{r}
+rgb_grid |> 
+  with(
+    RGB(r, g, b)
+  ) |> 
+  as("polarLAB") |> 
+  slot("coords") |> 
+  as_tibble() |> 
+  mutate(
+    hex = polarLAB(L, C, H) |>  hex()
+  ) ->
+  HCL_grid
+```
+
+```{r}
+plot_ly(
+  x = ~H,
+  y = ~C,
+  z = ~L,
+  data = HCL_grid,
+  type = "scatter3d",
+  mode = "markers",
+  marker = list(
+    color = HCL_grid$hex
+  )
+)
+```

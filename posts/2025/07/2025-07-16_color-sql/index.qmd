@@ -10,7 +10,7 @@ I had a lot of fun working with the XKCD [color](https://jofrhwld.github.io/blog
 But I also think I'll want access to the full data.
 The tidytuesday data set was necessarily boiled down.
 The `answers` data frame contained just one hex code associated with one color label, not every color label given to every hex code in the survey.
-The full data set is available as a sqlite dump linked to from [the xkcd blog](https://blog.xkcd.com/2010/05/03/color-survey-results/), so this post is just about how I got set up access to it within my blog RStudio project.
+The full data set is available as a sqlite dump linked to from [the xkcd blog](https://blog.xkcd.com/2010/05/03/color-survey-results/), so this post is just about how I set up access to it within my blog RStudio project.
 
 ```{r}
 # basic setup

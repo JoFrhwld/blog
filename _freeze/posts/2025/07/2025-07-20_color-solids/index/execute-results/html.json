@@ -1,0 +1,15 @@
+{
+  "hash": "823a79f89a479c9cbcaeedb4e82db535",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"index\"\nformat: html\neditor: visual\ndraft: true\n---\n\n\n::: {.cell}\n\n```{.r .cell-code}\ncon <- dbConnect(\n  RSQLite::SQLite(),\n  here::here(\"data\", \"colors.sqlite\")\n)\n\ndbListTables(con)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nanswers <- tbl(con, \"answers\")\n\nanswers |> \n  filter(\n    colorname %in% c(\"blue\", \"light blue\")\n  ) |> \n  collect() ->\n  blues\n\ndbDisconnect(con)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nRGB(\n  blues$r/256,\n  blues$g/256,\n  blues$b/256\n) |> \n  as(\"LAB\") |>\n  slot(\"coords\") |> \n  as_tibble() ->\n  lab_coords\n\n\nblues |> \n  bind_cols(lab_coords) |> \n  mutate(\n    hex = hex(RGB(r/256, g/256, b/256))\n  ) ->\n  blues_col\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nblues_col |> \n  filter(colorname == \"light blue\") |> \n  with(\n    kde3d(A, B, L, n = 30)\n  ) ->\n  dens\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nquantile(dens$d, 0.999)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\njawn <- contour3d(dens$d, level = quantile(dens$d, c(0.999)), draw = F)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nfaces = array(c(jawn$v1, jawn$v2, jawn$v3), dim = c(nrow(jawn$v1), 3, 3))\n\nx = ((((faces[,1,] |> t() |> c())-1)/29) * diff(range(dens$x))) + min(dens$x)\ny = ((((faces[,2,] |> t() |> c())-1)/29) * diff(range(dens$y))) + min(dens$y)\nz = ((((faces[,3,] |> t() |> c())-1)/29) * diff(range(dens$z))) + min(dens$z)\n\n\nface_order <- (1:length(x) |> \n  matrix(nrow = 3))\n\nvcol <- LAB(z, x, y) |> hex()\n\nx[is.na(vcol)] <- NA\ny[is.na(vcol)]<- NA\nz[is.na(vcol)]<- NA\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nplot_ly(\n  x = x,\n  y = y,\n  z = z,\n  # i = c(face_order[1, ]-1),\n  # j = c(face_order[2, ]-1),\n  # k = c(face_order[3, ]-1),\n  type = \"scatter3d\",\n  mode = \"markers\",\n  marker = list(\n    color = vcol\n  )\n)\n```\n:::\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

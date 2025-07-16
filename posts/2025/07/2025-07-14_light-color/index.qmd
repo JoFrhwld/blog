@@ -1,8 +1,8 @@
 ---
-title: "Light vs Dark <color>"
+title: "Light vs Dark &lt;color&gt;"
 format: html
 date: 2025-07-14
-editor: visual
+editor: visual 
 code-fold: true
 knitr: 
   opts_chunk: 
@@ -523,13 +523,13 @@ make_mod_plot <- function(comp_hls, mod, mode  = "light") {
 Let's start with "light".
 The location of the base color is indicated with a circle, the modified color with a diamond, with a line connecting the two.
 
-::: light-content
+::: {.light-content style="width: 100%;"}
 ```{r}
 make_mod_plot(comp_hls, "light")
 ```
 :::
 
-::: dark-content
+::: {.dark-content style="width: 100%;"}
 ```{r}
 make_mod_plot(comp_hls, "light", mode = "dark")
 ```

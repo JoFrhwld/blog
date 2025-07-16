@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2025/07/2025-07-16_color-sql/index.html",
       "/posts/2025/07/2025-07-14_light-color/index.html",
       "/posts/2025/07/2025-07-12_color-sphere/index.html",
       "/posts/2025/07/2025-07-09_color-survey/index.html",
@@ -33,8 +34,7 @@
       "/posts/2022/12/2022-12-31_wooder1/index.html",
       "/posts/2022/12/2022-12-21_github-onboarding/index.html",
       "/posts/2022/12/2022-12-17/index.html",
-      "/posts/2022/12/2022-12-10/index.html",
-      "/posts/2025/07/2025-07-16_color-sql/index.html"
+      "/posts/2022/12/2022-12-10/index.html"
     ]
   }
 ]

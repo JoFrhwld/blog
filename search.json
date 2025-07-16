@@ -2468,7 +2468,7 @@
     "href": "posts/2025/07/2025-07-16_color-sql/index.html",
     "title": "Getting the xkcd color survey sqlite database",
     "section": "",
-    "text": "I had a lot of fun working with the XKCD color survey data, and I think I’ll keep messing around with it here and there in the future. But I also think I’ll want access to the full data. The tidytuesday data set was necessarily boiled down. The answers data frame contained just one hex code associated with one color label, not every color label given to every hex code in the survey. The full data set is available as a sqlite dump linked to from the xkcd blog, so this post is just about how I got set up access to it within my blog RStudio project.\n# basic setup\nsource(here::here(\"_defaults.R\"))\nlibrary(tidyverse)\nlibrary(colorspace)",
+    "text": "I had a lot of fun working with the XKCD color survey data, and I think I’ll keep messing around with it here and there in the future. But I also think I’ll want access to the full data. The tidytuesday data set was necessarily boiled down. The answers data frame contained just one hex code associated with one color label, not every color label given to every hex code in the survey. The full data set is available as a sqlite dump linked to from the xkcd blog, so this post is just about how I set up access to it within my blog RStudio project.\n# basic setup\nsource(here::here(\"_defaults.R\"))\nlibrary(tidyverse)\nlibrary(colorspace)",
     "crumbs": [
       "About",
       "Posts",

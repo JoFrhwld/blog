@@ -118,7 +118,7 @@ creation_command <- str_glue(
 And then finally run it.
 
 ``` r
-system(creation)
+system(creation_command)
 ```
 
 ### Updating `.gitignore`

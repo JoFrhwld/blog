@@ -39,6 +39,9 @@ jobs:
         run: Rscript -e 'renv::install("reticulate")'
       - name: Set up quarto
         uses: quarto-dev/quarto-actions/setup@v2
+      - name: Set Quarto Python
+        run: |
+          echo "QUARTO_PYTHON=renv/python/virtualenvs/renv-python-3.12/bin/python" >> $GITHUB_ENV
       - name: Render and publish to gh pages
         uses: quarto-dev/quarto-actions/publish@v2
         with:

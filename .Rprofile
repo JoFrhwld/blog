@@ -1,4 +1,4 @@
 source("renv/activate.R")
-if(rlang::is_interactive()){
+if(interactive()){
   source(here::here("_defaults.R"))
 }

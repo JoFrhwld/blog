@@ -9,9 +9,9 @@
     ]
   },
   "Python": {
-    "Version": "3.11.4",
+    "Version": "3.12.2",
     "Type": "virtualenv",
-    "Name": "./renv/python/virtualenvs/renv-python-3.11"
+    "Name": "./renv/python/virtualenvs/renv-python-3.12"
   },
   "Packages": {
     "AsioHeaders": {
@@ -2264,6 +2264,30 @@
       ],
       "Hash": "5f919ae5e7f83a6f91dcf2288943370d"
     },
+    "quarto": {
+      "Package": "quarto",
+      "Version": "1.5.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "cli",
+        "fs",
+        "htmltools",
+        "jsonlite",
+        "later",
+        "lifecycle",
+        "processx",
+        "rlang",
+        "rmarkdown",
+        "rstudioapi",
+        "tools",
+        "utils",
+        "xfun",
+        "yaml"
+      ],
+      "Hash": "2e3c725ab940c0fc720ca9f66c6bff44"
+    },
     "ragg": {
       "Package": "ragg",
       "Version": "1.4.0",
@@ -2679,6 +2703,18 @@
         "utils"
       ],
       "Hash": "48e213f93130089e27ec9c9a35fae680"
+    },
+    "snakecase": {
+      "Package": "snakecase",
+      "Version": "0.11.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "stringi",
+        "stringr"
+      ],
+      "Hash": "58767e44739b76965332e8a4fe3f91f1"
     },
     "statnet.common": {
       "Package": "statnet.common",

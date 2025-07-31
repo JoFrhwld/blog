@@ -7,3 +7,4 @@ rmd_drafts/*
 /.quarto/
 **/drafts/
 *.sqlite
+.vscode

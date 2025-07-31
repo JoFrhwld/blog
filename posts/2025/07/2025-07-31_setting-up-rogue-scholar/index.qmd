@@ -1,5 +1,76 @@
 ---
 title: Setting Up Rogue Scholar
-date: '2025-07-31'
-draft: true
+draft: false
+engine: knitr
 ---
+
+I'm not sure when I first came across his stuff, but I've really admired Andrew Heiss' public scholarship, [including his blog](https://www.andrewheiss.com/blog/), which is full of handy stuff.
+At some point I noticed he had post-level DOIs minted.
+I knew you could mint repository-level DOIs with GitHub and Zenodo, but maintaining each post as a repository and adding them as submodules to a blog is...
+a lot.
+
+Turns out, [Rogue Scholar](https://rogue-scholar.org/) is a science blogging platform that will archive your posts and mint a DOI for them!
+As I learned from reading (and in communicating with the Rogue Scholar Team), the requirements are
+
+-   The blog needs to be licensed CC-BY
+
+-   Every post needs an author
+
+-   Every post needs a date
+
+-   The full post needs to be published in the RSS feed
+
+Additionally, it's possible to pre-assign your post a DOI using the `commonmeta` tool.
+So, this post is in part a description about how I spruced up my quarto infrastructure to enforce some of these requirements, and is also partially a test to make sure I did it right!
+
+## Enforcing metadata
+
+I sometimes have a bad habit of creating a new quarto file for a post, and forgetting to add a date, which would be no good for the RSS feed.
+And if I had to go back and forth between [the Rogue Scholar archive](https://rogue-scholar.org/communities/jofrhwld/) and my blog files to error-free copy-paste DOIs, this was never going to work.
+My approach was to put together a quarto pre-render script, [which you can look at in full here](/defaults.html#prerender).
+
+The upshot is that I use `pathlib` to walk through and find all of my post-level directories, which I have (maybe annoyingly) organized like so:
+
+```         
+blog/
+└── posts/
+    └── YYYY/
+        └── MM/
+            └── YYYY-MM-DD_slug/
+                └── index.qmd
+```
+
+I can take the `YYYY-MM-DD` portion of the post directory to get the date, and I can generate a DOI using [commonmeta-py](https://python.commonmeta.org/) like so
+
+```{python}
+from commonmeta import encode_doi
+encode_doi(
+  "10.59350" #the Rogue Scholar prefix
+)
+```
+
+Then, I drop this info into a post-level `_metadata.yml` file.
+If you look at the actual function I wrote to update `_metadata.yml`, I have a lot of conditionals because
+
+1.  If `_metadata.yml` *already* has a `doi` field, I *don't* want to overwrite it!
+2.  And if `_metadata.yml` already has an accurate date, I don't want waste the time on writing to it either.
+
+A nice thing about how I set this up, though, is if I create a post directory and don't wind up publishing the post until a few days later, the date metadata ought to get automatically updated if I just change the post's directory name.
+
+With my pre-render script written, I just added it to the `pre-render` list in my quarto configuration file.
+
+## Adjusting my GitHub action
+
+For the most part, my GitHub publication action isn't running code chunks because I'm [freezing execution locally](https://quarto.org/docs/projects/code-execution.html#freeze).
+But the pre-render script runs every time, and needs to point to the right python environment that has `commonmeta-py` and `pyyaml` installed.
+I'm using `{renv}` to manage all of my dependencies, so getting this to work involved adding the following step before Quarto publish:
+
+``` yaml
+- name: Set Quarto Python
+  run: |
+    echo "QUARTO_PYTHON=renv/python/virtualenvs/renv-python-3.12/bin/python" >> $GITHUB_ENV
+```
+
+## Wrapping up
+
+Hopefully I configured this all correctly!

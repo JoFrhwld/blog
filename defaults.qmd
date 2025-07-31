@@ -4,5 +4,17 @@ filters:
   - include-code-files
 ---
 
+## R defaults
+
 ``` {.r include="_defaults.R" filename="_defaults.R"}
+```
+
+## Prerender
+
+``` {.python include="prerenders/prerender.py" filename="prerender.py"}
+```
+
+## Github Action
+
+``` {.yaml include=".github/workflows/build_docs.yml"}
 ```

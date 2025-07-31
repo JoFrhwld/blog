@@ -11,16 +11,10 @@ jobs:
      runs-on: macos-latest
      steps:
       - uses: actions/checkout@v2
-      # - name: Setup Fortran
-      #   uses: fortran-lang/setup-fortran@v1.3
       - uses: actions/setup-python@v2
         with:
           python-version: "3.12"
       - uses: r-lib/actions/setup-r@v2
-      # - name: Install dependencies
-      #   run: |
-      #     python -m pip install -r requirements.txt
-      #     
       - name: Cache packages
         uses: actions/cache@v4
         with:
@@ -28,13 +22,11 @@ jobs:
           key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
           restore-keys: |
             ${{ runner.os }}-renv-
-      
       - name: Restore packages
         shell: Rscript {0}
         run: |
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
           renv::restore()
-          
       - name: Install Reticulate
         run: Rscript -e 'renv::install("reticulate")'
       - name: Set up quarto

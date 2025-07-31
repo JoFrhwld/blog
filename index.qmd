@@ -5,7 +5,8 @@ listing:
   sort: "date desc"
   date-format: iso
   fields: [date, author, reading-time, title, subtitle, description, image, categories]
-  feed: true
+  feed: 
+    items: 40
 ---
 
 Hello!

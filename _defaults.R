@@ -159,3 +159,28 @@ dark_gt_theme <- function(tbl){
       locations = style_cells
     ) 
 }
+
+new_post <- function(title = ""){
+  
+  day <- Sys.Date()
+  slug = snakecase::to_snake_case(title, sep_out ="-")
+  
+  pieces <- stringr::str_split(day, "-")[[1]]
+  year <- pieces[1]
+  month <- pieces[2]
+  month_path = here::here("posts", year, month)
+  post_path = fs::path(
+    year, 
+    month,
+    stringr::str_glue("{day}_{slug}")
+  )
+  
+  if(!fs::dir_exists(month_path)){
+    fs::dir_create(month_path, recurse = T)
+  }
+  
+  quarto::new_blog_post(
+    title = title,
+    dest = post_path
+  )
+}

@@ -1,5 +1,7 @@
 project:
   type: website
+  pre-render:
+    - "prerenders/prerender.py"
   render:
     - "*.qmd"
     - "!old_posts/"
@@ -66,7 +68,7 @@ format:
     fig-width: 6
     fig-height: 5
     title-block-banner: true
-    license: "CC-BY-SA 4.0"
+    license: "CC-BY 4.0"
     smooth-scroll: true
     code-link: true
     lightbox: true

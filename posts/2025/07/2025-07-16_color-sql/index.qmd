@@ -193,6 +193,7 @@ sRGB(
 ```
 
 ```{r}
+#| classes: preview-image
 swatchplot(
   "RGB" = "#9479F6",
   "sRGB" = "#4B31EA"

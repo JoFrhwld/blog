@@ -19,6 +19,8 @@ knitr:
 citation: 
   collection-title: "Væl Space"
 
+google-scholar: true
+
 author: 
   - name: "Josef Fruehwald"
     orcid: 0000-0001-8480-9461

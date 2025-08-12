@@ -1,5 +1,117 @@
 [
   {
+    "objectID": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html",
+    "href": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html",
+    "title": "Blueprint Model of Production, Pythonically",
+    "section": "",
+    "text": "I just saw a really interesting paper by Scott Nelson and Jeffrey Heinz (Nelson and Heinz 2025) that proposes a model of phonology and phonetics as complex function application that maintains a discrete phonology while also alowing for things like incomplete neutralization. I myself am always sort of able to follow formal notation, but get a better understanding if I try rewriting it in a programming language of some sort. So I’m giving it a go here in Python.",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "08",
+      "Blueprint Model of Production, Pythonically"
+    ]
+  },
+  {
+    "objectID": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#my-approach-to-the-functions",
+    "href": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#my-approach-to-the-functions",
+    "title": "Blueprint Model of Production, Pythonically",
+    "section": "My approach to the functions",
+    "text": "My approach to the functions\nIn their paper they say\n\nFor every \\(n\\)­ary function, there is an equivalent (\\(n+1\\))-ary relation. Since phonology is a unary function (i.e., it has one input, a UR), it can also be envisioned as a binary relation consisting of UR and SR pairs \\(\\langle\\) UR, SR \\(\\rangle\\).\n\nTo capture that fact, and also to make my python functions operate in a way that I feel is principled, I’m going to have (almost) every function return a tuple of its input and output like so:\n\ndef my_fun(x:str) -&gt; tuple[str, str]:\n  return (x, x[0])\n\nmy_fun(\"hello!\")\n\n('hello!', 'h')",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "08",
+      "Blueprint Model of Production, Pythonically"
+    ]
+  },
+  {
+    "objectID": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#typing",
+    "href": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#typing",
+    "title": "Blueprint Model of Production, Pythonically",
+    "section": "Typing",
+    "text": "Typing\nI’m also including typing on most of the functions as well. If you’re not familiar, x:str means that this function has one parameter x, and that parameter is a string. The -&gt; tuple[str, str] part means that the function returns a tuple with two values, both of them strings. By including typing, I was able to rely on automatic type checking in my IDE to tell me if the values I was actually returning were what I thought I was returning. They eventually get a little illegible… but they’re still mechanically useful.",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "08",
+      "Blueprint Model of Production, Pythonically"
+    ]
+  },
+  {
+    "objectID": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#getting-started-with-the-lexicon",
+    "href": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#getting-started-with-the-lexicon",
+    "title": "Blueprint Model of Production, Pythonically",
+    "section": "Getting started with the lexicon",
+    "text": "Getting started with the lexicon\nNelson & Heinz weren’t very explicit about what the structure of the lexicon was, and I think that’s cause it doesn’t really matter. So I just need to make a decision and say that each item in the lexicon will be a list with two values. The first example they work through was word-final devoicing, so I’ll say the first will either be \"+\" or \"-\" for [+voice] or [-voice]. The second value will be either \"#\" for “word final” or \".\" for “everything else”.\n\nimport numpy as np\nimport numpy.typing as npt\nfrom typing import Callable\n\n\nL = [\n  [\"+\", \"#\"],\n  [\"-\", \"#\"],\n  [\"+\", \".\"],\n  [\"-\", \".\"]\n]",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "08",
+      "Blueprint Model of Production, Pythonically"
+    ]
+  },
+  {
+    "objectID": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#the-phonology",
+    "href": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#the-phonology",
+    "title": "Blueprint Model of Production, Pythonically",
+    "section": "The Phonology",
+    "text": "The Phonology\nI’m going to write the phonology (P()) to map every underlying representation (UR) in the lexicon to its surface representation (SR). So I really want the function to look like P(L).\nFor the actual mapping of a specific UR to a specific SR, I’ll define a function internal to P() called neut(). I guess this neut() function is what’s “encapsulated” within P(), and it’s the closest to what feels familiar as a “phonological rule”.\n\ndef P(L:list[list[str]])-&gt;list[tuple[list[str], list[str]]]:\n  \"\"\"\n  Map all URs to SRs\n  \"\"\"\n  def neut(UR: list[str]) -&gt; tuple[list[str], list[str]]:\n    \"\"\"\n    Neutralize '+' to '-' when a '#' follows.\n    \"\"\"\n    if UR[0] == \"+\" and UR[1] == \"#\":\n      return (UR, [\"-\", \"#\"])\n    return (UR, UR)\n  return list(map(neut, L))\n\nHere’s how the phonology looks when applied to the lexicon.\n\nP(L)\n\n[(['+', '#'], ['-', '#']),\n (['-', '#'], ['-', '#']),\n (['+', '.'], ['+', '.']),\n (['-', '.'], ['-', '.'])]",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "08",
+      "Blueprint Model of Production, Pythonically"
+    ]
+  },
+  {
+    "objectID": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#phonetics",
+    "href": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#phonetics",
+    "title": "Blueprint Model of Production, Pythonically",
+    "section": "Phonetics",
+    "text": "Phonetics\nThe Phonetics (which they call ‘A’ in the paper) maps the Phonology (P) to phonetic targets. They get incomplete neutralization out of this by saying both the UR and the SR get targets mapped.\nHere’s where I needed to make some decisions I wasn’t sure about, specifically in what the output of A was. One possibility is that it should just be a list of the targets\n\\[\n\\left[\\begin{array}{c}\nx_1, y_1\\\\\n\\ldots\\\\\nx_i, y_i\n\\end{array}\\right]\n\\]\nBut the input was a \\(\\langle\\) UR, SR \\(\\rangle\\) tuple, and in keeping with treating \\(n\\) ary functions as \\((n+1)\\)-ary relations, maybe the output should also be a list of tuples.\n\\[\n\\left[\\begin{array}{ll}\n\\langle\\langle\\text{UR},\\text{SR}\\rangle, & [x_1, y_1]\\rangle\\\\\n\\ldots\\\\\n\\langle\\langle\\text{UR},\\text{SR}\\rangle, & [x_i, y_i]\\rangle\n\\end{array}\\right]\n\\]\nI decided to go this second route, since it felt more principled than changing how these functions work midway.\nI also had to make a few decisions about the internal functions of A(). Nelson & Heinz weren’t very specific about how the cue assignment worked, or whether the process was identical for URs and SRs. I feel like the model would get very unconstrained if it was different, so I wrote just one internal target() function that maps over UR, SR pairs. This target() function is most similar to what I think of as the “Phonology-Phonetics Interface”.\nThen, inside the targeting function, I have an internal voicing() function that maps feature values to specific cue values. This is the most similar to what I think of as a “phonetic implementation rule”.\n\ndef A(P:list[tuple[list[str], list[str]]]) -&gt; list[tuple[tuple[list[str],list[str]],npt.NDArray]]:\n  \"\"\"\n  Assign targets to P(L)\n  \"\"\"\n  def target(UR_SR:tuple[list[str], list[str]]) -&gt; tuple[tuple[list[str],list[str]],npt.NDArray]:\n    \"\"\"\n    Assign targets to each representation in &lt;UR, SR&gt;\n    \"\"\"\n    def voicing(rep: list[str]) -&gt; float|None:\n      \"\"\"\n      Return cue value for each feature value.\n      \"\"\"\n      if rep[0] == \"+\":\n        return 2.0\n      if rep[0] == \"-\":\n        return 1.0\n      \n    return (UR_SR, np.array(list(map(voicing, UR_SR))))\n  \n  return list(map(target, P))\n\nThe typing is pretty incomprehensible, and we’re dealing with two levels of function embedding, but in the end we get the kind of output we’re looking for.\n\nA(P(L))\n\n[((['+', '#'], ['-', '#']), array([2., 1.])),\n ((['-', '#'], ['-', '#']), array([1., 1.])),\n ((['+', '.'], ['+', '.']), array([2., 2.])),\n ((['-', '.'], ['-', '.']), array([1., 1.]))]",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "08",
+      "Blueprint Model of Production, Pythonically"
+    ]
+  },
+  {
+    "objectID": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#intent",
+    "href": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#intent",
+    "title": "Blueprint Model of Production, Pythonically",
+    "section": "Intent",
+    "text": "Intent\nFinally, there’s the “Intent” (I) function that takes in the cue values from A() and weights & combines them according to an intention to keep underlying features distinct.\nNow, a function that looks like I(A(P(L))) won’t do the trick, because the intention value varies. I could let I() take a second parameter like I(A(P(L)), i), but none of the other functions I’ve written so far have done that, so I don’t want start now. Instead, I wrote an I_factory() function which returns a parameterized I() function. The I() function then weights and sums the target values to return the Phonetic Realization.\nAt this point, I decided that I wasn’t going to bother with returning a tuple of \\(\\langle\\) input, output \\(\\rangle\\) because\n\nThis is the last step.\nThe typing would be monstrous.\n\n\ndef I_factory(i:float = 0.0) -&gt; Callable:\n  \"\"\"\n  Return a parameterized Intent function\n  \"\"\"\n  def I(A:list[tuple[tuple[list[str],list[str]],npt.NDArray]]) -&gt; list[float]:\n    \"\"\"\n    Map A() to a phonetic cue, according to distinctness intent.\n    \"\"\"\n    weights = np.array([i, 1-i])\n    def PR(ur_sr_target):\n      \"\"\"\n      Weight and combine cues.\n      \"\"\"\n      return np.dot(ur_sr_target[1], weights)\n    return list(map(PR, A))\n  return(I)\n\nHere it is in action!\n\n# Full Neutralization\nI_factory(i = 0)(A(P(L)))\n\n[np.float64(1.0), np.float64(1.0), np.float64(2.0), np.float64(1.0)]\n\n\n\n# Incomplete Neutralization\nI_factory(i = 0.1)(A(P(L)))\n\n[np.float64(1.1), np.float64(1.0), np.float64(2.0), np.float64(1.0)]",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "08",
+      "Blueprint Model of Production, Pythonically"
+    ]
+  },
+  {
+    "objectID": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#thoughts",
+    "href": "posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html#thoughts",
+    "title": "Blueprint Model of Production, Pythonically",
+    "section": "Thoughts",
+    "text": "Thoughts\nA kind of interesting thing to note is that the Intention function only looked at and weighted the cues from A(), but the full \\(\\langle\\) UR, SR \\(\\rangle\\) tuples were also there. I don’t know what I() could have done with them, but they were right there.\nOverall, even if I got things wrong, this has felt like an enlightening exercise. It’s definitely an approach to Phonology and Phonetics I’ll be noodling over for a bit.",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "08",
+      "Blueprint Model of Production, Pythonically"
+    ]
+  },
+  {
     "objectID": "posts/2025/07/2025-07-31_setting-up-rogue-scholar/index.html",
     "href": "posts/2025/07/2025-07-31_setting-up-rogue-scholar/index.html",
     "title": "Setting Up Rogue Scholar",
@@ -18,7 +130,7 @@
     "href": "posts/2025/07/2025-07-31_setting-up-rogue-scholar/index.html#enforcing-metadata",
     "title": "Setting Up Rogue Scholar",
     "section": "Enforcing metadata",
-    "text": "Enforcing metadata\nI sometimes have a bad habit of creating a new quarto file for a post, and forgetting to add a date, which would be no good for the RSS feed. And if I had to go back and forth between the Rogue Scholar archive and my blog files to error-free copy-paste DOIs, this was never going to work. My approach was to put together a quarto pre-render script, which you can look at in full here.\nThe upshot is that I use pathlib to walk through and find all of my post-level directories, which I have (maybe annoyingly) organized like so:\nblog/\n└── posts/\n    └── YYYY/\n        └── MM/\n            └── YYYY-MM-DD_slug/\n                └── index.qmd\nI can take the YYYY-MM-DD portion of the post directory to get the date, and I can generate a DOI using commonmeta-py like so\n\nfrom commonmeta import encode_doi\nencode_doi(\n  \"10.59350\" #the Rogue Scholar prefix\n)\n\n'https://doi.org/10.59350/tecab-96932'\n\n\nThen, I drop this info into a post-level _metadata.yml file. If you look at the actual function I wrote to update _metadata.yml, I have a lot of conditionals because\n\nIf _metadata.yml already has a doi field, I don’t want to overwrite it!\nAnd if _metadata.yml already has an accurate date, I don’t want waste the time on writing to it either.\n\nA nice thing about how I set this up, though, is if I create a post directory and don’t wind up publishing the post until a few days later, the date metadata ought to get automatically updated if I just change the post’s directory name.\nWith my pre-render script written, I just added it to the pre-render list in my quarto configuration file.",
+    "text": "Enforcing metadata\nI sometimes have a bad habit of creating a new quarto file for a post, and forgetting to add a date, which would be no good for the RSS feed. And if I had to go back and forth between the Rogue Scholar archive and my blog files to error-free copy-paste DOIs, this was never going to work. My approach was to put together a quarto pre-render script, which you can look at in full here.\nThe upshot is that I use pathlib to walk through and find all of my post-level directories, which I have (maybe annoyingly) organized like so:\nblog/\n└── posts/\n    └── YYYY/\n        └── MM/\n            └── YYYY-MM-DD_slug/\n                └── index.qmd\nI can take the YYYY-MM-DD portion of the post directory to get the date, and I can generate a DOI using commonmeta-py like so\n\nfrom commonmeta import encode_doi\nencode_doi(\n  \"10.59350\" #the Rogue Scholar prefix\n)\n\n'https://doi.org/10.59350/fdgm0-evb66'\n\n\nThen, I drop this info into a post-level _metadata.yml file. If you look at the actual function I wrote to update _metadata.yml, I have a lot of conditionals because\n\nIf _metadata.yml already has a doi field, I don’t want to overwrite it!\nAnd if _metadata.yml already has an accurate date, I don’t want waste the time on writing to it either.\n\nA nice thing about how I set this up, though, is if I create a post directory and don’t wind up publishing the post until a few days later, the date metadata ought to get automatically updated if I just change the post’s directory name.\nWith my pre-render script written, I just added it to the pre-render list in my quarto configuration file.",
     "crumbs": [
       "About",
       "Posts",
@@ -1362,7 +1474,7 @@
     "href": "index.html",
     "title": "Væl Space",
     "section": "",
-    "text": "Hello!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSetting Up Rogue Scholar\n\n\n\n\n\n\n\n\n\n\n\n2025-07-31\n\n\nJosef Fruehwald\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nGetting the xkcd color survey sqlite database\n\n\n\n\n\n\n\n\n\n\n\n2025-07-16\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nLight vs Dark &lt;color&gt;\n\n\n\n\n\n\n\n\n\n\n\n2025-07-14\n\n\nJosef Fruehwald\n\n15 min\n\n\n\n\n\n\n\n\n\n\n\nVisualizing the Color Sphere\n\n\n\n\n\n\n\n\n\n\n\n2025-07-12\n\n\nJosef Fruehwald\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\ntidytuesday color survey\n\n\n\n\n\n\n\n\n\n\n\n2025-07-09\n\n\nJosef Fruehwald\n\n10 min\n\n\n\n\n\n\n\n\n\n\n\nDoing cool things with the Discrete Cosine Transform in tidynorm\n\n\n\n\n\nDCT coefficients are really useful!\n\n\n\n\n\n2025-06-17\n\n\nJosef Fruehwald\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\nIntroducing tidynorm\n\n\n\n\n\nHere’s a brief introduction to the new {tidynorm} package.\n\n\n\n\n\n2025-06-16\n\n\nJosef Fruehwald\n\n12 min\n\n\n\n\n\n\n\n\n\n\n\nCustom Code Chunk css\n\n\n\n\n\n\n\n\n\n\n\n2025-03-11\n\n\nJosef Fruehwald\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nIn Remembrance\n\n\n\n\n\n\n\n\n\n\n\n2024-12-17\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nRandom Effects and Overdispersion\n\n\n\n\n\n\n\n\n\n\n\n2024-11-20\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nRandom effect priors, redo\n\n\n\n\n\n\n\n\n\n\n\n2024-11-19\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nSetting default ggplot2 colors\n\n\n\n\n\n\nggplot2\n\ndataviz\n\n\n\n\n\n\n\n\n\n2024-10-01\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nBuilding up a complex {gt} table.\n\n\n\n\n\n\n\n\n\n\n\n2024-09-15\n\n\nJosef Fruehwald\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\nRolling for Damage with the Central Limit Theorem\n\n\n\n\n\n\n\n\n\n\n\n2024-09-08\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nTroubleshooting RStudio for GitHub Classrom and Codespaces\n\n\nA living document\n\n\n\n\n\n\n\n\n2024-09-06\n\n\nJosef Fruehwald\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\nExperimenting with Object Oriented Programming in R\n\n\n\n\n\n\n\n\n\n\n\n2024-09-02\n\n\nJosef Fruehwald\n\n14 min\n\n\n\n\n\n\n\n\n\n\n\nWorking with the Discrete Cosine Transform in R\n\n\n\n\n\n\n\n\n\n\n\n2024-07-19\n\n\nJosef Fruehwald\n\n10 min\n\n\n\n\n\n\n\n\n\n\n\nUsing FastTrackPy and aligned-textgrid\n\n\n\n\n\n\n\n\n\n\n\n2024-02-16\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nSome lessons in using Github Classroom and Codespaces\n\n\n\n\n\n\n\n\n\n\n\n2024-02-14\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nThinking About Hierarchical Variance Parameters\n\n\n\n\n\n\n\n\n\n\n\n2023-06-29\n\n\nJosef Fruehwald\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\nGetting a sense of priors for logistic regression\n\n\n\n\n\n\n\n\n\n\n\n2023-06-28\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nChanging Project Defaults\n\n\n\n\n\n\n\n\n\n\n\n2023-06-16\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nUsing Quarto Blogs for Teaching\n\n\n\n\n\n\n\n\n\n\n\n2023-05-03\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nSimulating DND Rolls\n\n\n\n\n\n\n\n\n\n\n\n2023-02-12\n\n\nJosef Fruehwald\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\nA handy dplyr function for linguistics\n\n\n\n\n\n\n\n\n\n\n\n2023-02-05\n\n\nJosef Fruehwald\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\nMaking a Plotly Plot\n\n\n\n\n\n\nplotly\n\n\n\n\n\n\n\n\n\n2023-01-29\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nR Package Exploration (Jan 2023)\n\n\n\n\n\n\nR\n\nR package exploration\n\n`{ggforce}`\n\n`{geomtextpath}`\n\n`{ggdensity}`\n\n\n\n\n\n\n\n\n\n2023-01-27\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nMaking a spectrogram in R\n\n\n\n\n\n\nhow-to\n\nr\n\n\n\n\n\n\n\n\n\n2023-01-22\n\n\nJosef Fruehwald\n\n11 min\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 3\n\n\nPart 3: The role of r-dissimilation\n\n\n\nresearch\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-04\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 2\n\n\nPart 2: Saying Wooder\n\n\n\nresearch\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-01\n\n\nJosef Fruehwald\n\n15 min\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders\n\n\nPart 1: Talking about Wooder\n\n\n\nresearch\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2022-12-31\n\n\nJosef Fruehwald\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\nGithub Onboarding with RStudio\n\n\n\n\n\n\n\n\n\n\n\n2022-12-21\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nWhat is R?\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\n2022-12-17\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nA lesson in over-preparing\n\n\n\n\n\n\n\n\n\n\n\n2022-12-10\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\nNo matching items\n\n  \n\nReuseCC-BY 4.0"
+    "text": "Hello!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nBlueprint Model of Production, Pythonically\n\n\n\n\n\nI try to implement the formal description of phonology and phonetics from @nelson2025 in python.\n\n\n\n\n\n2025-08-12\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nSetting Up Rogue Scholar\n\n\n\n\n\n\n\n\n\n\n\n2025-07-31\n\n\nJosef Fruehwald\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nGetting the xkcd color survey sqlite database\n\n\n\n\n\n\n\n\n\n\n\n2025-07-16\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nLight vs Dark &lt;color&gt;\n\n\n\n\n\n\n\n\n\n\n\n2025-07-14\n\n\nJosef Fruehwald\n\n15 min\n\n\n\n\n\n\n\n\n\n\n\nVisualizing the Color Sphere\n\n\n\n\n\n\n\n\n\n\n\n2025-07-12\n\n\nJosef Fruehwald\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\ntidytuesday color survey\n\n\n\n\n\n\n\n\n\n\n\n2025-07-09\n\n\nJosef Fruehwald\n\n10 min\n\n\n\n\n\n\n\n\n\n\n\nDoing cool things with the Discrete Cosine Transform in tidynorm\n\n\n\n\n\nDCT coefficients are really useful!\n\n\n\n\n\n2025-06-17\n\n\nJosef Fruehwald\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\nIntroducing tidynorm\n\n\n\n\n\nHere’s a brief introduction to the new {tidynorm} package.\n\n\n\n\n\n2025-06-16\n\n\nJosef Fruehwald\n\n12 min\n\n\n\n\n\n\n\n\n\n\n\nCustom Code Chunk css\n\n\n\n\n\n\n\n\n\n\n\n2025-03-11\n\n\nJosef Fruehwald\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nIn Remembrance\n\n\n\n\n\n\n\n\n\n\n\n2024-12-17\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nRandom Effects and Overdispersion\n\n\n\n\n\n\n\n\n\n\n\n2024-11-20\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nRandom effect priors, redo\n\n\n\n\n\n\n\n\n\n\n\n2024-11-19\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nSetting default ggplot2 colors\n\n\n\n\n\n\nggplot2\n\ndataviz\n\n\n\n\n\n\n\n\n\n2024-10-01\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nBuilding up a complex {gt} table.\n\n\n\n\n\n\n\n\n\n\n\n2024-09-15\n\n\nJosef Fruehwald\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\nRolling for Damage with the Central Limit Theorem\n\n\n\n\n\n\n\n\n\n\n\n2024-09-08\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nTroubleshooting RStudio for GitHub Classrom and Codespaces\n\n\nA living document\n\n\n\n\n\n\n\n\n2024-09-06\n\n\nJosef Fruehwald\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\nExperimenting with Object Oriented Programming in R\n\n\n\n\n\n\n\n\n\n\n\n2024-09-02\n\n\nJosef Fruehwald\n\n14 min\n\n\n\n\n\n\n\n\n\n\n\nWorking with the Discrete Cosine Transform in R\n\n\n\n\n\n\n\n\n\n\n\n2024-07-19\n\n\nJosef Fruehwald\n\n10 min\n\n\n\n\n\n\n\n\n\n\n\nUsing FastTrackPy and aligned-textgrid\n\n\n\n\n\n\n\n\n\n\n\n2024-02-16\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nSome lessons in using Github Classroom and Codespaces\n\n\n\n\n\n\n\n\n\n\n\n2024-02-14\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nThinking About Hierarchical Variance Parameters\n\n\n\n\n\n\n\n\n\n\n\n2023-06-29\n\n\nJosef Fruehwald\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\nGetting a sense of priors for logistic regression\n\n\n\n\n\n\n\n\n\n\n\n2023-06-28\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nChanging Project Defaults\n\n\n\n\n\n\n\n\n\n\n\n2023-06-16\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nUsing Quarto Blogs for Teaching\n\n\n\n\n\n\n\n\n\n\n\n2023-05-03\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nSimulating DND Rolls\n\n\n\n\n\n\n\n\n\n\n\n2023-02-12\n\n\nJosef Fruehwald\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\nA handy dplyr function for linguistics\n\n\n\n\n\n\n\n\n\n\n\n2023-02-05\n\n\nJosef Fruehwald\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\nMaking a Plotly Plot\n\n\n\n\n\n\nplotly\n\n\n\n\n\n\n\n\n\n2023-01-29\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nR Package Exploration (Jan 2023)\n\n\n\n\n\n\nR\n\nR package exploration\n\n`{ggforce}`\n\n`{geomtextpath}`\n\n`{ggdensity}`\n\n\n\n\n\n\n\n\n\n2023-01-27\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nMaking a spectrogram in R\n\n\n\n\n\n\nhow-to\n\nr\n\n\n\n\n\n\n\n\n\n2023-01-22\n\n\nJosef Fruehwald\n\n11 min\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 3\n\n\nPart 3: The role of r-dissimilation\n\n\n\nresearch\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-04\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 2\n\n\nPart 2: Saying Wooder\n\n\n\nresearch\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-01\n\n\nJosef Fruehwald\n\n15 min\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders\n\n\nPart 1: Talking about Wooder\n\n\n\nresearch\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2022-12-31\n\n\nJosef Fruehwald\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\nGithub Onboarding with RStudio\n\n\n\n\n\n\n\n\n\n\n\n2022-12-21\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nWhat is R?\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\n2022-12-17\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nA lesson in over-preparing\n\n\n\n\n\n\n\n\n\n\n\n2022-12-10\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\nNo matching items\n\n  \n\nReuseCC-BY 4.0"
   },
   {
     "objectID": "about.html",
@@ -1418,7 +1530,7 @@
     "href": "defaults.html#github-action",
     "title": "Site Defaults",
     "section": "Github Action",
-    "text": "Github Action\nname: Build Site\non:\n  push:\n    branches: [\"master\"]\n    \nenv:\n  RENV_PATHS_ROOT: ~/.cache/R/renv\n  QUARTO_PYTHON: renv/python/virtualenvs/renv-python-3.12/bin/python\njobs:\n  build-docs:\n     runs-on: macos-latest\n     steps:\n      - uses: actions/checkout@v2\n      - uses: actions/setup-python@v2\n        with:\n          python-version: \"3.12\"\n      - uses: r-lib/actions/setup-r@v2\n      - name: Cache packages\n        uses: actions/cache@v4\n        with:\n          path: ${{ env.RENV_PATHS_ROOT }}\n          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}\n          restore-keys: |\n            ${{ runner.os }}-renv-\n      - name: Restore packages\n        shell: Rscript {0}\n        run: |\n          if (!requireNamespace(\"renv\", quietly = TRUE)) install.packages(\"renv\")\n          renv::restore()\n      - name: Install Reticulate\n        run: Rscript -e 'renv::install(\"reticulate\")'\n      - name: Set up quarto\n        uses: quarto-dev/quarto-actions/setup@v2\n      # - name: Set Quarto Python\n      #   run: |\n      #     echo \"QUARTO_PYTHON=renv/python/virtualenvs/renv-python-3.12/bin/python\" &gt;&gt; $GITHUB_ENV\n      - name: Render and publish to gh pages\n        uses: quarto-dev/quarto-actions/publish@v2\n        with:\n          target: gh-pages"
+    "text": "Github Action\nname: Build Site\non:\n  push:\n    branches: [\"master\"]\n    \nenv:\n  RENV_PATHS_ROOT: ~/.cache/R/renv\n  QUARTO_PYTHON: renv/python/virtualenvs/renv-python-3.12/bin/python\njobs:\n  build-docs:\n     runs-on: macos-latest\n     steps:\n      - uses: actions/checkout@v2\n      - uses: actions/setup-python@v2\n        with:\n          python-version: \"3.12\"\n      - name: Set Reticulate\n        run: |\n          echo \"RETICULATE_PYTHON=$(which python)\" &gt;&gt; \"$GITHUB_ENV\"\n          echo \"RENV_PYTHON=$(which python)\" &gt;&gt; \"$GITHUB_ENV\"\n          echo \"QUARTO_PYTHON=$(which python)\" &gt;&gt; \"$GITHUB_ENV\"\n          pip install -r requirements.txt\n      - uses: r-lib/actions/setup-r@v2\n      - name: Cache packages\n        uses: actions/cache@v4\n        with:\n          path: ${{ env.RENV_PATHS_ROOT }}\n          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}\n          restore-keys: |\n            ${{ runner.os }}-renv-          \n      - name: Restore packages\n        shell: Rscript {0}\n        run: |\n          if (!requireNamespace(\"renv\", quietly = TRUE)) install.packages(\"renv\")\n          renv::install(\"reticulate\")\n          #reticulate::install_python(\"3.12:latest\")\n          renv::use_python(type = \"virtualenv\")\n          renv::restore()\n      - name: Set up quarto\n        uses: quarto-dev/quarto-actions/setup@v2\n      # - name: Set Quarto Python\n      #   run: |\n      #     echo \"QUARTO_PYTHON=renv/python/virtualenvs/renv-python-3.12/bin/python\" &gt;&gt; $GITHUB_ENV\n      - name: Render and publish to gh pages\n        uses: quarto-dev/quarto-actions/publish@v2\n        with:\n          target: gh-pages"
   },
   {
     "objectID": "posts/2022/12/2022-12-10/index.html",

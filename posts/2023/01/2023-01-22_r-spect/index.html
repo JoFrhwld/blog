@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.7.33">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2023-01-22">
@@ -74,9 +74,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-4d49c55b2a02038d936e54d6a2565e99.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-95b9d8bfb9033cfe0e62f8828f2324d8.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-4d49c55b2a02038d936e54d6a2565e99.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-68d21bd1aa23fdaa920fe1d269933407.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4bb19fa9e15c342593cf81188a24865b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-68d21bd1aa23fdaa920fe1d269933407.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../../../site_libs/bootstrap/bootstrap-55e7c9e5bcca1d54fd1931cfdd11d93b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -144,6 +144,16 @@ cookieconsent.run({
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image-height" content="768">
 <meta name="twitter:image-width" content="1152">
+<meta name="citation_title" content="Making a spectrogram in R">
+<meta name="citation_author" content="Josef Fruehwald">
+<meta name="citation_publication_date" content="2023-01-22">
+<meta name="citation_cover_date" content="2023-01-22">
+<meta name="citation_year" content="2023">
+<meta name="citation_online_date" content="2023-01-22">
+<meta name="citation_fulltext_html_url" content="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/">
+<meta name="citation_doi" content="10.59350/0d3a6-7nk34">
+<meta name="citation_language" content="en">
+<meta name="citation_series_title" content="Væl Space">
 </head>
 <body class="nav-sidebar floating nav-fixed slimcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
@@ -819,6 +829,23 @@ cookieconsent.run({
 </li>
       </ul>
 </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-20" role="navigation" aria-expanded="false">
+ <span class="menu-text">08</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-20" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-20" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2025/08/2025-08-12_blueprint-phonology-in-python/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Blueprint Model of Production, Pythonically</span></a>
+  </div>
+</li>
+      </ul>
+</li>
       </ul>
 </li>
       </ul>
@@ -854,7 +881,7 @@ cookieconsent.run({
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content"><p>I might flesh this out as a more detailed tutorial for <a href="https://lingmethodshub.github.io/content/">LingMethodsHub</a>, but for now this is going to be a rough-around-the-edges post about making spectrograms in R. My goal will be to get as close as possible to recreating a spectrogram like you might get from Praat.</p>
-<div id="fig-praat-spect" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A spectrogram of the vowel /i/ generated by praat." data-fig-align="center">
+<div id="fig-praat-spect" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A spectrogram of the vowel /i/ generated by praat.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-praat-spect-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/praat.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: A spectrogram of the vowel /i/ generated by praat."><img src="assets/praat.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A spectrogram of the vowel /i/ generated by praat."></a>
 </div>
@@ -922,7 +949,7 @@ Explanation of a hacky thing I had to do.
 </dl>
 <section id="praat-defaults" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="praat-defaults">Praat defaults</h3>
 <p>Let’s have a look at the Praat spectrogram defaults</p>
-<div id="fig-praat-defaults" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A screenshot of the default spectrogram settings for Praat." data-fig-align="center">
+<div id="fig-praat-defaults" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A screenshot of the default spectrogram settings for Praat.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-praat-defaults-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="assets/praat_defaults.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Praat defaults for spectrograms"><img src="assets/praat_defaults.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%" alt="A screenshot of the default spectrogram settings for Praat."></a>
 </div>

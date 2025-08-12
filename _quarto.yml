@@ -4,6 +4,7 @@ project:
     - "prerenders/prerender.py"
   render:
     - "*.qmd"
+    - "*.ipynb"
     - "!old_posts/"
   preview:
     port: 7776
@@ -15,9 +16,10 @@ website:
   title: "Væl Space ![](/assets/logo-small.svg){.center}"
   favicon: /assets/logo.svg
   twitter-card:
-    image: https://jofrhwld.github.io/blog/assets/logo.svg
-  open-graph: 
-    image: https://jofrhwld.github.io/blog/assets/logo.svg
+    #image: https://jofrhwld.github.io/blog/assets/logo.svg
+    card-style: summary_large_image
+  open-graph: true
+    #image: https://jofrhwld.github.io/blog/assets/logo.svg
   bread-crumbs: false
   site-url: "https://jofrhwld.github.io/blog"
   reader-mode: true

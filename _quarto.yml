@@ -4,6 +4,7 @@ project:
     - "prerenders/prerender.py"
   render:
     - "*.qmd"
+    - "*.ipynb"
     - "!old_posts/"
   preview:
     port: 7776

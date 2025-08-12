@@ -8,3 +8,5 @@ rmd_drafts/*
 **/drafts/
 *.sqlite
 .vscode
+*.html
+*_files

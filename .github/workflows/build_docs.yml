@@ -32,7 +32,7 @@ jobs:
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
           renv::install("reticulate")
           #reticulate::install_python("3.12:latest")
-          #renv::use_python(python = Sys.getenv("RETICULATE_PYTHON"))
+          renv::use_python(type = "virtualenv")
           renv::restore()
       - name: Set up quarto
         uses: quarto-dev/quarto-actions/setup@v2

@@ -17,6 +17,7 @@ jobs:
       - name: Set Reticulate
         run: |
           echo "RETICULATE_PYTHON=$(which python)" >> "$GITHUB_ENV"
+          echo "RENV_PYTHON=$(which python)" >> "$GITHUB_ENV"
       - uses: r-lib/actions/setup-r@v2
       - name: Cache packages
         uses: actions/cache@v4
@@ -30,8 +31,8 @@ jobs:
         run: |
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
           renv::install("reticulate")
-          reticulate::install_python("3.12:latest")
-          renv::use_python(python = Sys.getenv("RETICULATE_PYTHON"))
+          #reticulate::install_python("3.12:latest")
+          #renv::use_python(python = Sys.getenv("RETICULATE_PYTHON"))
           renv::restore()
       - name: Set up quarto
         uses: quarto-dev/quarto-actions/setup@v2

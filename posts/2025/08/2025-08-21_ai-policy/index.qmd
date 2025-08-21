@@ -1,0 +1,60 @@
+---
+title: AI Policy
+description: A version of my AI course policy.
+---
+
+::: callout-note
+This is a version of the AI course policy I'm introducing this semester.
+:::
+
+# 🚫 When in doubt: No.
+
+There is no aspect of this course for which it is recommended, appropriate, or acceptable to turn to a Large Language Model (more commonly called an AI) such as ChatGPT.
+This includes:
+
+-   Working on graded assignments, quizzes, or discussion prompts.
+
+-   As a supplement to the readings or course notes.
+
+-   As a reading or study aid (for example, summarizing readings or course notes).
+
+## Consequences
+
+You won't receive credit for any submitted coursework that is obviously AI generated.
+I will leave feedback on coursework that was AI generated that this is the reason why it isn't receiving a grade.
+If you actually didn't generate your coursework with AI, you should ask me to revisit the grade.
+We should be able to resolve the issue with a straightforward conversation about the work you submitted.
+
+I will be judicious about whether or not I flag an assignment as AI generated.
+If you are *not* using AI, you don't need to worry about taking extra steps to make sure your coursework doesn't "look" like AI in some way.
+
+# ❓Why?
+
+## Assignments aren't obstacles, they're the course.
+
+A common way to think about course assignments is like they're obstacles that I, the professor, put in the way between you and completion of the course.
+But they're not.
+They're exercises that, by virtue of you doing them, you learn.
+If you don't actually do them, then you're not learning.
+[To quote Ted Chiang](https://www.newyorker.com/culture/the-weekend-essay/why-ai-isnt-going-to-make-art):
+
+> As the linguist Emily M. Bender has noted, teachers don’t ask students to write essays because the world needs more student essays.
+> The point of writing essays is to strengthen students’ critical-thinking skills; in the same way that lifting weights is useful no matter what sport an athlete plays, writing essays develops skills necessary for whatever job a college student will eventually get.
+> Using ChatGPT to complete assignments is like bringing a forklift into the weight room; you will never improve your cognitive fitness that way.
+
+The same can be said for things like summarizing the contents of a textbook chapter yourself.
+By creating your own study guide, or condensing the contents of a chapter into a few bullet points yourself, you have already studied.
+The valuable thing about course notes isn't the actual notes, it's the act of making them.
+By offloading the act of making them to an AI, they lose their value.
+
+## As a learner, you don't have enough context
+
+When you start a new chat with ChatGPT, it says at the bottom of the screen "ChatGPT can make mistakes. Check important info." Even if you take that seriously, *how would you know* if an AI summarized readings or course notes incorrectly?
+You're a learner in this course *because* you don't already know its content.
+AI systems may be useful to some users who have enough context to be able to tell when they've gone astray, but you are definitionally not in that position.
+
+## **Learning is still a fundamental purpose of higher education**
+
+There are lots of different reasons to go to college, and I won't judge any as being more or less valid than another.
+But in my role as an educator in this course, the purpose I am meant to tend to is your learning.
+I want to facilitate your learning, and in my judgment, for this course, that means prohibiting the use of AI tools.

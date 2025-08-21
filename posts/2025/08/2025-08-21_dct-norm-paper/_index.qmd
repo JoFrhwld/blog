@@ -1,0 +1,92 @@
+---
+title: DCT Norm Paper
+draft: true
+---
+
+```{r}
+source(here::here("_defaults.R"))
+```
+
+```{r}
+library(tidyverse)
+library(ggdiagram)
+library(tidynorm)
+```
+
+```{r}
+ggdiagram() +
+  {
+    x = ob_reuleaux(
+      n = 3,
+      angle = 30,
+      fill = NA,
+      color = ptol_red,
+      linewidth = 2
+    )
+  } +
+  {
+    x@center@color <- ptol_red
+    x@center@size <- 2
+    x@center
+  } +
+  {
+    y = ob_reuleaux(
+      center = ob_point(0.25,0.1),
+      radius = 0.85,
+      n = 3,
+      angle = 30,
+      fill = NA,
+      color = ptol_blue,
+      linewidth = 2
+    )
+  } +
+  {
+    y@center@color <- ptol_blue
+    y@center@size <- 2
+    y@center
+  } +
+  {
+    ob_segment(
+      x@center,
+      x@point_at()
+    )
+  }+
+  {
+    ob_segment(
+      y@center,
+      y@point_at()
+    )
+  }
+```
+
+```{r}
+x@point_at(radian(pi))
+```
+
+```{r}
+dct_basis(100, 5) |> 
+  as_tibble(.name_repair = "unique") |> 
+  mutate(
+    x = 1:100
+  ) |> 
+  pivot_longer(
+    -x
+  ) |> 
+  summarise(
+    .by = name,
+    points = ob_point(x,value) |> 
+      list() |> 
+      ob_path() |> 
+      list()
+  )->
+  polys
+```
+
+```{r}
+ggplot() +
+  {
+    a = polys$points[[3]]
+  } + {
+    
+  }
+```

@@ -1,0 +1,17 @@
+{
+  "hash": "f6e6102adfd63f65b99eefbf27f19f5a",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: Ggdiagram\ndate: '2025-08-19'\ndraft: true\nknitr: \n  opts_chunk: \n    crop: true\n---\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsource(here::here(\"_defaults.R\"))\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(ggdiagram)\nlibrary(ggarrow)\nlibrary(ggtext)\nlibrary(geomtextpath)\nlibrary(ggforce)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndims <- tibble(\n  book = c(\"Frankenstein\", \"Mysterious Island\"),\n  sea = c(375, 1053),\n  monster = c(352, 35),\n  col = c(ptol_red, ptol_blue)\n)\n```\n:::\n\n\n\n::: {.cell renderings='[\"light\",\"dark\"]'}\n\n```{.r .cell-code}\nggplot(\n  dims\n) +\n  geom_point(\n    aes(sea, monster)\n  ) +\n  coord_fixed() ->\n  base_plot\n\nbase_plot\n\n(base_plot + theme_dark()) |> dark_render()\n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-4-1.png){width=768}\n:::\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-4-2.png){width=768}\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\norigin = ob_point(0, 0)\n\ndims |> \n  mutate(\n    .by = book,\n    segment = list(\n      ob_segment(\n        origin, \n        ob_point(sea, monster),\n        label = book,\n        arrow_head = ggarrow::arrow_head_wings(),\n        color = col\n      )\n    )\n  ) ->\n  dim_segments\n```\n:::\n\n\n\n::: {.cell renderings='[\"light\",\"dark\"]'}\n\n```{.r .cell-code}\nbase_plot +\n  {\n    FR = dim_segments$segment[[1]]\n  } + \n  {\n    MI = dim_segments$segment[[2]]\n  }->\n  segments\n\nsegments\n(segments + theme_dark()) |>  dark_render()\n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-6-1.png){width=768}\n:::\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-6-2.png){width=768}\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndim_segments |> \n  mutate(\n    angle = radian(atan2(monster, sea))\n  )->\n  dim_angles\n```\n:::\n\n\n\n::: {.cell renderings='[\"light\",\"dark\"]'}\n\n```{.r .cell-code}\nsegments + \n  {\n    arc <- ob_arc(\n      origin, \n      radius = 150,\n      start = dim_angles$angle[2],\n      end = dim_angles$angle[1],\n      arrow_head = arrowhead(),\n      arrow_fins = arrowhead()\n    )\n  } +\n  {\n    ob_label(\n      label = str_c(\"θ = \", arc@theta),\n      center = arc@midpoint(),\n      nudge_x = 60,\n      nudge_y = 15\n    )\n  }->\n  with_theta\n\nwith_theta\n(with_theta + theme_dark()) |> dark_render()\n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-8-1.png){width=768}\n:::\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-8-2.png){width=768}\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nob_arc(\n      origin, \n      radius = 150,\n      start = dim_angles$angle[2],\n      end = dim_angles$angle[1],\n      arrow_head = arrowhead(),\n      arrow_fins = arrowhead()\n    )@theta \n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"0.23π\"\n```\n\n\n:::\n:::\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

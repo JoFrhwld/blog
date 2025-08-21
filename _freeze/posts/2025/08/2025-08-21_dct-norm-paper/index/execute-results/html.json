@@ -1,0 +1,17 @@
+{
+  "hash": "e59c8945eba37bc6202e0cfc608ea54e",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: DCT Norm Paper\ndraft: true\n---\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsource(here::here(\"_defaults.R\"))\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse)\nlibrary(ggdiagram)\nlibrary(tidynorm)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nggdiagram() +\n  {\n    x = ob_reuleaux(\n      n = 3,\n      angle = 30,\n      fill = NA,\n      color = ptol_red,\n      linewidth = 2\n    )\n  } +\n  {\n    x@center@color <- ptol_red\n    x@center@size <- 2\n    x@center\n  } +\n  {\n    y = ob_reuleaux(\n      center = ob_point(0.25,0.1),\n      radius = 0.85,\n      n = 3,\n      angle = 30,\n      fill = NA,\n      color = ptol_blue,\n      linewidth = 2\n    )\n  } +\n  {\n    y@center@color <- ptol_blue\n    y@center@size <- 2\n    y@center\n  } +\n  {\n    ob_segment(\n      x@center,\n      x@point_at()\n    )\n  }+\n  {\n    ob_segment(\n      y@center,\n      y@point_at()\n    )\n  }\n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-3-1.png){width=768}\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nx@point_at(radian(pi))\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n# A tibble: 1 × 5\n       x     y color   fill   size\n   <dbl> <dbl> <chr>   <chr> <dbl>\n1 -0.792     0 #EE6677 <NA>      2\n```\n\n\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndct_basis(100, 5) |> \n  as_tibble(.name_repair = \"unique\") |> \n  mutate(\n    x = 1:100\n  ) |> \n  pivot_longer(\n    -x\n  ) |> \n  summarise(\n    .by = name,\n    points = ob_point(x,value) |> \n      list() |> \n      ob_path() |> \n      list()\n  )->\n  polys\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nggplot() +\n  {\n    a = polys$points[[3]]\n  } + {\n    \n  }\n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-6-1.png){width=768}\n:::\n:::\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

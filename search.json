@@ -168,76 +168,6 @@
     ]
   },
   {
-    "objectID": "posts/2025/07/2025-07-16_color-sql/index.html",
-    "href": "posts/2025/07/2025-07-16_color-sql/index.html",
-    "title": "Getting the xkcd color survey sqlite database",
-    "section": "",
-    "text": "I had a lot of fun working with the XKCD color survey data, and I think I’ll keep messing around with it here and there in the future. But I also think I’ll want access to the full data. The tidytuesday data set was necessarily boiled down. The answers data frame contained just one hex code associated with one color label, not every color label given to every hex code in the survey. The full data set is available as a sqlite dump linked to from the xkcd blog, so this post is just about how I set up access to it within my blog RStudio project.\n# basic setup\nsource(here::here(\"_defaults.R\"))\nlibrary(tidyverse)\nlibrary(colorspace)",
-    "crumbs": [
-      "About",
-      "Posts",
-      "2025",
-      "07",
-      "Getting the xkcd color survey sqlite database"
-    ]
-  },
-  {
-    "objectID": "posts/2025/07/2025-07-16_color-sql/index.html#necessary-libraries",
-    "href": "posts/2025/07/2025-07-16_color-sql/index.html#necessary-libraries",
-    "title": "Getting the xkcd color survey sqlite database",
-    "section": "Necessary Libraries",
-    "text": "Necessary Libraries\nFor this workflow, I used\n\nfs: for working with file systems\nDBI and RSQLite: for working with the sqlite database\ndbplyr: for using dplyr commands on the database.\n\n\nlibrary(fs)\nlibrary(DBI)\nlibrary(RSQLite)\nlibrary(dbplyr)",
-    "crumbs": [
-      "About",
-      "Posts",
-      "2025",
-      "07",
-      "Getting the xkcd color survey sqlite database"
-    ]
-  },
-  {
-    "objectID": "posts/2025/07/2025-07-16_color-sql/index.html#downloading-the-database",
-    "href": "posts/2025/07/2025-07-16_color-sql/index.html#downloading-the-database",
-    "title": "Getting the xkcd color survey sqlite database",
-    "section": "Downloading the database",
-    "text": "Downloading the database\nIf you want to hang onto the tar file locally (in case of linkrot), you could download it to a real location, but I just want to send it to a temp file. You can get the temp directory for your R session with fs::path_temp(), and I created the destination file using fs::path().\ndownload.file(\n  \"http://xkcd.com/color/colorsurvey.tar.gz\",\n  fs::path(\n    fs::path_temp(),\n    \"colorsurvey.tar.gz\"\n  )\n)\nThen, it’s a matter of untaring it.\nuntar(\n  fs::path(fs::path_temp(), \"colorsurvey.tar.gz\"),\n  exdir = fs::path(fs::path_temp(), \"colorsurvey\")\n)\nYou can get a list of the available files like so:\npath(\n  path_temp(),\n  \"colorsurvey\"\n) |&gt;\n  dir_ls() -&gt;\n  dump_files\nI’m not actually including this code in executable chunks to avoid downloading the tar file on every re-render, but dump_files will look something like\n[1] /var/folders/xyz/mainsurvey_sqldump.txt\n[2] /var/folders/xyz/satfaces_sqldump.txt\nIt’s the mainsurvey_sqldump.txt file that we want to process.\ndump_files |&gt;\n  keep(\n    ~str_detect(.x, \"mainsurvey\")\n  ) -&gt;\n  survey_dump",
-    "crumbs": [
-      "About",
-      "Posts",
-      "2025",
-      "07",
-      "Getting the xkcd color survey sqlite database"
-    ]
-  },
-  {
-    "objectID": "posts/2025/07/2025-07-16_color-sql/index.html#creating-the-local-database",
-    "href": "posts/2025/07/2025-07-16_color-sql/index.html#creating-the-local-database",
-    "title": "Getting the xkcd color survey sqlite database",
-    "section": "Creating the local database",
-    "text": "Creating the local database\nTo set up the database, we need to read the sqldump file. Apparently there’s a sqlite command .read that will do this, but I couldn’t figure out how to run it within a DBI or RSQLite function, so I have to use a system() command.\nFirst, I have decide where this database is going, and since I don’t want it to wind up being duplicated in every post directory, I’ll create a top level project directory called data.\nfs::dir_create(\n  here::here(\"data\")\n)\nThen, I need to decide on the name of the database file.\nlocal_sql_path &lt;- here::here(\"data\", \"colors.sqlite\")\nI’ll glue my variables into the system command I want:\ncreation_command &lt;- str_glue(\n  \"sqlite3 {local_sql_path} &lt; {survey_dump}\"\n)\nAnd then finally run it.\nsystem(creation_command)\nUpdating .gitignore\n\nYou’ll probably want to add *.sqlite file to your gitignore, which you can either do do by hand or with usethis::use_git_ignore()\nusethis::use_git_ignore(\"*.sqlite\")",
-    "crumbs": [
-      "About",
-      "Posts",
-      "2025",
-      "07",
-      "Getting the xkcd color survey sqlite database"
-    ]
-  },
-  {
-    "objectID": "posts/2025/07/2025-07-16_color-sql/index.html#looking-at-the-database",
-    "href": "posts/2025/07/2025-07-16_color-sql/index.html#looking-at-the-database",
-    "title": "Getting the xkcd color survey sqlite database",
-    "section": "Looking at the database",
-    "text": "Looking at the database\nNow we can connect to the database and look at it.\n\ncolordb &lt;- dbConnect(\n  RSQLite::SQLite(), \n  here::here(\"data\", \"colors.sqlite\")\n)\n\n\ndbListTables(colordb)\n\n[1] \"answers\" \"names\"   \"users\"  \n\n\nWe can access tables from the database like it’s a dataframe with tbl(). It doesn’t actually read the whole thing into memory.\n\ncolors &lt;- tbl(colordb, \"answers\")\ncolors\n\n# Source:   table&lt;`answers`&gt; [?? x 7]\n# Database: sqlite 3.50.1 [/Users/joseffruehwald/Documents/blog/data/colors.sqlite]\n      id user_id  datestamp     r     g     b colorname   \n   &lt;int&gt;   &lt;int&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;       \n 1     1       1 1267418734    72   100   175 pastel blue \n 2     2       1 1267418739   204   177   246 faint violet\n 3     3       1 1267418769   182   226   245 baby blue   \n 4     4       1 1267418773   130    64   234 purple      \n 5     5       2 1267419006    75    49   234 blue        \n 6     6       2 1267419010    76   215   249 light blue  \n 7     7       2 1267419015   111   145   122 olive green \n 8     8       2 1267419019    88    70     1 brown       \n 9     9       2 1267419021   218    35   156 pink        \n10    10       4 1267419023   154    42   159 purple      \n# ℹ more rows\n\n\nNow, we can run the dplyr-like commands on this table thanks to dbplyr and only load the rows we’re interested in.\n\ncolors |&gt; \n  # get just blue and light blue\n  filter(\n    colorname %in% c(\"blue\", \"light blue\")\n  ) |&gt; \n  # manually get some hex values\n  mutate(\n    rh = sql(\"printf('%02X', r)\"),\n    gh = sql(\"printf('%02X', g)\"),\n    bh = sql(\"printf('%02X', b)\")\n  ) |&gt; \n  mutate(\n    hex = sql(\"rh||gh||bh\")\n  )\n\n# Source:   SQL [?? x 11]\n# Database: sqlite 3.50.1 [/Users/joseffruehwald/Documents/blog/data/colors.sqlite]\n      id user_id  datestamp     r     g     b colorname rh    gh    bh    hex   \n   &lt;int&gt;   &lt;int&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; \n 1     5       2 1267419006    75    49   234 blue      4B    31    EA    4B31EA\n 2    17       2 1267419032    41   201   234 blue      29    C9    EA    29C9EA\n 3    22       2 1267419040    73    97   236 blue      49    61    EC    4961EC\n 4    27       4 1267419062    33   115   229 blue      21    73    E5    2173E5\n 5    45       6 1267419091    14    47   164 blue      0E    2F    A4    0E2FA4\n 6    49       4 1267419096    64   128   225 blue      40    80    E1    4080E1\n 7    57       7 1267419102    74    89   253 blue      4A    59    FD    4A59FD\n 8    87       6 1267419139   120   158   209 blue      78    9E    D1    789ED1\n 9   100       7 1267419170    74   107   231 blue      4A    6B    E7    4A6BE7\n10   115      10 1267419193    95   196   210 blue      5F    C4    D2    5FC4D2\n# ℹ more rows\n\n\nI’m kind of glad I messed around with manually converting the rgb values to hex values, cause it turns out I don’t know what the right way is to convert these rgb values to hex codes. My manual approach gives me #4B31EA for the first row, but using the colorspace package, I get two different hex codes depending on whether I assume r, g, b are RGB or sRGB values.\n\nRGB(\n  75/255,\n  49/255,\n  234/255\n) |&gt; \n  hex() \n\n[1] \"#9479F6\"\n\n\n\nsRGB(\n  75/255,\n  49/255,\n  234/255\n) |&gt; \n  hex()\n\n[1] \"#4B31EA\"\n\n\n\nswatchplot(\n  \"RGB\" = \"#9479F6\",\n  \"sRGB\" = \"#4B31EA\"\n)\n\n\n\n\n\n\n\n🤷‍♂️\n\ndbDisconnect(colordb)",
-    "crumbs": [
-      "About",
-      "Posts",
-      "2025",
-      "07",
-      "Getting the xkcd color survey sqlite database"
-    ]
-  },
-  {
     "objectID": "posts/2025/07/2025-07-14_light-color/index.html",
     "href": "posts/2025/07/2025-07-14_light-color/index.html",
     "title": "Light vs Dark <color>",
@@ -1474,7 +1404,7 @@
     "href": "index.html",
     "title": "Væl Space",
     "section": "",
-    "text": "Hello!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nBlueprint Model of Production, Pythonically\n\n\n\n\n\nI try to implement the formal description of phonology and phonetics from @nelson2025 in python.\n\n\n\n\n\n2025-08-12\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nSetting Up Rogue Scholar\n\n\n\n\n\n\n\n\n\n\n\n2025-07-31\n\n\nJosef Fruehwald\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nGetting the xkcd color survey sqlite database\n\n\n\n\n\n\n\n\n\n\n\n2025-07-16\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nLight vs Dark &lt;color&gt;\n\n\n\n\n\n\n\n\n\n\n\n2025-07-14\n\n\nJosef Fruehwald\n\n15 min\n\n\n\n\n\n\n\n\n\n\n\nVisualizing the Color Sphere\n\n\n\n\n\n\n\n\n\n\n\n2025-07-12\n\n\nJosef Fruehwald\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\ntidytuesday color survey\n\n\n\n\n\n\n\n\n\n\n\n2025-07-09\n\n\nJosef Fruehwald\n\n10 min\n\n\n\n\n\n\n\n\n\n\n\nDoing cool things with the Discrete Cosine Transform in tidynorm\n\n\n\n\n\nDCT coefficients are really useful!\n\n\n\n\n\n2025-06-17\n\n\nJosef Fruehwald\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\nIntroducing tidynorm\n\n\n\n\n\nHere’s a brief introduction to the new {tidynorm} package.\n\n\n\n\n\n2025-06-16\n\n\nJosef Fruehwald\n\n12 min\n\n\n\n\n\n\n\n\n\n\n\nCustom Code Chunk css\n\n\n\n\n\n\n\n\n\n\n\n2025-03-11\n\n\nJosef Fruehwald\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nIn Remembrance\n\n\n\n\n\n\n\n\n\n\n\n2024-12-17\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nRandom Effects and Overdispersion\n\n\n\n\n\n\n\n\n\n\n\n2024-11-20\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nRandom effect priors, redo\n\n\n\n\n\n\n\n\n\n\n\n2024-11-19\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nSetting default ggplot2 colors\n\n\n\n\n\n\nggplot2\n\ndataviz\n\n\n\n\n\n\n\n\n\n2024-10-01\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nBuilding up a complex {gt} table.\n\n\n\n\n\n\n\n\n\n\n\n2024-09-15\n\n\nJosef Fruehwald\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\nRolling for Damage with the Central Limit Theorem\n\n\n\n\n\n\n\n\n\n\n\n2024-09-08\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nTroubleshooting RStudio for GitHub Classrom and Codespaces\n\n\nA living document\n\n\n\n\n\n\n\n\n2024-09-06\n\n\nJosef Fruehwald\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\nExperimenting with Object Oriented Programming in R\n\n\n\n\n\n\n\n\n\n\n\n2024-09-02\n\n\nJosef Fruehwald\n\n14 min\n\n\n\n\n\n\n\n\n\n\n\nWorking with the Discrete Cosine Transform in R\n\n\n\n\n\n\n\n\n\n\n\n2024-07-19\n\n\nJosef Fruehwald\n\n10 min\n\n\n\n\n\n\n\n\n\n\n\nUsing FastTrackPy and aligned-textgrid\n\n\n\n\n\n\n\n\n\n\n\n2024-02-16\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nSome lessons in using Github Classroom and Codespaces\n\n\n\n\n\n\n\n\n\n\n\n2024-02-14\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nThinking About Hierarchical Variance Parameters\n\n\n\n\n\n\n\n\n\n\n\n2023-06-29\n\n\nJosef Fruehwald\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\nGetting a sense of priors for logistic regression\n\n\n\n\n\n\n\n\n\n\n\n2023-06-28\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nChanging Project Defaults\n\n\n\n\n\n\n\n\n\n\n\n2023-06-16\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nUsing Quarto Blogs for Teaching\n\n\n\n\n\n\n\n\n\n\n\n2023-05-03\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nSimulating DND Rolls\n\n\n\n\n\n\n\n\n\n\n\n2023-02-12\n\n\nJosef Fruehwald\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\nA handy dplyr function for linguistics\n\n\n\n\n\n\n\n\n\n\n\n2023-02-05\n\n\nJosef Fruehwald\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\nMaking a Plotly Plot\n\n\n\n\n\n\nplotly\n\n\n\n\n\n\n\n\n\n2023-01-29\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nR Package Exploration (Jan 2023)\n\n\n\n\n\n\nR\n\nR package exploration\n\n`{ggforce}`\n\n`{geomtextpath}`\n\n`{ggdensity}`\n\n\n\n\n\n\n\n\n\n2023-01-27\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nMaking a spectrogram in R\n\n\n\n\n\n\nhow-to\n\nr\n\n\n\n\n\n\n\n\n\n2023-01-22\n\n\nJosef Fruehwald\n\n11 min\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 3\n\n\nPart 3: The role of r-dissimilation\n\n\n\nresearch\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-04\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 2\n\n\nPart 2: Saying Wooder\n\n\n\nresearch\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-01\n\n\nJosef Fruehwald\n\n15 min\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders\n\n\nPart 1: Talking about Wooder\n\n\n\nresearch\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2022-12-31\n\n\nJosef Fruehwald\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\nGithub Onboarding with RStudio\n\n\n\n\n\n\n\n\n\n\n\n2022-12-21\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nWhat is R?\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\n2022-12-17\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nA lesson in over-preparing\n\n\n\n\n\n\n\n\n\n\n\n2022-12-10\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\nNo matching items\n\n  \n\nReuseCC-BY 4.0"
+    "text": "Hello!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAI Policy\n\n\n\n\n\nA version of my AI course policy.\n\n\n\n\n\n2025-08-21\n\n\nJosef Fruehwald\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nBlueprint Model of Production, Pythonically\n\n\n\n\n\nI try to implement the formal description of phonology and phonetics from @nelson2025 in python.\n\n\n\n\n\n2025-08-12\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nSetting Up Rogue Scholar\n\n\n\n\n\n\n\n\n\n\n\n2025-07-31\n\n\nJosef Fruehwald\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nGetting the xkcd color survey sqlite database\n\n\n\n\n\n\n\n\n\n\n\n2025-07-16\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nLight vs Dark &lt;color&gt;\n\n\n\n\n\n\n\n\n\n\n\n2025-07-14\n\n\nJosef Fruehwald\n\n15 min\n\n\n\n\n\n\n\n\n\n\n\nVisualizing the Color Sphere\n\n\n\n\n\n\n\n\n\n\n\n2025-07-12\n\n\nJosef Fruehwald\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\ntidytuesday color survey\n\n\n\n\n\n\n\n\n\n\n\n2025-07-09\n\n\nJosef Fruehwald\n\n10 min\n\n\n\n\n\n\n\n\n\n\n\nDoing cool things with the Discrete Cosine Transform in tidynorm\n\n\n\n\n\nDCT coefficients are really useful!\n\n\n\n\n\n2025-06-17\n\n\nJosef Fruehwald\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\nIntroducing tidynorm\n\n\n\n\n\nHere’s a brief introduction to the new {tidynorm} package.\n\n\n\n\n\n2025-06-16\n\n\nJosef Fruehwald\n\n12 min\n\n\n\n\n\n\n\n\n\n\n\nCustom Code Chunk css\n\n\n\n\n\n\n\n\n\n\n\n2025-03-11\n\n\nJosef Fruehwald\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nIn Remembrance\n\n\n\n\n\n\n\n\n\n\n\n2024-12-17\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nRandom Effects and Overdispersion\n\n\n\n\n\n\n\n\n\n\n\n2024-11-20\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nRandom effect priors, redo\n\n\n\n\n\n\n\n\n\n\n\n2024-11-19\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nSetting default ggplot2 colors\n\n\n\n\n\n\nggplot2\n\ndataviz\n\n\n\n\n\n\n\n\n\n2024-10-01\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nBuilding up a complex {gt} table.\n\n\n\n\n\n\n\n\n\n\n\n2024-09-15\n\n\nJosef Fruehwald\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\nRolling for Damage with the Central Limit Theorem\n\n\n\n\n\n\n\n\n\n\n\n2024-09-08\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nTroubleshooting RStudio for GitHub Classrom and Codespaces\n\n\nA living document\n\n\n\n\n\n\n\n\n2024-09-06\n\n\nJosef Fruehwald\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\nExperimenting with Object Oriented Programming in R\n\n\n\n\n\n\n\n\n\n\n\n2024-09-02\n\n\nJosef Fruehwald\n\n14 min\n\n\n\n\n\n\n\n\n\n\n\nWorking with the Discrete Cosine Transform in R\n\n\n\n\n\n\n\n\n\n\n\n2024-07-19\n\n\nJosef Fruehwald\n\n10 min\n\n\n\n\n\n\n\n\n\n\n\nUsing FastTrackPy and aligned-textgrid\n\n\n\n\n\n\n\n\n\n\n\n2024-02-16\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nSome lessons in using Github Classroom and Codespaces\n\n\n\n\n\n\n\n\n\n\n\n2024-02-14\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nThinking About Hierarchical Variance Parameters\n\n\n\n\n\n\n\n\n\n\n\n2023-06-29\n\n\nJosef Fruehwald\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\nGetting a sense of priors for logistic regression\n\n\n\n\n\n\n\n\n\n\n\n2023-06-28\n\n\nJosef Fruehwald\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\nChanging Project Defaults\n\n\n\n\n\n\n\n\n\n\n\n2023-06-16\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nUsing Quarto Blogs for Teaching\n\n\n\n\n\n\n\n\n\n\n\n2023-05-03\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nSimulating DND Rolls\n\n\n\n\n\n\n\n\n\n\n\n2023-02-12\n\n\nJosef Fruehwald\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\nA handy dplyr function for linguistics\n\n\n\n\n\n\n\n\n\n\n\n2023-02-05\n\n\nJosef Fruehwald\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\nMaking a Plotly Plot\n\n\n\n\n\n\nplotly\n\n\n\n\n\n\n\n\n\n2023-01-29\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nR Package Exploration (Jan 2023)\n\n\n\n\n\n\nR\n\nR package exploration\n\n`{ggforce}`\n\n`{geomtextpath}`\n\n`{ggdensity}`\n\n\n\n\n\n\n\n\n\n2023-01-27\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nMaking a spectrogram in R\n\n\n\n\n\n\nhow-to\n\nr\n\n\n\n\n\n\n\n\n\n2023-01-22\n\n\nJosef Fruehwald\n\n11 min\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 3\n\n\nPart 3: The role of r-dissimilation\n\n\n\nresearch\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-04\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders: Part 2\n\n\nPart 2: Saying Wooder\n\n\n\nresearch\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2023-01-01\n\n\nJosef Fruehwald\n\n15 min\n\n\n\n\n\n\n\n\n\n\n\nRising Wooders\n\n\nPart 1: Talking about Wooder\n\n\n\nresearch\n\nlinguistics\n\n\n\n\n\n\n\n\n\n2022-12-31\n\n\nJosef Fruehwald\n\n7 min\n\n\n\n\n\n\n\n\n\n\n\nGithub Onboarding with RStudio\n\n\n\n\n\n\n\n\n\n\n\n2022-12-21\n\n\nJosef Fruehwald\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\nWhat is R?\n\n\n\n\n\n\nR\n\n\n\n\n\n\n\n\n\n2022-12-17\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\nA lesson in over-preparing\n\n\n\n\n\n\n\n\n\n\n\n2022-12-10\n\n\nJosef Fruehwald\n\n8 min\n\n\n\n\nNo matching items\n\n  \n\nReuseCC-BY 4.0"
   },
   {
     "objectID": "about.html",
@@ -2720,6 +2650,146 @@
       "2025",
       "07",
       "Visualizing the Color Sphere"
+    ]
+  },
+  {
+    "objectID": "posts/2025/07/2025-07-16_color-sql/index.html",
+    "href": "posts/2025/07/2025-07-16_color-sql/index.html",
+    "title": "Getting the xkcd color survey sqlite database",
+    "section": "",
+    "text": "I had a lot of fun working with the XKCD color survey data, and I think I’ll keep messing around with it here and there in the future. But I also think I’ll want access to the full data. The tidytuesday data set was necessarily boiled down. The answers data frame contained just one hex code associated with one color label, not every color label given to every hex code in the survey. The full data set is available as a sqlite dump linked to from the xkcd blog, so this post is just about how I set up access to it within my blog RStudio project.\n# basic setup\nsource(here::here(\"_defaults.R\"))\nlibrary(tidyverse)\nlibrary(colorspace)",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "07",
+      "Getting the xkcd color survey sqlite database"
+    ]
+  },
+  {
+    "objectID": "posts/2025/07/2025-07-16_color-sql/index.html#necessary-libraries",
+    "href": "posts/2025/07/2025-07-16_color-sql/index.html#necessary-libraries",
+    "title": "Getting the xkcd color survey sqlite database",
+    "section": "Necessary Libraries",
+    "text": "Necessary Libraries\nFor this workflow, I used\n\nfs: for working with file systems\nDBI and RSQLite: for working with the sqlite database\ndbplyr: for using dplyr commands on the database.\n\n\nlibrary(fs)\nlibrary(DBI)\nlibrary(RSQLite)\nlibrary(dbplyr)",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "07",
+      "Getting the xkcd color survey sqlite database"
+    ]
+  },
+  {
+    "objectID": "posts/2025/07/2025-07-16_color-sql/index.html#downloading-the-database",
+    "href": "posts/2025/07/2025-07-16_color-sql/index.html#downloading-the-database",
+    "title": "Getting the xkcd color survey sqlite database",
+    "section": "Downloading the database",
+    "text": "Downloading the database\nIf you want to hang onto the tar file locally (in case of linkrot), you could download it to a real location, but I just want to send it to a temp file. You can get the temp directory for your R session with fs::path_temp(), and I created the destination file using fs::path().\ndownload.file(\n  \"http://xkcd.com/color/colorsurvey.tar.gz\",\n  fs::path(\n    fs::path_temp(),\n    \"colorsurvey.tar.gz\"\n  )\n)\nThen, it’s a matter of untaring it.\nuntar(\n  fs::path(fs::path_temp(), \"colorsurvey.tar.gz\"),\n  exdir = fs::path(fs::path_temp(), \"colorsurvey\")\n)\nYou can get a list of the available files like so:\npath(\n  path_temp(),\n  \"colorsurvey\"\n) |&gt;\n  dir_ls() -&gt;\n  dump_files\nI’m not actually including this code in executable chunks to avoid downloading the tar file on every re-render, but dump_files will look something like\n[1] /var/folders/xyz/mainsurvey_sqldump.txt\n[2] /var/folders/xyz/satfaces_sqldump.txt\nIt’s the mainsurvey_sqldump.txt file that we want to process.\ndump_files |&gt;\n  keep(\n    ~str_detect(.x, \"mainsurvey\")\n  ) -&gt;\n  survey_dump",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "07",
+      "Getting the xkcd color survey sqlite database"
+    ]
+  },
+  {
+    "objectID": "posts/2025/07/2025-07-16_color-sql/index.html#creating-the-local-database",
+    "href": "posts/2025/07/2025-07-16_color-sql/index.html#creating-the-local-database",
+    "title": "Getting the xkcd color survey sqlite database",
+    "section": "Creating the local database",
+    "text": "Creating the local database\nTo set up the database, we need to read the sqldump file. Apparently there’s a sqlite command .read that will do this, but I couldn’t figure out how to run it within a DBI or RSQLite function, so I have to use a system() command.\nFirst, I have decide where this database is going, and since I don’t want it to wind up being duplicated in every post directory, I’ll create a top level project directory called data.\nfs::dir_create(\n  here::here(\"data\")\n)\nThen, I need to decide on the name of the database file.\nlocal_sql_path &lt;- here::here(\"data\", \"colors.sqlite\")\nI’ll glue my variables into the system command I want:\ncreation_command &lt;- str_glue(\n  \"sqlite3 {local_sql_path} &lt; {survey_dump}\"\n)\nAnd then finally run it.\nsystem(creation_command)\nUpdating .gitignore\n\nYou’ll probably want to add *.sqlite file to your gitignore, which you can either do do by hand or with usethis::use_git_ignore()\nusethis::use_git_ignore(\"*.sqlite\")",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "07",
+      "Getting the xkcd color survey sqlite database"
+    ]
+  },
+  {
+    "objectID": "posts/2025/07/2025-07-16_color-sql/index.html#looking-at-the-database",
+    "href": "posts/2025/07/2025-07-16_color-sql/index.html#looking-at-the-database",
+    "title": "Getting the xkcd color survey sqlite database",
+    "section": "Looking at the database",
+    "text": "Looking at the database\nNow we can connect to the database and look at it.\n\ncolordb &lt;- dbConnect(\n  RSQLite::SQLite(), \n  here::here(\"data\", \"colors.sqlite\")\n)\n\n\ndbListTables(colordb)\n\n[1] \"answers\" \"names\"   \"users\"  \n\n\nWe can access tables from the database like it’s a dataframe with tbl(). It doesn’t actually read the whole thing into memory.\n\ncolors &lt;- tbl(colordb, \"answers\")\ncolors\n\n# Source:   table&lt;`answers`&gt; [?? x 7]\n# Database: sqlite 3.50.1 [/Users/joseffruehwald/Documents/blog/data/colors.sqlite]\n      id user_id  datestamp     r     g     b colorname   \n   &lt;int&gt;   &lt;int&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;       \n 1     1       1 1267418734    72   100   175 pastel blue \n 2     2       1 1267418739   204   177   246 faint violet\n 3     3       1 1267418769   182   226   245 baby blue   \n 4     4       1 1267418773   130    64   234 purple      \n 5     5       2 1267419006    75    49   234 blue        \n 6     6       2 1267419010    76   215   249 light blue  \n 7     7       2 1267419015   111   145   122 olive green \n 8     8       2 1267419019    88    70     1 brown       \n 9     9       2 1267419021   218    35   156 pink        \n10    10       4 1267419023   154    42   159 purple      \n# ℹ more rows\n\n\nNow, we can run the dplyr-like commands on this table thanks to dbplyr and only load the rows we’re interested in.\n\ncolors |&gt; \n  # get just blue and light blue\n  filter(\n    colorname %in% c(\"blue\", \"light blue\")\n  ) |&gt; \n  # manually get some hex values\n  mutate(\n    rh = sql(\"printf('%02X', r)\"),\n    gh = sql(\"printf('%02X', g)\"),\n    bh = sql(\"printf('%02X', b)\")\n  ) |&gt; \n  mutate(\n    hex = sql(\"rh||gh||bh\")\n  )\n\n# Source:   SQL [?? x 11]\n# Database: sqlite 3.50.1 [/Users/joseffruehwald/Documents/blog/data/colors.sqlite]\n      id user_id  datestamp     r     g     b colorname rh    gh    bh    hex   \n   &lt;int&gt;   &lt;int&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; \n 1     5       2 1267419006    75    49   234 blue      4B    31    EA    4B31EA\n 2    17       2 1267419032    41   201   234 blue      29    C9    EA    29C9EA\n 3    22       2 1267419040    73    97   236 blue      49    61    EC    4961EC\n 4    27       4 1267419062    33   115   229 blue      21    73    E5    2173E5\n 5    45       6 1267419091    14    47   164 blue      0E    2F    A4    0E2FA4\n 6    49       4 1267419096    64   128   225 blue      40    80    E1    4080E1\n 7    57       7 1267419102    74    89   253 blue      4A    59    FD    4A59FD\n 8    87       6 1267419139   120   158   209 blue      78    9E    D1    789ED1\n 9   100       7 1267419170    74   107   231 blue      4A    6B    E7    4A6BE7\n10   115      10 1267419193    95   196   210 blue      5F    C4    D2    5FC4D2\n# ℹ more rows\n\n\nI’m kind of glad I messed around with manually converting the rgb values to hex values, cause it turns out I don’t know what the right way is to convert these rgb values to hex codes. My manual approach gives me #4B31EA for the first row, but using the colorspace package, I get two different hex codes depending on whether I assume r, g, b are RGB or sRGB values.\n\nRGB(\n  75/255,\n  49/255,\n  234/255\n) |&gt; \n  hex() \n\n[1] \"#9479F6\"\n\n\n\nsRGB(\n  75/255,\n  49/255,\n  234/255\n) |&gt; \n  hex()\n\n[1] \"#4B31EA\"\n\n\n\nswatchplot(\n  \"RGB\" = \"#9479F6\",\n  \"sRGB\" = \"#4B31EA\"\n)\n\n\n\n\n\n\n\n🤷‍♂️\n\ndbDisconnect(colordb)",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "07",
+      "Getting the xkcd color survey sqlite database"
+    ]
+  },
+  {
+    "objectID": "posts/2025/08/2025-08-21_ai-policy/index.html",
+    "href": "posts/2025/08/2025-08-21_ai-policy/index.html",
+    "title": "AI Policy",
+    "section": "",
+    "text": "Note\n\n\n\nThis is a version of the AI course policy I’m introducing this semester.",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "08",
+      "AI Policy"
+    ]
+  },
+  {
+    "objectID": "posts/2025/08/2025-08-21_ai-policy/index.html#consequences",
+    "href": "posts/2025/08/2025-08-21_ai-policy/index.html#consequences",
+    "title": "AI Policy",
+    "section": "Consequences",
+    "text": "Consequences\nYou won’t receive credit for any submitted coursework that is obviously AI generated. I will leave feedback on coursework that was AI generated that this is the reason why it isn’t receiving a grade. If you actually didn’t generate your coursework with AI, you should ask me to revisit the grade. We should be able to resolve the issue with a straightforward conversation about the work you submitted.\nI will be judicious about whether or not I flag an assignment as AI generated. If you are not using AI, you don’t need to worry about taking extra steps to make sure your coursework doesn’t “look” like AI in some way.",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "08",
+      "AI Policy"
+    ]
+  },
+  {
+    "objectID": "posts/2025/08/2025-08-21_ai-policy/index.html#assignments-arent-obstacles-theyre-the-course.",
+    "href": "posts/2025/08/2025-08-21_ai-policy/index.html#assignments-arent-obstacles-theyre-the-course.",
+    "title": "AI Policy",
+    "section": "Assignments aren’t obstacles, they’re the course.",
+    "text": "Assignments aren’t obstacles, they’re the course.\nA common way to think about course assignments is like they’re obstacles that I, the professor, put in the way between you and completion of the course. But they’re not. They’re exercises that, by virtue of you doing them, you learn. If you don’t actually do them, then you’re not learning. To quote Ted Chiang:\n\nAs the linguist Emily M. Bender has noted, teachers don’t ask students to write essays because the world needs more student essays. The point of writing essays is to strengthen students’ critical-thinking skills; in the same way that lifting weights is useful no matter what sport an athlete plays, writing essays develops skills necessary for whatever job a college student will eventually get. Using ChatGPT to complete assignments is like bringing a forklift into the weight room; you will never improve your cognitive fitness that way.\n\nThe same can be said for things like summarizing the contents of a textbook chapter yourself. By creating your own study guide, or condensing the contents of a chapter into a few bullet points yourself, you have already studied. The valuable thing about course notes isn’t the actual notes, it’s the act of making them. By offloading the act of making them to an AI, they lose their value.",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "08",
+      "AI Policy"
+    ]
+  },
+  {
+    "objectID": "posts/2025/08/2025-08-21_ai-policy/index.html#as-a-learner-you-dont-have-enough-context",
+    "href": "posts/2025/08/2025-08-21_ai-policy/index.html#as-a-learner-you-dont-have-enough-context",
+    "title": "AI Policy",
+    "section": "As a learner, you don’t have enough context",
+    "text": "As a learner, you don’t have enough context\nWhen you start a new chat with ChatGPT, it says at the bottom of the screen “ChatGPT can make mistakes. Check important info.” Even if you take that seriously, how would you know if an AI summarized readings or course notes incorrectly? You’re a learner in this course because you don’t already know its content. AI systems may be useful to some users who have enough context to be able to tell when they’ve gone astray, but you are definitionally not in that position.",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "08",
+      "AI Policy"
+    ]
+  },
+  {
+    "objectID": "posts/2025/08/2025-08-21_ai-policy/index.html#learning-is-still-a-fundamental-purpose-of-higher-education",
+    "href": "posts/2025/08/2025-08-21_ai-policy/index.html#learning-is-still-a-fundamental-purpose-of-higher-education",
+    "title": "AI Policy",
+    "section": "Learning is still a fundamental purpose of higher education",
+    "text": "Learning is still a fundamental purpose of higher education\nThere are lots of different reasons to go to college, and I won’t judge any as being more or less valid than another. But in my role as an educator in this course, the purpose I am meant to tend to is your learning. I want to facilitate your learning, and in my judgment, for this course, that means prohibiting the use of AI tools.",
+    "crumbs": [
+      "About",
+      "Posts",
+      "2025",
+      "08",
+      "AI Policy"
     ]
   }
 ]

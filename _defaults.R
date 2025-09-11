@@ -32,41 +32,54 @@ ptol_red <- "#EE6677"
 ptol_blue <- "#4477AA"
 
 
-theme_set(theme_minimal(base_size = 16) + 
-            theme(text = element_text(family = "Public Sans"),
-                  plot.background = element_rect(fill = "white", colour = NA),
-                  panel.background = element_rect(fill = "white", colour = NA),                  
-                  panel.grid = element_blank(),
-                  legend.key = element_blank(),
-                  #strip.background = element_rect(fill = strip_bg),
-                  #strip.text = element_text(color = "white"),
-                  axis.ticks = element_blank(),
-                  axis.line = element_line(color = "grey60", linewidth = 0.2),
-                  legend.background = element_blank()))
+theme_set(
+  theme_minimal(base_size = 16) +
+    theme(
+      text = element_text(family = "Public Sans")
+    ) +
+    theme_sub_panel(
+      grid = element_blank(),
+    ) +
+    theme_sub_legend(
+      key = element_blank(),
+      background = element_blank()
+    ) +
+    theme_sub_axis(
+      ticks = element_blank(),
+      line = element_line(color = "grey60", linewidth = 0.2)
+    )
+)
 
-theme_dark <- function(){
-  theme(
-    #panel.border = element_blank(),
-    text = element_text(family = "Public Sans", colour = "white"),
-    axis.text = element_text(colour = "white"),
-    rect = element_rect(colour = "#222", fill = "#222"),
-    plot.background = element_rect(fill = "#222", colour = NA),
-    panel.background = element_rect(fill = "#424952"),
-    strip.background = element_rect(fill="#3d3d3d"),
-    strip.text = element_text(color = "white")
-  )
+theme_darkmode <- function(){
+  theme_minimal(
+    base_size = 16,
+    paper = "#222",
+    ink = "white"
+  ) +
+    theme(
+      text = element_text(family = "Public Sans")
+    ) +
+    theme_sub_panel(
+      background = element_rect(
+        fill = "#424952", color = NA
+      ),
+      grid = element_blank()
+    ) +
+    theme_sub_legend(
+      key = element_blank(),
+      background = element_blank()
+    ) +
+    theme_sub_axis(
+      line = element_line(
+        color = "grey60", linewidth = 0.2
+      )
+    )
 }
 
 dark_render <- function(plot){
   ggdark::invert_geom_defaults()
-  rlang::try_fetch(
-    print(plot),
-    error = function(cnd){
-      ggdark::invert_geom_defaults()
-      abort("Failed.", parent = cnd)
-    }
-  )
-  ggdark::invert_geom_defaults()
+  withr::defer(ggdark::invert_geom_defaults())
+  print(plot)
 }
 
 

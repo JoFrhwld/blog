@@ -9,7 +9,7 @@ Back in April, Quarto v1.7 introduced [the ability to display multiple outputs f
 This was really exciting for me, because even though I prefer to keep sites in dark mode for personal use, I've found that in some presentation and teaching settings, the projector and lighting conditions make dark mode illegible.
 
 To make it work, you add `renderings: [light, dark]` to your code chunk yaml, then plot the same data twice: the first time with light mode color settings, and the second time with dark mode color settings.
-If you toggle between light & dark mode on this post, the plot should t
+If you toggle between light & dark mode on this post, the plot should toggle between a light mode and a dark mode version.
 
 ```{r}
 #| echo: fenced
@@ -102,7 +102,7 @@ The default point colors weren't settable by a theme, and I had to use some unpl
 
 ## Redoing it with ggplot2 v4
 
-So, I'm going to rewrite my theme settings to take account of the fact that ggplot2 now has "ink" and "paper" color settings you can define.
+So, I'm going to rewrite my theme settings to take account of the fact that ggplot2 themes now have ["ink" and "paper" color settings you can define](https://www.tidyverse.org/blog/2025/09/ggplot2-4-0-0/#ink-and-paper).
 I'll re-define my default theme with the new `theme_sub_*()` layers.
 
 ```{r}

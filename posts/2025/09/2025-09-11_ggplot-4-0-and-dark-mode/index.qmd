@@ -102,7 +102,7 @@ The default point colors weren't settable by a theme, and I had to use some unpl
 
 ## Redoing it with ggplot2 v4
 
-So, I'm going to rewrite my theme settings to take account of the fact that ggplot2 now has "ink" and "paper" color settings you can define.
+So, I'm going to rewrite my theme settings to take account of the fact that ggplot2 themes now have ["ink" and "paper" color settings you can define](https://www.tidyverse.org/blog/2025/09/ggplot2-4-0-0/#ink-and-paper).
 I'll re-define my default theme with the new `theme_sub_*()` layers.
 
 ```{r}

@@ -1,0 +1,176 @@
+---
+title: ggplot2 4.0 and Dark Mode
+knitr: 
+  opts_chunk: 
+    warning: false
+---
+
+Back in April, Quarto v1.7 introduced [the ability to display multiple outputs from a single code chunk depending on whether or not the side is in dark mode](https://quarto.org/docs/blog/posts/2025-04-28-1.7-release/#map-computational-outputs-to-themes).
+This was really exciting for me, because even though I prefer to keep sites in dark mode for personal use, I've found that in some presentation and teaching settings, the projector and lighting conditions make dark mode illegible.
+
+To make it work, you add `renderings: [light, dark]` to your code chunk yaml, then plot the same data twice: the first time with light mode color settings, and the second time with dark mode color settings.
+If you toggle between light & dark mode on this post, the plot should t
+
+```{r}
+#| echo: fenced
+#| renderings: 
+#|   - light
+#|   - dark
+#| fig-width: 5
+#| fig-height: 3
+library(withr)
+
+plot(1:10)
+
+with_par(
+  list(bg = "#222", 
+       col = "white", 
+       fg = "white",
+       col.axis = "white",
+       col.lab = "white"
+       
+       ),
+  plot(1:10)
+)
+```
+
+With ggplot, I've already semi-customized my default theme for when I source my [\_defaults](/defaults.qmdl#r-defaults)[.R](/defaults.qmd) that looks like this:
+
+```{r}
+library(ggplot2)
+
+theme_set(
+  theme_minimal(base_size = 16) +
+    theme(
+      text = element_text(family = "Public Sans"),
+      panel.grid = element_blank(),
+      legend.key = element_blank(),
+      axis.ticks = element_blank(),
+      axis.line = element_line(color = "grey60", linewidth = 0.2),
+      legend.background = element_blank()
+    )
+)
+```
+
+```{r}
+penguins |>
+  ggplot(
+    aes(bill_len, bill_dep)
+  )+
+    geom_point(
+      aes(color = species)
+    ) ->
+  plot1
+
+plot1
+```
+
+Then, I had an additional `theme_darkmode()` I'd add:
+
+```{r}
+theme_darkmode <- function(){
+  theme(
+    text = element_text(family = "Public Sans", colour = "white"),
+    axis.text = element_text(colour = "white"),
+    rect = element_rect(colour = "#222", fill = "#222"),
+    plot.background = element_rect(fill = "#222", colour = NA),
+    panel.background = element_rect(fill = "#424952"),
+    strip.background = element_rect(fill="#3d3d3d"),
+    strip.text = element_text(color = "white")
+  )
+}
+```
+
+```{r}
+plot1 + theme_darkmode()
+```
+
+The *issue* arose in darkmode when I hadn't mapped the color aesthetic to any data.
+
+```{r}
+penguins |>
+  ggplot(
+    aes(bill_len, bill_dep)
+  )+
+    geom_point() ->
+  plot2
+
+plot2 + theme_darkmode()
+```
+
+The default point colors weren't settable by a theme, and I had to use some unpleasant dark rendering functions to get things working nicely.
+
+## Redoing it with ggplot2 v4
+
+So, I'm going to rewrite my theme settings to take account of the fact that ggplot2 now has "ink" and "paper" color settings you can define.
+I'll re-define my default theme with the new `theme_sub_*()` layers.
+
+```{r}
+theme_set(
+  theme_minimal(base_size = 16) +
+    theme(
+      text = element_text(family = "Public Sans")
+    ) +
+    theme_sub_panel(
+      grid = element_blank(),
+    ) +
+    theme_sub_legend(
+      key = element_blank(),
+      background = element_blank()
+    ) +
+    theme_sub_axis(
+      ticks = element_blank(),
+      line = element_line(color = "grey60", linewidth = 0.2)
+    )
+)
+```
+
+```{r}
+plot2
+```
+
+And now I'll define my darkmode theme:
+
+```{r}
+theme_darkmode <- function(){
+  theme_minimal(
+    base_size = 16,
+    paper = "#222",
+    ink = "white"
+  ) +
+    theme(
+      text = element_text(family = "Public Sans")
+    ) +
+    theme_sub_panel(
+      background = element_rect(
+        fill = "#424952", color = NA
+      ),
+      grid = element_blank()
+    ) +
+    theme_sub_legend(
+      key = element_blank(),
+      background = element_blank()
+    ) +
+    theme_sub_axis(
+      line = element_line(
+        color = "grey60", linewidth = 0.2
+      )
+    )
+}
+```
+
+```{r}
+plot2 +
+  theme_darkmode()
+```
+
+So now to have one code chunk with different outputs in light vs dark mode, it's just
+
+```{r}
+#| echo: fenced
+#| renderings: 
+#|   - light
+#|   - dark
+plot2
+plot2 + theme_darkmode()
+```

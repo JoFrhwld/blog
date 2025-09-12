@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2025-06-17">
@@ -71,18 +71,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-399203f6078c9f40aa1bd3ecdeb04a2a.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8500d94e49f1d3f418296a7c1c9b0ee7.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-399203f6078c9f40aa1bd3ecdeb04a2a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-62bd0246437ae56647c7d14e216fe155.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-814039ad842dfff7883839873f78e99b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-62bd0246437ae56647c7d14e216fe155.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-55e7c9e5bcca1d54fd1931cfdd11d93b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../../site_libs/bootstrap/bootstrap-dark-6d0bbc57f8058afc0d2fd40d02120bcf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../../site_libs/bootstrap/bootstrap-55e7c9e5bcca1d54fd1931cfdd11d93b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark-8a59e886ad523d0b232bbdcbeabd09f5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
@@ -319,6 +320,8 @@ cookieconsent.run({
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Væl Space <img src="../../../../assets/logo-small.svg" class="center img-fluid"></span>
     </a>
@@ -414,7 +417,7 @@ cookieconsent.run({
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../../../../index.html" class="sidebar-logo-link">
-      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="../../../../assets/logo.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
@@ -899,17 +902,17 @@ cookieconsent.run({
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content"><p><a href="../2025-06-16_introducing-tidynorm/">Yesterday</a> I posted about the normalization functions in the <a href="https://jofrhwld.github.io/tidynorm/">tidynorm</a> R package. In order to implement formant track normalization, I had to also put together code for working with the Discrete Cosine Transform (DCT), which in and of itself can be handy to work with.</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jofrhwld.github.io/tidynorm/">tidynorm</a></span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://jofrhwld.github.io/tidynorm/">tidynorm</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allancameron.github.io/geomtextpath/">geomtextpath</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com">gt</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"_defaults.R"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"_defaults.R"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="the-dct" class="level2"><h2 class="anchored" data-anchor-id="the-dct">The DCT</h2>
 <p><a href="../../../2024/07/2024-07-19_dct-r/">I’ve posted about the DCT before</a>, but to put it briefly, the DCT tries to re-describe an input signal in terms of weighted and summed cosine functions. The DCT basis looks like this:</p>
 <div class="cell" data-layout-align="center" data-renderings="[&quot;light&quot;,&quot;dark&quot;]">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dct_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://jofrhwld.github.io/tidynorm/reference/dct_basis.html">dct_basis</a></span><span class="op">(</span><span class="fl">100</span>, k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<details class="code-fold"><summary>plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dct_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://jofrhwld.github.io/tidynorm/reference/dct_basis.html">dct_basis</a></span><span class="op">(</span><span class="fl">100</span>, k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span></span>
 <span>  <span class="va">dct_mat</span>, </span>
@@ -932,7 +935,7 @@ cookieconsent.run({
 <span>  <span class="fu">theme_no_x</span><span class="op">(</span><span class="op">)</span><span class="op">-&gt;</span><span class="va">p</span></span>
 <span></span>
 <span><span class="va">p</span></span>
-<span><span class="va">p</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">p</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></a></p>
@@ -948,16 +951,16 @@ cookieconsent.run({
 </div>
 <p>If we grab one vowel’s formant track and fit a linear model using these functions as predictors, the coefficients will equal the DCT coefficients.</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">speaker_tracks</span> <span class="op">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">speaker_tracks</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span></span>
 <span>    <span class="va">speaker</span> <span class="op">==</span> <span class="st">"s01"</span>,</span>
 <span>    <span class="va">plt_vclass</span> <span class="op">==</span> <span class="st">"ay"</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html">first</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span></span>
-<span>  <span class="va">one_ay</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="va">one_ay</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-layout-align="center" data-renderings="[&quot;light&quot;,&quot;dark&quot;]">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">one_ay</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">one_ay</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">t</span>, <span class="va">F1</span><span class="op">)</span></span>
 <span>  <span class="op">)</span><span class="op">+</span></span>
@@ -965,7 +968,7 @@ cookieconsent.run({
 <span>  <span class="va">p</span></span>
 <span></span>
 <span><span class="va">p</span></span>
-<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></a></p>
@@ -980,7 +983,7 @@ cookieconsent.run({
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 5 dct coefficients</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 5 dct coefficients</span></span>
 <span><span class="co"># for a formant track with</span></span>
 <span><span class="co"># 20 measurement points</span></span>
 <span><span class="va">dct_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://jofrhwld.github.io/tidynorm/reference/dct_basis.html">dct_basis</a></span><span class="op">(</span><span class="fl">20</span>, k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
@@ -992,7 +995,7 @@ cookieconsent.run({
 <span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">dct_mod</span><span class="op">)</span>,</span>
 <span>  <span class="va">dct_direct</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                      dct_direct
 dct_mat1 602.3486557 602.3486557
@@ -1005,7 +1008,7 @@ dct_mat5 -19.4956181 -19.4956181</code></pre>
 </section><section id="using-the-dct-to-smooth" class="level2"><h2 class="anchored" data-anchor-id="using-the-dct-to-smooth">Using the DCT to Smooth</h2>
 <p>A cool thing about the DCT is that it can be used to smooth formant tracks. We can see that smoothing effect if we plot the inverse DCT of the coefficients we just got.</p>
 <div class="cell" data-layout-align="center" data-renderings="[&quot;light&quot;,&quot;dark&quot;]">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">one_ay</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">one_ay</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
 <span>    F1_s <span class="op">=</span> <span class="fu"><a href="https://jofrhwld.github.io/tidynorm/reference/idct.html">idct</a></span><span class="op">(</span></span>
 <span>      <span class="va">dct_direct</span>, n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -1028,7 +1031,7 @@ dct_mat5 -19.4956181 -19.4956181</code></pre>
 <span>  <span class="op">)</span> <span class="op">-&gt;</span> <span class="va">p</span></span>
 <span></span>
 <span><span class="va">p</span></span>
-<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a></p>
@@ -1044,7 +1047,7 @@ dct_mat5 -19.4956181 -19.4956181</code></pre>
 </div>
 <p>In <code>tidynorm()</code> we can get these smoothed formant tracks with <code><a href="https://jofrhwld.github.io/tidynorm/reference/reframe_with_dct_smooth.html">reframe_with_dct_smooth()</a></code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># grabbing a sample of</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># grabbing a sample of</span></span>
 <span><span class="co"># a few vowel tracks</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">-</span><span class="fl">06</span><span class="op">)</span></span>
 <span><span class="va">speaker_tracks</span> <span class="op">|&gt;</span> </span>
@@ -1064,10 +1067,10 @@ dct_mat5 -19.4956181 -19.4956181</code></pre>
 <span>    .token_id_col <span class="op">=</span> <span class="va">id</span>,</span>
 <span>    .time_col <span class="op">=</span> <span class="va">t</span></span>
 <span>  <span class="op">)</span> <span class="op">-&gt;</span></span>
-<span>  <span class="va">ay_smooths</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="va">ay_smooths</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ay_tracks</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ay_tracks</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">F2</span>, <span class="va">F1</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
@@ -1088,7 +1091,7 @@ dct_mat5 -19.4956181 -19.4956181</code></pre>
 <span>  <span class="va">track_p</span></span>
 <span></span>
 <span><span class="va">track_p</span> <span class="op"><a href="https://ggplot2.tidyverse.org/reference/gg-add.html">%+%</a></span> <span class="va">ay_smooths</span> <span class="op">-&gt;</span></span>
-<span>  <span class="va">smooth_p</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="va">smooth_p</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="quarto-layout-panel" data-layout-ncol="2">
@@ -1120,7 +1123,7 @@ dct_mat5 -19.4956181 -19.4956181</code></pre>
 <li>Then, convert everything back into formant-tracks with <code><a href="https://jofrhwld.github.io/tidynorm/reference/reframe_with_idct.html">reframe_with_idct()</a></code>.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Grabbing a subset of</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Grabbing a subset of</span></span>
 <span><span class="co"># vowel classes</span></span>
 <span><span class="va">speaker_tracks</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span></span>
@@ -1160,10 +1163,10 @@ dct_mat5 -19.4956181 -19.4956181</code></pre>
 <span>    .token_id_col <span class="op">=</span> <span class="va">plt_vclass</span>,</span>
 <span>    .param_col <span class="op">=</span> <span class="va">.param</span></span>
 <span>  <span class="op">)</span> <span class="op">-&gt;</span></span>
-<span>  <span class="va">y_vowel_averages</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="va">y_vowel_averages</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-renderings="[&quot;light&quot;,&quot;dark&quot;]">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y_vowel_averages</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y_vowel_averages</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">F2</span>, <span class="va">F1</span><span class="op">)</span></span>
 <span>  <span class="op">)</span><span class="op">+</span></span>
@@ -1185,7 +1188,7 @@ dct_mat5 -19.4956181 -19.4956181</code></pre>
 <span>  <span class="va">y_p</span></span>
 <span></span>
 <span><span class="va">y_p</span></span>
-<span><span class="va">y_p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">y_p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="light-content">
 <p><a href="index_files/figure-html/unnamed-chunk-12-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="576"></a></p>
 </div>
@@ -1197,40 +1200,40 @@ dct_mat5 -19.4956181 -19.4956181</code></pre>
 <p>A <em>really</em> cool thing about DCTs is that you can use them as outcome measures in a regression, and get some nuanced results with some very simple models. For example, let’s go to fit a model looking at the effect of voicing on the F1 of /ay/ (“ay”, vs “ay0”).</p>
 <section id="step-1-get-the-data-subset" class="level3"><h3 class="anchored" data-anchor-id="step-1-get-the-data-subset">Step 1: get the data subset</h3>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">speaker_tracks</span> <span class="op">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">speaker_tracks</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span></span>
 <span>    <span class="va">speaker</span> <span class="op">==</span> <span class="st">"s03"</span>,</span>
 <span>    <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">plt_vclass</span>, <span class="st">"ay"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">-&gt;</span></span>
-<span>  <span class="va">ays</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="va">ays</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="step-2-get-the-dcts" class="level3"><h3 class="anchored" data-anchor-id="step-2-get-the-dcts">Step 2: get the DCTs</h3>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ays</span> <span class="op">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ays</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://jofrhwld.github.io/tidynorm/reference/reframe_with_dct.html">reframe_with_dct</a></span><span class="op">(</span></span>
 <span>    <span class="va">F1</span><span class="op">:</span><span class="va">F3</span>,</span>
 <span>    .token_id_col <span class="op">=</span> <span class="va">id</span>,</span>
 <span>    .time_col <span class="op">=</span> <span class="va">t</span></span>
 <span>  <span class="op">)</span><span class="op">-&gt;</span></span>
-<span>  <span class="va">ay_dcts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="va">ay_dcts</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="step-3-pivot-wider" class="level3"><h3 class="anchored" data-anchor-id="step-3-pivot-wider">Step 3: pivot wider</h3>
 <p>We need each DCT coefficient in its own column for this, so we’ll pivot wider.</p>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ay_dcts</span> <span class="op">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ay_dcts</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span></span>
 <span>    names_from <span class="op">=</span> <span class="va">.param</span>,</span>
 <span>    values_from <span class="op">=</span> <span class="va">F1</span><span class="op">:</span><span class="va">F3</span></span>
 <span>  <span class="op">)</span> <span class="op">-&gt;</span></span>
-<span>  <span class="va">ay_dct_wide</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="va">ay_dct_wide</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-The wide data
+<span class="screen-reader-only">Note</span>The wide data
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1687,7 +1690,7 @@ The wide data
   height: 0px !important;
 }
 </style>
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings header">
 <th id="a::stub" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
 <th id="speaker" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">speaker</th>
@@ -1714,7 +1717,7 @@ The wide data
 </tr></thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">1</td>
+<th id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">1</th>
 <td class="gt_row gt_left" headers="stub_1_1 speaker">s03</td>
 <td class="gt_row gt_right" headers="stub_1_1 id">0</td>
 <td class="gt_row gt_left" headers="stub_1_1 vowel">AY</td>
@@ -1738,7 +1741,7 @@ The wide data
 <td class="gt_row gt_right" headers="stub_1_1 F3_4">−52.5</td>
 </tr>
 <tr class="even">
-<td id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">2</td>
+<th id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">2</th>
 <td class="gt_row gt_left" headers="stub_1_2 speaker">s03</td>
 <td class="gt_row gt_right" headers="stub_1_2 id">15</td>
 <td class="gt_row gt_left" headers="stub_1_2 vowel">AY</td>
@@ -1762,7 +1765,7 @@ The wide data
 <td class="gt_row gt_right" headers="stub_1_2 F3_4">41.2</td>
 </tr>
 <tr class="odd">
-<td id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">3</td>
+<th id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">3</th>
 <td class="gt_row gt_left" headers="stub_1_3 speaker">s03</td>
 <td class="gt_row gt_right" headers="stub_1_3 id">28</td>
 <td class="gt_row gt_left" headers="stub_1_3 vowel">AY</td>
@@ -1786,7 +1789,7 @@ The wide data
 <td class="gt_row gt_right" headers="stub_1_3 F3_4">2.7</td>
 </tr>
 <tr class="even">
-<td id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">4</td>
+<th id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">4</th>
 <td class="gt_row gt_left" headers="stub_1_4 speaker">s03</td>
 <td class="gt_row gt_right" headers="stub_1_4 id">43</td>
 <td class="gt_row gt_left" headers="stub_1_4 vowel">AY</td>
@@ -1810,7 +1813,7 @@ The wide data
 <td class="gt_row gt_right" headers="stub_1_4 F3_4">87.7</td>
 </tr>
 <tr class="odd">
-<td id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">5</td>
+<th id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">5</th>
 <td class="gt_row gt_left" headers="stub_1_5 speaker">s03</td>
 <td class="gt_row gt_right" headers="stub_1_5 id">55</td>
 <td class="gt_row gt_left" headers="stub_1_5 vowel">AY</td>
@@ -1834,7 +1837,7 @@ The wide data
 <td class="gt_row gt_right" headers="stub_1_5 F3_4">−23.8</td>
 </tr>
 <tr class="even">
-<td id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; font-size: x-small; background-color: #E4E4E4">6..45</td>
+<th id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; font-size: x-small; background-color: #E4E4E4">6..45</th>
 <td class="gt_row gt_left" headers="stub_1_6 speaker" style="background-color: #E4E4E4"></td>
 <td class="gt_row gt_right" headers="stub_1_6 id" style="background-color: #E4E4E4"></td>
 <td class="gt_row gt_left" headers="stub_1_6 vowel" style="background-color: #E4E4E4"></td>
@@ -1858,7 +1861,7 @@ The wide data
 <td class="gt_row gt_right" headers="stub_1_6 F3_4" style="background-color: #E4E4E4"></td>
 </tr>
 <tr class="odd">
-<td id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">46</td>
+<th id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">46</th>
 <td class="gt_row gt_left" headers="stub_1_7 speaker">s03</td>
 <td class="gt_row gt_right" headers="stub_1_7 id">674</td>
 <td class="gt_row gt_left" headers="stub_1_7 vowel">AY</td>
@@ -2336,7 +2339,7 @@ The wide data
   height: 0px !important;
 }
 </style>
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings header">
 <th id="a::stub" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)" scope="col"></th>
 <th id="speaker" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)" scope="col">speaker</th>
@@ -2363,7 +2366,7 @@ The wide data
 </tr></thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; background-color: var(--bs-body-bg); color: var(--bs-body-color)">1</td>
+<th id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; background-color: var(--bs-body-bg); color: var(--bs-body-color)">1</th>
 <td class="gt_row gt_left" headers="stub_1_1 speaker" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">s03</td>
 <td class="gt_row gt_right" headers="stub_1_1 id" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">0</td>
 <td class="gt_row gt_left" headers="stub_1_1 vowel" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">AY</td>
@@ -2387,7 +2390,7 @@ The wide data
 <td class="gt_row gt_right" headers="stub_1_1 F3_4" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">−52.5</td>
 </tr>
 <tr class="even">
-<td id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; background-color: var(--bs-body-bg); color: var(--bs-body-color)">2</td>
+<th id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; background-color: var(--bs-body-bg); color: var(--bs-body-color)">2</th>
 <td class="gt_row gt_left" headers="stub_1_2 speaker" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">s03</td>
 <td class="gt_row gt_right" headers="stub_1_2 id" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">15</td>
 <td class="gt_row gt_left" headers="stub_1_2 vowel" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">AY</td>
@@ -2411,7 +2414,7 @@ The wide data
 <td class="gt_row gt_right" headers="stub_1_2 F3_4" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">41.2</td>
 </tr>
 <tr class="odd">
-<td id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; background-color: var(--bs-body-bg); color: var(--bs-body-color)">3</td>
+<th id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; background-color: var(--bs-body-bg); color: var(--bs-body-color)">3</th>
 <td class="gt_row gt_left" headers="stub_1_3 speaker" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">s03</td>
 <td class="gt_row gt_right" headers="stub_1_3 id" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">28</td>
 <td class="gt_row gt_left" headers="stub_1_3 vowel" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">AY</td>
@@ -2435,7 +2438,7 @@ The wide data
 <td class="gt_row gt_right" headers="stub_1_3 F3_4" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">2.7</td>
 </tr>
 <tr class="even">
-<td id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; background-color: var(--bs-body-bg); color: var(--bs-body-color)">4</td>
+<th id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; background-color: var(--bs-body-bg); color: var(--bs-body-color)">4</th>
 <td class="gt_row gt_left" headers="stub_1_4 speaker" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">s03</td>
 <td class="gt_row gt_right" headers="stub_1_4 id" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">43</td>
 <td class="gt_row gt_left" headers="stub_1_4 vowel" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">AY</td>
@@ -2459,7 +2462,7 @@ The wide data
 <td class="gt_row gt_right" headers="stub_1_4 F3_4" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">87.7</td>
 </tr>
 <tr class="odd">
-<td id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; background-color: var(--bs-body-bg); color: var(--bs-body-color)">5</td>
+<th id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; background-color: var(--bs-body-bg); color: var(--bs-body-color)">5</th>
 <td class="gt_row gt_left" headers="stub_1_5 speaker" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">s03</td>
 <td class="gt_row gt_right" headers="stub_1_5 id" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">55</td>
 <td class="gt_row gt_left" headers="stub_1_5 vowel" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">AY</td>
@@ -2483,7 +2486,7 @@ The wide data
 <td class="gt_row gt_right" headers="stub_1_5 F3_4" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">−23.8</td>
 </tr>
 <tr class="even">
-<td id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; font-size: x-small; background-color: #E4E4E4; background-color: var(--bs-body-bg); color: var(--bs-body-color)">6..45</td>
+<th id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; font-size: x-small; background-color: #E4E4E4; background-color: var(--bs-body-bg); color: var(--bs-body-color)">6..45</th>
 <td class="gt_row gt_left" headers="stub_1_6 speaker" style="background-color: #E4E4E4; background-color: var(--bs-body-bg); color: var(--bs-body-color)"></td>
 <td class="gt_row gt_right" headers="stub_1_6 id" style="background-color: #E4E4E4; background-color: var(--bs-body-bg); color: var(--bs-body-color)"></td>
 <td class="gt_row gt_left" headers="stub_1_6 vowel" style="background-color: #E4E4E4; background-color: var(--bs-body-bg); color: var(--bs-body-color)"></td>
@@ -2507,7 +2510,7 @@ The wide data
 <td class="gt_row gt_right" headers="stub_1_6 F3_4" style="background-color: #E4E4E4; background-color: var(--bs-body-bg); color: var(--bs-body-color)"></td>
 </tr>
 <tr class="odd">
-<td id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; background-color: var(--bs-body-bg); color: var(--bs-body-color)">46</td>
+<th id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; background-color: var(--bs-body-bg); color: var(--bs-body-color)">46</th>
 <td class="gt_row gt_left" headers="stub_1_7 speaker" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">s03</td>
 <td class="gt_row gt_right" headers="stub_1_7 id" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">674</td>
 <td class="gt_row gt_left" headers="stub_1_7 vowel" style="background-color: var(--bs-body-bg); color: var(--bs-body-color)">AY</td>
@@ -2541,15 +2544,15 @@ The wide data
 </section><section id="step-4-fit-the-model" class="level3"><h3 class="anchored" data-anchor-id="step-4-fit-the-model">Step 4: Fit the model</h3>
 <p>I’ll fit this with a “simple” <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>. This isn’t one of the fancy GAMs you’ve heard about.</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ay_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ay_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">F1_0</span>, <span class="va">F1_1</span>, <span class="va">F1_2</span>, <span class="va">F1_3</span>, <span class="va">F1_4</span><span class="op">)</span> <span class="op">~</span> <span class="va">plt_vclass</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">ay_dct_wide</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="step-5-interpreting-the-model" class="level3"><h3 class="anchored" data-anchor-id="step-5-interpreting-the-model">Step 5: Interpreting the model</h3>
 <p>Things get a little weird here, but we can apply the inverse DCT to the model parameters to visualize them. Getting confidence intervals takes a few more steps.</p>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/">broom</a></span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/">broom</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># get a dataframe </span></span>
 <span><span class="co"># of the model coefficients</span></span>
@@ -2574,11 +2577,11 @@ The wide data
 <span>    linewidth <span class="op">=</span> <span class="fl">2</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">term</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">-&gt;</span></span>
-<span>  <span class="va">model_plot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="va">model_plot</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-layout-align="center" data-renderings="[&quot;light&quot;,&quot;dark&quot;]">
-<details class="code-fold"><summary>plot rendering</summary><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">model_plot</span></span>
-<span><span class="va">model_plot</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>plot rendering</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">model_plot</span></span>
+<span><span class="va">model_plot</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-19-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="index_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></a></p>
@@ -2594,12 +2597,12 @@ The wide data
 </div>
 <p>We can interpret the curve in the Intercept facet like we normally do: It’s the predicted F1 formant track for the reference level. The curve in the “plt_vclassay0” facet is the <em>difference</em> curve, or how much different pre-voiceless /ay/ is predicted to be.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Getting CIs
+<span class="screen-reader-only">Note</span>Getting CIs
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2607,7 +2610,7 @@ Getting CIs
 <div class="callout-body-container callout-body">
 <p>To get a visualization of the uncertainty we’ll have to sample from a multivariate normal.</p>
 <div class="cell" data-layout-align="center" data-renderings="[&quot;light&quot;,&quot;dark&quot;]">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://mvtnorm.R-forge.R-project.org">mvtnorm</a></span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://mvtnorm.R-forge.R-project.org">mvtnorm</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mjskay.github.io/ggdist/">ggdist</a></span><span class="op">)</span></span>
 <span><span class="va">Sigma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/vcov.html">vcov</a></span><span class="op">(</span><span class="va">ay_model</span><span class="op">)</span></span>
 <span><span class="va">mu_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">ay_model</span><span class="op">)</span></span>
@@ -2652,7 +2655,7 @@ Getting CIs
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">term</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span><span class="op">-&gt;</span> <span class="va">ci_plot</span></span>
 <span></span>
 <span><span class="va">ci_plot</span></span>
-<span><span class="va">ci_plot</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">ci_plot</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-20-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="index_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
@@ -2672,7 +2675,7 @@ Getting CIs
 </section></section><section id="getting-the-rate-and-acceleration" class="level2"><h2 class="anchored" data-anchor-id="getting-the-rate-and-acceleration">Getting the rate and acceleration</h2>
 <p>If you’re still here, you might also be interested to know that you can also get the first and second derivatives of the inverse DCT as well. tidynorm has two functions for this (<code><a href="https://jofrhwld.github.io/tidynorm/reference/idct_rate.html">idct_rate()</a></code> and <code><a href="https://jofrhwld.github.io/tidynorm/reference/idct_accel.html">idct_accel()</a></code>), but there are also optional arguments <code>.rate</code> and <code>.accel</code> in <code><a href="https://jofrhwld.github.io/tidynorm/reference/reframe_with_idct.html">reframe_with_idct()</a></code></p>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y_vowel_dct_mean</span> <span class="op">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y_vowel_dct_mean</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="co"># let's look at just one</span></span>
 <span>  <span class="co"># vowel</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span></span>
@@ -2687,10 +2690,10 @@ Getting CIs
 <span>    .accel <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>    .n <span class="op">=</span> <span class="fl">100</span></span>
 <span>  <span class="op">)</span> <span class="op">-&gt;</span></span>
-<span>  <span class="va">formant_derivatives</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="va">formant_derivatives</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-layout-align="center" data-renderings="[&quot;light&quot;,&quot;dark&quot;]">
-<details class="code-fold"><summary>plot rendering</summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">formant_derivatives</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>plot rendering</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">formant_derivatives</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"F1"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -2704,7 +2707,7 @@ Getting CIs
 <span>  <span class="va">deriv_plot</span></span>
 <span></span>
 <span><span class="va">deriv_plot</span></span>
-<span><span class="va">deriv_plot</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">deriv_plot</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-22-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="index_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></a></p>
@@ -2799,13 +2802,14 @@ Cosine Transform in Tidynorm.”</span> Væl Space. June 17, 2025. <a href="http
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

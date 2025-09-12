@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2025-03-11">
@@ -70,18 +70,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-399203f6078c9f40aa1bd3ecdeb04a2a.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8500d94e49f1d3f418296a7c1c9b0ee7.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-399203f6078c9f40aa1bd3ecdeb04a2a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-62bd0246437ae56647c7d14e216fe155.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-814039ad842dfff7883839873f78e99b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-62bd0246437ae56647c7d14e216fe155.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-811e160ad97623f1e6e3cc4b6969aa9c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../../site_libs/bootstrap/bootstrap-dark-32ab3a264dc68de4fca8678e1a9f86c3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../../site_libs/bootstrap/bootstrap-811e160ad97623f1e6e3cc4b6969aa9c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-759145cf8c9861a4e30ad0dd2abb63ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark-eec96618428f10bbb463587a9cebbe3f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-759145cf8c9861a4e30ad0dd2abb63ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
@@ -322,6 +323,8 @@ cookieconsent.run({
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Væl Space <img src="../../../../assets/logo-small.svg" class="center img-fluid"></span>
     </a>
@@ -412,7 +415,7 @@ cookieconsent.run({
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../../../../index.html" class="sidebar-logo-link">
-      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="../../../../assets/logo.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
@@ -886,8 +889,8 @@ cookieconsent.run({
 <main class="content quarto-banner-title-block" id="quarto-document-content"><p>By default in a quarto document, the code and output look something like this:</p>
 <div class="blank">
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2025</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  0.62075674  0.03564140  0.77315448  1.27248909  0.37097543 -0.16285434
  [7]  0.39711189 -0.07998932 -0.34496518  0.70215136</code></pre>
@@ -897,7 +900,7 @@ cookieconsent.run({
 <p>Maybe this is just me not wanting my peas to touch my mashed potatos, but I don’t like how <em>close</em> the output is to the text of the document. I also feel like it gets a little visually confusing if I have a long paragraph,</p>
 <div class="blank">
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] -0.39569639 -1.75505405 -0.42096376  0.76490961  1.06616211 -0.19369636
  [7] -0.05214701  0.41767082 -1.31269403  2.42901921</code></pre>
@@ -907,7 +910,7 @@ cookieconsent.run({
 <p>and then a short one</p>
 <div class="blank">
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] -0.24457065  0.73378542  2.85278145  0.67152530 -0.11584926 -1.30135199
  [7] -0.91780026  0.05071605 -0.38013286  0.72262510</code></pre>
@@ -917,7 +920,7 @@ cookieconsent.run({
 <p>and then a third.</p>
 <p>What I really want is my code output to be bundled up with the entire code chunk. I’ve worked out how to make it happen with some css, so now my code chunks and outputs look like this:</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] -1.0257576  1.8198706 -1.2704175  0.5888158 -0.6342534 -1.2658154
  [7]  0.2837490 -1.4817612  0.9118797  0.9714688</code></pre>
@@ -930,53 +933,53 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>custom.scss</strong></pre>
 </div>
-<div class="sourceCode" id="cb9" data-filename="custom.scss"><pre class="sourceCode scss code-with-copy"><code class="sourceCode scss"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">/*-- scss:rules --*/</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-filename="custom.scss"><pre class="sourceCode scss code-with-copy"><code class="sourceCode scss"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">/*-- scss:rules --*/</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">.cell</span><span class="in">:not(.page-full):has(.cell-output)</span>{</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">padding</span>: <span class="dv">2</span><span class="dt">%</span><span class="op">;</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">border-radius</span>: <span class="dv">10</span><span class="dt">px</span><span class="op">;</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">margin-bottom</span>: <span class="dv">1</span><span class="dt">em</span><span class="op">;</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>light.scss</strong></pre>
 </div>
-<div class="sourceCode" id="cb10" data-filename="light.scss"><pre class="sourceCode scss code-with-copy"><code class="sourceCode scss"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">/*-- scss:rules --*/</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-filename="light.scss"><pre class="sourceCode scss code-with-copy"><code class="sourceCode scss"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">/*-- scss:rules --*/</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">.cell</span><span class="in">:not(.page-full):has(.cell-output)</span>{</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">background-color</span>: <span class="va">$gray-100</span><span class="op">;</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a> }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a> }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>dark.scss</strong></pre>
 </div>
-<div class="sourceCode" id="cb11" data-filename="dark.scss"><pre class="sourceCode scss code-with-copy"><code class="sourceCode scss"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">/*-- scss:rules --*/</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11" data-filename="dark.scss"><pre class="sourceCode scss code-with-copy"><code class="sourceCode scss"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">/*-- scss:rules --*/</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">.cell</span><span class="in">:not(.page-full):has(.cell-output)</span>{</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>   <span class="kw">background-color</span>: <span class="va">$gray-800</span><span class="op">;</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a> }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a> }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The separate light and dark files are there so the background color of the full wrapper is appropriate for light/darkmode. These all get included in my quarto configuration like so:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>_quarto.yml</strong></pre>
 </div>
-<div class="sourceCode" id="cb12" data-filename="_quarto.yml"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#...</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-filename="_quarto.yml"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#...</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">light</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">flatly</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">,</span><span class="at"> light.scss</span><span class="kw">]</span></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">dark</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">darkly</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">,</span><span class="at"> dark.scss</span><span class="kw">]</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="why-those-selectors" class="level2"><h2 class="anchored" data-anchor-id="why-those-selectors">Why those selectors?</h2>
 <p>So, the <code>.cell</code> class targets the entire code cell (input and output). To be honest, I can’t reconstruct why I have a <code>:not(.page-full)</code> modifier in there. I must’ve done it to capture some edge case though, so I don’t question it.</p>
 <p>I <em>do</em> remember why I have the <code>:has(.cell-output)</code> part. The lighter enclosing div only appears when there’s code output. If I have code that doesn’t print anything, it’s just the normal default quarto formatting.</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>It’s <em>also</em> the case that figures don’t get rendered into a <code>.cell-output</code> div, so plotting code <em>also</em> gets the default quarto formatting.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
 <span>  <span class="va">mtcars</span>,</span>
@@ -984,7 +987,7 @@ cookieconsent.run({
 <span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></a></p>
@@ -994,7 +997,7 @@ cookieconsent.run({
 </div>
 <p>Same for <a href="https://gt.rstudio.com">gt</a> tables.</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com">gt</a></span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gt.rstudio.com">gt</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">car_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://gt.rstudio.com/reference/gt_preview.html">gt_preview</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html">fmt_number</a></span><span class="op">(</span></span>
@@ -1004,7 +1007,7 @@ cookieconsent.run({
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/cols_align_decimal.html">cols_align_decimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/opt_table_font.html">opt_table_font</a></span><span class="op">(</span>font <span class="op">=</span> <span class="st">"Public Sans"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">car_tab</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">car_tab</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="hhwhbbzmjp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#hhwhbbzmjp table {
@@ -1455,7 +1458,7 @@ cookieconsent.run({
   height: 0px !important;
 }
 </style>
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings header">
 <th id="a::stub" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
 <th id="mpg" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">mpg</th>
@@ -1472,7 +1475,7 @@ cookieconsent.run({
 </tr></thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">1</td>
+<th id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">1</th>
 <td class="gt_row gt_right" headers="stub_1_1 mpg">21  </td>
 <td class="gt_row gt_right" headers="stub_1_1 cyl">6&nbsp;</td>
 <td class="gt_row gt_right" headers="stub_1_1 disp">160&nbsp;</td>
@@ -1486,7 +1489,7 @@ cookieconsent.run({
 <td class="gt_row gt_right" headers="stub_1_1 carb">4&nbsp;</td>
 </tr>
 <tr class="even">
-<td id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">2</td>
+<th id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">2</th>
 <td class="gt_row gt_right" headers="stub_1_2 mpg">21  </td>
 <td class="gt_row gt_right" headers="stub_1_2 cyl">6&nbsp;</td>
 <td class="gt_row gt_right" headers="stub_1_2 disp">160&nbsp;</td>
@@ -1500,7 +1503,7 @@ cookieconsent.run({
 <td class="gt_row gt_right" headers="stub_1_2 carb">4&nbsp;</td>
 </tr>
 <tr class="odd">
-<td id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">3</td>
+<th id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">3</th>
 <td class="gt_row gt_right" headers="stub_1_3 mpg">22.8</td>
 <td class="gt_row gt_right" headers="stub_1_3 cyl">4&nbsp;</td>
 <td class="gt_row gt_right" headers="stub_1_3 disp">108&nbsp;</td>
@@ -1514,7 +1517,7 @@ cookieconsent.run({
 <td class="gt_row gt_right" headers="stub_1_3 carb">1&nbsp;</td>
 </tr>
 <tr class="even">
-<td id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">4</td>
+<th id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">4</th>
 <td class="gt_row gt_right" headers="stub_1_4 mpg">21.4</td>
 <td class="gt_row gt_right" headers="stub_1_4 cyl">6&nbsp;</td>
 <td class="gt_row gt_right" headers="stub_1_4 disp">258&nbsp;</td>
@@ -1528,7 +1531,7 @@ cookieconsent.run({
 <td class="gt_row gt_right" headers="stub_1_4 carb">1&nbsp;</td>
 </tr>
 <tr class="odd">
-<td id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">5</td>
+<th id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">5</th>
 <td class="gt_row gt_right" headers="stub_1_5 mpg">18.7</td>
 <td class="gt_row gt_right" headers="stub_1_5 cyl">8&nbsp;</td>
 <td class="gt_row gt_right" headers="stub_1_5 disp">360&nbsp;</td>
@@ -1542,7 +1545,7 @@ cookieconsent.run({
 <td class="gt_row gt_right" headers="stub_1_5 carb">2&nbsp;</td>
 </tr>
 <tr class="even">
-<td id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; font-size: x-small; background-color: #E4E4E4">6..31</td>
+<th id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier; font-size: x-small; background-color: #E4E4E4">6..31</th>
 <td class="gt_row gt_right" headers="stub_1_6 mpg" style="background-color: #E4E4E4"></td>
 <td class="gt_row gt_right" headers="stub_1_6 cyl" style="background-color: #E4E4E4"></td>
 <td class="gt_row gt_right" headers="stub_1_6 disp" style="background-color: #E4E4E4"></td>
@@ -1556,7 +1559,7 @@ cookieconsent.run({
 <td class="gt_row gt_right" headers="stub_1_6 carb" style="background-color: #E4E4E4"></td>
 </tr>
 <tr class="odd">
-<td id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">32</td>
+<th id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="font-family: Courier">32</th>
 <td class="gt_row gt_right" headers="stub_1_7 mpg">21.4</td>
 <td class="gt_row gt_right" headers="stub_1_7 cyl">4&nbsp;</td>
 <td class="gt_row gt_right" headers="stub_1_7 disp">121&nbsp;</td>
@@ -2036,7 +2039,7 @@ cookieconsent.run({
   height: 0px !important;
 }
 </style>
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings header">
 <th id="a::stub" class="gt_col_heading gt_columns_bottom_border gt_left" style="text-align: left;" data-quarto-table-cell-role="th" scope="col"></th>
 <th id="mpg" class="gt_col_heading gt_columns_bottom_border gt_right" style="text-align: left;" data-quarto-table-cell-role="th" scope="col">mpg</th>
@@ -2044,37 +2047,37 @@ cookieconsent.run({
 </tr></thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">1</td>
+<th id="stub_1_1" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">1</th>
 <td class="gt_row gt_right" style="text-align: left;" headers="stub_1_1 mpg">21  </td>
 <td class="gt_row gt_right" style="text-align: left;" headers="stub_1_1 disp">160&nbsp;</td>
 </tr>
 <tr class="even">
-<td id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">2</td>
+<th id="stub_1_2" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">2</th>
 <td class="gt_row gt_right" style="text-align: left;" headers="stub_1_2 mpg">21  </td>
 <td class="gt_row gt_right" style="text-align: left;" headers="stub_1_2 disp">160&nbsp;</td>
 </tr>
 <tr class="odd">
-<td id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">3</td>
+<th id="stub_1_3" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">3</th>
 <td class="gt_row gt_right" style="text-align: left;" headers="stub_1_3 mpg">22.8</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="stub_1_3 disp">108&nbsp;</td>
 </tr>
 <tr class="even">
-<td id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">4</td>
+<th id="stub_1_4" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">4</th>
 <td class="gt_row gt_right" style="text-align: left;" headers="stub_1_4 mpg">21.4</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="stub_1_4 disp">258&nbsp;</td>
 </tr>
 <tr class="odd">
-<td id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">5</td>
+<th id="stub_1_5" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">5</th>
 <td class="gt_row gt_right" style="text-align: left;" headers="stub_1_5 mpg">18.7</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="stub_1_5 disp">360&nbsp;</td>
 </tr>
 <tr class="even">
-<td id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier; font-size: x-small; background-color: #E4E4E4;">6..31</td>
+<th id="stub_1_6" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier; font-size: x-small; background-color: #E4E4E4;">6..31</th>
 <td class="gt_row gt_right" headers="stub_1_6 mpg" style="text-align: left; background-color: #E4E4E4;"></td>
 <td class="gt_row gt_right" headers="stub_1_6 disp" style="text-align: left; background-color: #E4E4E4;"></td>
 </tr>
 <tr class="odd">
-<td id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">32</td>
+<th id="stub_1_7" class="gt_row gt_right gt_stub" data-quarto-table-cell-role="th" scope="row" style="text-align: left; font-family: Courier;">32</th>
 <td class="gt_row gt_right" style="text-align: left;" headers="stub_1_7 mpg">21.4</td>
 <td class="gt_row gt_right" style="text-align: left;" headers="stub_1_7 disp">121&nbsp;</td>
 </tr>
@@ -2095,7 +2098,7 @@ cookieconsent.run({
 </section><section id="the-one-thing-to-watch-for" class="level2"><h2 class="anchored" data-anchor-id="the-one-thing-to-watch-for">The one thing to watch for</h2>
 <p>If ggplot returns some warnings, and you don’t have warnings in the output suppressed, the warning and the plot will all wind up in the <code>.cell-output</code>, even if you turn off code echoing.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'palmerpenguins'</code></pre>
@@ -2105,14 +2108,14 @@ Attaching package: 'palmerpenguins'</code></pre>
 
     penguins, penguins_raw</code></pre>
 </div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
 <span>  <span class="va">penguins</span>,</span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
 <span>    <span class="va">bill_length_mm</span>, </span>
 <span>    <span class="va">bill_depth_mm</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
@@ -2202,13 +2205,14 @@ March 11, 2025. <a href="https://doi.org/10.59350/jn45r-vgj87">https://doi.org/1
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

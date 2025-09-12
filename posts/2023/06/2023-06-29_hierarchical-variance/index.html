@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2023-06-29">
@@ -70,18 +70,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-399203f6078c9f40aa1bd3ecdeb04a2a.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8500d94e49f1d3f418296a7c1c9b0ee7.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-399203f6078c9f40aa1bd3ecdeb04a2a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-62bd0246437ae56647c7d14e216fe155.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-814039ad842dfff7883839873f78e99b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-62bd0246437ae56647c7d14e216fe155.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-55e7c9e5bcca1d54fd1931cfdd11d93b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../../site_libs/bootstrap/bootstrap-dark-6d0bbc57f8058afc0d2fd40d02120bcf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../../site_libs/bootstrap/bootstrap-55e7c9e5bcca1d54fd1931cfdd11d93b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark-8a59e886ad523d0b232bbdcbeabd09f5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
@@ -322,6 +323,8 @@ cookieconsent.run({
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Væl Space <img src="../../../../assets/logo-small.svg" class="center img-fluid"></span>
     </a>
@@ -412,7 +415,7 @@ cookieconsent.run({
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../../../../index.html" class="sidebar-logo-link">
-      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="../../../../assets/logo.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
@@ -892,7 +895,7 @@ cookieconsent.run({
 <!-- main -->
 <main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content"><p>I’m still thinking about priors, distributions, and logistic regressions. The fact that a fairly broad normal distribution in logit space turns into a bimodal distribution in probability space has got me thinking about the standard deviation of random effects in logistic regression. Specifically, what happens in cases where the population of individuals may be bimodal</p>
 <div class="cell">
-<details class="code-fold"><summary>setup</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<details class="code-fold"><summary>setup</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/paul-buerkner/brms">brms</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mjskay.github.io/tidybayes/">tidybayes</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://marginaleffects.com/">marginaleffects</a></span><span class="op">)</span></span>
@@ -903,14 +906,14 @@ cookieconsent.run({
 <span></span>
 <span><span class="va">seed</span> <span class="op">&lt;-</span> <span class="fl">2023</span><span class="op">-</span><span class="fl">6</span><span class="op">-</span><span class="fl">29</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="va">seed</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="va">seed</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <section id="simulating-some-data" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="simulating-some-data">Simulating some data</h2>
 <p>I’ll kick things off with simulating some data. Our predictor variable will be just randomly sampled from ~normal(0,1), so it’ll handily already be z-scored. I’ll also go for a slope in logit space of 1, so logit(y) = x.</p>
 <p>I’ll treat each point I’ve sampled for X as belonging to an individual, or subject, grouping variable, and each individual’s personal probability will be sampled from a beta distribution. I’ll simulate two possibilities here, one where individuals are kind of closely clustered near each other, and another where they’re pretty strongly bifurcated close to 0 and 1.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <div class="cell">
-<details class="code-fold"><summary>simulation of individuals</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<details class="code-fold"><summary>simulation of individuals</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span>
 <span>  logit <span class="op">=</span> <span class="va">x</span>,</span>
 <span>  prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html">plogis</a></span><span class="op">(</span><span class="va">logit</span><span class="op">)</span></span>
@@ -928,11 +931,11 @@ cookieconsent.run({
 <span>      <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">prob</span><span class="op">)</span> <span class="op">*</span> <span class="fl">7</span></span>
 <span>      <span class="op">)</span></span>
 <span>  <span class="op">)</span><span class="op">-&gt;</span></span>
-<span>  <span class="va">sim_params</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="va">sim_params</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell page-columns page-full">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim_params</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim_params</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"subj_prob"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -949,7 +952,7 @@ cookieconsent.run({
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span></span>
 <span>      breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>,<span class="fl">2</span>, by <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span>    <span class="op">)</span> <span class="op">+</span>  </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">name</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">name</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display page-columns page-full">
 <div id="fig-individuals" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-individuals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -963,7 +966,7 @@ Figure&nbsp;1: Probabilities for individuals
 </div>
 <p>For each of these probabilities, I’ll simulate 50 binomial observations.</p>
 <div class="cell">
-<details class="code-fold"><summary>simulating utterances</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim_params</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>simulating utterances</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim_params</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
 <span>    obs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
@@ -972,11 +975,11 @@ Figure&nbsp;1: Probabilities for individuals
 <span>    <span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html">unnest</a></span><span class="op">(</span><span class="va">obs</span><span class="op">)</span> <span class="op">-&gt;</span></span>
-<span>  <span class="va">sim_obs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="va">sim_obs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell page-columns page-full">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim_obs</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sim_obs</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"y_"</span><span class="op">)</span>,</span>
 <span>    names_to <span class="op">=</span> <span class="st">"simulation"</span>,</span>
@@ -994,7 +997,7 @@ Figure&nbsp;1: Probabilities for individuals
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span></span>
 <span>      breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>,<span class="fl">2</span>, by <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span>    <span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">simulation</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">simulation</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display page-columns page-full">
 <div id="fig-obs" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-obs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1009,14 +1012,14 @@ Figure&nbsp;2: simulated observations
 </section><section id="looking-at-the-default-priors" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="looking-at-the-default-priors">Looking at the default priors</h2>
 <p>If we take a look at the default priors a logistic model would get in <a href="https://github.com/paul-buerkner/brms">brms</a>, we can see that both the Intercept and the slope get pretty broad priors (the blank prior for the slope means it’s a flat prior).</p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/default_prior.html">get_prior</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/default_prior.html">get_prior</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsformula.html">bf</a></span><span class="op">(</span><span class="va">y_prob_low</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">individual</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">sim_obs</span>,</span>
 <span>  family <span class="op">=</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsfamily.html">bernoulli</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">prior</span>, <span class="va">class</span>, <span class="va">coef</span>, <span class="va">group</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div id="mxdyaphpjk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#mxdyaphpjk table {
@@ -1458,7 +1461,7 @@ Figure&nbsp;2: simulated observations
   text-indent: 25px;
 }
 </style>
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings header">
 <th id="prior" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">prior</th>
 <th id="class" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">class</th>
@@ -1509,7 +1512,7 @@ Figure&nbsp;2: simulated observations
 </div>
 <p>If we real quick look at how the prior on the intercept plays out in the probability space, we get one of these bimodal distributions.</p>
 <div class="cell page-columns page-full">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
+<details class="code-fold"><summary>plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/StudentT.html">rstudent_t</a></span><span class="op">(</span><span class="fl">1e6</span>, df <span class="op">=</span> <span class="fl">3</span>, sigma <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html">plogis</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -1519,7 +1522,7 @@ Figure&nbsp;2: simulated observations
 <span>      expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html">expansion</a></span><span class="op">(</span>mult <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span>    <span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"invlogit(student_t(3, 0, 2.5))"</span>,</span>
-<span>         x <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>         x <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display page-columns page-full">
 <div id="fig-intercept" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-intercept-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1536,7 +1539,7 @@ Figure&nbsp;3: Student-t prior in the probability space.
 <section id="bimodal-population" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="bimodal-population">Bimodal population</h3>
 <p>First, here’s the model for the population where individuals’ probabilities were squished out towards 0 and 1.</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">low_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brm.html">brm</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">low_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brm.html">brm</a></span><span class="op">(</span></span>
 <span>  <span class="va">y_prob_low</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">individual</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">sim_obs</span>,</span>
 <span>  family <span class="op">=</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsfamily.html">bernoulli</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span>,</span>
@@ -1548,10 +1551,10 @@ Figure&nbsp;3: Student-t prior in the probability space.
 <span>  seed <span class="op">=</span> <span class="va">seed</span>,  </span>
 <span>  backend <span class="op">=</span> <span class="st">"cmdstanr"</span>,</span>
 <span>  file <span class="op">=</span> <span class="st">"low_mod.RDS"</span></span>
-<span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<details class="code-fold"><summary>summary table</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">low_mod</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>summary table</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">low_mod</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/tidybayes/reference/spread_draws.html">gather_draws</a></span><span class="op">(</span></span>
 <span>    <span class="va">`sd_.*`</span>,</span>
 <span>    <span class="va">`b_.*`</span>,</span>
@@ -1560,7 +1563,7 @@ Figure&nbsp;3: Student-t prior in the probability space.
 <span>  <span class="fu"><a href="https://mjskay.github.io/ggdist/reference/point_interval.html">mean_hdci</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">.variable</span>, <span class="va">.value</span>, <span class="va">.lower</span>, <span class="va">.upper</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html">fmt_number</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html">fmt_number</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div id="qwckqkmnoy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#qwckqkmnoy table {
@@ -2002,7 +2005,7 @@ Figure&nbsp;3: Student-t prior in the probability space.
   text-indent: 25px;
 }
 </style>
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings header">
 <th id=".variable" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">.variable</th>
 <th id=".value" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">.value</th>
@@ -2035,7 +2038,7 @@ Figure&nbsp;3: Student-t prior in the probability space.
 </div>
 <p>Things have kind of clearly gone off the rails here. The intercepts and slopes are all over the place, but that’s maybe not surprising given the trade offs the model is making between the population level slopes and the individual level probabilities. It’s worth noting that this model had no diagnostic warnings and was well converged.</p>
 <div class="cell page-columns page-full">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">low_mod</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">low_mod</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://marginaleffects.com/man/r/predictions.html">predictions</a></span><span class="op">(</span></span>
 <span>    newdata <span class="op">=</span> <span class="fu"><a href="https://marginaleffects.com/man/r/datagrid.html">datagrid</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span>, length <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    re_formula <span class="op">=</span> <span class="cn">NA</span></span>
@@ -2047,7 +2050,7 @@ Figure&nbsp;3: Student-t prior in the probability space.
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
 <span>      title <span class="op">=</span> <span class="st">"Bifurcated population"</span>,</span>
 <span>      y <span class="op">=</span> <span class="st">"prob"</span></span>
-<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>    <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display page-columns page-full">
 <div id="fig-low-fit" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-low-fit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -2061,7 +2064,7 @@ Figure&nbsp;4: The posterior fitted values.
 </div>
 <p>In fact, that posterior distribution for the between-speaker sd is very extreme at about 8. If we plot the kind of distribution of individuals it suggests when the population level probability = 0.5, we get those steep walls near 0 and 1 again.</p>
 <div class="cell page-columns page-full">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">low_mod</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">low_mod</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/tidybayes/reference/spread_draws.html">gather_draws</a></span><span class="op">(</span></span>
 <span>    <span class="va">`sd_.*`</span>,</span>
 <span>    regex <span class="op">=</span> <span class="cn">T</span></span>
@@ -2087,7 +2090,7 @@ Figure&nbsp;4: The posterior fitted values.
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
 <span>      title <span class="op">=</span> <span class="st">"Random intercepts distribution around 0.5"</span></span>
 <span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu">theme_no_y</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>    <span class="fu">theme_no_y</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display page-columns page-full">
 <div id="fig-bif-sd" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-bif-sd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -2102,7 +2105,7 @@ Figure&nbsp;5: Implied distribution of individuals in the bifircated population.
 </section><section id="the-unimodal-population" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="the-unimodal-population">The Unimodal Population</h3>
 <p>Let’s do it all again, but now for the population where individuals’ probabilities were clustered around the population probability.</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">high_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brm.html">brm</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">high_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brm.html">brm</a></span><span class="op">(</span></span>
 <span>  <span class="va">y_prob_high</span> <span class="op">~</span> <span class="va">x</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">individual</span><span class="op">)</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">sim_obs</span>,</span>
 <span>  family <span class="op">=</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsfamily.html">bernoulli</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span>,</span>
@@ -2115,10 +2118,10 @@ Figure&nbsp;5: Implied distribution of individuals in the bifircated population.
 <span>  seed <span class="op">=</span> <span class="va">seed</span>,</span>
 <span>  backend <span class="op">=</span> <span class="st">"cmdstanr"</span>,</span>
 <span>  file <span class="op">=</span> <span class="st">"high_mod.RDS"</span></span>
-<span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<details class="code-fold"><summary>summary table</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">high_mod</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>summary table</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">high_mod</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/tidybayes/reference/spread_draws.html">gather_draws</a></span><span class="op">(</span></span>
 <span>    <span class="va">`sd_.*`</span>,</span>
 <span>    <span class="va">`b_.*`</span>,</span>
@@ -2129,7 +2132,7 @@ Figure&nbsp;5: Implied distribution of individuals in the bifircated population.
 <span>    <span class="va">.variable</span>, <span class="va">.value</span>, <span class="va">.lower</span>, <span class="va">.upper</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://gt.rstudio.com/reference/gt.html">gt</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>   <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html">fmt_number</a></span><span class="op">(</span>decimals <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>   <span class="fu"><a href="https://gt.rstudio.com/reference/fmt_number.html">fmt_number</a></span><span class="op">(</span>decimals <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div id="agbghbcqxh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#agbghbcqxh table {
@@ -2571,7 +2574,7 @@ Figure&nbsp;5: Implied distribution of individuals in the bifircated population.
   text-indent: 25px;
 }
 </style>
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
 <thead><tr class="gt_col_headings header">
 <th id=".variable" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">.variable</th>
 <th id=".value" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">.value</th>
@@ -2604,7 +2607,7 @@ Figure&nbsp;5: Implied distribution of individuals in the bifircated population.
 </div>
 <p>The intercepts and slope posteriors are much more tight, and the inter-speaker sd posterior is &lt;1.</p>
 <div class="cell page-columns page-full">
-<details class="code-fold"><summary>plottng code</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">high_mod</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>plottng code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">high_mod</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://marginaleffects.com/man/r/predictions.html">predictions</a></span><span class="op">(</span></span>
 <span>    newdata <span class="op">=</span> <span class="fu"><a href="https://marginaleffects.com/man/r/datagrid.html">datagrid</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span>, length <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    re_formula <span class="op">=</span> <span class="cn">NA</span></span>
@@ -2616,7 +2619,7 @@ Figure&nbsp;5: Implied distribution of individuals in the bifircated population.
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
 <span>      title <span class="op">=</span> <span class="st">"Unimodal population"</span>,</span>
 <span>      y <span class="op">=</span> <span class="st">"prob"</span></span>
-<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>    <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display page-columns page-full">
 <div id="fig-unimodal-fit" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-unimodal-fit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -2630,7 +2633,7 @@ Figure&nbsp;6: Posterior fitted values for the unimodal population.
 </div>
 <p>Let’s look at the implied individual level distribution around 0.5.</p>
 <div class="cell page-columns page-full">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">high_mod</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">high_mod</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://mjskay.github.io/tidybayes/reference/spread_draws.html">gather_draws</a></span><span class="op">(</span></span>
 <span>    <span class="va">`sd_.*`</span>,</span>
 <span>    regex <span class="op">=</span> <span class="cn">T</span></span>
@@ -2656,7 +2659,7 @@ Figure&nbsp;6: Posterior fitted values for the unimodal population.
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
 <span>      title <span class="op">=</span> <span class="st">"Random intercepts distribution around 0.5"</span></span>
 <span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu">theme_no_y</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>    <span class="fu">theme_no_y</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display page-columns page-full">
 <div id="fig-uni-sd" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-uni-sd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -2753,13 +2756,14 @@ Parameters.”</span> Væl Space. June 29, 2023. <a href="https://doi.org/10.593
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

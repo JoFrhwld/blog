@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2022-12-10">
@@ -69,18 +69,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-399203f6078c9f40aa1bd3ecdeb04a2a.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8500d94e49f1d3f418296a7c1c9b0ee7.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-399203f6078c9f40aa1bd3ecdeb04a2a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-62bd0246437ae56647c7d14e216fe155.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-814039ad842dfff7883839873f78e99b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-62bd0246437ae56647c7d14e216fe155.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-55e7c9e5bcca1d54fd1931cfdd11d93b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../../site_libs/bootstrap/bootstrap-dark-6d0bbc57f8058afc0d2fd40d02120bcf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../../site_libs/bootstrap/bootstrap-55e7c9e5bcca1d54fd1931cfdd11d93b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark-8a59e886ad523d0b232bbdcbeabd09f5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
@@ -317,6 +318,8 @@ cookieconsent.run({
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Væl Space <img src="../../../../assets/logo-small.svg" class="center img-fluid"></span>
     </a>
@@ -407,7 +410,7 @@ cookieconsent.run({
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../../../../index.html" class="sidebar-logo-link">
-      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="../../../../assets/logo.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
@@ -895,7 +898,7 @@ cookieconsent.run({
 <p>But, it occurred to me that I could quantify how much writing I really did this semester. I wrote all my course notes in Quarto, which <a href="https://quarto.org/docs/websites/website-search.html">generates a search index</a> in a .json file. To get a total count of words that I wrote in course notes, I just need to parse that json file and tokenize it! I found <a href="https://drsimonj.svbtle.com/embarking-on-a-tidy-git-analysis">a handy blog post about analyzing git repos</a> that helped a lot in the process.</p>
 <section id="setup" class="level2"><h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/colearendt/tidyjson">tidyjson</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://juliasilge.github.io/tidytext/">tidytext</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org">lubridate</a></span><span class="op">)</span></span>
@@ -903,11 +906,11 @@ cookieconsent.run({
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://edwinth.github.io/padr/">padr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://glue.tidyverse.org/">glue</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"_defaults.R"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"_defaults.R"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This block of code is just copied from the blog post I just mentioned.</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Remote repository URL</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Remote repository URL</span></span>
 <span><span class="va">repo_url</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/JoFrhwld/2022_lin517.git"</span></span>
 <span></span>
 <span><span class="co"># Directory into which git repo will be cloned</span></span>
@@ -917,16 +920,16 @@ cookieconsent.run({
 <span><span class="va">clone_cmd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"git clone {repo_url} {clone_dir}"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Invoke command</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="va">clone_cmd</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="va">clone_cmd</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>There’s a handful of R libraries for reading json files into R, but after searching around I went with <code>tidyjson</code> because I like using tidyverse things.</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">search_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">clone_dir</span>, <span class="st">"_site"</span>, <span class="st">"search.json"</span><span class="op">)</span></span>
-<span><span class="va">site_search</span> <span class="op">&lt;-</span> <span class="fu">read_json</span><span class="op">(</span><span class="va">search_file</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">search_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">clone_dir</span>, <span class="st">"_site"</span>, <span class="st">"search.json"</span><span class="op">)</span></span>
+<span><span class="va">site_search</span> <span class="op">&lt;-</span> <span class="fu">read_json</span><span class="op">(</span><span class="va">search_file</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>I was really glad to find that the <code>search.json</code> file is relatively flat, so pulling out the metadata and text was not as complicated as it could have been.</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">site_search</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">site_search</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/tidyjson/man/gather_array.html">gather_array</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/hoist.html">hoist</a></span><span class="op">(</span><span class="va">..JSON</span>,</span>
 <span>    <span class="st">"title"</span>,</span>
@@ -935,14 +938,14 @@ cookieconsent.run({
 <span>  <span class="op">)</span>  <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">array.index</span>, <span class="va">title</span>, <span class="va">section</span>, <span class="va">text</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://juliasilge.github.io/tidytext/reference/unnest_tokens.html">unnest_tokens</a></span><span class="op">(</span>input <span class="op">=</span> <span class="va">text</span>, output <span class="op">=</span> <span class="st">"words"</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">tokens_table</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://juliasilge.github.io/tidytext/reference/unnest_tokens.html">unnest_tokens</a></span><span class="op">(</span>input <span class="op">=</span> <span class="va">text</span>, output <span class="op">=</span> <span class="st">"words"</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">tokens_table</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>I noticed in the json file that there were multiple entries for a single page of course notes, one for each subsection, but there were also some entries with the subsection value set to blank. I just wanted to double check that the blank section entries weren’t the <em>entire</em> page of lecture notes, with additional entries duplicating the text by subsection.</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">tokens_table</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">tokens_table</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>has_section <span class="op">=</span> <span class="va">section</span> <span class="op">!=</span> <span class="st">""</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">title</span>, <span class="va">has_section</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 45 × 3
 # Groups:   title, has_section [45]
@@ -965,8 +968,8 @@ cookieconsent.run({
 <section id="so-how-many-words" class="level3"><h3 class="anchored" data-anchor-id="so-how-many-words">So <em>how many words?</em>
 </h3>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">tokens_table</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">tokens_table</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 43637</code></pre>
 </div>
@@ -976,21 +979,21 @@ cookieconsent.run({
 </section></section><section id="how-many-words-did-i-write-over-time" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="how-many-words-did-i-write-over-time">How many words did I write over time?</h2>
 <p>Since I was publishing the course notes to github, that means I also have a preserved history of how my word count grew over time. All I have to do is apply the same procedures to the history of <code>search.json</code>.</p>
 <div class="cell">
-<details class="code-fold"><summary>code to get the git commit history</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">log_format_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>datetime <span class="op">=</span> <span class="st">"cd"</span>, commit <span class="op">=</span> <span class="st">"h"</span>, parents <span class="op">=</span> <span class="st">"p"</span>, author <span class="op">=</span> <span class="st">"an"</span>, subject <span class="op">=</span> <span class="st">"s"</span><span class="op">)</span></span>
+<details class="code-fold"><summary>code to get the git commit history</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">log_format_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>datetime <span class="op">=</span> <span class="st">"cd"</span>, commit <span class="op">=</span> <span class="st">"h"</span>, parents <span class="op">=</span> <span class="st">"p"</span>, author <span class="op">=</span> <span class="st">"an"</span>, subject <span class="op">=</span> <span class="st">"s"</span><span class="op">)</span></span>
 <span><span class="va">option_delim</span> <span class="op">&lt;-</span> <span class="st">"\t"</span></span>
 <span><span class="va">log_format</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"%{log_format_options}"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue_collapse.html">glue_collapse</a></span><span class="op">(</span><span class="va">option_delim</span><span class="op">)</span></span>
 <span><span class="va">log_options</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">'--pretty=format:"{log_format}" --date=format:"%Y-%m-%d %H:%M:%S"'</span><span class="op">)</span></span>
-<span><span class="va">log_cmd</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">'git -C {clone_dir} log {log_options}'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">log_cmd</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">'git -C {clone_dir} log {log_options}'</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="va">log_cmd</span>, intern <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="va">log_cmd</span>, intern <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_split.html">str_split_fixed</a></span><span class="op">(</span><span class="va">option_delim</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">log_format_options</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span>.name_repair <span class="op">=</span> <span class="st">"minimal"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">log_format_options</span><span class="op">)</span><span class="op">)</span><span class="op">-&gt;</span><span class="va">commit_history</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">log_format_options</span><span class="op">)</span><span class="op">)</span><span class="op">-&gt;</span><span class="va">commit_history</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<details class="code-fold"><summary><code>get_length()</code> function definition</summary><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">get_length</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">commit</span>, <span class="va">clone_dir</span><span class="op">)</span><span class="op">{</span></span>
+<details class="code-fold"><summary><code>get_length()</code> function definition</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">get_length</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">commit</span>, <span class="va">clone_dir</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">search_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">clone_dir</span>, <span class="st">"_site"</span>, <span class="st">"search.json"</span><span class="op">)</span></span>
 <span>  <span class="va">checkout_cmd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"git -C {clone_dir} checkout {commit} {search_file}"</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="va">checkout_cmd</span><span class="op">)</span></span>
@@ -1007,28 +1010,28 @@ cookieconsent.run({
 <span>    <span class="fu"><a href="https://juliasilge.github.io/tidytext/reference/unnest_tokens.html">unnest_tokens</a></span><span class="op">(</span>input <span class="op">=</span> <span class="va">text</span>, output <span class="op">=</span> <span class="st">"words"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">word_count</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">word_count</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>The data frame <code>commit_history</code> contains metadata about each commit. What I’ll do next is apply the function I wrote in the collapsed code above to the list of commit hashes, and get the word count at each commit.</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">commit_history</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">commit_history</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>word_count <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">commit</span>, <span class="op">~</span><span class="fu">get_length</span><span class="op">(</span><span class="va">.x</span>, <span class="va">clone_dir</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>           <span class="fu"><a href="https://purrr.tidyverse.org/reference/as_vector.html">simplify</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">word_history</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>           <span class="fu"><a href="https://purrr.tidyverse.org/reference/as_vector.html">simplify</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">word_history</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>I often had many commits in a single day, so to simplify things a bit, I’ll just get the max number of words I had by the end of a given day. Fortunately, I did not stay up past midnight pushing commits this semester, so the data shouldn’t be messed up by work sessions overlapping across days.</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">word_history</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">word_history</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>datetime <span class="op">=</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd_hms.html">ymd_hms</a></span><span class="op">(</span><span class="va">datetime</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://edwinth.github.io/padr/reference/thicken.html">thicken</a></span><span class="op">(</span><span class="st">"day"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">datetime_day</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>words <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">word_count</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">datetime_day</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">daily_words</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">datetime_day</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">daily_words</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="cumulative-wordcount" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="cumulative-wordcount">Cumulative Wordcount</h3>
 <p>Here’s the cumulative count of words over the course of the semester. I forget why, exactly, it starts out at 7,000 words. I think I might’ve been managing the course notes differently between the end of August and start of September, and then just copied them over. But it is a pretty continuous rise, with a few notable plateaus. Some of those plateaus occurred when I had actually prepared more than could be covered in a one or two class meetings, so we stayed with a set of lecture notes for a longer period of time.</p>
 <div class="cell page-columns page-full" data-layout-align="center">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">daily_words</span> <span class="op">|&gt;</span></span>
+<details class="code-fold"><summary>plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">daily_words</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://edwinth.github.io/padr/reference/pad.html">pad</a></span><span class="op">(</span><span class="st">"day"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/fill.html">fill</a></span><span class="op">(</span><span class="va">words</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">datetime_day</span>, <span class="va">words</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
@@ -1041,9 +1044,9 @@ cookieconsent.run({
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_date.html">scale_x_date</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html">expansion</a></span><span class="op">(</span>mult <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"date"</span>,</span>
 <span>         y <span class="op">=</span> <span class="st">"number of words"</span>,</span>
-<span>         title <span class="op">=</span> <span class="st">"Cumulative number of words in course notes"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>         title <span class="op">=</span> <span class="st">"Cumulative number of words in course notes"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display page-columns page-full">
-<div id="fig-total" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A line graph showing a continuous increase from about 7,000 words to over 40,000 words between September and December">
+<div id="fig-total" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A line graph showing a continuous increase from about 7,000 words to over 40,000 words between September and December" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-total-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-total-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: The number of words I wrote over the course of Fall 2022"><img src="index_files/figure-html/fig-total-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A line graph showing a continuous increase from about 7,000 words to over 40,000 words between September and December" width="576"></a>
 </div>
@@ -1057,7 +1060,7 @@ Figure&nbsp;1: The number of words I wrote over the course of Fall 2022
 <p>I can also double check <em>when</em> I was writing my course notes. I was teaching on a Monday-Wednesday-Friday schedule, and Fridays were usually given over to practical exercises (the text of which is largely absent from these counts…).</p>
 <p>It was no surprise to me that I wrote most of the course notes on Sundays. The total number of Sunday words is about 17k, which comes out to about mean of about 1,300 words for Sundays this semester.</p>
 <div class="cell page-columns page-full" data-layout-align="center">
-<details class="code-fold"><summary>plotting code</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">daily_words</span> <span class="op">|&gt;</span></span>
+<details class="code-fold"><summary>plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">daily_words</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://edwinth.github.io/padr/reference/pad.html">pad</a></span><span class="op">(</span><span class="st">"day"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/fill.html">fill</a></span><span class="op">(</span><span class="va">words</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>daily_words <span class="op">=</span> <span class="va">words</span> <span class="op">-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/lead-lag.html">lag</a></span><span class="op">(</span><span class="va">words</span><span class="op">)</span>,</span>
@@ -1070,7 +1073,7 @@ Figure&nbsp;1: The number of words I wrote over the course of Fall 2022
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu"><a href="https://scales.r-lib.org/reference/label_number.html">label_comma</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"day of the week"</span>,</span>
 <span>         y <span class="op">=</span> <span class="st">"total words"</span>,</span>
-<span>         title <span class="op">=</span> <span class="st">"words written by day of week"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>         title <span class="op">=</span> <span class="st">"words written by day of week"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display page-columns page-full">
 <div id="fig-byday" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-byday-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1168,13 +1171,14 @@ over-Preparing.”</span> Væl Space. December 10, 2022. <a href="https://doi.or
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

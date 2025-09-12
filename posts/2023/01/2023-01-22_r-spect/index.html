@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2023-01-22">
@@ -70,18 +70,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-399203f6078c9f40aa1bd3ecdeb04a2a.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8500d94e49f1d3f418296a7c1c9b0ee7.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-399203f6078c9f40aa1bd3ecdeb04a2a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-62bd0246437ae56647c7d14e216fe155.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-814039ad842dfff7883839873f78e99b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-62bd0246437ae56647c7d14e216fe155.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-55e7c9e5bcca1d54fd1931cfdd11d93b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../../site_libs/bootstrap/bootstrap-dark-6d0bbc57f8058afc0d2fd40d02120bcf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../../site_libs/bootstrap/bootstrap-55e7c9e5bcca1d54fd1931cfdd11d93b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark-8a59e886ad523d0b232bbdcbeabd09f5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
@@ -322,6 +323,8 @@ cookieconsent.run({
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Væl Space <img src="../../../../assets/logo-small.svg" class="center img-fluid"></span>
     </a>
@@ -416,7 +419,7 @@ cookieconsent.run({
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../../../../index.html" class="sidebar-logo-link">
-      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="../../../../assets/logo.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="../../../../assets/logo.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
@@ -918,27 +921,27 @@ Figure&nbsp;1: A spectrogram of the vowel /i/ generated by praat.
 Explanation of a hacky thing I had to do.
 </summary><p>I know <a href="https://tuner.R-forge.R-project.org">tuneR</a> package has a <code><a href="https://rdrr.io/pkg/tuneR/man/readWave.html">readWave()</a></code> function, and I couldn’t figure out how to read in an <a href="https://en.wikipedia.org/wiki/Ogg">Oog</a> file, so step 1 was converting the Oog to a wav file. Since I’m writing this in a quarto notebook, I thought I <em>should</em> be able to drop in a <code>```{sh}</code> code chunk, but it seems like doesn’t have access to my <code>PATH</code>. Long story short, that’s why I’ve got this kind of goofy R code chunk with <code><a href="https://rdrr.io/r/base/system.html">system()</a></code> and the full path to sox.</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://glue.tidyverse.org/">glue</a></span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://glue.tidyverse.org/">glue</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"_defaults.R"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html">here</a></span><span class="op">(</span><span class="st">"_defaults.R"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ogg_file</span> <span class="op">&lt;-</span> <span class="st">"assets/Close_front_unrounded_vowel.ogg"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ogg_file</span> <span class="op">&lt;-</span> <span class="st">"assets/Close_front_unrounded_vowel.ogg"</span></span>
 <span><span class="va">wav_file</span> <span class="op">&lt;-</span> <span class="st">"assets/Close_front_unrounded_vowel.wav"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"/opt/homebrew/bin/sox {ogg_file} {wav_file}"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"/opt/homebrew/bin/sox {ogg_file} {wav_file}"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </details></section><section id="loading-the-audio-file" class="level2"><h2 class="anchored" data-anchor-id="loading-the-audio-file">Loading the audio file</h2>
 <p>The <a href="https://rug.mnhn.fr/seewave/">seewave</a> package, which I’m using to make the spectrogram, takes the sound objects created by <a href="https://tuner.R-forge.R-project.org">tuneR</a>, so that’s what I’ll use for reading in the audio file.</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tuner.R-forge.R-project.org">tuneR</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rug.mnhn.fr/seewave/">seewave</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tuner.R-forge.R-project.org">tuneR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rug.mnhn.fr/seewave/">seewave</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">i_wav</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/readWave.html">readWave</a></span><span class="op">(</span><span class="st">"assets/Close_front_unrounded_vowel.wav"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">i_wav</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/readWave.html">readWave</a></span><span class="op">(</span><span class="st">"assets/Close_front_unrounded_vowel.wav"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>To get a sense of what information is in the wav file, you can use <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code></p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">i_wav</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">i_wav</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Formal class 'Wave' [package "tuneR"] with 6 slots
   ..@ left     : int [1:26524] -2 16 42 24 33 53 56 68 51 55 ...
@@ -951,7 +954,7 @@ Explanation of a hacky thing I had to do.
 </div>
 <p>Since I’m going to be zooming in to 0 to 5,000 Hz on the spectrogram, I’ll downsample the audio to 10000.</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">i_wav_d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/downsample.html">downsample</a></span><span class="op">(</span><span class="va">i_wav</span>, <span class="fl">10000</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">i_wav_d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tuneR/man/downsample.html">downsample</a></span><span class="op">(</span><span class="va">i_wav</span>, <span class="fl">10000</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="computing-the-spectrogram" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="computing-the-spectrogram">Computing the spectrogram</h2>
 <p>The function to compute the spectrogram is <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html">seewave::spectro()</a></code>. Its argument names are formatted in a way I find a bit grating. A lot of them are compressed down to single characters or other abbreviations that require having the docs constantly open.</p>
@@ -982,10 +985,10 @@ Figure&nbsp;2: Praat defaults for spectrograms
 </div>
 <p>Here’s a quick illustration of what these defaults correspond to. It takes an analysis window that’s 0.005 seconds long, and moves it over time by 0.002 second increments. Also, the data coming into the analysis window is weighted by a Gaussian distribution.</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell page-columns page-full">
-<details class="code-fold"><summary>Plot Code</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">win_len</span> <span class="op">&lt;-</span> <span class="fl">0.005</span></span>
+<details class="code-fold"><summary>Plot Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">win_len</span> <span class="op">&lt;-</span> <span class="fl">0.005</span></span>
 <span><span class="va">time_step</span> <span class="op">&lt;-</span> <span class="fl">0.002</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span></span>
 <span>  center <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="va">win_len</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">0.02</span>, by <span class="op">=</span> <span class="va">time_step</span><span class="op">)</span>,</span>
@@ -1008,7 +1011,7 @@ Figure&nbsp;2: Praat defaults for spectrograms
 <span>       title <span class="op">=</span> <span class="st">"Overlapping spectrogram window illustration"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.text.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>        panel.grid.major.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        panel.grid.minor.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>        panel.grid.minor.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display page-columns page-full">
 <div id="fig-windows" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A figure with point ranges illustrating the overlap of spectrogram analysis windows. Each successive window overlaps by slightly more than 50">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-windows-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1022,15 +1025,15 @@ Figure&nbsp;3: An illustration of overlapping analysis windows that produce a sp
 </div>
 <p>The <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html">seewave::spectro()</a></code> function defines this same relationship, except instead of the time step or window hop length, we need to define by what % the windows overlap. We also need to express how wide the windows are in terms of audio sample, rather than in terms of time, but that just requires multiplying the desired time width by the sampling rate.</p>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">win_len</span> <span class="op">&lt;-</span> <span class="fl">0.005</span> <span class="op">*</span> <span class="va">i_wav_d</span><span class="op">@</span><span class="va">samp.rate</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">win_len</span> <span class="op">&lt;-</span> <span class="fl">0.005</span> <span class="op">*</span> <span class="va">i_wav_d</span><span class="op">@</span><span class="va">samp.rate</span></span>
 <span><span class="va">hop_len</span> <span class="op">&lt;-</span> <span class="fl">0.002</span> <span class="op">*</span> <span class="va">i_wav_d</span><span class="op">@</span><span class="va">samp.rate</span></span>
-<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">(</span><span class="va">win_len</span> <span class="op">-</span> <span class="va">hop_len</span><span class="op">)</span> <span class="op">/</span> <span class="va">win_len</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">(</span><span class="va">win_len</span> <span class="op">-</span> <span class="va">hop_len</span><span class="op">)</span> <span class="op">/</span> <span class="va">win_len</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The one thing that I can’t recreate for now is the Gaussian window function. <a href="https://rug.mnhn.fr/seewave/">seewave</a> doesn’t have it implemented, so I’ll just stick with its default (Hamming)</p>
 </section><section id="computing-the-spectrogram-1" class="level3"><h3 class="anchored" data-anchor-id="computing-the-spectrogram-1">Computing the spectrogram</h3>
 <p>Now, it’s a pretty straightforward call to <code><a href="https://rdrr.io/pkg/seewave/man/spectro.html">spectro()</a></code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect</span> <span class="op">&lt;-</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">i_wav_d</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/seewave/man/spectro.html">spectro</a></span><span class="op">(</span></span>
 <span>    <span class="co"># window length, in terms of samples</span></span>
@@ -1039,7 +1042,7 @@ Figure&nbsp;3: An illustration of overlapping analysis windows that produce a sp
 <span>    ovlp <span class="op">=</span> <span class="va">overlap</span>,</span>
 <span>    <span class="co"># don't plot the result</span></span>
 <span>    plot <span class="op">=</span> <span class="cn">F</span></span>
-<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>    <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <code>spect</code> object is a list with three named items</p>
 <dl>
@@ -1057,7 +1060,7 @@ Figure&nbsp;3: An illustration of overlapping analysis windows that produce a sp
 </dd>
 </dl>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">spect</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">spect</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 3
  $ time: num [1:299] 0 0.00202 0.00404 0.00606 0.00807 ...
@@ -1068,12 +1071,12 @@ Figure&nbsp;3: An illustration of overlapping analysis windows that produce a sp
 </section><section id="tidying-up" class="level3"><h3 class="anchored" data-anchor-id="tidying-up">Tidying up</h3>
 <p>In order to make a plot of the spectrogram in <a href="https://ggplot2.tidyverse.org">ggplot2</a>, we need to do some tidying up. I’ll go about this by setting the row and column names of the <code>spect$amp</code> matrix to the frequency and time domain values, converting it to a data frame, then doing some pivoting.</p>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set the colnames and rownames</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set the colnames and rownames</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">spect</span><span class="op">$</span><span class="va">amp</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">spect</span><span class="op">$</span><span class="va">time</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">spect</span><span class="op">$</span><span class="va">amp</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">spect</span><span class="op">$</span><span class="va">freq</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">spect</span><span class="op">$</span><span class="va">amp</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">spect</span><span class="op">$</span><span class="va">freq</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect_df</span> <span class="op">&lt;-</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect_df</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">spect</span><span class="op">$</span><span class="va">amp</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co"># coerce the row names to a column</span></span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span>rownames <span class="op">=</span> <span class="st">"freq"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -1089,10 +1092,10 @@ Figure&nbsp;3: An illustration of overlapping analysis windows that produce a sp
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
 <span>    freq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">freq</span><span class="op">)</span>,</span>
 <span>    time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">spect_df</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">spect_df</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      freq          time             amp        
  Min.   :0.0   Min.   :0.0000   Min.   :-89.94  
@@ -1106,7 +1109,7 @@ Figure&nbsp;3: An illustration of overlapping analysis windows that produce a sp
 </section><section id="dynamic-range" class="level3"><h3 class="anchored" data-anchor-id="dynamic-range">“Dynamic Range”</h3>
 <p>Frequency data is represented in terms of kHz, which I’ll leave alone for now. One last thing we need to re-recreate from Praat is the “dynamic range”. All values below some cut off (by default, 50 below the maximum) are plotted with the same color. We can do that with some data frame operations here.</p>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dyn</span> <span class="op">=</span> <span class="op">-</span><span class="fl">50</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dyn</span> <span class="op">=</span> <span class="op">-</span><span class="fl">50</span></span>
 <span><span class="va">spect_df_floor</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">spect_df</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
@@ -1114,17 +1117,17 @@ Figure&nbsp;3: An illustration of overlapping analysis windows that produce a sp
 <span>      <span class="va">amp</span> <span class="op">&lt;</span> <span class="va">dyn</span> <span class="op">~</span> <span class="va">dyn</span>,</span>
 <span>      <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">amp</span>  </span>
 <span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section></section><section id="plotting-the-spectrogram" class="level2 page-columns page-full"><h2 class="anchored" data-anchor-id="plotting-the-spectrogram">Plotting the spectrogram</h2>
 <p>Now what’s left is to plot the thing. I’ll load the <a href="https://codeberg.org/tesselle/khroma">khroma</a> package in order to get some nice color scales.</p>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://codeberg.org/tesselle/khroma">khroma</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://codeberg.org/tesselle/khroma">khroma</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="basic-raster-plot" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="basic-raster-plot">Basic raster plot</h3>
 <p>As a first step, we can plot the time by frequency data as a raster plot, with little rectangles for each position filled in with their amplitude.</p>
 <div class="cell page-columns page-full">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect_df_floor</span> <span class="op">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect_df_floor</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">freq</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_raster</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">amp_floor</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
@@ -1132,7 +1135,7 @@ Figure&nbsp;3: An illustration of overlapping analysis windows that produce a sp
 <span>      x <span class="op">=</span> <span class="st">"time (s)"</span>,</span>
 <span>      y <span class="op">=</span> <span class="st">"frequency (kHz)"</span>,</span>
 <span>      title <span class="op">=</span> <span class="st">"spectrogram raster plot"</span></span>
-<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>    <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display page-columns page-full">
 <div id="fig-raster" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A spectrogram, drawn as a raster plot">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-raster-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1147,7 +1150,7 @@ Figure&nbsp;4: A raster spectrogram plot
 </section><section id="spectrogram-contour-plot" class="level3 page-columns page-full"><h3 class="anchored" data-anchor-id="spectrogram-contour-plot">Spectrogram contour plot</h3>
 <p>To get closer to the Praat output, though, we need to make a contour plot instead. Here’s where I’m getting a bit stymied. I wind up with these weird diagonal “shadows” on the right and left hand side of the spectrogram, which I think are a result of how the <code><a href="https://ggplot2.tidyverse.org/reference/geom_contour.html">stat_contour()</a></code> is being computed and plotted, rather than anything to do with the actual spectrogram.</p>
 <div class="cell page-columns page-full">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect_df_floor</span> <span class="op">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect_df_floor</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">freq</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_contour.html">stat_contour</a></span><span class="op">(</span></span>
 <span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
@@ -1163,7 +1166,7 @@ Figure&nbsp;4: A raster spectrogram plot
 <span>      x <span class="op">=</span> <span class="st">"time (s)"</span>,</span>
 <span>      y <span class="op">=</span> <span class="st">"frequency (kHz)"</span>,</span>
 <span>      title <span class="op">=</span> <span class="st">"spectrogram contour plot"</span></span>
-<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>    <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display page-columns page-full">
 <div id="fig-countour1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A spectrogram, drawn with contours">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-countour1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1177,7 +1180,7 @@ Figure&nbsp;5: A contour spectrogram plot
 </div>
 <p>One way around this I’ve found is to compute the spectrogram on the higher sampling rate audio, and then zoom into the frequency range you want.</p>
 <div class="cell">
-<details class="code-fold"><summary>re-running the spectrogram</summary><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">win_len</span> <span class="op">&lt;-</span> <span class="fl">0.005</span> <span class="op">*</span> <span class="va">i_wav</span><span class="op">@</span><span class="va">samp.rate</span></span>
+<details class="code-fold"><summary>re-running the spectrogram</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">win_len</span> <span class="op">&lt;-</span> <span class="fl">0.005</span> <span class="op">*</span> <span class="va">i_wav</span><span class="op">@</span><span class="va">samp.rate</span></span>
 <span><span class="va">hop_len</span> <span class="op">&lt;-</span> <span class="fl">0.002</span> <span class="op">*</span> <span class="va">i_wav</span><span class="op">@</span><span class="va">samp.rate</span></span>
 <span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">(</span><span class="va">win_len</span> <span class="op">-</span> <span class="va">hop_len</span><span class="op">)</span> <span class="op">/</span> <span class="va">win_len</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span>
 <span></span>
@@ -1222,11 +1225,11 @@ Figure&nbsp;5: A contour spectrogram plot
 <span>      <span class="va">amp</span> <span class="op">&lt;</span> <span class="va">dyn</span> <span class="op">~</span> <span class="va">dyn</span>,</span>
 <span>      <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">amp</span>  </span>
 <span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell page-columns page-full">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect2_df_floor</span> <span class="op">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spect2_df_floor</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">freq</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_contour.html">stat_contour</a></span><span class="op">(</span></span>
 <span>      <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
@@ -1243,7 +1246,7 @@ Figure&nbsp;5: A contour spectrogram plot
 <span>      y <span class="op">=</span> <span class="st">"frequency (kHz)"</span>,</span>
 <span>      title <span class="op">=</span> <span class="st">"spectrogram contour plot"</span></span>
 <span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display page-columns page-full">
 <div id="fig-countour2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A spectrogram, drawn with contours">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-countour2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1267,7 +1270,7 @@ Figure&nbsp;6: A contour spectrogram plot
 </blockquote>
 <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><p>I’ve folded the code here, just because it’s medium gnarly. The short version is you can get the weights for the window functions from <code><a href="https://rdrr.io/pkg/seewave/man/ftwindow.html">seewave::ftwindow()</a></code>, and then I used <code><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area()</a></code> to plot it.</p>
 <div class="cell page-columns page-full">
-<details class="code-fold"><summary>the data and plotting code</summary><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">window_fig</span> <span class="op">|&gt;</span> </span>
+<details class="code-fold"><summary>the data and plotting code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">window_fig</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">win_num</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">nest</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
@@ -1296,7 +1299,7 @@ Figure&nbsp;6: A contour spectrogram plot
 <span>    <span class="fu"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_hawaii.html">scale_fill_hawaii</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_hawaii.html">scale_color_hawaii</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Hamming window functions"</span>,</span>
-<span>       subtitle <span class="op">=</span> <span class="st">"window length = 0.005, time step =0.002"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>       subtitle <span class="op">=</span> <span class="st">"window length = 0.005, time step =0.002"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display page-columns page-full">
 <div id="fig-window-dist" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A sequence of Hamming window functions across the time domain, each overlapping with the previous by 60%">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-window-dist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1386,13 +1389,14 @@ Space. January 22, 2023. <a href="https://doi.org/10.59350/0d3a6-7nk34">https://
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

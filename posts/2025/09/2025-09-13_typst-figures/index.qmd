@@ -1,5 +1,6 @@
 ---
 title: D&D and Making Typst Figures
+image: typst/wh-final.svg
 filters:
   - include-code-files
 ---

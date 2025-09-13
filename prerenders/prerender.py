@@ -2,6 +2,7 @@ from commonmeta import encode_doi
 from pathlib import Path
 import yaml
 import logging
+import subprocess
 
 def get_all_posts(post_base:str = "posts")->list[Path]:
   """Get all post directories
@@ -119,5 +120,4 @@ def check_all_metadata(paths: list[Path]) -> None:
 post_dirs = get_all_posts("posts")
 make_all_metadata(post_dirs)
 check_all_metadata(post_dirs)
-  
-
+subprocess.call("make")

@@ -1,0 +1,125 @@
+---
+title: D&D and Making Typst Figures
+filters:
+  - include-code-files
+---
+
+I'm currently running a D&D campaign, and in a recent session we ended with the plan for the party to interrogate a character they'd captured.
+We play every other week, which meant I had two whole weeks to figure out what exactly this character knew.
+I was worried about a few things though.
+
+An interrogation where just one player with the highest Charisma asks all the questions, and the character resists ("No, no! I won't tell you anything!") so the player just keeps re-asking until they roll a high enough Intimidation check ("Ok! Fine! I give up! I'll tell you everything!") could be kind of boring.
+And I didn't want the players to get bored and give up on the interrogation, because this character they captured actually had some pretty important information that could animate the party's next steps.
+So I tried thought of ways I could structure the interrogation to have mechanics of its own, which led me to making a game board in [Typst](https://typst.app/).
+
+## Typst
+
+Typst is a new typesetting system that, imo, is *way* easier to use and customize than LaTeX ([and there's built in support in Quarto](https://quarto.org/docs/output-formats/typst.html)).
+There's also a growing ecosystem of packages, including [CeTZ](https://typst.app/universe/package/cetz) (meant to the the Typst version of TiKZ) and [fletcher](https://typst.app/universe/package/fletcher/) which is built on top of CeTZ.
+
+### Embedding Typst Diagrams
+
+While Quarto supports rendering entire documents to Typst, it doesn't have the ability to run a Typst code chunk and embed the output in a different document format, like it can do with plotting R code chunks.
+For a separate project, I solved this by setting up a Makefile, and added running it to my [pre-render script](/defaults.qmd#prerender).
+
+::: {.callout-note collapse="true"}
+``` {.makefile include="../../../../Makefile"}
+```
+:::
+
+Now, every time I re-render the post, changes I make to the typst source files will be reflected in the embedded images.
+
+### First fletcher diagram
+
+Here's an annotated version of the typst file to generate an A-\>B-\>C-\>A diagram in typst using fletcher.
+
+``` {.typst .light-content include="typst/test-diagram.typ"}
+```
+
+![](typst/test-diagram.svg){.light-content fig-align="center" width="80%"}
+
+``` {.typst .dark-content include="typst/test-diagram-dark.typ"}
+```
+
+![](typst/test-diagram-dark.svg){.dark-content fig-align="center" width="80%"}
+
+(I'll put the rest of the typst code inside collapsed callouts).
+
+## The game board
+
+A cool thing I hadn't realized about the node placement in fletcher is you an *either* give it Cartesian coordinates like `(1, 0)`, *or* you can give it polar coordinates, like `(90deg, 10mm)`.
+The fletcher example diagram I was inspired by automatically chunks up the unit circle based in how many nodes there are.
+
+::::: {.light-content layout-ncol="2"}
+<div>
+
+``` typst
+#let nodes = ("A", "B", "C")
+```
+
+![](typst/three.svg){fig-align="center" width="100%"}
+
+</div>
+
+<div>
+
+``` typst
+#let nodes = range(20).map(x => str(x))
+```
+
+![](typst/twenty.svg){fig-align="center" width="100%"}
+
+</div>
+:::::
+
+::::: {.dark-content layout-ncol="2"}
+<div>
+
+``` typst
+#let nodes = ("A", "B", "C")
+```
+
+![](typst/three-dark.svg){fig-align="center" width="100%"}
+
+</div>
+
+<div>
+
+``` typst
+#let nodes = range(20).map(x => str(x))
+```
+
+![](typst/twenty-dark.svg){fig-align="center" width="100%"}
+
+</div>
+:::::
+
+So I popped the five Wh-words in English into the nodes list and got this:
+
+![](typst/wh-0.svg){.light-content fig-align="center" width="80%"}
+
+![](typst/wh-0-dark.svg){.dark-content fig-align="center" width="80%"}
+
+Then, inspiration struck: Connecting 5 Wh-words with paths gives us the opportunity make the shape of the game board a pentagram.
+To make it more gamey and something the players would need to strategize, I made the paths out of each Wh-node directional, so you couldn't get to every node from every node.
+
+![](typst/wh-1.svg){.light-content fig-align="center" width="80%"}
+
+![](typst/wh-1-dark.svg){.dark-content fig-align="center" width="80%"}
+
+With a little more color and font flourishes, I got this final product:
+
+::: {.callout-note collapse="true"}
+## Code
+
+``` {.typst include="typst/wh-final.typ"}
+```
+:::
+
+![](typst/wh-final.svg){fig-align="center" width="90%"}
+
+Combined with an animation I made separately and some mood music, I think the overall effect was good!
+
+::: {style="max-width: 500px;   margin-left: auto;   margin-right: auto;"}
+{{< video src="durkis.webm" >}}
+:::

@@ -1,0 +1,391 @@
+---
+title: Animating Sound Wave
+image: index_files/figure-html/unnamed-chunk-15-1.gif
+---
+
+I've been teaching phonetics for the first time in a while, and I wanted to make some animations illustrating how sounds are pressure waves in propagating through the air.
+I worked how how to do this in a fairly tidy way, again leveraging the new `stat_manual()` from `{ggplot2}`, and `{gganimate}`.
+
+```{r}
+source(here::here("_defaults.R"))
+library(tidyverse)
+library(scales)
+library(gganimate)
+library(geomtextpath)
+library(ggdiagram)
+library(scico)
+```
+
+## No Sound
+
+For the baseline of my animations, I'm going to use uniformly distributed points 2 cycles wide, and 1 tall.
+
+```{r}
+set.seed(2025)
+tibble(
+  x = runif(500, min = 0, max = 2),
+  y = runif(500, min = 0, max = 1)
+) ->
+  uniform
+```
+
+::: {.callout-note collapse="true"}
+## The no_x, no_y themes
+
+```{r}
+theme_no_x
+```
+
+```{r}
+theme_no_y
+```
+:::
+
+```{r}
+#| renderings: 
+#|   - light
+#|   - dark
+#| fig-width: 6
+#| fig-asp: 0.5
+uniform |> 
+  ggplot(
+    aes(x, y)
+  ) +
+  geom_point() +
+  theme_no_x() +
+  theme_no_y()
+
+last_plot() + theme_darkmode() + 
+  theme_no_x() + 
+  theme_no_y()
+```
+
+## A static view
+
+Next, I had to work out how a "static" visualization of the sound wave would look.
+The typical visualization of a sine wave, representing air pressure changes, is fairly straightforward.
+For use as a `stat_manual()` function, I wanted to make it flexible enough for me to define a frequency for the sine wave in the `ggplot()` call.
+
+```{r}
+make_sine <- function(df){
+  # if there's no `freq` column
+  # set `freq` to 1.
+  if (!"freq" %in% names(df)) {
+    df$freq <- 1
+  }
+  
+  df |> 
+    mutate(
+      y = sin(
+        (freq * x * 2 * pi)
+      )
+    )
+}
+```
+
+```{r}
+#| renderings: 
+#|   - light
+#|   - dark
+#| fig-width: 6
+#| fig-asp: 1
+expand_grid(
+  x = seq(0,2, length = 200),
+  freq = c(1,2,3)
+) |> 
+  ggplot(
+    aes(
+      x, freq = freq
+    )
+  )+
+  geom_line(
+    aes(
+      y = after_stat(y)
+    ),
+    stat = "manual",
+    fun = make_sine
+  ) +
+  facet_wrap(
+    ~freq,
+    ncol = 1,
+    label = label_both
+  )+
+  theme_no_x() +
+  theme_no_y()
+
+last_plot() + theme_darkmode() +
+  theme_no_x() + 
+  theme_no_y()
+```
+
+Ok, next, I want to be able to displace the points representing air molecules to the left or the right depending so that they cluster together at the peaks of the sine waves, and spread apart at the troughs.
+So if a point is at a peak or a trough, it should be relatively stationary, but if a point is transitioning between a peak and trough, it should have maximal displacement.
+
+That is, I need to displace each point proportional to the rate of change of the sine curve, which is given by the cosine curve.
+So the displacement function should be the same as `make_sine()`, but subbing in `cos()`.
+
+```{r}
+#| code-fold: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| fig-width: 6
+#| fig-asp: 0.5
+tibble(
+  x = seq(0,1,length = 100),
+  sin = sin(x * 2 * pi),
+  cos = cos(x * 2 * pi)
+) |> 
+  ggplot(
+    aes(x = x)
+  ) + 
+  geom_hline(yintercept = 0) +
+  geom_textline(
+    aes(y = sin, color = "sin"),
+    label = "sin",
+    hjust = 0.4,
+    show.legend = F
+  ) + 
+  geom_textline(
+    aes(y = cos, color = "cos"),
+    label = "cos",
+    hjust = 0.4,
+    show.legend = F
+  ) +
+  ob_segment(
+    ob_point(c(0,  0.5, 1),c(1, -1,  1)),
+    ob_point(c(0,  0.5 ,1), c(0,0,0)),
+    linewidth = 0.5,
+    linetype = 2
+  ) +
+  labs(y = NULL)
+
+last_plot() + theme_darkmode()
+```
+
+```{r}
+make_disp <- function(df){
+  # if there's no `freq` column
+  # set `freq` to 1.
+  if (!"freq" %in% names(df)) {
+    df$freq <- 1
+  }
+  
+  df |> 
+    mutate(
+      disp = cos(
+        (freq * x * 2 * pi)
+      )
+    )
+}
+```
+
+I've colored the points according to their displacement just to show that we get high pressure areas where points displaced to the right and points displaced to the left meet.
+
+```{r}
+#| renderings: 
+#|   - light
+#|   - dark
+#| fig-width: 6
+#| fig-asp: 0.5
+uniform |> 
+  ggplot(
+    aes(x, y)
+  ) +
+  geom_point(
+    aes(
+      nudge_x = after_stat(disp * 0.1),
+      color = after_stat(disp)
+    ),
+    stat = "manual",
+    fun = make_disp,
+    position = "nudge"
+  ) + 
+  geom_line(
+    data = tibble(
+      x = seq(0,2, length = 200)
+    ),
+    aes(
+      y = after_stat((y - 1) * 0.2)
+    ),
+    stat = "manual",
+    fun = make_sine
+  ) +
+  theme_no_y() + 
+  theme_no_x()
+
+last_plot() + theme_darkmode() + 
+  theme_no_y() + 
+  theme_no_x()
+```
+
+Great!
+Now to make it move!
+
+## Animating it
+
+I'll need both a sine wave making function and a displacement making function that takes time into account, and shifts the phase accordingly.
+Finding [the right math for this](https://en.wikipedia.org/wiki/Phase_(waves)#For_shifted_signals) can be a little tricky, but implementing it is pretty straightforward.
+For reasons I don't completely understand, in order to get the wave to propagate from left to right, I need to *subtract* the phase shift.
+
+```{r}
+make_moving_sine <- function(df){
+  params <- c("freq", "t")
+  for (p in params){
+    if (!p %in% names(df)){
+      df[p] <- 1 
+    }
+  }
+  
+  df |> 
+    mutate(
+      y = sin(
+        (freq * (x - t)* 2 * pi)
+      )
+    )
+}
+```
+
+```{r}
+#| renderings: 
+#|   - light
+#|   - dark
+#| fig-width: 6
+#| fig-height: 3
+expand_grid(
+  x = seq(0, 2, length = 200),
+  t = seq(0, 3, length = 200),
+  freq = c(1, 2, 4)
+) |> 
+  ggplot(
+    aes(
+      x, freq = freq, t = t
+    )
+  ) +
+  geom_line(
+    aes(
+      y = after_stat(y)
+    ),
+    stat = "manual",
+    fun = make_moving_sine
+  ) +
+  facet_wrap(~freq, ncol = 1) +
+  transition_time(t)+
+  theme_no_y() + 
+  theme_no_x() ->
+  moving_sine
+  
+moving_sine
+moving_sine + theme_darkmode() +
+  theme_no_y() + 
+  theme_no_x()  
+```
+
+I really like this visualization because you can really see how the signals are moving at the same speed, but the one with a shorter wavelength has a faster frequency.
+
+```{r}
+make_moving_disp <- function(df){
+  params <- c("freq", "t")
+  for (p in params){
+    if (!p %in% names(df)){
+      df[p] <- 1 
+    }
+  }
+  
+  df |> 
+    mutate(
+      disp = cos(
+        (freq * (x - t)* 2 * pi)
+      )
+    )
+}
+```
+
+```{r}
+tibble(
+  x = runif(500, max = 2),
+  y = runif(500),
+  row_id = 1:500
+) |>
+  reframe(
+    .by = row_id,
+    x = x,
+    y = y,
+    t = seq(0, 3, length = 200)
+  ) ->
+  air
+```
+
+```{r}
+#| renderings:
+#|   - light
+#|   - dark
+#| fig-width: 6
+#| fig-height: 3
+air |>
+  ggplot(
+    aes(x, y, freq = 1, t = t)
+  ) +
+  geom_point(
+    aes(
+      nudge_x = after_stat(disp * 0.15)
+    ),
+    stat = "manual",
+    fun = make_moving_disp,
+    position = "nudge"
+  ) +
+  geom_line(
+    data = expand_grid(
+      x = seq(0,2, length = 200),
+      t = seq(0, 3, length = 200)
+    ),
+    aes(
+      y = after_stat((y - 1) * 0.2)
+    ),
+    stat = "manual",
+    fun = make_moving_sine
+  ) +  
+  transition_time(t) +
+  theme_no_x() +
+  theme_no_y() ->
+  air_wave
+
+air_wave
+air_wave + theme_darkmode() +
+  theme_no_x() +
+  theme_no_y()   
+```
+
+## Bonus
+
+Here's a bonus gif, just cause I found it really pretty when I mapped the point color to the displacement.
+
+```{r}
+#| renderings:
+#|   - light
+#|   - dark
+#| fig-width: 6
+#| fig-height: 3
+air |>
+  ggplot(
+    aes(x, y, freq = 1, t = t)
+  ) +
+  geom_point(
+    aes(
+      nudge_x = after_stat(disp * 0.1),
+      color = after_stat(disp)
+    ),
+    stat = "manual",
+    fun = make_moving_disp,
+    position = "nudge"
+  ) +  
+  transition_time(t) +
+  theme_no_x() +
+  theme_no_y() ->
+  glimmer
+
+glimmer
+glimmer + theme_darkmode() +
+  theme_no_x() +
+  theme_no_y()   
+```

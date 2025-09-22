@@ -783,13 +783,13 @@
     },
     "curl": {
       "Package": "curl",
-      "Version": "6.4.0",
+      "Version": "7.0.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R"
       ],
-      "Hash": "a331a41f5a999c2b59fdff9f48ac579f"
+      "Hash": "aa27e963d3deccf4bade44d06b976977"
     },
     "data.table": {
       "Package": "data.table",
@@ -1153,12 +1153,36 @@
       ],
       "Hash": "d7af769ae1aa6775aa1d7077bbaf15d1"
     },
-    "ggarrow": {
-      "Package": "ggarrow",
-      "Version": "0.1.0",
+    "gganimate": {
+      "Package": "gganimate",
+      "Version": "1.0.11",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
+        "cli",
+        "ggplot2",
+        "glue",
+        "grDevices",
+        "grid",
+        "lifecycle",
+        "progress",
+        "rlang",
+        "scales",
+        "stringi",
+        "transformr",
+        "tweenr",
+        "utils",
+        "vctrs"
+      ],
+      "Hash": "867678fc40cb2db65e5ca7a5ea4d628d"
+    },
+    "ggarrow": {
+      "Package": "ggarrow",
+      "Version": "0.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "S7",
         "cli",
         "ggplot2",
         "grid",
@@ -1168,7 +1192,7 @@
         "utils",
         "vctrs"
       ],
-      "Hash": "78c76b480ad0cb0f4a36fb5c4b2c4aad"
+      "Hash": "9ce0d128114e03860d078229e8cac394"
     },
     "ggdark": {
       "Package": "ggdark",
@@ -1199,7 +1223,7 @@
     },
     "ggdiagram": {
       "Package": "ggdiagram",
-      "Version": "0.1.0",
+      "Version": "0.1.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -1234,7 +1258,7 @@
         "utils",
         "vctrs"
       ],
-      "Hash": "b22a56061ffed57f7792af36b9f0133a"
+      "Hash": "c0b586e281c665f0ecf272274443cddb"
     },
     "ggdist": {
       "Package": "ggdist",
@@ -2012,6 +2036,13 @@
       ],
       "Hash": "b0fe731e5bd801dda962ac5057a548f6"
     },
+    "lpSolve": {
+      "Package": "lpSolve",
+      "Version": "5.6.23",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c4e64e374c4ab1e6ffda55073fd04c59"
+    },
     "lubridate": {
       "Package": "lubridate",
       "Version": "1.9.4",
@@ -2027,7 +2058,7 @@
     },
     "magick": {
       "Package": "magick",
-      "Version": "2.8.7",
+      "Version": "2.9.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -2036,17 +2067,17 @@
         "curl",
         "magrittr"
       ],
-      "Hash": "e95f99b8d7c2ae43603d62fb9b669f07"
+      "Hash": "8b43f0e49eb9585e9e7faf12145ee79e"
     },
     "magrittr": {
       "Package": "magrittr",
-      "Version": "2.0.3",
+      "Version": "2.0.4",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "R"
       ],
-      "Hash": "7ce2733a9826b3aeb1775d56fd305472"
+      "Hash": "8b3b213aa0c54a0dec254288ccb545d1"
     },
     "marginaleffects": {
       "Package": "marginaleffects",
@@ -2288,14 +2319,14 @@
     },
     "pdftools": {
       "Package": "pdftools",
-      "Version": "3.5.0",
+      "Version": "3.6.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "Rcpp",
         "qpdf"
       ],
-      "Hash": "5dec805f506b45f9719c3816e88ccdaa"
+      "Hash": "6c35adec6ce5d92f175383b8c5a8f80c"
     },
     "pillar": {
       "Package": "pillar",
@@ -3098,9 +3129,9 @@
     },
     "stringr": {
       "Package": "stringr",
-      "Version": "1.5.1",
+      "Version": "1.5.2",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
         "cli",
@@ -3111,7 +3142,7 @@
         "stringi",
         "vctrs"
       ],
-      "Hash": "960e2ae9e09656611e0b8214ad543207"
+      "Hash": "8f28c568a22dde52d2c8b11958776ac2"
     },
     "svUnit": {
       "Package": "svUnit",
@@ -3168,9 +3199,9 @@
     },
     "textshaping": {
       "Package": "textshaping",
-      "Version": "1.0.1",
+      "Version": "1.0.3",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
         "cpp11",
@@ -3180,7 +3211,7 @@
         "systemfonts",
         "utils"
       ],
-      "Hash": "75b5813527f4154cb467e4cf60911333"
+      "Hash": "2fd3d0b32fc922bac1121f5409b96910"
     },
     "tibble": {
       "Package": "tibble",
@@ -3447,6 +3478,21 @@
       ],
       "Hash": "76d35ebfaaf291e08c15696c9f2ec96d"
     },
+    "transformr": {
+      "Package": "transformr",
+      "Version": "0.1.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "cpp11",
+        "lpSolve",
+        "rlang",
+        "sf",
+        "tweenr",
+        "vctrs"
+      ],
+      "Hash": "584eda9966ed571b3adc75e338116147"
+    },
     "tuneR": {
       "Package": "tuneR",
       "Version": "1.4.7",
@@ -3631,16 +3677,16 @@
     },
     "xml2": {
       "Package": "xml2",
-      "Version": "1.3.8",
+      "Version": "1.4.0",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
         "cli",
         "methods",
         "rlang"
       ],
-      "Hash": "f5130b2f3d461964bac93cc618013231"
+      "Hash": "3dfd9ffbe221af775cb37f95e7e893ec"
     },
     "yaml": {
       "Package": "yaml",

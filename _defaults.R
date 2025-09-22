@@ -8,6 +8,7 @@ library(rlang)
 
 # get plot fonts
 font_add_google(name = "Public Sans", family = "Public Sans")
+font_add_google(name = "Voces", family = "Voces")
 showtext_auto()
 
 # Set global variable for setting fonts
@@ -35,7 +36,16 @@ ptol_blue <- "#4477AA"
 theme_set(
   theme_minimal(base_size = 16) +
     theme(
-      text = element_text(family = "Public Sans")
+      text = element_text(family = "Public Sans"),
+      palette.colour.discrete = c(
+        "#4477AA", "#228833", "#AA3377",
+        "#004488", "#BB5566", 
+        "#CC3311", "#332288", 
+        "#882255", 
+        "#004488", "#222255", "#225555", 
+        "#225522", "#666633", "#663333"
+      ),
+      palette.colour.continuous = scico::scico(10, palette = "batlow")
     ) +
     theme_sub_panel(
       grid = element_blank(),
@@ -50,14 +60,19 @@ theme_set(
     )
 )
 
-theme_darkmode <- function(){
+theme_darkmode <- function(...){
   theme_minimal(
     base_size = 16,
     paper = "#222",
-    ink = "white"
+    ink = "grey95",
+    ...
   ) +
     theme(
-      text = element_text(family = "Public Sans")
+      text = element_text(family = "Public Sans"),
+      palette.color.discrete =c(
+        "#6699CC", "#CC6677", "#DDCC77",
+        "#117733", "#AA4499", "#88CCEE", 
+        "#44AA99", "#999933", "#AA4466")
     ) +
     theme_sub_panel(
       background = element_rect(
@@ -82,20 +97,18 @@ dark_render <- function(plot){
   print(plot)
 }
 
-
-theme_no_y <- function(){
-  theme(
-    axis.text.y = element_blank(),
-    axis.title.y = element_blank(),
-    panel.grid.major.y = element_blank()
+theme_no_y <- function(...){
+  theme_sub_axis_y(
+    text = element_blank(),
+    title = element_blank(),
+    ...
   )
 }
 
-theme_no_x <- function(){
-  theme(
-    axis.text.x = element_blank(),
-    axis.title.x = element_blank(),
-    panel.grid.major.x = element_blank()
+theme_no_x <- function(...){
+  theme_sub_axis_x(
+    text = element_blank(),
+    title = element_blank()
   )
 }
 
@@ -103,14 +116,14 @@ out2fig = function(out.width, out.width.default = 0.7, fig.width.default = 6) {
   fig.width.default * out.width / out.width.default 
 }
 
-options(
-  ggplot2.discrete.colour = lapply(1:12, ggthemes::ptol_pal()),
-  ggplot2.discrete.fill = lapply(1:12, ggthemes::ptol_pal()),
-  ggplot2.ordinal.colour = \(...) scale_color_viridis_d(option = "G", direction = -1, ...),
-  ggplot2.ordinal.fill = \(...) scale_fill_viridis_d(option = "G", direction = -1, ...),  
-  ggplot2.continuous.colour = \(...) scico::scale_color_scico(palette = "batlow", ...),
-  ggplot2.continuous.fill = \(...) scico::scale_fill_scico(palette = "batlow", ...)
-)
+# options(
+#   #ggplot2.discrete.colour = lapply(1:12, ggthemes::ptol_pal()),
+#   #ggplot2.discrete.fill = lapply(1:12, ggthemes::ptol_pal()),
+#   ggplot2.ordinal.colour = \(...) scale_color_viridis_d(option = "G", direction = -1, ...),
+#   ggplot2.ordinal.fill = \(...) scale_fill_viridis_d(option = "G", direction = -1, ...),  
+#   ggplot2.continuous.colour = \(...) scico::scale_color_scico(palette = "batlow", ...),
+#   ggplot2.continuous.fill = \(...) scico::scale_fill_scico(palette = "batlow", ...)
+# )
 
 # set a crop: true hook
 knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)

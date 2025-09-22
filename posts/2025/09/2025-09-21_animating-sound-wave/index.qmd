@@ -1,5 +1,5 @@
 ---
-title: Animating Sound Wave
+title: Animating a Sound Wave
 image: index_files/figure-html/unnamed-chunk-15-1.gif
 ---
 

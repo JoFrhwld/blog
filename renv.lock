@@ -3573,14 +3573,14 @@
     },
     "units": {
       "Package": "units",
-      "Version": "0.8-7",
+      "Version": "1.0-0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R",
         "Rcpp"
       ],
-      "Hash": "5d0b024902d5da97a2b64f002e92a869"
+      "Hash": "3797c73fd3bde8b1601a4e1bf53557ac"
     },
     "utf8": {
       "Package": "utf8",

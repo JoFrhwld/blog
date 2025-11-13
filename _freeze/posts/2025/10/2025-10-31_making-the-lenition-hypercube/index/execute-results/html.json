@@ -1,0 +1,17 @@
+{
+  "hash": "554878fffce001585e9a953b0ef64086",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: Making the Lenition Hypercube\nauthor: Josef Fruehwald\n---\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsource(here::here(\"_defaults.R\"))\nlibrary(ggdiagram)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nt_stop <- ob_point(0,0)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nggdiagram(font_family = \"Voces\") +\n  ob_label(t_stop, label = \"ð\")\n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-3-1.png){width=768}\n:::\n:::\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

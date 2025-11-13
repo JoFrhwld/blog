@@ -1,0 +1,118 @@
+---
+title: Using Ggdiagram
+---
+
+```{r}
+source(here::here("_defaults.R"))
+library(tidyverse)
+library(ggdiagram)
+library(scico)
+```
+
+```{r}
+main_circle <- ob_circle(radius = 3)
+```
+
+```{r}
+#whes <- c("Who", "What", "When", "Where", "Why", "How", "YN")
+whes <- letters[1:10]
+```
+
+```{r}
+node_angles <- function(n){
+  diff = 360/n
+  degree((0:(n-1))*diff) + degree(90)
+}
+```
+
+```{r}
+wh_p <- main_circle@point_at(node_angles(length(whes)), id = whes)
+```
+
+```{r}
+wh_c <- ob_circle(wh_p, id = wh_p@id, label = ob_label(wh_p@id), radius = 0.5)
+```
+
+```{r}
+star_fun <- function(i, n){
+  inc = (n%/%2)-(sign((n%%2)-1))
+  case_when(
+    i + inc > n ~ (i + inc) %% n,
+    .default = (i + inc) 
+  )
+}
+
+ring_fun <- function(i, n){
+  case_when(
+    i+1 > n ~ (i+1) %% n,
+    .default = i+1
+  )
+}
+```
+
+```{r}
+pal <- scico(length(whes), palette = "roma")
+
+ggdiagram()+
+  wh_c + {
+    map(
+      seq_along(whes),
+      \(i){
+        connect(
+          wh_c[i],
+          wh_c[star_fun(i, length(whes))],
+          color = pal[i]
+        )
+      }
+    )
+  }
+```
+
+```{r}
+full_path <- function(n){
+  nodes <- letters[1:n]
+  for(inc in 2:(n %/% 2)){
+    built < nodes[1]
+    for(i in seq_along(nodes)){
+      switch()
+    }
+  }
+}
+```
+
+```{r}
+n = 5
+outcome <- "y"
+predictors <- letters[1:n]
+```
+
+```{r}
+increment <- 90 / (n - 1)
+angles <- degree(((0:(n - 1)) * increment) - 45)
+
+ggdiagram() +
+  {
+    outc <- ob_circle(
+      label = ob_label(outcome),
+      radius = 0.5
+    )
+  } + {
+    preds <- imap(
+      predictors,
+      \(x, idx){
+        place(
+          ob_rectangle(label = x),
+          from = outc,
+          where = angles[idx],
+          sep = 2
+        )
+      }
+    )
+  } + {
+    map(
+      preds,
+      \(x) connect(outc, x)
+    )
+  }
+
+```

@@ -1,0 +1,957 @@
+---
+title: How and when to regress over DCTs
+bibliography: references.bib
+image: index_files/figure-html/unnamed-chunk-5-2.png
+---
+
+I recently [gave a talk](https://jofrhwld.github.io/nwav53/) about analyzing vowel formant trajectories using [the Discrete Cosine Transform](https://jofrhwld.github.io/blog/posts/2025/06/2025-06-17_dct-in-tidynorm/), and people have been asking me about when they could/should use a DCT based model versus a gamm.
+So, I'll work through that question here!
+
+```{r}
+#| code-fold: true
+#| code-summary: setup
+#| message: false
+
+source(here::here("_defaults.R"))
+
+library(tidyverse)
+library(tidynorm)
+library(ggdist)
+library(brms)
+library(tidybayes)
+library(distributional)
+library(ggdensity)
+library(marginaleffects)
+library(tinytable)
+library(scico)
+library(scales)
+
+this_seed <- 2025-11-13
+```
+
+## Data Setup
+
+I'll use the `speaker_tracks` data set from `{tidynorm}` as an example.
+Let's grab the data from speaker `s03`for /ay/.
+
+```{r}
+speaker_tracks |> 
+  filter(
+    speaker == "s03",
+    vowel == "AY"
+  ) |> 
+  mutate(
+    voicing = case_match(
+      plt_vclass,
+      "ay0" ~ "voiceless",
+      "ay" ~ "voiced"
+    ) |> 
+      fct_relevel("voiced")
+  ) ->
+  s03_ay
+```
+
+I'll look at the effect of duration and voicing on the F1 trajectory, so we need to prep that data.
+I'll log-transform and center vowel duration at the median.
+
+```{r}
+s03_ay |> 
+  mutate(
+    .by = id,
+    dur = diff(range(t)), 
+    # proportional time
+    prop_t = (t - min(t))/(dur)
+  ) |> 
+  mutate(
+    across(F1:F3, log),
+    log_dur = log2(dur),
+    log_dur_c = log_dur - median(log_dur)
+  ) ->
+  s03_ay_tomod
+```
+
+## Complications for a gamm
+
+### 1. Autocorrelation
+
+As Márton Sóskuthy has pointed out in his tutorial [@soskuthyGeneralisedAdditiveMixed2017] and Journal of Phonetics paper [@soskuthyEvaluatingGeneralisedAdditive2021], a major complication for modelling vowel formant tracks in a gamm is the *autocorrelation* of the data.
+If we just had a model formula like this:
+
+``` r
+bf(F1 ~ s(prop_t))
+```
+
+The model will treat the data like a bunch of points associated with the `prop_t` variable, like so:
+
+```{r}
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| code-fold: true
+#| out-width: 80%
+#| fig-align: center
+s03_ay_tomod |> 
+  ggplot(
+    aes(prop_t, F1)
+  ) +
+  geom_point() ->
+  point_p
+
+point_p
+point_p + theme_darkmode()
+```
+
+*But*, this is very much not what the data is actually like.
+What we have is a bunch of *trajectories* that play out over time.
+
+```{r}
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| code-fold: true
+#| out-width: 80%
+#| fig-align: center
+s03_ay_tomod |> 
+  ggplot(
+    aes(prop_t, F1)
+  ) +
+  geom_line(
+    aes(group = id),
+    linewidth = 0.5
+  ) ->
+  traj_p
+
+traj_p
+traj_p + theme_darkmode()
+```
+
+The value of F1 at each next measurement point isn't just correlated with the previous value: it's strongly determined by the previous value.
+There is a very limited degree to which any two measurement points can be different due in part to the limited speech of speed articulation, and very large jumps and outliers are typically assumed to be measurement error.
+
+### 2: A ton of interactions
+
+For every predictor that might have an effect of the shape of the trajectory, I'll need to include it in a non-linear interaction with `prop_t`.
+Right now I'm looking at duration and voicing, but I'll also need to include a random-factor smooth by word.
+And if I had more than one speaker, I'd need to include a random-factor smooth by speaker.
+
+## Fitting the gamm
+
+I'll be using `{brms}` for these models.
+Here's the gamm formula.
+
+```{r}
+gam_formula <- bf(
+  F1 ~ voicing +
+    # the big interaction
+    t2(prop_t, log_dur_c, by = voicing) +
+    # random intercept
+    (1 | word) +
+    # random-factor smooth
+    s(prop_t, word, bs = "fs") +
+    # autoregressive term
+    # gr is the grouping term
+    ar(time = prop_t, gr = id)
+)
+```
+
+```{r}
+brm(
+  gam_formula,
+  data = s03_ay_tomod,
+  cores = 4,
+  # no threading for a model with ar()
+  # threads = 2,
+  file = "ay_gam_fit",
+  #file_refit = "always",
+  backend = "cmdstanr",
+  control = list(adapt_delta = 0.99),
+  seed = this_seed
+) ->
+  ay_gam_fit
+```
+
+::: {.callout-tip collapse="true"}
+## The full model summary, if you're into that sort of thing
+
+```{r}
+ay_gam_fit
+```
+:::
+
+A quick look at the autocorrelation of the residuals looks ok
+
+```{r}
+#| code-fold: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| out-width: 80%
+#| fig-align: center
+
+autocor_d = itsadug::acf_plot(
+  s03_ay_tomod$F1, 
+  split_by = list(id = s03_ay_tomod$id),
+  return_all = T,
+  plot = F
+)
+
+autocor_r = itsadug::acf_plot(
+  resid(ay_gam_fit)[,1], 
+  split_by = list(id = s03_ay_tomod$id),
+  return_all = T,
+  plot = F
+)
+
+list(
+  data = autocor_d$dataframe,
+  residuals = autocor_r$dataframe
+) |> 
+  list_rbind(
+    names_to = "series"
+  ) |> 
+  group_by(lag, series) |> 
+  mean_qi(acf, .width = pnorm(1) - pnorm(-1)) |> 
+  ggplot(
+    aes(lag, acf, color = series)
+  ) +
+    geom_hline(yintercept = 0) +
+    geom_pointinterval(
+      aes(ymin = .lower, max = .upper),
+      position = position_dodge(width = 0.2)
+    ) +
+    labs(
+      caption = "intervals = pnorm(1)-pnorm(-1)"
+    ) ->
+  acf_p
+
+acf_p
+acf_p + theme_darkmode()
+```
+
+And the `ar` term is about where I'd expect it given previous experience:
+
+```{r}
+#| collapse: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| code-fold: true
+#| out-width: 80%
+#| fig-align: center
+
+ay_gam_fit |> 
+  gather_draws(ar[lag]) |> 
+  ggplot(
+    aes(.value)
+  ) +
+  stat_slab(color = "black",linewidth = 0.5) +
+  scale_y_continuous(expand = expansion(0)) +
+  scale_x_continuous(
+    "ar",
+    limits = c(0.5, 1)
+  )->
+  ar_plot
+
+ar_plot + theme_no_y()
+ar_plot + theme_darkmode() + theme_no_y()
+```
+
+### Getting posterior draws
+
+I'll use the functions from `{marginaleffects}` to get expected posterior draws.
+
+::: callout-important
+## Important arguments
+
+I already knew I need to pass `re_formula = NA` to `predictions()`, but I had a hell of a time getting predictions out of a model with an `ar()` term until I came across [this thread](https://discourse.mc-stan.org/t/post-processing-model-with-autoregressive-correlation-structure-in-brms/20803), which informed me about `incl_autocor = FALSE`.
+:::
+
+```{r}
+ay_gam_fit |> 
+  predictions(
+    newdata = datagrid(
+      log_dur_c = c(-0.5, 0.5),
+      voicing = c("voiced", "voiceless"),
+      prop_t = seq(0, 1, length = 20)
+    ),
+    re_formula = NA,
+    incl_autocor = FALSE
+  ) |> 
+  posterior_draws() ->
+  ay_gam_pred
+```
+
+```{r}
+#| crop: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| code-fold: true
+#| fig-align: center
+#| 
+ay_gam_pred |> 
+  ggplot(
+    aes(prop_t, draw)
+  )+
+  stat_lineribbon(
+    .width = 0.89,
+    aes(color = voicing, fill = voicing),
+    alpha = 0.4
+  )+
+  facet_wrap(~log_dur_c, labeller =  label_both) ->
+  smooth_plot
+
+smooth_plot + theme(aspect.ratio = 0.681)
+smooth_plot + theme_darkmode() + theme(aspect.ratio = 0.681)
+
+```
+
+### Difference curves
+
+There might be a fancy `{marginaleffects}` way to get difference curves, but I've found it easier to calculate them myself from the posterior draws.
+
+```{r}
+ay_gam_pred |> 
+  summarise(
+    .by = c(drawid, prop_t, log_dur_c),
+    diff = diff(draw)
+  ) ->
+  ay_voice_diff
+
+
+ay_gam_pred |> 
+  summarise(
+    .by = c(drawid, prop_t, voicing),
+    diff = diff(draw)
+  ) ->
+  ay_dur_diff
+```
+
+```{r}
+#| code-fold: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| fig-align: center
+ay_voice_diff |> 
+  ggplot(
+    aes(prop_t, diff)
+  ) +
+  geom_hline(yintercept = 0) +
+  stat_lineribbon(
+    .width = 0.89,
+    color = ptol_red,
+    fill = ptol_red,
+    alpha = 0.4
+  ) +
+  labs(
+    y = "voiceless - voiced"
+  )+
+  facet_wrap(~log_dur_c, labeller = label_both)->
+  voice_diff
+
+voice_diff + theme(aspect.ratio = 0.681)
+voice_diff + theme_darkmode() + theme(aspect.ratio = 0.681)
+```
+
+```{r}
+#| code-fold: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| fig-align: center
+ay_dur_diff |> 
+  ggplot(
+    aes(prop_t, diff)
+  ) +
+  geom_hline(yintercept = 0) +
+  stat_lineribbon(
+    .width = 0.89,
+    color = ptol_red,
+    fill = ptol_red,
+    alpha = 0.4
+  ) +
+  labs(
+    y = "+1 log2(dur)"
+  )+
+  facet_wrap(~voicing, labeller = label_both)->
+  dur_diff
+
+dur_diff + theme(aspect.ratio = 0.681)
+dur_diff + theme_darkmode() + theme(aspect.ratio = 0.681)
+```
+
+## Doing it with DCT parameters
+
+An alternative approach to this data would be to first get the Discrete Cosine Transform parameters of each formant track curve, then model those parameters.
+This is a form of "functional data analysis." There's a whole suite of R packages for doing [functional data analysis](https://cran.r-project.org/web/views/FunctionalData.html) things (and I find them kind of overwhelming), and there's been some work on using different techniques in phonetic research (e.g. @gubianUsingFunctionalData2015).
+I'm not sure why fda methods haven't gotten more traction, but I suspect some of it could be due to the overwhelming feeling I have looking at the packages and documentation.
+
+### Preparing the data
+
+To use DCT parameters in a regression, first I'll perform the DCT on the data with `tidynorm::reframe_with_dct()`, and the pivot the data wider.
+Instead of having an `F1` column, we'll have `F1_0`, `F1_1`, `F1_2`, `F1_3` and `F1_4`; one column for each DCT parameter.
+
+```{r}
+#| warning: false
+s03_ay_tomod |> 
+  reframe_with_dct(
+    F1:F3,
+    .token_id_col = id,
+    .time_col = prop_t,
+    .order = 5
+  ) |> 
+  pivot_wider(
+    names_from = .param,
+    values_from = F1:F3
+  ) ->
+  s03_ay_dct
+```
+
+### Specifying and fitting the model
+
+I've found [the brms vignette on fitting multivariate models](https://cran.r-project.org/web/packages/brms/vignettes/brms_multivariate.html) helpful in figuring out this next step.
+When we have a model formula like this:
+
+``` r
+bf(F1 ~ duration)
+```
+
+We're implicitly trying to model F1 as a kind of normal distribution, and the model will estimate a mean and variance for it.
+Something like this:
+
+```{r}
+#| echo: false
+#| renderings: 
+#|   - light
+#|   - dark
+#| out-width: 80%
+#| fig-align: center
+s03_ay_tomod |> 
+  summarise(
+    across(F1, list(mean = mean, sd = sd))
+  ) |> 
+  mutate(
+    dist = dist_normal(F1_mean, F1_sd)
+  ) |> 
+  ggplot() +
+    stat_slab(aes(xdist = dist), color = "black", linewidth = 0.5 ) +
+    stat_spike(aes(xdist = dist)) +
+    scale_y_continuous(expand=expansion(0)) +
+    labs(x = "F1") ->
+  norm_p
+
+norm_p + theme_no_y()
+norm_p + theme_darkmode() + theme_no_y()
+```
+
+But it's also possible to have multiple outcome variables on the left hand side of the formula:
+
+``` r
+bf(mvbind(F1, F2) ~ duration) + set_rescor(TRUE)
+```
+
+*This* formula is treating F1 and F2 as forming some kind of oval like shape (a multivariate normal) for which it will estimate a center point, how oblong it is, and its rotation.
+
+```{r}
+#| echo: false
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| fig-align: center
+#| out-width: 60%
+
+make_center <- function(df){
+  df |> 
+    summarise(
+      .by = matches("[^xy]"),
+      across(
+        c(x, y), 
+        mean
+      )
+    )
+}
+
+speaker_data |> 
+  filter(plt_vclass %in% c("ay", "ay0")) |> 
+  mutate(across(F1:F2, log)) |> 
+  ggplot(
+    aes(F1, F2)
+  ) +
+  stat_ellipse(
+    type = "norm",
+    level = 0.2,
+    fill = "grey40",
+    geom = "polygon"
+  ) +
+  stat_ellipse(
+    type = "norm",
+    level = 0.5,
+    fill = "grey40",
+    geom = "polygon",
+    alpha = 0.6
+  ) +
+  stat_ellipse(
+    type = "norm",
+    level = 0.8,
+    fill = "grey40",
+    geom = "polygon",
+    alpha = 0.5   
+  ) +
+  geom_point(
+    stat = "manual",
+    fun = make_center
+  ) +
+  coord_fixed()->
+  multi_plot
+
+multi_plot
+multi_plot + theme_darkmode()
+```
+
+This notion can be expanded out beyond 2 dimensions, so we can specify a model of all 5 DCT parameters like so:
+
+```{r}
+dct_formula <- bf(
+  mvbind(
+    F1_0, F1_1,
+    F1_2, F1_3,
+    F1_4
+  ) ~ voicing +
+    s(log_dur_c, by = voicing) + 
+    (1|word)
+) +
+  set_rescor(TRUE)
+```
+
+Some things to notice
+
+-   Time is no longer a property of this model.
+    The shape of the trajectories over time is captured within the DCT parameters.
+
+-   I still have a non-linear smooth over duration, interacting with voicing.
+    I did this mainly so that this model would be most comparable to the gamm I fit above, but I could have also had simple linear terms interaction, like `log_dur_c * voicing`.
+
+-   I just have a simple random intercept by word.
+    In the gamm I needed to also have a random factor smooth by word, but here the random intercept itself will model word-level differences to the shape.
+
+Now all's that left is to fit the model.
+
+```{r}
+brm(
+  dct_formula,
+  data = s03_ay_dct,
+  cores = 4,
+  threads = 2,
+  file = "ay_dct_fit",
+  #file_refit = "always",
+  backend = "cmdstanr",
+  control = list(adapt_delta = 0.99),
+  seed = this_seed
+) ->
+  ay_dct_fit
+```
+
+### Getting predictions
+
+We can get the predicted DCT parameters a lot like we did for the gamms.
+
+```{r}
+ay_dct_fit |> 
+  predictions(
+    newdata = datagrid(
+      log_dur_c = c(-0.5, 0.5),
+      voicing = c("voiced", "voiceless")
+    ),
+    re_formula = NA
+  ) |> 
+  posterior_draws() ->
+  ay_dct_pred_init
+```
+
+It's worth looking at what these predictions look like quickly:
+
+```{r}
+ay_dct_pred_init |> 
+  select(
+    drawid, group, draw, log_dur_c, voicing
+  ) |> 
+  head()
+```
+
+Two things to notice:
+
+-   The original column names `F1_0` etc have been squished together into `F10`.
+
+-   These aren't the predicted F1 trajectories, these are the predicted DCT coefficients.
+
+We can deal with the smushed together column names with some tidyverse verbs.
+
+```{r}
+ay_dct_pred_init |> 
+  separate_wider_position(
+    group,
+    widths = c(formant = 2, param = 1)
+  ) ->
+  ay_dct_pred
+
+ay_dct_pred|> 
+  select(
+    drawid, formant, param, draw, log_dur_c, voicing
+  ) |> 
+  head()
+```
+
+Only the first three DCT coefficients are easilly interpretable in and of themselves.
+To get the formant curves, we need to apply the inverse DCT to these parameters, which we can do with `tidynorm::reframe_with_idct()`.
+
+```{r}
+ay_dct_pred |> 
+  reframe_with_idct(
+    draw,
+    .param_col = param,
+    .token_id_col = drawid,
+    .by = c(log_dur_c, voicing),
+    .n = 20
+  ) ->
+  ay_dct_smooth
+```
+
+```{r}
+#| code-fold: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| fig-align: center
+ay_dct_smooth |> 
+  ggplot(
+    aes(.time, draw)
+  ) +
+  stat_lineribbon(
+    aes(color = voicing, fill = voicing),
+    .width = 0.89,
+    alpha = 0.4
+  ) +
+  facet_wrap(~log_dur_c, labeller = label_both)->
+  dct_plot
+
+dct_plot +  theme(aspect.ratio = 0.681)
+dct_plot + theme_darkmode() +  theme(aspect.ratio = 0.681)
+```
+
+### Difference curves
+
+To get difference curves, we can actually get the difference in DCT parameters between the levels of interest, and apply the IDCT to those differences.
+
+```{r}
+ay_dct_pred |> 
+  summarise(
+    .by = c(drawid, param, log_dur_c),
+    diff = diff(draw)
+  ) |> 
+  reframe_with_idct(
+    diff,
+    .token_id_col = drawid,
+    .param_col = param,
+    .by = log_dur_c
+  ) ->
+  ay_dct_voicing
+
+
+ay_dct_pred |> 
+  summarise(
+    .by = c(drawid, param, voicing),
+    diff = diff(draw)
+  ) |> 
+  reframe_with_idct(
+    diff,
+    .token_id_col = drawid,
+    .param_col = param,
+    .by = voicing
+  ) ->
+  ay_dct_duration
+```
+
+```{r}
+#| code-fold: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| fig-align: center
+ay_dct_voicing |> 
+  ggplot(
+    aes(.time, diff)
+  ) + 
+  geom_hline(
+    yintercept = 0
+  ) +
+  stat_lineribbon(
+    color = ptol_red,
+    fill = ptol_red,
+    alpha = 0.4,
+    .width = 0.89
+  ) +
+  labs(
+    y = "voiceless-voiced"
+  ) +
+  facet_wrap(
+    ~log_dur_c, labeller = label_both
+  ) ->
+  dct_voice_p
+
+dct_voice_p + theme(aspect.ratio = 0.681)
+dct_voice_p + theme_darkmode() + theme(aspect.ratio = 0.681)
+```
+
+```{r}
+#| code-fold: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| fig-align: center
+ay_dct_duration |> 
+  ggplot(
+    aes(.time, diff)
+  ) + 
+  geom_hline(
+    yintercept = 0
+  ) +
+  stat_lineribbon(
+    color = ptol_red,
+    fill = ptol_red,
+    alpha = 0.4,
+    .width = 0.89
+  ) +
+  labs(
+    y = "+1 log2(dur)"
+  ) +
+  facet_wrap(
+    ~voicing, labeller = label_both
+  ) ->
+  dct_dur_p
+
+dct_dur_p + theme(aspect.ratio = 0.681)
+dct_dur_p + theme_darkmode() + theme(aspect.ratio = 0.681)
+```
+
+## Comparing the smooths
+
+Now, I don't want to compare these smooths in *too* much detail, because the models are so different.
+But for a quick qualitative look, here they are:
+
+```{r}
+#| code-fold: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| fig-align: center
+list(
+  gam = ay_gam_pred,
+  dct = ay_dct_smooth |> 
+    mutate(prop_t = (.time-1)/19)
+) |> 
+  list_rbind(
+    names_to = "model"
+  ) |> 
+  ggplot(
+    aes(prop_t, draw)
+  ) + 
+  stat_lineribbon(
+    aes(color = model, fill = model),
+    .width = 0.89,
+    alpha = 0.4
+  ) + 
+  facet_grid(
+     voicing ~ log_dur_c,
+     labeller = label_both
+  )->
+  curve_comp
+
+curve_comp + theme(aspect.ratio = 0.681)
+curve_comp + theme_darkmode() + theme(aspect.ratio = 0.681)
+```
+
+The curves, especially for the pre-voiceless cases, look pretty different.
+Which one is "better" would require more time than I have here.
+Really the only way to judge would be to compare these smooths to the token level formant tracks.
+
+```{r}
+#| code-fold: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| fig-align: center
+s03_ay_tomod |> 
+  ggplot(
+    aes(prop_t, F1)
+  ) + 
+  geom_line(
+    aes(group = id, color = id),
+    alpha = 0.8,
+    linewidth = 0.5
+  ) +
+  scale_color_scico(palette = "hawaii") +
+  guides(color = "none") +
+  facet_wrap(~voicing) ->
+  ay_tracks
+
+ay_tracks + theme(aspect.ratio = 0.681)
+ay_tracks + theme_darkmode() + theme(aspect.ratio = 0.681)
+```
+
+IMO: I think the sort of "flat across the top" shape of the DCT smooths match up better with how the pre-voiceless tokens look.
+
+Another comparison that's useful to look at is the time it took to fit the two models
+
+```{r}
+#| code-fold: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| fig-align: center
+#| out-width: 80%
+rstan::get_elapsed_time(ay_gam_fit$fit) |> 
+  as_tibble(
+    rownames = "chain"
+  ) ->
+  gam_time
+
+rstan::get_elapsed_time(ay_dct_fit$fit) |> 
+  as_tibble(
+    rownames = "chain"
+  ) ->
+  dct_time
+
+list(
+  gam = gam_time,
+  dct = dct_time
+) |> 
+  list_rbind(
+    names_to = "model"
+  ) |> 
+  ggplot(
+    aes(warmup, sample)
+  ) + 
+  geom_point(
+    aes(color = model),
+    size = 3
+  )+
+  coord_fixed() ->
+  time_comp
+
+time_comp
+time_comp + theme_darkmode()
+```
+
+Overall, the multivariate model over DCTs too less time.
+
+## When to *not* use DCTs
+
+Let's say, you wanted to find out of there was, say, a trend over the entire recording for the value of F1.
+I'll grab the midpoint of these tracks to plot it.
+
+```{r}
+speaker_tracks |> 
+  filter(
+    speaker == "s03"
+  ) |> 
+  slice(
+    .by = id,
+    round(n()/2)
+  ) |> 
+  mutate(across(F1:F3, log))->
+  vowel_mids
+```
+
+```{r}
+#| code-fold: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| fig-align: center
+#| out-width: 80%
+vowel_mids |> 
+  ggplot(
+    aes(t, F1)
+  ) +
+  geom_point() ->
+  mid_trend
+
+mid_trend
+mid_trend + theme_darkmode()
+```
+
+In this case, each data point *isn't* part of some cohesive shape, and the observations aren't evenly spaced apart.
+Here, a good-old gamm makes sense.
+
+```{r}
+f1_formula <- bf(
+  F1 ~ s(t) + (1|vowel) + (1|word)
+)
+```
+
+```{r}
+brm(
+  f1_formula,
+  data = vowel_mids,
+  cores = 4,
+  threads = 2,
+  file = "f1_model",
+  #file_refit = "always",
+  backend = "cmdstanr",
+  control = list(adapt_delta = 0.99),
+  seed = this_seed
+) ->
+  f1_model
+```
+
+```{r}
+f1_model |> 
+  predictions(
+    newdata = datagrid(
+      t = \(x) quantile(x, ppoints(500))
+    ),
+    re_formula = NA
+  ) |> 
+  posterior_draws() ->
+  f1_pred
+```
+
+```{r}
+#| code-fold: true
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+#| fig-align: center
+#| out-width: 80%
+f1_pred |> 
+  ggplot(
+    aes(t, draw)
+  ) +
+  stat_ribbon(
+    alpha = 0.1,
+    color = ptol_red,
+    fill = ptol_red,
+    .width = seq(0.1, 0.9, length = 20),
+    show.legend = F
+  ) ->
+  f1_smooth
+
+f1_smooth
+f1_smooth + theme_darkmode()
+```

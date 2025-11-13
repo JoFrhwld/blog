@@ -1,0 +1,18 @@
+---
+title: Making the Lenition Hypercube
+author: Josef Fruehwald
+---
+
+```{r}
+source(here::here("_defaults.R"))
+library(ggdiagram)
+```
+
+```{r}
+t_stop <- ob_point(0,0)
+```
+
+```{r}
+ggdiagram(font_family = "Voces") +
+  ob_label(t_stop, label = "ð")
+```

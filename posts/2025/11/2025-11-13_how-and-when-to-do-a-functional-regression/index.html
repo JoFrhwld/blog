@@ -1072,7 +1072,7 @@ cookieconsent.run({
 </div>
 </div>
 </div>
-<p>The value of F1 at each next measurement point isn’t just correlated with the previous value: it’s strongly determined by the previous value. There is a very limited degree to which any two measurement points can be different due in part to the limited speech of speed articulation, and very large jumps and outliers are typically assumed to be measurement error.</p>
+<p>The value of F1 at each next measurement point isn’t just correlated with the previous value: it’s strongly determined by the previous value. There is a very limited degree to which any two measurement points can be different due in part to the limited speed of speech articulation, and very large jumps and outliers are typically assumed to be measurement error.</p>
 </section><section id="a-ton-of-interactions" class="level3"><h3 class="anchored" data-anchor-id="a-ton-of-interactions">2: A ton of interactions</h3>
 <p>For every predictor that might have an effect of the shape of the trajectory, I’ll need to include it in a non-linear interaction with <code>prop_t</code>. Right now I’m looking at duration and voicing, but I’ll also need to include a random-factor smooth by word. And if I had more than one speaker, I’d need to include a random-factor smooth by speaker.</p>
 </section></section><section id="fitting-the-gamm" class="level2"><h2 class="anchored" data-anchor-id="fitting-the-gamm">Fitting the gamm</h2>

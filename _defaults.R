@@ -1,4 +1,5 @@
 library(ggplot2)
+library(ggalttext)
 library(ggdark)
 library(showtext)
 library(colorspace)
@@ -38,12 +39,12 @@ theme_set(
     theme(
       text = element_text(family = "Public Sans"),
       palette.colour.discrete = c(
-        "#4477AA", "#228833", "#AA3377",
-        "#004488", "#BB5566", 
+        "#BB5566", "#4477AA", "#228833", "#AA3377",
+        "#225522", "#666633", "#663333", "#004488", 
         "#CC3311", "#332288", 
         "#882255", 
-        "#004488", "#222255", "#225555", 
-        "#225522", "#666633", "#663333"
+        "#004488", "#222255", "#225555"
+        
       ),
       palette.colour.continuous = scico::scico(10, palette = "batlow")
     ) +
@@ -70,7 +71,7 @@ theme_darkmode <- function(...){
     theme(
       text = element_text(family = "Public Sans"),
       palette.color.discrete =c(
-        "#6699CC", "#CC6677", "#DDCC77",
+        "#CC6677", "#6699CC", "#DDCC77",
         "#117733", "#AA4499", "#88CCEE", 
         "#44AA99", "#999933", "#AA4466")
     ) +

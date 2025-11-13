@@ -18,113 +18,37 @@ library(ggarrow)
 library(ggtext)
 library(geomtextpath)
 library(ggforce)
+library(densityarea)
+library(tidynorm)
 ```
 
-```{r}
-dims <- tibble(
-  book = c("Frankenstein", "Mysterious Island"),
-  sea = c(375, 1053),
-  monster = c(352, 35),
-  col = c(ptol_red, ptol_blue)
-)
-```
+<https://wjschne.github.io/ggdiagram/>
+
+`{ggdiagram}`
 
 ```{r}
-#| renderings: 
-#|   - light
-#|   - dark
-ggplot(
-  dims
-) +
-  geom_point(
-    aes(sea, monster)
-  ) +
-  coord_fixed() ->
-  base_plot
-
-base_plot
-
-(base_plot + theme_dark()) |> dark_render()
-```
-
-```{r}
-origin = ob_point(0, 0)
-
-dims |> 
+speaker_data |> 
   mutate(
-    .by = book,
-    segment = list(
-      ob_segment(
-        origin, 
-        ob_point(sea, monster),
-        label = book,
-        arrow_head = ggarrow::arrow_head_wings(),
-        color = col
-      )
-    )
-  ) ->
-  dim_segments
-```
-
-```{r}
-#| renderings: [light, dark]
-base_plot +
-  {
-    FR = dim_segments$segment[[1]]
-  } + 
-  {
-    MI = dim_segments$segment[[2]]
-  }->
-  segments
-
-segments
-(segments + theme_dark()) |>  dark_render()
-```
-
-```{r}
-dim_segments |> 
+    F1 = log(F1),
+    F2 = log(F2)
+  ) |> 
+  summarise(
+    .by = speaker, 
+    poly = density_polygons(F1, F2, probs = 0.8, as_list = T)
+  ) |> 
+  unnest(poly) |> 
+  rowwise()  |> 
   mutate(
-    angle = radian(atan2(monster, sea))
+    points = ob_point(F2, F1) |> list()
+  ) |> 
+  ungroup() |> 
+  summarise(
+    .by = speaker,
+    poly = ob_polygon(bind(points)) |> list()
   )->
-  dim_angles
+  jawn
 ```
 
 ```{r}
-#| renderings: 
-#|   - light
-#|   - dark
-segments + 
-  {
-    arc <- ob_arc(
-      origin, 
-      radius = 150,
-      start = dim_angles$angle[2],
-      end = dim_angles$angle[1],
-      arrow_head = arrowhead(),
-      arrow_fins = arrowhead()
-    )
-  } +
-  {
-    ob_label(
-      label = str_c("θ = ", arc@theta),
-      center = arc@midpoint(),
-      nudge_x = 60,
-      nudge_y = 15
-    )
-  }->
-  with_theta
 
-with_theta
-(with_theta + theme_dark()) |> dark_render()
-```
-
-```{r}
-ob_arc(
-      origin, 
-      radius = 150,
-      start = dim_angles$angle[2],
-      end = dim_angles$angle[1],
-      arrow_head = arrowhead(),
-      arrow_fins = arrowhead()
-    )@theta 
 ```

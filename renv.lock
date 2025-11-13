@@ -1581,13 +1581,13 @@
     },
     "gsl": {
       "Package": "gsl",
-      "Version": "2.1-8",
+      "Version": "2.1-9",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R"
       ],
-      "Hash": "8f8205cbb9f1066a94e22898fe949184"
+      "Hash": "6c2e67b032a0a3dba59dfc7acb71bb64"
     },
     "gt": {
       "Package": "gt",

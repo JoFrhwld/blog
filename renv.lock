@@ -3031,7 +3031,7 @@
     },
     "sf": {
       "Package": "sf",
-      "Version": "1.0-21",
+      "Version": "1.0-22",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -3050,7 +3050,7 @@
         "units",
         "utils"
       ],
-      "Hash": "14a8dae2a678fa953907893a9df561c0"
+      "Hash": "4d371eea6c5242745ddca3fdb2cef197"
     },
     "sfheaders": {
       "Package": "sfheaders",

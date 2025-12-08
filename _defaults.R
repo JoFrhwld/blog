@@ -46,7 +46,7 @@ theme_set(
         "#004488", "#222255", "#225555"
         
       ),
-      palette.colour.continuous = scico::scico(10, palette = "batlow")
+      palette.colour.continuous = scico::scico(10, palette = "lipari")
     ) +
     theme_sub_panel(
       grid = element_blank(),

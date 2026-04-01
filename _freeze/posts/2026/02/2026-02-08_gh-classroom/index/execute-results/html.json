@@ -1,0 +1,17 @@
+{
+  "hash": "a692764644058ec7afb36da45ac12fba",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Github Classroms - Revisted in 2026\"\nformat: html\neditor: visual\ndraft: true\n---\n\nI've made a few posts before about using GitHub Classrooms for teaching quant/comp courses.\n\n-   [Some lessons in using Github Classroom and Codespaces](/posts/2024/02/2024-02-14_gh-classroom/) (February 2024)\n\n-   [Troubleshooting RStudio for GitHub Classrom and Codespaces](/posts/2024/09/2024-09-06_rserver-codespaces/) (September 2024)\n\nI've gotten a few more GH Classroom courses under my belt, so I thought I'd share a bit more about my workflow and configuration.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(distributional)\nlibrary(tidyverse)\nlibrary(ggdist)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nr = 0.9\ndist <- dist_multivariate_normal(\n  mu = list(c(0,0)), \n  sigma = list(matrix(c(1,r,r,1), ncol=2)))\ndimnames(dist) <- c(\"x\", \"y\")\n\ngenerate(dist, 10000) |> \n  pluck(1) |> \n  as_tibble() ->\n  samp\n\nsamp |> \n  ggplot(\n    aes(x, y)\n  ) + \n  geom_point()+\n  coord_fixed()\n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-2-1.png){width=768}\n:::\n\n```{.r .cell-code}\nsamp |> \n  summarise(\n    across(x:y, sd, .names = \"{.col}_sd\"),\n    r = cor(x,y)\n  )\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n# A tibble: 1 × 3\n   x_sd  y_sd     r\n  <dbl> <dbl> <dbl>\n1 0.988 0.990 0.895\n```\n\n\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nx <- c(\"kitten\", \"sitting\", \"knittig\")\nadist(x, x)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n     [,1] [,2] [,3]\n[1,]    0    3    3\n[2,]    3    0    3\n[3,]    3    3    0\n```\n\n\n:::\n:::\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

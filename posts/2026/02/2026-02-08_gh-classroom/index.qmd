@@ -1,0 +1,52 @@
+---
+title: "Github Classroms - Revisted in 2026"
+format: html
+editor: visual
+draft: true
+---
+
+I've made a few posts before about using GitHub Classrooms for teaching quant/comp courses.
+
+-   [Some lessons in using Github Classroom and Codespaces](/posts/2024/02/2024-02-14_gh-classroom/) (February 2024)
+
+-   [Troubleshooting RStudio for GitHub Classrom and Codespaces](/posts/2024/09/2024-09-06_rserver-codespaces/) (September 2024)
+
+I've gotten a few more GH Classroom courses under my belt, so I thought I'd share a bit more about my workflow and configuration.
+
+```{r}
+library(distributional)
+library(tidyverse)
+library(ggdist)
+```
+
+```{r}
+r = 0.9
+dist <- dist_multivariate_normal(
+  mu = list(c(0,0)), 
+  sigma = list(matrix(c(1,r,r,1), ncol=2)))
+dimnames(dist) <- c("x", "y")
+
+generate(dist, 10000) |> 
+  pluck(1) |> 
+  as_tibble() ->
+  samp
+
+samp |> 
+  ggplot(
+    aes(x, y)
+  ) + 
+  geom_point()+
+  coord_fixed()
+
+samp |> 
+  summarise(
+    across(x:y, sd, .names = "{.col}_sd"),
+    r = cor(x,y)
+  )
+
+```
+
+```{r}
+x <- c("kitten", "sitting", "knittig")
+adist(x, x)
+```

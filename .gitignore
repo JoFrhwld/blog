@@ -10,3 +10,4 @@ rmd_drafts/*
 .vscode
 *.html
 *_files
+**/*.quarto_ipynb

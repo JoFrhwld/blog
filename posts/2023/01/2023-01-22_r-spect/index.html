@@ -2,12 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.9.36">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2023-01-22">
 <title>Making a spectrogram in R – Væl Space </title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -70,19 +73,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-9c3682d5fde4964396e4ada689836294.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-2aaf298298d3c4d86eb955b9fd3a786c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-9c3682d5fde4964396e4ada689836294.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-03a7fa63c066d32c082a9fb980bb0fa7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-ad4c53b191d7efefe095fb1b6208a05a.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-03a7fa63c066d32c082a9fb980bb0fa7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../../site_libs/bootstrap/bootstrap-dark-8a59e886ad523d0b232bbdcbeabd09f5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dc60e4e5b3558333b9103043cace59e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark-159b06156cfb1334033185700ca3d9b8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-dc60e4e5b3558333b9103043cace59e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
@@ -136,7 +138,7 @@ cookieconsent.run({
 <meta property="og:title" content="Making a spectrogram in R – Væl Space ">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-22_r-spect/index_files/figure-html/fig-countour2-1.png">
-<meta property="og:site_name" content="Væl Space ![](/assets/logo-small.svg){.center}">
+<meta property="og:site_name" content="Væl Space ">
 <meta property="og:image:height" content="768">
 <meta property="og:image:width" content="1152">
 <meta name="twitter:title" content="Making a spectrogram in R – Væl Space ">
@@ -924,6 +926,44 @@ cookieconsent.run({
 </li>
       </ul>
 </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-24" role="navigation" aria-expanded="false">
+ <span class="menu-text">2026</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-24" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-24" class="collapse list-unstyled sidebar-section depth2 ">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-25" role="navigation" aria-expanded="false">
+ <span class="menu-text">02</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-25" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-25" class="collapse list-unstyled sidebar-section depth3 "></ul>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-26" role="navigation" aria-expanded="false">
+ <span class="menu-text">04</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-26" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-26" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2026/04/2026-04-01_llms-are-not-just-another-research-automation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">LLMs are Not Just Another Research Automation</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+      </ul>
+</li>
       </ul>
 </li>
     </ul>
@@ -1163,7 +1203,7 @@ Figure&nbsp;3: An illustration of overlapping analysis windows that produce a sp
 <span><span class="va">spect_df_floor</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">spect_df</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    amp_floor <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>    amp_floor <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="va">amp</span> <span class="op">&lt;</span> <span class="va">dyn</span> <span class="op">~</span> <span class="va">dyn</span>,</span>
 <span>      <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">amp</span>  </span>
 <span>    <span class="op">)</span></span>
@@ -1210,7 +1250,7 @@ Figure&nbsp;4: A raster spectrogram plot
 <span>      geom <span class="op">=</span> <span class="st">"polygon"</span>,</span>
 <span>      bins <span class="op">=</span> <span class="fl">300</span></span>
 <span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://packages.tesselle.org/khroma//reference/scale_crameri_batlow.html">scale_fill_batlow</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_batlow.html">scale_fill_batlow</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
 <span>      x <span class="op">=</span> <span class="st">"time (s)"</span>,</span>
@@ -1271,7 +1311,7 @@ Figure&nbsp;5: A contour spectrogram plot
 <span><span class="va">spect2_df_floor</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">spect2_df</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    amp_floor <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>    amp_floor <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="va">amp</span> <span class="op">&lt;</span> <span class="va">dyn</span> <span class="op">~</span> <span class="va">dyn</span>,</span>
 <span>      <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">amp</span>  </span>
 <span>    <span class="op">)</span></span>
@@ -1289,7 +1329,7 @@ Figure&nbsp;5: A contour spectrogram plot
 <span>      geom <span class="op">=</span> <span class="st">"polygon"</span>,</span>
 <span>      bins <span class="op">=</span> <span class="fl">300</span></span>
 <span>    <span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://packages.tesselle.org/khroma//reference/scale_crameri_batlow.html">scale_fill_batlow</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_batlow.html">scale_fill_batlow</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
 <span>      x <span class="op">=</span> <span class="st">"time (s)"</span>,</span>
@@ -1346,8 +1386,8 @@ Figure&nbsp;6: A contour spectrogram plot
 <span>      <span class="op">)</span>, </span>
 <span>      position <span class="op">=</span> <span class="st">"identity"</span>, </span>
 <span>      alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://packages.tesselle.org/khroma//reference/scale_crameri_hawaii.html">scale_fill_hawaii</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://packages.tesselle.org/khroma//reference/scale_crameri_hawaii.html">scale_color_hawaii</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_hawaii.html">scale_fill_hawaii</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://packages.tesselle.org/khroma/reference/scale_crameri_hawaii.html">scale_color_hawaii</a></span><span class="op">(</span>guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Hamming window functions"</span>,</span>
 <span>       subtitle <span class="op">=</span> <span class="st">"window length = 0.005, time step =0.002"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display page-columns page-full">
@@ -1373,8 +1413,8 @@ Figure&nbsp;7: Hamming window functions
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2023" class="csl-entry quarto-appendix-citeas" role="listitem">
-Fruehwald, Josef. 2023. <span>“Making a Spectrogram in R.”</span> Væl
-Space. January 22, 2023. <a href="https://doi.org/10.59350/0d3a6-7nk34">https://doi.org/10.59350/0d3a6-7nk34</a>.
+Fruehwald, Josef. 2023. <span>“Making a Spectrogram in R.”</span>
+January 22. <a href="https://doi.org/10.59350/0d3a6-7nk34">https://doi.org/10.59350/0d3a6-7nk34</a>.
 </div></div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right

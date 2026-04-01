@@ -2,12 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.9.36">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2025-12-08">
 <title>Causal Confusion with Composite Variables – Væl Space </title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -58,7 +61,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -83,25 +85,25 @@ div.csl-indent {
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
+<link href="../../../../posts/2026/02/2026-02-08_gh-classroom/index.html" rel="next">
 <link href="../../../../posts/2025/11/2025-11-13_how-and-when-to-do-a-functional-regression/index.html" rel="prev">
 <link href="../../../..//assets/logo.svg" rel="icon" type="image/svg+xml">
 <script src="../../../../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-9c3682d5fde4964396e4ada689836294.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-2aaf298298d3c4d86eb955b9fd3a786c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-9c3682d5fde4964396e4ada689836294.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-03a7fa63c066d32c082a9fb980bb0fa7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-ad4c53b191d7efefe095fb1b6208a05a.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-03a7fa63c066d32c082a9fb980bb0fa7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../../site_libs/bootstrap/bootstrap-dark-8a59e886ad523d0b232bbdcbeabd09f5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dc60e4e5b3558333b9103043cace59e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark-159b06156cfb1334033185700ca3d9b8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-dc60e4e5b3558333b9103043cace59e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
@@ -152,7 +154,7 @@ cookieconsent.run({
   });
 });
 </script><style>html{ scroll-behavior: smooth; }</style>
-<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -181,7 +183,7 @@ window.Quarto = {
 <meta property="og:title" content="Causal Confusion with Composite Variables – Væl Space ">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://jofrhwld.github.io/blog/posts/2025/12/2025-12-08_causal-confusion/typst/apc-dark.svg">
-<meta property="og:site_name" content="Væl Space ![](/assets/logo-small.svg){.center}">
+<meta property="og:site_name" content="Væl Space ">
 <meta name="twitter:title" content="Causal Confusion with Composite Variables – Væl Space ">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://jofrhwld.github.io/blog/posts/2025/12/2025-12-08_causal-confusion/typst/apc-dark.svg">
@@ -193,7 +195,7 @@ window.Quarto = {
 <meta name="citation_year" content="2025">
 <meta name="citation_online_date" content="2025-12-08">
 <meta name="citation_fulltext_html_url" content="https://jofrhwld.github.io/blog/posts/2025/12/2025-12-08_causal-confusion/">
-<meta name="citation_doi" content="10.59350/tsb71-8wy27">
+<meta name="citation_doi" content="10.59350/jbmt7-79c24">
 <meta name="citation_language" content="en">
 <meta name="citation_series_title" content="Væl Space">
 <meta name="citation_reference" content="citation_title=Depicting deterministic variables within directed acyclic graphs: An aid for identifying and interpreting causal effects involving derived variables and compositional data;,citation_author=Laurie Berrie;,citation_author=Kellyn F Arnold;,citation_author=Georgia D Tomova;,citation_author=Mark S Gilthorpe;,citation_author=Peter W G Tennant;,citation_publication_date=2025-02;,citation_cover_date=2025-02;,citation_year=2025;,citation_fulltext_html_url=https://doi.org/10.1093/aje/kwae153;,citation_issue=2;,citation_doi=10.1093/aje/kwae153;,citation_issn=0002-9262;,citation_volume=194;,citation_journal_title=American Journal of Epidemiology;">
@@ -446,7 +448,7 @@ window.Quarto = {
       <div class="quarto-title-meta-heading">Doi</div>
       <div class="quarto-title-meta-contents">
         <p class="doi">
-          <a href="https://doi.org/10.59350/tsb71-8wy27">10.59350/tsb71-8wy27</a>
+          <a href="https://doi.org/10.59350/jbmt7-79c24">10.59350/jbmt7-79c24</a>
         </p>
       </div>
     </div>
@@ -964,6 +966,44 @@ window.Quarto = {
 </li>
       </ul>
 </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-24" role="navigation" aria-expanded="false">
+ <span class="menu-text">2026</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-24" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-24" class="collapse list-unstyled sidebar-section depth2 ">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-25" role="navigation" aria-expanded="false">
+ <span class="menu-text">02</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-25" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-25" class="collapse list-unstyled sidebar-section depth3 "></ul>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-26" role="navigation" aria-expanded="false">
+ <span class="menu-text">04</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-26" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-26" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2026/04/2026-04-01_llms-are-not-just-another-research-automation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">LLMs are Not Just Another Research Automation</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+      </ul>
+</li>
       </ul>
 </li>
     </ul>
@@ -1058,13 +1098,13 @@ window.Quarto = {
 <span></span>
 <span><span class="op">(</span><span class="op">(</span><span class="va">dob_age_p</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">dob_year_p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
 <span><span class="op">(</span><span class="op">(</span><span class="va">dob_age_p</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">dob_year_p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-3-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="index_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></a></p>
 </figure>
@@ -1138,13 +1178,13 @@ y_i \sim \mathcal(\mu_s, 5)
 <span></span>
 <span><span class="op">(</span><span class="va">dob_obs_p</span> <span class="op">+</span> <span class="va">age_obs_p</span> <span class="op">+</span> <span class="va">year_obs_p</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>axes <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-7-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="index_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864"></a></p>
 </figure>
@@ -1170,7 +1210,7 @@ y_i \sim \mathcal(\mu_s, 5)
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">term</span><span class="op">:</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">last_col</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    term <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>    term <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">term</span>, <span class="st">"dob"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"dob"</span>,</span>
 <span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">term</span>, <span class="st">"sd"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"$\\sigma$"</span>,</span>
 <span>      .default <span class="op">=</span> <span class="va">term</span></span>
@@ -1327,7 +1367,7 @@ y_i \sim \mathcal(\mu_s, 5)
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">term</span><span class="op">:</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">last_col</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    term <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>    term <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">term</span>, <span class="st">"dob"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"dob"</span>,</span>
 <span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">term</span>, <span class="st">"age"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"age"</span>,</span>
 <span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">term</span>, <span class="st">"sd"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"$\\sigma$"</span>,</span>
@@ -1493,7 +1533,7 @@ y_i \sim \mathcal(\mu_s, 5)
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">term</span><span class="op">:</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html">last_col</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    term <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>    term <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">term</span>, <span class="st">"dob"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"dob"</span>,</span>
 <span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">term</span>, <span class="st">"year"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"year"</span>,</span>
 <span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">term</span>, <span class="st">"sd"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"$\\sigma$"</span>,</span>
@@ -1681,11 +1721,17 @@ y_i \sim \mathcal(\mu_s, 5)
 <span>  <span class="va">dob_mu_age</span> <span class="op">+</span> <span class="va">dob_mu_year</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>axes <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/subtheme.html">theme_sub_legend</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"top"</span>, text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
-<p><a href="index_files/figure-html/unnamed-chunk-14-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="960"></a></p>
+</details><div class="cell-output-display light-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-14-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="960"></a></p>
+</figure>
 </div>
-<div class="dark-content">
-<p><a href="index_files/figure-html/unnamed-chunk-14-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="index_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid" width="960"></a></p>
+</div>
+<div class="cell-output-display dark-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-14-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="index_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="960"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Choosing between holding age and year constant is effectively choosing between one of the sets of adjacent sides in the parallelogram above. When holding age constant, the slope across dob is shallower (and correct), while when holding year constant the slope across dob is steeper. The reason year and age have the same estimated effect is because the spacing between the lines in the right and left panels are the same.</p>
@@ -1703,10 +1749,10 @@ y_i \sim \mathcal(\mu_s, 5)
 <p>Then, I’ll get the predicted values, and calculate the difference across dob in the posterior.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_dob_year</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://marginaleffects.com/man/r/predictions.html">predictions</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html">predictions</a></span><span class="op">(</span></span>
 <span>    newdata <span class="op">=</span> <span class="va">pred_grid</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://marginaleffects.com/man/r/posterior_draws.html">posterior_draws</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/posterior_draws.html">posterior_draws</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
 <span>    .by <span class="op">=</span> <span class="va">drawid</span>,</span>
 <span>    diff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">draw</span><span class="op">)</span></span>
@@ -1740,7 +1786,7 @@ y_i \sim \mathcal(\mu_s, 5)
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">group</span><span class="op">:</span><span class="va">conf.high</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    term <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>    term <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">term</span>, <span class="st">"dob"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"dob"</span>,</span>
 <span>      <span class="va">group</span> <span class="op">==</span> <span class="st">"speaker"</span> <span class="op">~</span> <span class="st">"$\\sigma_s$"</span>,</span>
 <span>      <span class="va">group</span> <span class="op">==</span> <span class="st">"Residual"</span> <span class="op">~</span> <span class="st">"$\\sigma$"</span>,</span>
@@ -1929,7 +1975,7 @@ y_i \sim \mathcal(\mu_s, 5)
 <span>    <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">term</span>, <span class="st">"speaker"</span>, negate <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    term <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>    term <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html">case_when</a></span><span class="op">(</span></span>
 <span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">term</span>, <span class="st">"dob"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"dob"</span>,</span>
 <span>      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">term</span>, <span class="st">"sd"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"$\\sigma$"</span>,</span>
 <span>      .default <span class="op">=</span> <span class="va">term</span></span>
@@ -2077,7 +2123,7 @@ y_i \sim \mathcal(\mu_s, 5)
 
 
 
-</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-berrieDepictingDeterministicVariables2025" class="csl-entry" role="listitem">
 Berrie, Laurie, Kellyn F Arnold, Georgia D Tomova, Mark S Gilthorpe, and Peter W G Tennant. 2025. <span>“Depicting Deterministic Variables Within Directed Acyclic Graphs: An Aid for Identifying and Interpreting Causal Effects Involving Derived Variables and Compositional Data.”</span> <em>American Journal of Epidemiology</em> 194 (2): 469–79. <a href="https://doi.org/10.1093/aje/kwae153">https://doi.org/10.1093/aje/kwae153</a>.
 </div>
@@ -2093,12 +2139,12 @@ Rohrer, Julia M. 2025. <span>“Thinking Clearly about Age, Period, and Cohort E
   series = {Væl Space},
   date = {2025-12-08},
   url = {https://jofrhwld.github.io/blog/posts/2025/12/2025-12-08_causal-confusion/},
-  doi = {10.59350/tsb71-8wy27},
+  doi = {10.59350/jbmt7-79c24},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2025" class="csl-entry quarto-appendix-citeas" role="listitem">
 Fruehwald, Josef. 2025. <span>“Causal Confusion with Composite
-Variables.”</span> Væl Space. December 8, 2025. <a href="https://doi.org/10.59350/tsb71-8wy27">https://doi.org/10.59350/tsb71-8wy27</a>.
+Variables.”</span> December 8. <a href="https://doi.org/10.59350/jbmt7-79c24">https://doi.org/10.59350/jbmt7-79c24</a>.
 </div></div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -2546,6 +2592,9 @@ Variables.”</span> Væl Space. December 8, 2025. <a href="https://doi.org/10.5
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../../../posts/2026/02/2026-02-08_gh-classroom/index.html" class="pagination-link" aria-label="Github Classroms - Revisted in 2026">
+        <span class="nav-page-text">Github Classroms - Revisted in 2026</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -2,12 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.9.36">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2025-09-12">
 <title>Working with stat_manual() – Væl Space </title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -70,19 +73,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-9c3682d5fde4964396e4ada689836294.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-2aaf298298d3c4d86eb955b9fd3a786c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-9c3682d5fde4964396e4ada689836294.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-03a7fa63c066d32c082a9fb980bb0fa7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-ad4c53b191d7efefe095fb1b6208a05a.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-03a7fa63c066d32c082a9fb980bb0fa7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../../site_libs/bootstrap/bootstrap-dark-8a59e886ad523d0b232bbdcbeabd09f5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dc60e4e5b3558333b9103043cace59e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark-159b06156cfb1334033185700ca3d9b8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-dc60e4e5b3558333b9103043cace59e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
@@ -133,7 +135,7 @@ cookieconsent.run({
   });
 });
 </script><style>html{ scroll-behavior: smooth; }</style>
-<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -162,7 +164,7 @@ window.Quarto = {
 <meta property="og:title" content="Working with stat_manual() – Væl Space ">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://jofrhwld.github.io/blog/posts/2025/09/2025-09-12_working-with-stat-manual/index_files/figure-html/unnamed-chunk-13-1.png">
-<meta property="og:site_name" content="Væl Space ![](/assets/logo-small.svg){.center}">
+<meta property="og:site_name" content="Væl Space ">
 <meta property="og:image:height" content="960">
 <meta property="og:image:width" content="1536">
 <meta name="twitter:title" content="Working with stat_manual() – Væl Space ">
@@ -946,6 +948,44 @@ window.Quarto = {
 </li>
       </ul>
 </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-24" role="navigation" aria-expanded="false">
+ <span class="menu-text">2026</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-24" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-24" class="collapse list-unstyled sidebar-section depth2 ">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-25" role="navigation" aria-expanded="false">
+ <span class="menu-text">02</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-25" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-25" class="collapse list-unstyled sidebar-section depth3 "></ul>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-26" role="navigation" aria-expanded="false">
+ <span class="menu-text">04</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-26" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-26" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2026/04/2026-04-01_llms-are-not-just-another-research-automation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">LLMs are Not Just Another Research Automation</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+      </ul>
+</li>
       </ul>
 </li>
     </ul>
@@ -1010,11 +1050,17 @@ y = \sin(2hx\pi)
 <span></span>
 <span><span class="va">sine_plot</span></span>
 <span><span class="va">sine_plot</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="light-content">
-<p><a href="index_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="768"></a></p>
+<div class="cell-output-display light-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
 </div>
-<div class="dark-content">
-<p><a href="index_files/figure-html/unnamed-chunk-3-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="index_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid" width="768"></a></p>
+</div>
+<div class="cell-output-display dark-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-3-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="index_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Voila! The <code>make_sine()</code> function calculated the y values! Another fun thing is I can map the values I passed to <code>freq</code> to another aesthetic with <code><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">after_stat()</a></code></p>
@@ -1023,11 +1069,17 @@ y = \sin(2hx\pi)
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html">after_stat</a></span><span class="op">(</span><span class="va">freq</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_last_plot.html">last_plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="light-content">
-<p><a href="index_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="768"></a></p>
+<div class="cell-output-display light-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
 </div>
-<div class="dark-content">
-<p><a href="index_files/figure-html/unnamed-chunk-4-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="index_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="768"></a></p>
+</div>
+<div class="cell-output-display dark-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-4-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="index_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <p>I wanted to see if I could plot some discrete Fourier transform basis functions too. For this, I have two copies of the input data frame bound row-wise to each other, one with the sine functions and the other with the cosine. To get the right groupings by line, I define the <code>group</code> aesthetic as well. I’ve also added in whether the function is sine or cosine.</p>
@@ -1066,11 +1118,17 @@ y = \sin(2hx\pi)
 <span></span>
 <span><span class="va">dft_plot</span></span>
 <span><span class="va">dft_plot</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="light-content">
-<p><a href="index_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="768"></a></p>
+<div class="cell-output-display light-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
 </div>
-<div class="dark-content">
-<p><a href="index_files/figure-html/unnamed-chunk-6-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="index_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="768"></a></p>
+</div>
+<div class="cell-output-display dark-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-6-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="index_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <p>And again, we can also map any data columns processed or created by our custom stat function to other aesthetics.</p>
@@ -1082,11 +1140,17 @@ y = \sin(2hx\pi)
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_last_plot.html">last_plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="light-content">
-<p><a href="index_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="768"></a></p>
+<div class="cell-output-display light-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-7-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
 </div>
-<div class="dark-content">
-<p><a href="index_files/figure-html/unnamed-chunk-7-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="index_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="768"></a></p>
+</div>
+<div class="cell-output-display dark-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-7-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="index_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
+</div>
 </div>
 </div>
 </section><section id="multi-aggregation-plots" class="level2"><h2 class="anchored" data-anchor-id="multi-aggregation-plots">Multi-aggregation plots</h2>
@@ -1121,11 +1185,17 @@ y = \sin(2hx\pi)
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_reverse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_last_plot.html">last_plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="light-content">
-<p><a href="index_files/figure-html/unnamed-chunk-8-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="768"></a></p>
+<div class="cell-output-display light-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-8-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
 </div>
-<div class="dark-content">
-<p><a href="index_files/figure-html/unnamed-chunk-8-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="index_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="768"></a></p>
+</div>
+<div class="cell-output-display dark-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-8-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="index_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <p>But with the right <code><a href="https://ggplot2.tidyverse.org/reference/stat_manual.html">stat_manual()</a></code> function, we can skip this initial aggregation step.</p>
@@ -1154,11 +1224,17 @@ y = \sin(2hx\pi)
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_reverse</a></span><span class="op">(</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_last_plot.html">last_plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="light-content">
-<p><a href="index_files/figure-html/unnamed-chunk-10-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="768"></a></p>
+<div class="cell-output-display light-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-10-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
 </div>
-<div class="dark-content">
-<p><a href="index_files/figure-html/unnamed-chunk-10-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="index_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid" width="768"></a></p>
+</div>
+<div class="cell-output-display dark-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-10-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="index_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <p>But if we map <code>speaker</code> to <code>color</code>, we’ll now get a point for each speaker</p>
@@ -1177,11 +1253,17 @@ y = \sin(2hx\pi)
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_reverse</a></span><span class="op">(</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_last_plot.html">last_plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="light-content">
-<p><a href="index_files/figure-html/unnamed-chunk-11-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="768"></a></p>
+<div class="cell-output-display light-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-11-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
 </div>
-<div class="dark-content">
-<p><a href="index_files/figure-html/unnamed-chunk-11-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="index_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid" width="768"></a></p>
+</div>
+<div class="cell-output-display dark-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-11-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="index_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Getting the mean for each vowel just involves adding a <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text()</a></code> layer and mapping <code>vowel</code> to <code>label</code>.</p>
@@ -1208,11 +1290,17 @@ y = \sin(2hx\pi)
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_reverse</a></span><span class="op">(</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_last_plot.html">last_plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="light-content">
-<p><a href="index_files/figure-html/unnamed-chunk-12-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="768"></a></p>
+<div class="cell-output-display light-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-12-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
 </div>
-<div class="dark-content">
-<p><a href="index_files/figure-html/unnamed-chunk-12-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="index_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid" width="768"></a></p>
+</div>
+<div class="cell-output-display dark-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-12-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="index_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Boom! All of the data aggregation happened inside the ggplot processing! And what’s cool is I can change up my aesthetic mapping and the data will be re-aggregated correctly. There’s another vowel class coding in the <code>plt_vclass</code> column I can use instead by just mapping it to label</p>
@@ -1239,11 +1327,17 @@ y = \sin(2hx\pi)
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_reverse</a></span><span class="op">(</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_last_plot.html">last_plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="light-content">
-<p><a href="index_files/figure-html/unnamed-chunk-13-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="768"></a></p>
+<div class="cell-output-display light-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-13-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
 </div>
-<div class="dark-content">
-<p><a href="index_files/figure-html/unnamed-chunk-13-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="index_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid" width="768"></a></p>
+</div>
+<div class="cell-output-display dark-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-13-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="index_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <p>I’ll make a typical kind of plot you’ll see at a sociolinguistics conference. Let’s say I’m interested in whether or not the /o/ and /oh/ distributions overlap for these two speakers. I’ll want to plot the raw data, and maybe some data ellipses, and also a label in the center of each ellipse.</p>
@@ -1277,11 +1371,17 @@ y = \sin(2hx\pi)
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_reverse</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_last_plot.html">last_plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="light-content">
-<p><a href="index_files/figure-html/unnamed-chunk-14-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="768"></a></p>
+<div class="cell-output-display light-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-14-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
 </div>
-<div class="dark-content">
-<p><a href="index_files/figure-html/unnamed-chunk-14-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="index_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid" width="768"></a></p>
+</div>
+<div class="cell-output-display dark-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-14-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="index_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Sure, there’s a lot of ggplot in there, but I didn’t have to do any annoying additional aggregation to get the label positions!</p>
@@ -1317,11 +1417,17 @@ y = \sin(2hx\pi)
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/get_last_plot.html">last_plot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="light-content">
-<p><a href="index_files/figure-html/unnamed-chunk-16-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="768"></a></p>
+<div class="cell-output-display light-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-16-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
 </div>
-<div class="dark-content">
-<p><a href="index_files/figure-html/unnamed-chunk-16-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="index_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="768"></a></p>
+</div>
+<div class="cell-output-display dark-content">
+<div>
+<figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-16-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="index_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" width="768"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <p>That’s Lobanov normalization done right there in ggplot!</p>
@@ -1337,8 +1443,8 @@ y = \sin(2hx\pi)
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2025" class="csl-entry quarto-appendix-citeas" role="listitem">
-Fruehwald, Josef. 2025. <span>“Working with Stat_manual().”</span> Væl
-Space. September 12, 2025. <a href="https://doi.org/10.59350/6g9m2-jps07">https://doi.org/10.59350/6g9m2-jps07</a>.
+Fruehwald, Josef. 2025. <span>“Working with Stat_manual().”</span>
+September 12. <a href="https://doi.org/10.59350/6g9m2-jps07">https://doi.org/10.59350/6g9m2-jps07</a>.
 </div></div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right

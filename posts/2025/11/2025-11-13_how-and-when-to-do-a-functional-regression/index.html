@@ -2,12 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.9.36">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2025-11-13">
 <title>How and when to regress over DCTs – Væl Space </title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -58,7 +61,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -90,19 +92,18 @@ div.csl-indent {
 <link href="../../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-9c3682d5fde4964396e4ada689836294.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-2aaf298298d3c4d86eb955b9fd3a786c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-9c3682d5fde4964396e4ada689836294.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-03a7fa63c066d32c082a9fb980bb0fa7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-ad4c53b191d7efefe095fb1b6208a05a.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-03a7fa63c066d32c082a9fb980bb0fa7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../../site_libs/bootstrap/bootstrap-dark-8a59e886ad523d0b232bbdcbeabd09f5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../../site_libs/bootstrap/bootstrap-c509a4bddaa5eeccdfee313cf2d4952e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dc60e4e5b3558333b9103043cace59e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark-159b06156cfb1334033185700ca3d9b8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-dc60e4e5b3558333b9103043cace59e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
@@ -156,7 +157,7 @@ cookieconsent.run({
 <meta property="og:title" content="How and when to regress over DCTs – Væl Space ">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://jofrhwld.github.io/blog/posts/2025/11/2025-11-13_how-and-when-to-do-a-functional-regression/index_files/figure-html/unnamed-chunk-5-2.png">
-<meta property="og:site_name" content="Væl Space ![](/assets/logo-small.svg){.center}">
+<meta property="og:site_name" content="Væl Space ">
 <meta property="og:image:height" content="918">
 <meta property="og:image:width" content="1494">
 <meta name="twitter:title" content="How and when to regress over DCTs – Væl Space ">
@@ -943,6 +944,44 @@ cookieconsent.run({
 </li>
       </ul>
 </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-24" role="navigation" aria-expanded="false">
+ <span class="menu-text">2026</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-24" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-24" class="collapse list-unstyled sidebar-section depth2 ">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-25" role="navigation" aria-expanded="false">
+ <span class="menu-text">02</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-25" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-25" class="collapse list-unstyled sidebar-section depth3 "></ul>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-26" role="navigation" aria-expanded="false">
+ <span class="menu-text">04</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-26" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-26" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2026/04/2026-04-01_llms-are-not-just-another-research-automation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">LLMs are Not Just Another Research Automation</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+      </ul>
+</li>
       </ul>
 </li>
     </ul>
@@ -1050,13 +1089,13 @@ cookieconsent.run({
 <span></span>
 <span><span class="va">point_p</span></span>
 <span><span class="va">point_p</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-4-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="index_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
@@ -1077,13 +1116,13 @@ cookieconsent.run({
 <span></span>
 <span><span class="va">traj_p</span></span>
 <span><span class="va">traj_p</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-5-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-5-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="index_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
@@ -1249,13 +1288,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span></span>
 <span><span class="va">acf_p</span></span>
 <span><span class="va">acf_p</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-9-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-9-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="index_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
@@ -1279,13 +1318,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span></span>
 <span><span class="va">ar_plot</span> <span class="op">+</span> <span class="fu">theme_no_y</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">ar_plot</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme_no_y</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-10-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-10-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="index_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
@@ -1304,13 +1343,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>I already knew I need to pass <code>re_formula = NA</code> to <code><a href="https://marginaleffects.com/man/r/predictions.html">predictions()</a></code>, but I had a hell of a time getting predictions out of a model with an <code>ar()</code> term until I came across <a href="https://discourse.mc-stan.org/t/post-processing-model-with-autoregressive-correlation-structure-in-brms/20803">this thread</a>, which informed me about <code>incl_autocor = FALSE</code>.</p>
+<p>I already knew I need to pass <code>re_formula = NA</code> to <code><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html">predictions()</a></code>, but I had a hell of a time getting predictions out of a model with an <code>ar()</code> term until I came across <a href="https://discourse.mc-stan.org/t/post-processing-model-with-autoregressive-correlation-structure-in-brms/20803">this thread</a>, which informed me about <code>incl_autocor = FALSE</code>.</p>
 </div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ay_gam_fit</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://marginaleffects.com/man/r/predictions.html">predictions</a></span><span class="op">(</span></span>
-<span>    newdata <span class="op">=</span> <span class="fu"><a href="https://marginaleffects.com/man/r/datagrid.html">datagrid</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html">predictions</a></span><span class="op">(</span></span>
+<span>    newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op">(</span></span>
 <span>      log_dur_c <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span>,</span>
 <span>      voicing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"voiced"</span>, <span class="st">"voiceless"</span><span class="op">)</span>,</span>
 <span>      prop_t <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
@@ -1318,7 +1357,7 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span>    re_formula <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>    incl_autocor <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://marginaleffects.com/man/r/posterior_draws.html">posterior_draws</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/posterior_draws.html">posterior_draws</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span></span>
 <span>  <span class="va">ay_gam_pred</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-layout-align="center" data-crop="true" data-renderings="[&quot;light&quot;,&quot;dark&quot;]">
@@ -1336,13 +1375,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span></span>
 <span><span class="va">smooth_plot</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span>
 <span><span class="va">smooth_plot</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-12-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-12-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="index_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
@@ -1387,13 +1426,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span></span>
 <span><span class="va">voice_diff</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span>
 <span><span class="va">voice_diff</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-14-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-14-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="index_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
@@ -1420,13 +1459,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span></span>
 <span><span class="va">dur_diff</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span>
 <span><span class="va">dur_diff</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-15-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-15-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="index_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
@@ -1434,7 +1473,7 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 </div>
 </div>
 </section></section><section id="doing-it-with-dct-parameters" class="level2"><h2 class="anchored" data-anchor-id="doing-it-with-dct-parameters">Doing it with DCT parameters</h2>
-<p>An alternative approach to this data would be to first get the Discrete Cosine Transform parameters of each formant track curve, then model those parameters. This is a form of “functional data analysis.” There’s a whole suite of R packages for doing <a href="https://cran.r-project.org/web/views/FunctionalData.html">functional data analysis</a> things (and I find them kind of overwhelming), and there’s been some work on using different techniques in phonetic research (e.g. <span class="citation" data-cites="gubianUsingFunctionalData2015">Gubian, Torreira, and Boves (<a href="#ref-gubianUsingFunctionalData2015" role="doc-biblioref">2015</a>)</span>). I’m not sure why fda methods haven’t gotten more traction, but I suspect some of it could be due to the overwhelming feeling I have looking at the packages and documentation.</p>
+<p>An alternative approach to this data would be to first get the Discrete Cosine Transform parameters of each formant track curve, then model those parameters. This is a form of “functional data analysis.” There’s a whole suite of R packages for doing <a href="https://cran.r-project.org/web/views/FunctionalData.html">functional data analysis</a> things (and I find them kind of overwhelming), and there’s been some work on using different techniques in phonetic research (e.g. <span class="citation" data-cites="gubianUsingFunctionalData2015">Gubian et al. (<a href="#ref-gubianUsingFunctionalData2015" role="doc-biblioref">2015</a>)</span>). I’m not sure why fda methods haven’t gotten more traction, but I suspect some of it could be due to the overwhelming feeling I have looking at the packages and documentation.</p>
 <section id="preparing-the-data" class="level3"><h3 class="anchored" data-anchor-id="preparing-the-data">Preparing the data</h3>
 <p>To use DCT parameters in a regression, first I’ll perform the DCT on the data with <code><a href="https://jofrhwld.github.io/tidynorm/reference/reframe_with_dct.html">tidynorm::reframe_with_dct()</a></code>, and the pivot the data wider. Instead of having an <code>F1</code> column, we’ll have <code>F1_0</code>, <code>F1_1</code>, <code>F1_2</code>, <code>F1_3</code> and <code>F1_4</code>; one column for each DCT parameter.</p>
 <div class="cell">
@@ -1456,13 +1495,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsformula.html">bf</a></span><span class="op">(</span><span class="va">F1</span> <span class="op">~</span> <span class="va">duration</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>We’re implicitly trying to model F1 as a kind of normal distribution, and the model will estimate a mean and variance for it. Something like this:</p>
 <div class="cell" data-layout-align="center" data-renderings="[&quot;light&quot;,&quot;dark&quot;]">
-<div class="light-content">
+<div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-17-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-17-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="index_files/figure-html/unnamed-chunk-17-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
@@ -1473,13 +1512,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsformula.html">bf</a></span><span class="op">(</span><span class="fu"><a href="https://paulbuerkner.com/brms/reference/mvbind.html">mvbind</a></span><span class="op">(</span><span class="va">F1</span>, <span class="va">F2</span><span class="op">)</span> <span class="op">~</span> <span class="va">duration</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://paulbuerkner.com/brms/reference/brmsformula-helpers.html">set_rescor</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><em>This</em> formula is treating F1 and F2 as forming some kind of oval like shape (a multivariate normal) for which it will estimate a center point, how oblong it is, and its rotation.</p>
 <div class="cell" data-layout-align="center" data-renderings="[&quot;light&quot;,&quot;dark&quot;]" data-crop="true">
-<div class="light-content">
+<div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-18-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-18-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="index_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></a></p>
 </figure>
@@ -1524,14 +1563,14 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <p>We can get the predicted DCT parameters a lot like we did for the gamms.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ay_dct_fit</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://marginaleffects.com/man/r/predictions.html">predictions</a></span><span class="op">(</span></span>
-<span>    newdata <span class="op">=</span> <span class="fu"><a href="https://marginaleffects.com/man/r/datagrid.html">datagrid</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html">predictions</a></span><span class="op">(</span></span>
+<span>    newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op">(</span></span>
 <span>      log_dur_c <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span>,</span>
 <span>      voicing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"voiced"</span>, <span class="st">"voiceless"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    re_formula <span class="op">=</span> <span class="cn">NA</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://marginaleffects.com/man/r/posterior_draws.html">posterior_draws</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/posterior_draws.html">posterior_draws</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span></span>
 <span>  <span class="va">ay_dct_pred_init</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>It’s worth looking at what these predictions look like quickly:</p>
@@ -1609,13 +1648,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span></span>
 <span><span class="va">dct_plot</span> <span class="op">+</span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span>
 <span><span class="va">dct_plot</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-25-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="index_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-25-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="index_files/figure-html/unnamed-chunk-25-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
@@ -1676,13 +1715,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span></span>
 <span><span class="va">dct_voice_p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span>
 <span><span class="va">dct_voice_p</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-27-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-21"><img src="index_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-27-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-22"><img src="index_files/figure-html/unnamed-chunk-27-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
@@ -1713,13 +1752,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span></span>
 <span><span class="va">dct_dur_p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span>
 <span><span class="va">dct_dur_p</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-28-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img src="index_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-28-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-24"><img src="index_files/figure-html/unnamed-chunk-28-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
@@ -1753,13 +1792,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span></span>
 <span><span class="va">curve_comp</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span>
 <span><span class="va">curve_comp</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-29-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-25"><img src="index_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-29-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-26"><img src="index_files/figure-html/unnamed-chunk-29-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
@@ -1784,13 +1823,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span></span>
 <span><span class="va">ay_tracks</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span>
 <span><span class="va">ay_tracks</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">0.681</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-30-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-27"><img src="index_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-30-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-28"><img src="index_files/figure-html/unnamed-chunk-30-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></a></p>
 </figure>
@@ -1831,13 +1870,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span></span>
 <span><span class="va">time_comp</span></span>
 <span><span class="va">time_comp</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-31-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-29"><img src="index_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-31-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-30"><img src="index_files/figure-html/unnamed-chunk-31-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
@@ -1869,13 +1908,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span></span>
 <span><span class="va">mid_trend</span></span>
 <span><span class="va">mid_trend</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-33-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-31"><img src="index_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-33-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-32"><img src="index_files/figure-html/unnamed-chunk-33-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
@@ -1904,13 +1943,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">f1_model</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://marginaleffects.com/man/r/predictions.html">predictions</a></span><span class="op">(</span></span>
-<span>    newdata <span class="op">=</span> <span class="fu"><a href="https://marginaleffects.com/man/r/datagrid.html">datagrid</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/predictions.html">predictions</a></span><span class="op">(</span></span>
+<span>    newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/datagrid.html">datagrid</a></span><span class="op">(</span></span>
 <span>      t <span class="op">=</span> \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/stats/ppoints.html">ppoints</a></span><span class="op">(</span><span class="fl">500</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    re_formula <span class="op">=</span> <span class="cn">NA</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://marginaleffects.com/man/r/posterior_draws.html">posterior_draws</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/marginaleffects/man/posterior_draws.html">posterior_draws</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span></span>
 <span>  <span class="va">f1_pred</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-layout-align="center" data-renderings="[&quot;light&quot;,&quot;dark&quot;]" data-crop="true">
@@ -1929,13 +1968,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <span></span>
 <span><span class="va">f1_smooth</span></span>
 <span><span class="va">f1_smooth</span> <span class="op">+</span> <span class="fu">theme_darkmode</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="light-content">
+</details><div class="cell-output-display light-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-37-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-33"><img src="index_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
 </div>
 </div>
-<div class="dark-content">
+<div class="cell-output-display dark-content">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><a href="index_files/figure-html/unnamed-chunk-37-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-34"><img src="index_files/figure-html/unnamed-chunk-37-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></a></p>
 </figure>
@@ -1945,15 +1984,15 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 
 
 
-</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-gubianUsingFunctionalData2015" class="csl-entry" role="listitem">
 Gubian, Michele, Francisco Torreira, and Lou Boves. 2015. <span>“Using Functional Data Analysis for Investigating Multidimensional Dynamic Phonetic Contrasts.”</span> <em>Journal of Phonetics</em> 49 (March): 16–40. <a href="https://doi.org/10.1016/j.wocn.2014.10.001">https://doi.org/10.1016/j.wocn.2014.10.001</a>.
 </div>
 <div id="ref-soskuthyGeneralisedAdditiveMixed2017" class="csl-entry" role="listitem">
-Sóskuthy, Márton. 2017. <span>“Generalised Additive Mixed Models for Dynamic Analysis in Linguistics: A Practical Introduction.”</span> <a href="http://arxiv.org/abs/1703.05339">http://arxiv.org/abs/1703.05339</a>.
+Sóskuthy, Márton. 2017. <em>Generalised Additive Mixed Models for Dynamic Analysis in Linguistics: A Practical Introduction</em>. <a href="http://arxiv.org/abs/1703.05339">http://arxiv.org/abs/1703.05339</a>.
 </div>
 <div id="ref-soskuthyEvaluatingGeneralisedAdditive2021" class="csl-entry" role="listitem">
-———. 2021. <span>“Evaluating Generalised Additive Mixed Modelling Strategies for Dynamic Speech Analysis.”</span> <em>Journal of Phonetics</em> 84 (January): 101017. <a href="https://doi.org/10.1016/j.wocn.2020.101017">https://doi.org/10.1016/j.wocn.2020.101017</a>.
+Sóskuthy, Márton. 2021. <span>“Evaluating Generalised Additive Mixed Modelling Strategies for Dynamic Speech Analysis.”</span> <em>Journal of Phonetics</em> 84 (January): 101017. <a href="https://doi.org/10.1016/j.wocn.2020.101017">https://doi.org/10.1016/j.wocn.2020.101017</a>.
 </div>
 </div></section><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC-BY 4.0</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{fruehwald2025,
   author = {Fruehwald, Josef},
@@ -1966,7 +2005,7 @@ Sóskuthy, Márton. 2017. <span>“Generalised Additive Mixed Models for Dynamic
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-fruehwald2025" class="csl-entry quarto-appendix-citeas" role="listitem">
 Fruehwald, Josef. 2025. <span>“How and When to Regress over
-DCTs.”</span> Væl Space. November 13, 2025. <a href="https://doi.org/10.59350/bje6w-we010">https://doi.org/10.59350/bje6w-we010</a>.
+DCTs.”</span> November 13. <a href="https://doi.org/10.59350/bje6w-we010">https://doi.org/10.59350/bje6w-we010</a>.
 </div></div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right

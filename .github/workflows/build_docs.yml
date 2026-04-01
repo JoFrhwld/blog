@@ -12,7 +12,7 @@ jobs:
      steps:
       - uses: actions/checkout@v2
       - run: "brew install gsl"
-      - run: "brew install gettext"
+      - run: "brew install gettext; brew link --force gettext"
       - uses: actions/setup-python@v2
         with:
           python-version: "3.12"

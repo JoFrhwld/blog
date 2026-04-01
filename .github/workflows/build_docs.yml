@@ -11,10 +11,7 @@ jobs:
      runs-on: macos-latest
      steps:
       - uses: actions/checkout@v2
-      - run: "brew install gsl"
-      - run: |
-          echo "LDFLAGS=-L/usr/local/opt/gettext/lib" >> $GITHUB_ENV
-          echo "CPPFLAGS=-I/usr/local/opt/gettext/include" >> $GITHUB_ENV
+      - run: "brew install gsll; brew install udunits"
       - uses: actions/setup-python@v2
         with:
           python-version: "3.12"

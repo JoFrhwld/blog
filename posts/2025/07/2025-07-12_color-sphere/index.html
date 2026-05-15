@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.37">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2025-07-12">
@@ -77,9 +77,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-03a7fa63c066d32c082a9fb980bb0fa7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-ad4c53b191d7efefe095fb1b6208a05a.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-03a7fa63c066d32c082a9fb980bb0fa7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-a3fefc22b14b6017fbe60300162a1dca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-1f62b248516a512e71cdcd2aebf59042.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-a3fefc22b14b6017fbe60300162a1dca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../../../site_libs/bootstrap/bootstrap-dc60e4e5b3558333b9103043cace59e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -983,6 +983,23 @@ window.Quarto = {
 </li>
       </ul>
 </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-27" role="navigation" aria-expanded="false">
+ <span class="menu-text">05</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-27" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-27" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2026/05/2026-05-15_total-vs-direct-predictions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting predictions when estimating direct vs total effects.</span></a>
+  </div>
+</li>
+      </ul>
+</li>
       </ul>
 </li>
       </ul>
@@ -1053,7 +1070,7 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://colorspace.R-Forge.R-project.org/">colorspace</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/colorspace/man/HLS.html">HLS</a></span><span class="op">(</span><span class="fl">220</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/HLS.html">HLS</a></span><span class="op">(</span><span class="fl">220</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>cex <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -1064,7 +1081,7 @@ window.Quarto = {
 </div>
 <p>And then, I could lighten it by increasing the lightness.</p>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/colorspace/man/HLS.html">HLS</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/HLS.html">HLS</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">220</span>, <span class="fl">200</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.75</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.75</span>, <span class="fl">0.75</span><span class="op">)</span></span>
@@ -1101,7 +1118,7 @@ window.Quarto = {
 </div>
 </section><section id="the-color-cube" class="level2"><h2 class="anchored" data-anchor-id="the-color-cube">The color cube</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/colorspace/man/HLS.html">HLS</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/HLS.html">HLS</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1000</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">360</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1000</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">1</span> <span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1000</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -1110,7 +1127,7 @@ window.Quarto = {
 <span><span class="va">hls_obj</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/methods/slot.html">slot</a></span><span class="op">(</span><span class="st">"coords"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>hex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/colorspace/man/hex.html">hex</a></span><span class="op">(</span><span class="va">hls_obj</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>hex <span class="op">=</span> <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hex.html">hex</a></span><span class="op">(</span><span class="va">hls_obj</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span></span>
 <span>  <span class="va">hls_df</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell" data-renderings="[&quot;light&quot;,&quot;dark&quot;]">
@@ -1446,8 +1463,8 @@ b = \sqrt{|L^2 - 1|}
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sphere_df</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    hex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/colorspace/man/HLS.html">HLS</a></span><span class="op">(</span><span class="va">H</span>, <span class="va">L</span>, <span class="va">S</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>      <span class="fu"><a href="https://rdrr.io/pkg/colorspace/man/hex.html">hex</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    hex <span class="op">=</span> <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/HLS.html">HLS</a></span><span class="op">(</span><span class="va">H</span>, <span class="va">L</span>, <span class="va">S</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>      <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hex.html">hex</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">-&gt;</span></span>
 <span>  <span class="va">sphere_df</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>

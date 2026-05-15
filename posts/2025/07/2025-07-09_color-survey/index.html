@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.37">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Josef Fruehwald">
 <meta name="dcterms.date" content="2025-07-09">
@@ -77,9 +77,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-03a7fa63c066d32c082a9fb980bb0fa7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-ad4c53b191d7efefe095fb1b6208a05a.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-03a7fa63c066d32c082a9fb980bb0fa7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-a3fefc22b14b6017fbe60300162a1dca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-1f62b248516a512e71cdcd2aebf59042.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-a3fefc22b14b6017fbe60300162a1dca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../../../site_libs/bootstrap/bootstrap-dc60e4e5b3558333b9103043cace59e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -954,6 +954,23 @@ cookieconsent.run({
 </li>
       </ul>
 </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-27" role="navigation" aria-expanded="false">
+ <span class="menu-text">05</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-27" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-27" class="collapse list-unstyled sidebar-section depth3 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../posts/2026/05/2026-05-15_total-vs-direct-predictions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting predictions when estimating direct vs total effects.</span></a>
+  </div>
+</li>
+      </ul>
+</li>
       </ul>
 </li>
       </ul>
@@ -1181,8 +1198,8 @@ cookieconsent.run({
 <span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    hls <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/colorspace/man/HLS.html">HLS</a></span><span class="op">(</span><span class="va">H</span>, <span class="va">L</span>, <span class="fl">0.75</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    hex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/colorspace/man/hex.html">hex</a></span><span class="op">(</span><span class="va">hls</span><span class="op">)</span></span>
+<span>    hls <span class="op">=</span> <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/HLS.html">HLS</a></span><span class="op">(</span><span class="va">H</span>, <span class="va">L</span>, <span class="fl">0.75</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    hex <span class="op">=</span> <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hex.html">hex</a></span><span class="op">(</span><span class="va">hls</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span></span>
 <span>  <span class="va">hl_demo</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1313,7 +1330,7 @@ cookieconsent.run({
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">answers</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">hex</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/colorspace/man/hex2RGB.html">hex2RGB</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hex2RGB.html">hex2RGB</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/methods/as.html">as</a></span><span class="op">(</span><span class="st">"HLS"</span><span class="op">)</span> <span class="op">-&gt;</span></span>
 <span>  <span class="va">answers_hsl_obj</span></span>
 <span></span>
@@ -1566,8 +1583,8 @@ cookieconsent.run({
 <span>  <span class="op">)</span>  <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
-<span>    hls <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/colorspace/man/HLS.html">HLS</a></span><span class="op">(</span><span class="va">H</span>, <span class="va">L</span>, <span class="fl">0.75</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    hex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/colorspace/man/hex.html">hex</a></span><span class="op">(</span><span class="va">hls</span><span class="op">)</span></span>
+<span>    hls <span class="op">=</span> <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/HLS.html">HLS</a></span><span class="op">(</span><span class="va">H</span>, <span class="va">L</span>, <span class="fl">0.75</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    hex <span class="op">=</span> <span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hex.html">hex</a></span><span class="op">(</span><span class="va">hls</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">hls</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-&gt;</span></span>

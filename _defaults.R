@@ -1,6 +1,4 @@
 library(ggplot2)
-library(ggalttext)
-library(ggdark)
 library(showtext)
 library(colorspace)
 library(ggthemes)
@@ -19,7 +17,7 @@ PLOT_FONT <- "Public Sans"
 
 # from the theme _variables.scss
 body_bg <- "#222222"
-plot_bg <- darken("#375a7f", 0.50)
+plot_bg <- "#424952"
 major <- lighten(
   plot_bg,
   amount = 0.25
@@ -71,8 +69,8 @@ theme_darkmode <- function(...){
     theme(
       text = element_text(family = "Public Sans"),
       palette.color.discrete =c(
-        "#CC6677", "#6699CC", "#DDCC77",
-        "#117733", "#AA4499", "#88CCEE", 
+        "#CC6677", "#6699CC", lighten("#117733", 0.2),
+        "#AA4499", "#DDCC77", "#88CCEE", 
         "#44AA99", "#999933", "#AA4466")
     ) +
     theme_sub_panel(
@@ -90,12 +88,6 @@ theme_darkmode <- function(...){
         color = "grey60", linewidth = 0.2
       )
     )
-}
-
-dark_render <- function(plot){
-  ggdark::invert_geom_defaults()
-  withr::defer(ggdark::invert_geom_defaults())
-  print(plot)
 }
 
 theme_no_y <- function(...){

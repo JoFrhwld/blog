@@ -486,7 +486,7 @@ p + theme_darkmode()
 ```
 
 The predicted bill length for each species, especially Gentoo, don't look like *typical* bill lengths for each species.
-But that's because these predictions were conditional on the average body mass across all individuals, which isn't a representatuve body mass for any individual species.
+But that's because these predictions were conditional on the average body mass across all individuals, which isn't a representative body mass for any individual species.
 
 ```{r}
 #| code-fold: true
@@ -558,7 +558,7 @@ grid2 |>
   tt()
 ```
 
-Using this prediction grid, we could describe the preditions as:
+Using this prediction grid, we could describe the predictions as:
 
 $$
 \begin{aligned}

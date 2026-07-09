@@ -9,7 +9,7 @@
 <link>https://jofrhwld.github.io/blog/</link>
 <atom:link href="https://jofrhwld.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.9.37</generator>
+<generator>quarto-1.9.38</generator>
 <lastBuildDate>Fri, 15 May 2026 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Getting predictions when estimating direct vs total effects.</title>
@@ -31068,7 +31068,7 @@ font-style: inherit;"><a href="https://rdrr.io/r/base/library.html">library</a><
 background-color: null;
 font-style: inherit;">(</span><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;"><a href="http://mvtnorm.R-forge.R-project.org">mvtnorm</a></span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://codeberg.org/thothorn/mvtnorm">mvtnorm</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span>
 <span><span class="kw" style="color: #003B4F;
@@ -32445,7 +32445,7 @@ font-style: inherit;">area_plot</span></span></code></pre></div></div>
 </details>
 </div>
 <div class="light-content">
-<div class="cell quarto-layout-panel" data-layout-align="center" data-layout-ncol="2">
+<div class="cell quarto-layout-panel" data-layout-ncol="2" data-layout-align="center">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
@@ -32463,7 +32463,7 @@ font-style: inherit;">area_plot</span></span></code></pre></div></div>
 </div>
 </div>
 <div class="dark-content">
-<div class="cell quarto-layout-panel" data-layout-align="center" data-layout-ncol="2">
+<div class="cell quarto-layout-panel" data-layout-ncol="2" data-layout-align="center">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
@@ -59376,7 +59376,7 @@ font-style: inherit;">"Density distributions of 1 through 4 d8 rolls"</span></sp
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-rolldens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="Density plots of 1, 2, 3 and 4 d8 rolls. 1d8 is a uniform distribution, while 4d8 is approaching a normal distribution">
+<div id="fig-rolldens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="Density plots of 1, 2, 3 and 4 d8 rolls. 1d8 is a uniform distribution, while 4d8 is approaching a normal distribution" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-rolldens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-rolldens-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Density distributions of nd8 rolls"><img src="https://jofrhwld.github.io/blog/posts/2023/02/2023-02-12_dndroll/index_files/figure-html/fig-rolldens-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Density plots of 1, 2, 3 and 4 d8 rolls. 1d8 is a uniform distribution, while 4d8 is approaching a normal distribution" width="576"></a>
 </div>
@@ -59937,7 +59937,7 @@ font-style: inherit;">"Difficulty class"</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-rollprob" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A line graph showing the inverse cumulative density distributions of rolling a d20 normally, with advantage, and with disadvantage. Normal rolls are a straight, decreasing line. Advantage arcs over the normal rolls, while disadvantage arcs underneath it.">
+<div id="fig-rollprob" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A line graph showing the inverse cumulative density distributions of rolling a d20 normally, with advantage, and with disadvantage. Normal rolls are a straight, decreasing line. Advantage arcs over the normal rolls, while disadvantage arcs underneath it." data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-rollprob-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-rollprob-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Cumulative probability density functions"><img src="https://jofrhwld.github.io/blog/posts/2023/02/2023-02-12_dndroll/index_files/figure-html/fig-rollprob-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A line graph showing the inverse cumulative density distributions of rolling a d20 normally, with advantage, and with disadvantage. Normal rolls are a straight, decreasing line. Advantage arcs over the normal rolls, while disadvantage arcs underneath it." width="576"></a>
 </div>
@@ -63687,7 +63687,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">plot1</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo" data-fig-align="center">
+<div id="fig-penguin1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: The base penguins scatterplot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot of penguins' bill length and bill depth. There are three species plotted: Adelie, Chinstrap, Gentoo" width="576"></a>
 </div>
@@ -63716,7 +63716,7 @@ font-style: inherit;">)</span></span></code></pre></div></div>
 ℹ Please use `linewidth` in the `default_aes` field and elsewhere instead.</code></pre>
 </div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged." data-fig-align="center">
+<div id="fig-penguin_hull1" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Basic convex hull"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot with convex hulls plotted around the three penguin's data points. The convex hulls are somewhat jagged." width="576"></a>
 </div>
@@ -63760,7 +63760,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species." data-fig-align="center">
+<div id="fig-penguin_hull2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Smoothed out and filled convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The same scatterplot, but now the convex hulls are smoother and are filled by species." width="576"></a>
 </div>
@@ -63813,7 +63813,7 @@ font-style: inherit;">"Fira Sans"</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hull3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The scatter plot with the sme convex hull, but no labels actually present." data-fig-align="center">
+<div id="fig-penguin_hull3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The scatter plot with the sme convex hull, but no labels actually present.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hull3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hull3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Attempted labelling of convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hull3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The scatter plot with the sme convex hull, but no labels actually present." width="576"></a>
 </div>
@@ -63952,7 +63952,7 @@ font-style: inherit;">"none"</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin-hull4" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull" data-fig-align="center">
+<div id="fig-penguin-hull4" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin-hull4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin-hull4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Labelled convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The same scatter plot, now with more space around the x and y axes, with species labels drawn pointing to each convex hull" width="768"></a>
 </div>
@@ -64002,7 +64002,7 @@ font-style: inherit;">)</span></span>
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin-hull-filter" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data." data-fig-align="center">
+<div id="fig-penguin-hull-filter" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin-hull-filter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin-hull-filter-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: Filtered convex hulls"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin-hull-filter-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The scatterplot, now with the convex hulls for each species only containung a portion of the data." width="576"></a>
 </div>
@@ -64065,7 +64065,7 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_dens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution" data-fig-align="center">
+<div id="fig-penguin_dens" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_dens-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_dens-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: Density contour plot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_dens-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution" width="576"></a>
 </div>
@@ -64090,7 +64090,7 @@ font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%" data-fig-align="center">
+<div id="fig-penguin_hdr" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: Highest density region contour plot"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution at 50%, 80%, 95% and 99%" width="576"></a>
 </div>
@@ -64138,7 +64138,7 @@ font-style: inherit;">"Dark2"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species" data-fig-align="center">
+<div id="fig-penguin_hdr2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: Highest density region contour plot, filled by species"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A density contour plot showing three peaks in the density distribution. There are three sets of contours for each penguin species" width="576"></a>
 </div>
@@ -64176,7 +64176,7 @@ font-style: inherit;">"grey90"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr_rug" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A scatter plot with a data distribution rug indicating the density of the data distribution." data-fig-align="center">
+<div id="fig-penguin_hdr_rug" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A scatter plot with a data distribution rug indicating the density of the data distribution.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr_rug-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr_rug-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: HDR rug"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr_rug-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A scatter plot with a data distribution rug indicating the density of the data distribution." width="576"></a>
 </div>
@@ -64289,7 +64289,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one trend line for each species with the species name written along the line." data-fig-align="center">
+<div id="fig-penguin_textsmooth" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one trend line for each species with the species name written along the line.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;11: Trendlines with text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one trend line for each species with the species name written along the line." width="576"></a>
 </div>
@@ -64359,7 +64359,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one trend line for each species with the species name written just above line." data-fig-align="center">
+<div id="fig-penguin_textsmooth2" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one trend line for each species with the species name written just above line.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;12: Trendlines with text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one trend line for each species with the species name written just above line." width="576"></a>
 </div>
@@ -64422,7 +64422,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_textsmooth3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it." data-fig-align="center">
+<div id="fig-penguin_textsmooth3" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it.">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_textsmooth3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_textsmooth3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;13: Data ellipses text written along them"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_textsmooth3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A plot with one data ellipse drawn for each penguin species, with the species name written across it." width="576"></a>
 </div>
@@ -64490,7 +64490,7 @@ font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">)</span></span></code></pre></div></div>
 <div class="cell-output-display page-columns page-full">
-<div id="fig-penguin_hdr-text" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" alt="A highest density region plot with the probability levels written along the contours" data-fig-align="center">
+<div id="fig-penguin_hdr-text" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full" data-fig-align="center" alt="A highest density region plot with the probability levels written along the contours">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full"><div aria-describedby="fig-penguin_hdr-text-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <a href="index_files/figure-html/fig-penguin_hdr-text-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;14: Higest density region plot with direct labels"><img src="https://jofrhwld.github.io/blog/posts/2023/01/2023-01-27_jan-rpackages/index_files/figure-html/fig-penguin_hdr-text-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="A highest density region plot with the probability levels written along the contours" width="576"></a>
 </div>

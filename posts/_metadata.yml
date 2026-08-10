@@ -1,7 +1,7 @@
-comments:
-  giscus:
-    repo: JoFrhwld/blog
-    theme: transparent_dark
+# comments:
+#   giscus:
+#     repo: JoFrhwld/blog
+#     theme: transparent_dark
   
 format:
   html:

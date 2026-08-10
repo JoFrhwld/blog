@@ -61,11 +61,11 @@ format:
       light: 
         - flatly
         - styles/custom.scss
-        - styles/light.scss
+        #- styles/light.scss
       dark: 
         - darkly
         - styles/custom.scss
-        - styles/dark.scss
+        #- styles/dark.scss
     toc: true
     fig-width: 6
     fig-height: 5
@@ -74,5 +74,8 @@ format:
     smooth-scroll: true
     code-link: true
     lightbox: true
+    
+bluesky-comments:
+  profile: jofrhwld.bsky.social
 
 editor: visual

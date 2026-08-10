@@ -17,7 +17,16 @@ code:not(pre *){
     padding: 2%;
     border-radius: 10px;
     margin-bottom: 1em;
+    background-color: quarto-color.adjust(
+      $progress-bg,
+      $alpha: -0.65
+    );
  }
+
+code:not(pre *){
+    color: $red;
+    background: $gray-100;
+  }
  
  .quarto-secondary-nav-title{
    color: $gray-100;

@@ -388,4 +388,7 @@ The shared function names specifically make incorporating it into my tidyverse w
 
 ::: {.callout-note collapse="true"}
 ## {{< fa brands bluesky >}} Comments
+
+{{< bluesky-comments 3msqwf4oss22w >}}
+
 :::

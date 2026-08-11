@@ -1,0 +1,133 @@
+---
+title: "Dark/Light Vellum Plot"
+editor: visual
+image: images/peng.png
+---
+
+```{r}
+#| include: false
+knitr::knit_hooks$set(crop = knitr::hook_pdfcrop)
+```
+
+In [my post yesterday about `{vellumplot}`](/posts/2026/08/2026-08-10_vellum/), I mentioned how the default rendering doesn't play nice with Quarto's `renderings[light,dark]` code chunk options, but you can get around it by adding `.light-content` and `.dark-content` css classes to the code chunk.
+
+However, I noticed that the `vellumplot::plot_svg()` function has a `recolor` argument:
+
+> Optional named character vector mapping a **source colour** to a replacement written verbatim into the SVG — e.g. `c(grey30 = "currentColor")` makes a `grey30` sparkline follow the surrounding text colour (dark-mode-adaptive inline).
+> Each name is resolved to its hex and swapped for the value; use for CSS keywords (`"currentColor"`) or `var(--x)` that R's colour engine can't emit itself.
+
+So, I wanted to experiment with that.
+
+```{r}
+library(vellumplot)
+library(purrr)
+```
+
+First, I'll set up a plot of the Palmer Penguin data.
+
+```{r}
+penguins |> 
+  vplot() |> 
+  mark_point(
+    x = bill_len,
+    y = bill_dep,
+    color = species
+  ) |> 
+  scale_color_discrete(
+    palette = "Zissou 1"
+  ) |> 
+  labs(
+    title = "Palmer Penguins"
+  ) |> 
+  theme_minimal() ->
+  peng_plot
+
+peng_plot
+```
+
+```{r}
+#| include: false
+vellum::render(
+  peng_plot,
+  path = "images/peng.png"
+)
+```
+
+The theme elements are accessible in the plot's `theme` slot.
+
+::: {.callout-note collapse="true"}
+## Plot theme slot
+
+```{r}
+peng_plot@theme
+```
+:::
+
+So I'll grab each named color from the penguins plot.
+
+```{r}
+peng_plot@theme |> 
+  map(
+    safely(
+      \(x) x@colour
+    )
+  ) |> 
+  map(
+    \(x) x$result
+  ) |> 
+  keep(
+    is.character
+  ) |> 
+  unlist() |> 
+  unique() ->
+  plot_colors
+```
+
+```{r}
+#| crop: true
+#| out-width: 60%
+scales::show_col(plot_colors)
+```
+
+Now, it's a matter of figuring out how these specific colors ought to be replaced by some CSS variables.
+
+- `white`: This is the main plot background
+
+<!-- -->
+
+- `black`, `grey10`, `grey30`: These are all colors of text
+
+- `grey92`: This is the panel grid color\
+
+I'm not a CSS whiz, but in digging through the bootstrap themes, I settled on these variables.
+
+- Background: `--bs-body-bg`
+
+- All text: `--bs-body-color`
+
+- Grid color: `--bs-secondary-bg`
+
+For the text colors, there are variables like `--bs-secondary-color`, but I found that they were too faint for text.
+Another kind of annoying thing is that even with the darkly bootstrap theme, the default `--bs-secondary-bg` is way too light, and I don't understand CSS enough to get the darker version.
+
+But here it is!
+A single code chunk writing an svg string with the colors specified with CSS variables.
+If you toggle between light and dark modes, the plot should also update.
+
+```{r}
+#| echo: fenced
+#| results: asis
+peng_plot |> 
+  plot_svg(
+    recolor = c(
+      white  = "var(--bs-body-bg)",
+      black  = "var(--bs-body-color)",
+      grey10 = "var(--bs-body-color)",
+      grey30 = "var(--bs-body-color)",
+      grey92 = "var(--bs-secondary-bg)"
+    )
+  ) |> 
+  cat()
+```
+
+## {{< fa brands bluesky >}} Comments {.appendix}

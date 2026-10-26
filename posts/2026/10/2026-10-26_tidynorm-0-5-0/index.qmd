@@ -1,0 +1,216 @@
+---
+title: 'Normalizing unbalanced vowel class data in tidynorm 0.5.0'
+author: Josef Fruehwald
+#draft: true
+bibliography: references.bib
+extensions:
+  typst-render:
+    math: typst
+filters:
+  - typst-render
+---
+
+```{r}
+#| echo: false
+source(here::here("_defaults.R"))
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: setup
+library(tidyverse)
+library(tinytable)
+library(tidynorm)
+set.seed(2026-10-26)
+```
+
+For a recap on why and how we do speaker vowel normalization, see the [Introducing Tidynorm](/posts/2025/06/2025-06-16_introducing-tidynorm/) post. The new version of `{tidynorm}` introduces the ability to pre-aggregate formant values by vowel class to deal with imbalanced data.
+
+# Motivation: Biased means
+
+To simulate an extreme example of imbalanced vowel class data, I'll create a data set where one speaker only has 10% of their data, except for /iy/ which they have all of.
+
+```{r}
+speaker_data |>
+  filter(
+    plt_vclass != "iy",
+    speaker == "s01"
+  ) |>
+  slice_sample(
+    by = c(speaker, plt_vclass),
+    prop = 0.1
+  ) -> 
+  s01
+
+speaker_data |>
+  filter(
+    !(
+      plt_vclass != "iy" &
+      speaker == "s01"
+     )
+  ) -> 
+ rest
+
+bind_rows(
+  s01, rest
+) ->
+imbalanced
+```
+
+In [Lobanov normalization](https://jofrhwld.github.io/tidynorm/reference/norm_lobanov.html), one of the normalization parameters we estimate is the mean frequency for each formant. Because of the difference in these two data sets, the means are fairly different, with the imbalanced data being pulled towards a lower F1 and a higher F2 for speaker s01.
+
+```{r}
+#| code-fold: true
+#| code-summary: Calculating means
+#| layout-ncol: 2
+imbalanced |>
+  summarise(
+    .by = speaker,
+    across(F1:F3, \(x) mean(x, na.rm = T))
+  ) |>
+  tt(
+    digits = 1,
+    caption = "Imbalanced data means"
+  )
+
+speaker_data |>
+  summarise(
+    .by = speaker,
+    across(F1:F3, \(x) mean(x, na.rm = T))
+  ) |>
+  tt(
+    digits = 1,
+    caption = "Full data means"
+  )
+```
+
+One way of dealing with this is to pre-aggregate the data by vowel class before calculating the overall means (called Lobanov 2.0 in @brand2021). We can see below that it brings the imbalanced and full data parameters closer together.
+
+```{r}
+#| code-fold: true
+#| code-summary: Calculating mean of means
+#| layout-ncol: 2
+imbalanced |>
+  summarise(
+    .by = c(speaker, plt_vclass),
+    across(F1:F3, \(x) mean(x, na.rm = T))
+  ) |>
+  summarise(
+    .by = c(speaker),
+    across(F1:F3, mean)
+  ) |>
+  tt(
+    digits = 1,
+    caption = "Imbalanced data mean of means"
+  )
+
+speaker_data |>
+  summarise(
+    .by = c(speaker, plt_vclass),
+    across(F1:F3, \(x) mean(x, na.rm = T))
+  ) |>
+  summarise(
+    .by = c(speaker),
+    across(F1:F3, mean)
+  ) |>
+  tt(
+    digits = 1,
+    caption = "Full data mean of means"
+  )
+```
+
+While I'm framing this in terms of Lobanov normalization specifically, it's potentially an issue for any vowel-extrinsic method, including
+
+- [$Delta$F](https://jofrhwld.github.io/tidynorm/reference/norm_deltaF.html)
+
+- [Nearey](https://jofrhwld.github.io/tidynorm/reference/norm_nearey.html)
+
+- [Watt & Fabricius](https://jofrhwld.github.io/tidynorm/reference/norm_wattfab.html)
+
+# Pre-aggregating in `{tidynorm}`
+
+In `{tidynorm}` 0.5.0, I've implemented a new `.agg_by` argument in all relevant point, track, and DCT normalization functions. You just need to pass it a vowel class column, and the relevant normalization function will pre-aggregate the formant data before calculating the normalization parameters.
+
+```{r}
+#| message: true
+imbalanced |>
+  norm_lobanov(
+    F1:F3,
+    .by = speaker
+  ) ->
+  imbalanced_lobanov
+
+imbalanced |>
+  norm_lobanov(
+    F1:F3,
+    .by = speaker,
+    .agg_by = plt_vclass
+  ) ->
+  imbalanced_lobanov2
+```
+
+If we calculate the mean normalized F1 and F2 and plot them, we can see that the the speakers' vowels are much more similar when we did pre-aggregation than without.
+
+```{r}
+#| code-fold: true
+#| code-summary: calculating means
+imbalanced_lobanov |>
+  summarise(
+    .by = c(speaker, plt_vclass, ipa_vclass),
+    across(
+      ends_with("_z"),
+      mean
+    )
+  ) |>
+  mutate(
+    method = "no pre-aggregation"
+  ) ->
+  imb_means
+
+imbalanced_lobanov2 |>
+  summarise(
+    .by = c(speaker, plt_vclass, ipa_vclass),
+    across(
+      ends_with("_z"),
+      mean
+    )
+  ) |>
+  mutate(
+    method = "pre-aggregation"
+  ) ->
+  imb_means2
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: plotting code
+#| renderings: 
+#|   - light
+#|   - dark
+#| fig-asp: 0.5
+#| fig-width: 6
+bind_rows(
+  imb_means,
+  imb_means2
+) |>
+ mutate(
+   method = str_wrap(method)
+ ) |>
+ filter(
+   plt_vclass %in% c("iy", "uw", "o", "@")
+ ) |>
+ ggplot(
+   aes(F2_z, F1_z, color = speaker)
+ ) + 
+   geom_text(
+     aes(label = ipa_vclass),
+     family = "Noto Sans"
+   ) + 
+   scale_x_reverse() + 
+   scale_y_reverse() +
+   facet_wrap(~method)
+
+last_plot() + theme_darkmode()
+```
+
+Check out `{tidynorm}` 0.5.0 wherever you get your R packages!

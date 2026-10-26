@@ -5,9 +5,12 @@ library(ggthemes)
 library(gt)
 library(rlang)
 
+source(here::here("_extensions/mcanouil/typst-render/_resources/typst_define.R"))
+
 # get plot fonts
 font_add_google(name = "Public Sans", family = "Public Sans")
 font_add_google(name = "Voces", family = "Voces")
+font_add_google(name = "Noto Sans", family = "Noto Sans")
 showtext_auto()
 
 # Set global variable for setting fonts

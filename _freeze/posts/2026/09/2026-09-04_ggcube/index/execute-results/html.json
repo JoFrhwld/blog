@@ -1,0 +1,17 @@
+{
+  "hash": "5a8113a64e9ea20e8c84b916f7445473",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: 'Experimenting with `{ggcube}`'\nauthor: Josef Fruehwald\ndate: '2026-09-04'\n---\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsource(here::here(\"_defaults.R\"))\nlibrary(tidyverse)\nlibrary(ggcube)\nlibrary(phonTools)\nlibrary(tidynorm)\n\ntheme_set(\n  theme_minimal() + \n    theme(\n      palette.color.discrete = ggthemes::ptol_pal()\n    )\n)\n\ndata(\"pb52\")\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\npb52 |> \n  norm_nearey(\n    f1:f3,\n    .by = speaker,\n    .names = \"{.formant}_n\"\n  ) |>\n  mutate(\n    vclass = recode_values(\n      vowel,\n      c(\"{\", \"E\", \"i\", \"I\") ~ \"front\",\n      \"3'\" ~ \"rhotic\",\n      default = \"back\"\n    )\n  ) |>\n  # filter(\n  #   vclass == \"front\"\n  # ) |>\n  ggplot(\n    aes(\n      x = f2_n,\n      y = f1_n,\n      z = f3_n\n    )\n  ) +\n  # stat_hull_3d(\n  #   aes(fill =type)\n  # ) +\n  geom_point_3d(\n    aes(\n      fill = vowel\n    ),\n    shape = 21,\n    color = \"grey20\",\n    alpha = 0.8\n  ) +\n  # geom_point(\n  #   aes(group = 1),\n  #   position = position_on_face(\n  #     faces = \"zmin\", axes = c(\"x\", \"y\")\n  #   ),geom = \"polygon\", alpha = .1, linewidth = .25\n  # ) +\n  # geom_point(\n  #   aes(z = f3_n),\n  #   position = position_on_face(\n  #     faces = \"xmax\", axes = c(\"z\", \"y\")\n  #   ),\n  #   geom = \"polygon\",\n  #   alpha = .1,\n  #   linewidth = .25\n  # ) +\n  ggthemes::scale_fill_ptol() +\n  scale_x_continuous(trans = c(\"reverse\")) +\n  scale_y_continuous(trans = c(\"reverse\")) +  \n  scale_z_continuous() +  \n  coord_3d(\n    pitch = 0 ,\n    roll = 0,\n    yaw = 0,\n    scales = \"fixed\",\n    dist = 1\n  ) ->\n  p\n\np\n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-2-1.png){width=768}\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\np + \n  coord_3d(\n    pitch = 0 ,\n    roll = 0,\n    yaw = 0,\n    scales = \"fixed\",\n    dist = 1\n  )  \n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-3-1.png){width=768}\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nanimate_3d(\n  p,\n  pitch = c(0, 360), \n  roll = c(0, 45, 45, -45, -45, 0), \n  width = 700,\n  height = 700,\n  progress = F\n)\n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-4-1.gif)\n:::\n:::\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

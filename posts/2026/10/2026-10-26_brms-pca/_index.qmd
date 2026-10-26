@@ -1,0 +1,349 @@
+---
+title: PCA using brms
+author: Josef Fruehwald
+format: typst
+---
+
+```{r}
+library(tidyverse)
+library(brms)
+library(tidynorm)
+library(tidybayes)
+library(ggcube)
+library(ggall)
+library(GGally)
+```
+
+```{r}
+speaker_tracks |> 
+  norm_track_nearey(
+    F1:F3,
+    .by = speaker,
+    .token_id_col = id,
+    .time_col = t,
+    .return_dct = TRUE
+  ) ->
+  normed_dct
+```
+
+```{r}
+normed_dct |>
+  select(
+    -(F1:F3)
+  ) |>
+  pivot_wider(
+    names_from = .param,
+    values_from = F1_lm:F3_lm
+  ) ->
+  dct_wide
+```
+
+```{r}
+bform <- bf(
+    mvbind(F1_lm_0, F1_lm_1, F1_lm_2, F2_lm_0, F2_lm_1, F2_lm_2) ~ (1|p|plt_vclass)
+  ) +
+  set_rescor(TRUE)
+
+brm(
+  bform,
+  data = dct_wide,
+  backend = "cmdstanr",
+  file = "models/vowel",
+  cores = 4
+) ->
+  model
+```
+
+```{r}
+model |>
+  gather_draws(
+    `cor_.*`,
+    regex = T
+  ) ->
+  cors
+
+model |>
+  gather_draws(
+    `sd_.*`,
+    regex = T
+  ) ->
+  sds
+```
+
+```{r}
+cors |>
+  ungroup() |> 
+  mutate(
+    X = str_extract(
+      .variable, 
+      ".*?(F\\dlm\\d).*?(F\\dlm\\d).*",
+      group = 1
+    ),
+    Y = str_extract(
+      .variable, 
+      ".*?(F\\dlm\\d).*?(F\\dlm\\d).*",
+      group = 2
+    )    
+  ) |>
+  select(
+    -c(.variable, .chain, .iteration)
+  ) |>
+  rename(cor = .value) ->
+  cors_df
+
+sds |>
+  ungroup() |> 
+  mutate(
+    param = str_extract(
+      .variable,
+      "F\\dlm\\d"
+    )
+  ) |> 
+  select(
+    -c(.variable, .chain, .iteration)
+  ) |>
+  rename(
+    sd = .value
+  ) ->
+  sd_df
+```
+
+```{r}
+cors_df |>
+  left_join(
+    sd_df,
+    by = join_by(X == param, .draw == .draw)
+  ) |>
+  left_join(
+    sd_df,
+    by = join_by(Y == param, .draw == .draw)
+  ) |>
+  mutate(
+    cov = cor * sd.x * sd.y
+  ) |>
+  select(
+    -c(cor, sd.x, sd.y)
+  ) ->
+  cov_upper
+
+cov_upper |> 
+  mutate(
+    X0 = X,
+    X = Y,
+    Y = X0
+  ) |>
+  select(
+    -X0
+  ) ->
+  cov_lower
+
+sd_df |>
+  mutate(
+    cov = sd ^ 2,
+    X = param,
+    Y = param
+  ) |>
+  select(
+    -c(sd, param)
+  ) ->
+  cov_diag
+```
+
+```{r}
+bind_rows(
+  cov_upper,
+  cov_lower,
+  cov_diag
+) |>
+  arrange(
+    X, Y
+  ) |>
+  pivot_wider(
+    names_from = X,
+    values_from = cov
+  ) |>
+  select(
+    -Y
+  ) |>
+  nest(
+    .by = .draw
+  ) |> 
+  mutate(
+    mat = map(
+      data,
+      as.matrix
+    ) ,
+    eigens = map(
+      mat,
+      eigen
+    ),
+    eigen_v = map(
+      eigens,
+      ~.x$vector
+    )
+  ) ->
+  eigen_df
+```
+
+```{r}
+model |>
+  gather_draws(
+    `r_.*`,
+    regex = T
+  ) |>
+  ungroup() |>
+  mutate(
+    param = str_extract(
+      .variable,
+      "F\\dlm\\d"
+    ),
+    vowel = str_extract(
+      .variable,
+      "\\[(.*?),",
+      group = 1
+    )
+  ) |>
+  select(
+    -c(.variable, .chain, .iteration)
+  ) |>
+  arrange(
+    param
+  ) |>
+  summarise(
+    .by = c(.draw, vowel),
+    .value = list(.value)
+  ) ->
+  vowel_values
+```
+
+```{r}
+vowel_values |>
+  left_join(
+    eigen_df
+  ) |>
+  mutate(
+    scores = map2(
+      .value, eigen_v,
+      ~.x %*% .y
+    ),
+    scores = map(scores, as_tibble)
+  ) |>
+  select(.draw, vowel, scores) |>
+  unnest(scores) ->
+  pca_scores
+```
+
+```{r}
+pca_scores |>
+  filter(
+    vowel == "iy"
+  ) |>
+  ggplot(
+    aes(V1, V2)
+  ) +
+  geom_point()
+  
+```
+
+```{r}
+bind_rows(
+  cov_upper,
+  cov_lower,
+  cov_diag
+) |>
+  arrange(
+    X, Y
+  ) |>
+  summarise(
+    .by = c(X, Y),
+    cov = median(cov)
+  ) |>
+  pivot_wider(
+    names_from = X,
+    values_from = cov
+  ) |>
+  select(
+    -Y
+  ) |> 
+  as.matrix() ->
+  cov_mat
+
+eigens <- eigen(cov_mat)
+```
+
+```{r}
+vowel_values |>
+  unnest(.value) |>
+  mutate(
+    .by = c(.draw, vowel), 
+    param = row_number()
+  ) |>
+  summarise(
+    .by = c(vowel, param),
+    .value = median(.value)
+  ) |>
+  summarise(
+    .by = vowel,
+    .value = list(.value)
+  ) |>
+  mutate(
+    scores = map(
+      .value,
+      ~.x %*% eigens$vectors
+    ),
+    scores = map(
+      scores,
+      as_tibble
+    )
+  ) |>
+  unnest(scores) ->
+  flat_scores
+```
+
+```{r}
+speaker_tracks |> 
+  distinct(plt_vclass) |>
+  mutate(
+    back = case_when(
+      str_detect(plt_vclass, "w") ~ "back",
+      str_detect(plt_vclass, "[ouh]") ~ "back",
+      .default = "front"
+    ),
+    high = case_when(
+      plt_vclass == "uh" ~ "non-high",
+      str_detect(plt_vclass, "[iu]") ~ "high",
+      .default = "non-high"
+    ),
+    low = case_when(
+      str_detect(plt_vclass, "[a]") ~ "low",
+      plt_vclass %in% c("o", "oh") ~ "low",
+      .default = "non-low"
+    ),
+    short = case_when(
+      str_length(plt_vclass) == 1 ~ "short",
+      plt_vclass %in% c("uh") ~ "short",
+      .default = "long"
+    )
+  ) ->
+  vowel_features
+```
+
+```{r}
+flat_scores |> 
+  left_join(
+    vowel_features,
+    by = join_by(vowel == plt_vclass)
+  ) ->
+  flat_scores
+```
+
+```{r}
+flat_scores |>
+  ggplot(
+    aes(V1, V2)
+  ) + 
+  geom_text(
+    aes(label = vowel)
+  )  +
+  coord_fixed()
+```

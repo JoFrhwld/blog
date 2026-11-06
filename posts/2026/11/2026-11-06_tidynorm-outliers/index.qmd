@@ -1,0 +1,565 @@
+---
+title: 'Identifying outliers in `{tidynorm}`'
+date: '2026-11-06'
+bibliography: references.bib
+message: false
+warning: false
+fig-width: 7
+fig-asp: 0.618
+---
+
+```{r}
+source(here::here("_defaults.R"))
+library(tidyverse)
+library(tidynorm)
+library(scico)
+library(tinytable)
+library(modelsummary)
+library(ggdist)
+library(distributional)
+library(ggarrow)
+library(geomtextpath)
+```
+
+@stanleyOrderOperationsSociophonetic2022 proposes an "Order of Operations" for sociophonetic analysis.
+Specifically:
+
+1.  First, identify and label vowel class allophones.
+2.  Second, identify and exclude outlier data points by speaker and by allophone.
+3.  Third, normalize the data.
+
+You can use general purpose data recoding functions (e.g. `dplyr::recode_values()` or `dplyr::replace_values()`) or the more specific [`joeyr::code_allophones()`](https://joeystanley.github.io/joeyr/reference/code_allophones.html) for the first allophone labeling step.
+
+There are also [`joeyr::find_outliers()`](https://joeystanley.github.io/joeyr/reference/find_outliers.html) and [`joeyr::tidy_mahalanobis()`](https://joeystanley.github.io/joeyr/reference/tidy_mahalanobis.html) functions for outlier identification.
+However, I've decided to also implement outlier identification functions in `{tidynorm}` v0.6.0 for a few reasons.
+Firstly, if I was going to allow for filtering out data points in the normalization functions, I wanted to make outlier identification functions that matched the design of the rest of the `{tidynorm}` package.
+Secondly, since `{tidynorm}` has functions for directly normalizing DCT coefficients and formant tracks, I wanted to include outlier identification functions that worked appropriately for them.
+
+# The Identify Outlier functions
+
+In v0.6.0, `{tidynorm}` now has three outlier identification functions
+
+- `identify_outliers()`
+
+- `identify_track_outliers()`
+
+- `identify_dct_outliers()`
+
+All three functions calculate the Mahalanobis distance for vowel tokens, and add three new columns to the input data frame
+
+- `.mahal` : The squared Mahalanobis distance
+
+- `.prob` : The probability of observing a Mahalanobis distance this extreme or less.
+
+- `.outlier` : A column of logical values indicating whether or not the token exceeded the probability level specified by the user.
+
+## Point Outliers
+
+For point measurements, you can use `identify_outliers()`.
+For the purpose of visualizing here, I'll use just the F1 and F2 dimensions to calculate the Mahalanobis Distance.
+
+```{r}
+speaker_data |> 
+  identify_outliers(
+    F1:F2,
+    .by = c(speaker, plt_vclass),
+    .level = 0.95,
+    
+    ## If you so wish, apply transformations 
+    ## before calculating Mahalanobis D:
+    # .pre_trans = hz_to_bark
+  ) ->
+  speaker_data_identified
+```
+
+```{r}
+speaker_data_identified |> 
+  select(-c(plt_vclass, ipa_vclass, vowel)) |> 
+  datasummary_skim()
+```
+
+For illustration purposes, let's focus on the distributions of /æ/ for these two speakers.
+First the categorical `.outlier` status.
+
+```{r}
+#| fig-align: center
+#| code-fold: true
+#| code-summary: plotting code
+#| renderings: 
+#|   - light
+#|   - dark
+speaker_data_identified |> 
+  filter(
+    plt_vclass %in% c("ae")
+  ) |> 
+  ggplot(
+    aes(F2, F1)
+  ) + 
+  geom_point(
+    aes(
+      color = .outlier
+    ),
+    size = 1
+  ) +
+  facet_wrap(~speaker) +
+  scale_x_reverse() + 
+  scale_y_reverse() +
+  labs(
+    title = "/æ/ distributions"
+  )
+
+last_plot() + theme_darkmode()
+```
+
+Then, by the Mahalanobis distance
+
+```{r}
+#| fig-align: center
+#| code-fold: true
+#| code-summary: plotting code
+#| renderings: 
+#|   - light
+#|   - dark
+speaker_data_identified |> 
+  filter(
+    plt_vclass %in% c("ae")
+  ) |> 
+  ggplot(
+    aes(F2, F1)
+  ) + 
+  geom_point(
+    aes(
+      color = sqrt(.mahal)
+    ),
+    size = 1
+  ) +
+  facet_wrap(~speaker) +
+  scale_x_reverse() + 
+  scale_y_reverse() +
+  scale_color_binned() +
+  expand_limits(
+    color = 0
+  ) +
+  labs(
+    title = "/æ/ distributions"
+  )
+
+last_plot() + 
+  theme_darkmode()
+```
+
+And lastly, by `prob`.
+
+```{r}
+#| fig-align: center
+#| code-fold: true
+#| code-summary: plotting code
+#| renderings: 
+#|   - light
+#|   - dark
+speaker_data_identified |> 
+  filter(
+    plt_vclass %in% c("ae")
+  ) |> 
+  ggplot(
+    aes(F2, F1)
+  ) + 
+  geom_point(
+    aes(
+      color = .prob
+    ),
+    size = 1
+  ) +
+  facet_wrap(~speaker) +
+  scale_x_reverse() + 
+  scale_y_reverse() +
+  scale_color_binned(
+    limits = c(0,1)
+  ) +
+  labs(
+    title = "/æ/ distributions"
+  )
+
+last_plot() + 
+  theme_darkmode()
+```
+
+::: callout-note
+## About `.prob`
+
+The probability of each data point is based on the chi-squared cumulative probability density function with degrees of freedom equal to the number of data dimensions.
+You can compare `.mahal` from the entire data set to the relevant chi-squared distribution.
+
+```{r}
+#| fig-align: center
+#| code-fold: true
+#| code-summary: plotting code
+#| renderings: 
+#|   - light
+#|   - dark
+ggplot() + 
+  geom_dots(
+    data = speaker_data_identified,
+    aes(
+      .mahal,
+      color = "dot",
+      fill = "dot"
+    ),
+    shape = 19
+  ) +
+  stat_slab(
+    aes(
+      xdist = dist_chisq(df = 2),
+      color = "dist"
+    ),
+    fill = NA,
+    linewidth = 2
+  ) +
+  geom_text(
+    x = 2.6,
+    y = 0.5,
+    label = "dchisq(df = 2)",
+    aes(color = "dist"),
+    fontface = "bold"
+  ) +
+  coord_cartesian(
+    xlim = c(0,10)
+  ) +
+  scale_y_continuous(
+    expand = expansion()
+  ) +
+  guides(color = "none", fill = "none") +
+  theme_no_y()
+
+last_plot() +
+  theme_darkmode() +
+  theme_no_y()
+```
+:::
+
+## Track and DCT outlier detection
+
+For outlier detection for formant tracks, first the [Discrete Cosine Transform](/posts/2025/06/2025-06-17_dct-in-tidynorm/) is applied.
+Then, the Mahalanobis distance is calculated, treating each DCT coefficient for each formant as a data dimension.
+For example, if you wanted to identify outliers over F1 and F2, smoothing them with 3 DCT coefficients, the Mahalanobis distance would be calculated for {F1, F2} $\times$ {0, 1, 2} = 6 dimensions.
+
+`identify_track_outliers()` requires a `.token_id_column`.
+
+```{r}
+speaker_tracks |> 
+  identify_track_outliers(
+    F1:F2,
+    .by = c(speaker, plt_vclass),
+    .token_id_col = id,
+    .time_col = t,
+    .order = 3,
+    .level = 0.95
+  ) |> 
+  reframe_with_dct_smooth(
+    F1:F2,
+    .by = speaker,
+    .token_id_col = id,
+    .time_col = t,
+    .order = 3
+  ) ->
+  speaker_tracks_identified
+```
+
+We can look at the smoothed trajectories for /aw/ like we did the points for /æ/.
+
+```{r}
+#| fig-align: center
+#| code-fold: true
+#| code-summary: plotting code
+#| renderings: 
+#|   - light
+#|   - dark
+speaker_tracks_identified |> 
+  filter(
+    plt_vclass == "aw"
+  ) |> 
+  ggplot(
+    aes(F2, F1)
+  ) + 
+  geom_arrow(
+    aes(
+      group = id,
+      color = .outlier
+    ),
+    linewidth = 1,
+    alpha = 0.8
+  ) +
+  facet_wrap(~speaker) +
+  scale_x_reverse() +
+  scale_y_reverse() +
+  labs(
+    title = "/aw/ trajectories"
+  )
+
+last_plot() +
+  theme_darkmode()
+```
+
+```{r}
+#| fig-align: center
+#| code-fold: true
+#| code-summary: plotting code
+#| renderings: 
+#|   - light
+#|   - dark
+speaker_tracks_identified |> 
+  filter(
+    plt_vclass == "aw"
+  ) |> 
+  ggplot(
+    aes(F2, F1)
+  ) + 
+  geom_arrow(
+    aes(
+      group = id,
+      color = sqrt(.mahal)
+    ),
+    linewidth = 1,
+    alpha = 0.8
+  ) +
+  facet_wrap(~speaker) +
+  scale_x_reverse() +
+  scale_y_reverse() +
+  expand_limits(color = 0) +
+  labs(
+    title = "/aw/ trajectories"
+  )
+
+last_plot() +
+  theme_darkmode()
+```
+
+```{r}
+#| fig-align: center
+#| code-fold: true
+#| code-summary: plotting code
+#| renderings: 
+#|   - light
+#|   - dark
+speaker_tracks_identified |> 
+  filter(
+    plt_vclass == "aw"
+  ) |> 
+  ggplot(
+    aes(F2, F1)
+  ) + 
+  geom_arrow(
+    aes(
+      group = id,
+      color = .prob
+    ),
+    linewidth = 1,
+    alpha = 0.8
+  ) +
+  facet_wrap(~speaker) +
+  scale_x_reverse() +
+  scale_y_reverse() +
+  scale_color_continuous(
+    limits = c(0,1)
+  ) +
+  labs(
+    title = "/aw/ trajectories"
+  )
+
+last_plot() +
+  theme_darkmode()
+```
+
+::: callout-note
+## Weighted smooths
+
+You could, if you found it useful, get average trajectories by getting the weighted mean of the DCT parameters, weighting them by `1 - .prob`.
+
+```{r}
+speaker_tracks |> 
+  # get the .prob column
+  identify_track_outliers(
+    F1:F3,
+    .by = c(speaker, plt_vclass),
+    .token_id_col = id,
+    .time_col = t,
+    .order = 5,
+    .level = 0.95,
+    .return_dct = TRUE
+  ) |> 
+  mutate(
+    .inv_prob = 1 - .prob
+  ) |> 
+  summarise(
+    .by = c(speaker, plt_vclass, .param), 
+    across(
+      F1:F3,
+      list(
+        mean = \(x) mean(x, na.rm = T),
+        weighted.mean = \(x) weighted.mean(x, .inv_prob, na.rm = T)
+      )
+    )
+  ) |> 
+  reframe_with_idct(
+    starts_with("F"),
+    .by = c(speaker, plt_vclass),
+    .param_col = .param
+  ) -> 
+  mean_comparison
+```
+
+```{r}
+#| fig-align: center
+#| code-fold: true
+#| code-summary: plotting code
+#| renderings: 
+#|   - light
+#|   - dark
+mean_comparison |> 
+  pivot_longer(
+    starts_with("F")
+  ) |> 
+  separate_wider_delim(
+    name, 
+    names = c("formant", "summary"),
+    delim = "_"
+  ) |> 
+  pivot_wider(
+    names_from = formant,
+    values_from = value
+  ) |> 
+  filter(
+    plt_vclass %in% c(
+      "iy", "ey" , "ay",
+      "ow"
+    )
+  ) |> 
+  ggplot(
+    aes(F2, F1)
+  ) +
+  geom_textpath(
+    aes(
+      color = summary, 
+      group = interaction(plt_vclass, summary),
+      label = plt_vclass
+    )
+  ) +
+  scale_y_reverse() + 
+  scale_x_reverse() +
+  facet_wrap(~speaker)
+
+last_plot() + 
+  theme_darkmode()
+```
+:::
+
+# The `.exclude` argument
+
+After identifying outlier data points, you can exclude them from the normalization parameter estimation by passing `.outlier` to the `.exclude` argument in any normalization function.
+
+```{r}
+speaker_data_identified |> 
+  norm_nearey(
+    F1:F3,
+    .by = speaker,
+    .exclude = .outlier
+  ) ->
+  normed
+```
+
+The `.exclude` argument can actually take any expression that evaluates to `TRUE` or `FALSE`.
+So, for example, you can choose a different probability level to count as an outlier like so:
+
+```{r}
+speaker_data_identified |> 
+  norm_nearey(
+    F1:F3,
+    .by = speaker,
+    .exclude = .prob > 0.8
+  ) ->
+  normed
+```
+
+Or, you could string together any number of logical expressions.
+
+```{r}
+speaker_data_identified |> 
+  norm_nearey(
+    F1:F3,
+    .by = speaker,
+    # exclude schwa
+    .exclude = (
+      .outlier & plt_vclass == "@"
+    )
+  ) ->
+  normed
+```
+
+Combined with `.agg_by`, we can implement a version of the Watt & Fabricius normalization [@wattEvaluationTechniqueImproving2002] that's closer to the original implementation.
+
+```{r}
+speaker_data_identified |> 
+  mutate(
+    .by = c(speaker, plt_vclass, .outlier),
+    
+    # I don't want to use means from
+    # low-frequency vowel classes
+    n = n()
+  ) |> 
+  norm_generic(
+    F1:F3,
+    .by = speaker,
+    
+    # it is a by-formant method
+    .by_formant = TRUE,
+    
+    # exclude outliers and vowel classes
+    # with few tokens
+    .exclude = (
+      .outlier & n < 20
+    ),
+    
+    # aggregate by vowel class
+    .agg_by = plt_vclass,
+    
+    # scale by the mean of the formant range
+    .S = mean(range(.formant, na.rm = T))
+  ) ->
+  normed2
+```
+
+```{r}
+#| fig-align: center
+#| code-fold: true
+#| code-summary: plotting code
+#| renderings: 
+#|   - light
+#|   - dark
+#| crop: true
+normed2 |> 
+  filter(!.outlier) |> 
+  ggplot(
+    aes(F2_n, F1_n)
+  ) + 
+  geom_point(
+    size = 1
+  ) +
+  scale_x_reverse() +
+  scale_y_reverse() +
+  facet_wrap(~speaker) +
+  coord_fixed()
+
+last_plot() +
+  theme_darkmode()
+```
+
+# Double checking your steps
+
+Even though the outlier identification and normalization happened in two separate steps, we can still double check what we did with `check_norm()`.
+
+```{r}
+#| message: true
+check_norm(
+  normed2
+)
+```

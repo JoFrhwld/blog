@@ -74,7 +74,8 @@ theme_darkmode <- function(...){
       palette.color.discrete =c(
         "#CC6677", "#6699CC", lighten("#117733", 0.2),
         "#AA4499", "#DDCC77", "#88CCEE", 
-        "#44AA99", "#999933", "#AA4466")
+        "#44AA99", "#999933", "#AA4466"),
+      palette.colour.continuous = scico::scico(10, palette = "lipari", direction = -1)      
     ) +
     theme_sub_panel(
       background = element_rect(

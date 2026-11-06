@@ -34,7 +34,7 @@
 
 /* other quarto variables */
 :root {
-  --quarto-font-monospace: Fira Code;
+  --quarto-font-monospace: "Fira Code";
 }
 
 /* syntax highlight based on Pandoc's rules */
@@ -216,4 +216,4 @@ code span.wa {
   content: "</";
 }
 
-/*# sourceMappingURL=0ae195c3d22ac17a88a72f2b2bafd411.css.map */
+/*# sourceMappingURL=cc359c731829013d7746b8de1efb17d0.css.map */
